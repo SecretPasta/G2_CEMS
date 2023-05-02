@@ -1,6 +1,7 @@
 package Server;
 
 import Client.Alex;
+import Client.Alon;
 import Client.Boris;
 import Client.Ilya;
 
@@ -9,6 +10,7 @@ public class Test {
 		Boris boris = new Boris();
 		Ilya ilya = new Ilya();
 		Alex alex = new Alex(); // OMRI - LOH
+		Alon alon = new Alon();
 	}
 	
 }
