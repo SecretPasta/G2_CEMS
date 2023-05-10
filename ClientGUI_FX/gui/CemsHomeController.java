@@ -60,5 +60,10 @@ public class CemsHomeController {
     	this.cesc = new CreateExamScreenController();
     	this.cesc.initCreateExamScreenController();
     }
+    
+    @FXML
+    public void lecturerScreen() {
+    	
+    }
 
 }

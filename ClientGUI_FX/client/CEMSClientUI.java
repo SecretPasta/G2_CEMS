@@ -1,9 +1,8 @@
 package client;
+import gui.CemsHomeController;
 import javafx.application.Application;
 
 import javafx.stage.Stage;
-
-import gui.CemsHomeController;
 
 public class CEMSClientUI extends Application {
 	public CemsHomeController chc;
