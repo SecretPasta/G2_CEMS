@@ -1,10 +1,10 @@
 package Server;
 
-import Client.Alex;
-import Client.Alon;
-import Client.Boris;
-import Client.Ilya;
-import Client.Omri;
+import client.Alex;
+import client.Alon;
+import client.Boris;
+import client.Ilya;
+import client.Omri;
 
 public class Test {
 	public static void main(String[] args) {
