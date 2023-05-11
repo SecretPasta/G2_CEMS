@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -33,22 +34,21 @@ public class QuestionBankController implements Initializable {
 	private Button btnSelect = null;
 	
 	@FXML
-	private TableView<Question> tableView = new TableView<>();
+	static  TableView<Question> tableView = new TableView<>();
 	
 	@FXML
-	private TableColumn<Question, String> idColumn;
+	public  TableColumn<Question, String> idColumn;
 	@FXML
-	private TableColumn<Question, String> subjectColumn;
+	public   TableColumn<Question, String> subjectColumn;
 	@FXML
-	private TableColumn<Question, String> courseNameColumn;
+	public   TableColumn<Question, String> courseNameColumn;
 	@FXML
-	private TableColumn<Question, String> questionTextColumn;
+	public  TableColumn<Question, String> questionTextColumn;
 	@FXML
-	private TableColumn<Question, String> authorColumn;
+	public  TableColumn<Question, String> authorColumn;
 	@FXML
-	private TableColumn<Question, String> questionNumberColumn;
+	public  TableColumn<Question, String> questionNumberColumn;
 	
-	ArrayList<Question> questions = new ArrayList<Question>();
 	
 	public void getClosebtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
@@ -82,14 +82,21 @@ public class QuestionBankController implements Initializable {
 	}
 	
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources){
+		
 		idColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    subjectColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 	    courseNameColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 	    questionTextColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
 	    questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
-		questions = DBController.getAllQuestions();
+	    
+		ClientUI.chat.accept("SELECT * FROM Question");
+      
+        
+	}
+	
+	public static void loadQuestionsFromDBtoTable(ArrayList<Question> questions) {
 		ObservableList<Question> observableList = FXCollections.observableArrayList();
         observableList.addAll(questions);
         tableView.setItems(observableList);

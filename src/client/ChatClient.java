@@ -6,8 +6,11 @@ package client;
 
 import ocsf.client.*;
 import client.*;
+import gui.QuestionBankController;
 import ClientServerComm.ChatIF;
 import java.io.*;
+import java.util.ArrayList;
+
 import Config.Question;
 
 /**
@@ -61,15 +64,11 @@ public class ChatClient extends AbstractClient
 	  System.out.println("--> handleMessageFromServer");
      
 	  awaitResponse = false;
-	  String st;
-	  st=msg.toString();
-	  String[] result = st.split("\\s");
-	  q1.setId(result[0]);
-	  q1.setSubject(result[1]);
-	  q1.setCourseName(result[2]);
-	  q1.setQuestionText(result[3]);
-	  q1.setQuestionNumber(result[4]);
-	  q1.setLecturer(result[5]);
+	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table/
+		  ArrayList<Question> questions = (ArrayList<Question>)msg;
+		  QuestionBankController.loadQuestionsFromDBtoTable(questions);
+	  }
+	  System.out.println(msg);
   }
 
   /**

@@ -5,13 +5,21 @@ package server;
 // license found at www.lloseng.com 
 
 import java.io.*;
+
+import Config.Question;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import JDBC.DBController;
+import JDBC.mysqlConnection;
 import client.ChatClient;
+import gui.QuestionBankController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ocsf.server.*;
 
 /**
@@ -54,28 +62,22 @@ public class EchoServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient
-    (Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
-	  try {
-		Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST","root","Omrish18");
-		PreparedStatement ps = con.prepareStatement("INSERT INTO `DBPrototype`.`Question` (`id`, `subject`, `courseName`, `questionText`, `questionNumber`, `lecturer`) VALUES (?,?,?,?,?,?);");
- 		ps.setString(1,(String) ((ArrayList<?>) msg).get(0));
- 		ps.setString(2,(String) ((ArrayList<?>) msg).get(1));
- 		ps.setString(3,(String) ((ArrayList<?>) msg).get(2));
- 		ps.setString(4,(String) ((ArrayList<?>) msg).get(3));
- 		ps.setString(5,(String) ((ArrayList<?>) msg).get(4));
- 		ps.setString(6,(String) ((ArrayList<?>) msg).get(5));
- 		ps.executeUpdate();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	  
+	  if(msg instanceof String) {
+		String sqlQuery = (String)msg;
+				
+		ArrayList<Question> questions = DBController.getAllQuestions(sqlQuery);
+		System.out.println(questions);
+		this.sendToAllClients(questions); // send the arraylist questions from here (server) to client (chatclient)
+				
+		  
 	    System.out.println("Message received: " + msg.toString() + " from " + client);
-	    this.sendToAllClients(msg);
+	    
 	  }
-
+  this.sendToAllClients(msg);
+  
+  }
     
   /**
    * This method overrides the one in the superclass.  Called

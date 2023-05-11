@@ -14,10 +14,10 @@ import javafx.scene.control.TableView;
 public class DBController {
 	
 	
-	public static ArrayList<Question> getAllQuestions() {
+	public static ArrayList<Question> getAllQuestions(String sqlQuery) {
 		
 		ArrayList<Question> questions = new ArrayList<Question>();
-		String sqlQuery = "SELECT * FROM Question";
+		//String sqlQuery = "SELECT * FROM Question";
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
