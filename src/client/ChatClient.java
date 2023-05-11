@@ -64,12 +64,12 @@ public class ChatClient extends AbstractClient
 	  String st;
 	  st=msg.toString();
 	  String[] result = st.split("\\s");
-	  q1.setqID(result[0]);
-	  q1.setqSubject(result[1]);
-	  q1.setqCourseName(result[2]);
-	  q1.setqText(result[3]);
-	  q1.setqNumber(result[4]);
-	  q1.setqAuthor(result[5]);
+	  q1.setId(result[0]);
+	  q1.setSubject(result[1]);
+	  q1.setCourseName(result[2]);
+	  q1.setQuestionText(result[3]);
+	  q1.setQuestionNumber(result[4]);
+	  q1.setLecturer(result[5]);
   }
 
   /**

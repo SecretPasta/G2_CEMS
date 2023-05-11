@@ -20,10 +20,12 @@ import java.sql.Statement;
 
 
 public class mysqlConnection {
+	public static Connection conn;
+	private static String url = "jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST";
+	private static String user = "root";
+	private static String password = "Omrish18";
 	
-
-	public static void main(String[] args) 
-	{
+	public static Connection connect() {
 		try 
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -35,8 +37,7 @@ public class mysqlConnection {
         
         try 
         {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST","root","Omrish18");
-            //Connection conn = DriverManager.getConnection("jdbc:mysql://192.168.3.68/test","root","Root");
+            conn = DriverManager.getConnection(url, user, password);
             System.out.println("SQL connection succeed");
             
             // 172.20.10.3
@@ -46,9 +47,14 @@ public class mysqlConnection {
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
             }
-   	}
+		return conn;
+	}
 	
+	public static Connection getConnection() throws SQLException, ClassNotFoundException{
+        if(conn !=null && !conn.isClosed())
+            return conn;
+        connect();
+        return conn;
+    }
 }
-
-
 

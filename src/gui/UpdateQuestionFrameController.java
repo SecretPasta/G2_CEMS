@@ -40,34 +40,32 @@ public class UpdateQuestionFrameController implements Initializable {
 	
 	
 	@FXML
-	private TextField txtQuestionID;
+	private Label txtQuestionID;
 	@FXML
-	private TextField txtSubject;
+	private Label txtSubject;
 	@FXML
-	private TextField txtCoursename;
+	private Label txtCoursename;
 	@FXML
 	private TextField txtQuestionText;
 	@FXML
 	private TextField txtQuestionNumber;
 	@FXML
-	private TextField txtQuestionAuthor;
+	private Label txtQuestionAuthor;
 	
 	@FXML
 	private Button btnBack=null;
 	
 	@FXML
 	private Button btnSave = null;
-
-	ObservableList<String> list;
 	
 	public void loadQuestion(Question q1) {
 		this.q=q1;
-		this.txtQuestionID.setText(q.getqID());
-		this.txtSubject.setText(q.getqSubject());
-		this.txtCoursename.setText(q.getqCourseName());		
-		this.txtQuestionText.setText(q.getqText());
-		this.txtQuestionNumber.setText(q.getqNumber());
-		this.txtQuestionAuthor.setText(q.getqAuthor());
+		this.txtQuestionID.setText(q.getId());
+		this.txtSubject.setText(q.getSubject());
+		this.txtCoursename.setText(q.getCourseName());		
+		this.txtQuestionText.setText(q.getQuestionText());
+		this.txtQuestionNumber.setText(q.getQuestionNumber());
+		this.txtQuestionAuthor.setText(q.getLecturer());
 	}
 	
 	public void getBackbtn(ActionEvent event) throws Exception {
@@ -87,8 +85,7 @@ public class UpdateQuestionFrameController implements Initializable {
 	
 	
 	public void getSavebtn(ActionEvent event) throws Exception {
-		if(txtQuestionID.getText().equals("") || txtSubject.getText().equals("") || txtCoursename.getText().equals("") ||
-				txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") || txtQuestionAuthor.getText().equals("")) {
+		if( txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
 			lblMessage.setTextFill(Color.color(1, 0, 0));
 			lblMessage.setText("[Error] Missing fields.");
 		}
@@ -97,12 +94,12 @@ public class UpdateQuestionFrameController implements Initializable {
 			lblMessage.setTextFill(Color.rgb(0, 102, 0));
 			lblMessage.setText("Question Saved Successfully");
 			ArrayList<String> sArr = new ArrayList<>();
-			sArr.add(q.getqID());
-			sArr.add(q.getqSubject());
-			sArr.add(q.getqCourseName());
-			sArr.add(q.getqText());
-			sArr.add(q.getqNumber());
-			sArr.add(q.getqAuthor());
+			sArr.add(q.getId());
+			sArr.add(q.getSubject());
+			sArr.add(q.getCourseName());
+			sArr.add(q.getQuestionText());
+			sArr.add(q.getQuestionNumber());
+			sArr.add(q.getLecturer());
 			ClientUI.chat.client.sendToServer(sArr);
 		}
 	}

@@ -15,14 +15,14 @@
          <font>
             <Font name="System Bold" size="19.0" />
          </font></Label>
-      <TableView layoutX="32.0" layoutY="50.0" prefHeight="633.0" prefWidth="886.0">
+      <TableView id="tableView" fx:id="tableView" layoutX="32.0" layoutY="50.0" prefHeight="633.0" prefWidth="886.0">
         <columns>
-          <TableColumn prefWidth="31.0" text="ID" />
-          <TableColumn prefWidth="99.0" text="Subject" />
-          <TableColumn prefWidth="95.0" text="Course Name" />
-          <TableColumn prefWidth="434.0" text="Question Text" />
-          <TableColumn minWidth="0.0" prefWidth="106.0" text="Question Number" />
-          <TableColumn minWidth="7.0" prefWidth="119.0" text="Author" />
+          <TableColumn id="idColumn" fx:id="idColumn" prefWidth="31.0" text="id" />
+          <TableColumn id="subjectColumn" fx:id="subjectColumn" prefWidth="99.0" text="subject" />
+          <TableColumn id="courseNameColum" fx:id="courseNameColumn" prefWidth="95.0" text="courseName" />
+          <TableColumn id="questionTextColumn" fx:id="questionTextColumn" prefWidth="434.0" text="questionText" />
+          <TableColumn id="questionNumberColumn" fx:id="questionNumberColumn" minWidth="0.0" prefWidth="106.0" text="questionNumber" />
+          <TableColumn id="authorColumn" fx:id="authorColumn" minWidth="7.0" prefWidth="119.0" text="lecturer" />
         </columns>
       </TableView>
    </children>

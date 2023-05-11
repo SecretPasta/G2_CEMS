@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -20,12 +21,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import Config.Question;
-
+import JDBC.mysqlConnection;
 import server.EchoServer;
 import server.ServerUI;
 
 public class ServerPortFrameController  {
-	private UpdateQuestionFrameController cqfc;	
+	//private UpdateQuestionFrameController uqfc;
 	
 	String temp="";
 	
@@ -58,6 +59,14 @@ public class ServerPortFrameController  {
 			Stage primaryStage = new Stage();
 			FXMLLoader loader = new FXMLLoader();
 			ServerUI.runServer(p);
+			
+			try {
+				mysqlConnection.conn = mysqlConnection.connect();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	}
 
