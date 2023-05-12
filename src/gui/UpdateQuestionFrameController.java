@@ -22,7 +22,7 @@ import Config.Question;
 import client.ClientUI;
 
 public class UpdateQuestionFrameController implements Initializable {
-	private Question q;
+	private Question question;
 	@FXML
 	private Label lblidQuestion;
 	@FXML
@@ -44,7 +44,7 @@ public class UpdateQuestionFrameController implements Initializable {
 	@FXML
 	private Label txtSubject;
 	@FXML
-	private Label txtCoursename;
+	private Label txtCourseName;
 	@FXML
 	private TextField txtQuestionText;
 	@FXML
@@ -58,14 +58,14 @@ public class UpdateQuestionFrameController implements Initializable {
 	@FXML
 	private Button btnSave = null;
 	
-	public void loadQuestion(Question q1) {
-		this.q=q1;
-		this.txtQuestionID.setText(q.getId());
-		this.txtSubject.setText(q.getSubject());
-		this.txtCoursename.setText(q.getCourseName());		
-		this.txtQuestionText.setText(q.getQuestionText());
-		this.txtQuestionNumber.setText(q.getQuestionNumber());
-		this.txtQuestionAuthor.setText(q.getLecturer());
+	public void loadSelectedQuestion(Question question) {
+		this.question = question;
+		this.txtQuestionID.setText(question.getId());
+		this.txtSubject.setText(question.getSubject());
+		this.txtCourseName.setText(question.getCourseName());		
+		this.txtQuestionText.setPromptText(question.getQuestionText());
+		this.txtQuestionNumber.setPromptText(question.getQuestionNumber());
+		this.txtQuestionAuthor.setText(question.getLecturer());
 	}
 	
 	public void getBackbtn(ActionEvent event) throws Exception {
@@ -85,21 +85,21 @@ public class UpdateQuestionFrameController implements Initializable {
 	
 	
 	public void getSavebtn(ActionEvent event) throws Exception {
-		if( txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
+		if(txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
 			lblMessage.setTextFill(Color.color(1, 0, 0));
-			lblMessage.setText("[Error] Missing fields.");
+			lblMessage.setText("[Error] Missing fields");
 		}
 		
 		else {
 			lblMessage.setTextFill(Color.rgb(0, 102, 0));
 			lblMessage.setText("Question Saved Successfully");
 			ArrayList<String> sArr = new ArrayList<>();
-			sArr.add(q.getId());
-			sArr.add(q.getSubject());
-			sArr.add(q.getCourseName());
-			sArr.add(q.getQuestionText());
-			sArr.add(q.getQuestionNumber());
-			sArr.add(q.getLecturer());
+			sArr.add(question.getId());
+			sArr.add(question.getSubject());
+			sArr.add(question.getCourseName());
+			sArr.add(txtQuestionText.getText());
+			sArr.add(txtQuestionNumber.getText());
+			sArr.add(question.getLecturer());
 			ClientUI.chat.client.sendToServer(sArr);
 		}
 	}
@@ -119,7 +119,7 @@ public class UpdateQuestionFrameController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		loadSelectedQuestion(QuestionBankController.questionSelected);
 	}
 
 }

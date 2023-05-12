@@ -1,11 +1,14 @@
 package Config;
 
+import java.io.Serializable;
+
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
-public class Question implements Callback<TableView<Question>, TableRow<Question>> {
+public class Question implements Callback<TableView<Question>, TableRow<Question>> , Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private String subject;
 	private String courseName;

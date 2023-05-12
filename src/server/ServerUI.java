@@ -10,47 +10,39 @@ import gui.UpdateQuestionFrameController;
 import server.EchoServer;
 
 public class ServerUI extends Application {
-	final public static int DEFAULT_PORT = 5555;
-	public static Vector<Question> students=new Vector<Question>();
 
-	public static void main( String args[] ) throws Exception
-	   {   
-		 launch(args);
-	  } // end main
-	
+	final public static int DEFAULT_PORT = 5555;
+	public static Vector<Question> students = new Vector<Question>();
+
+	public static void main(String args[]) throws Exception {
+		launch(args);
+	}
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub				  		
-		ServerPortFrameController aFrame = new ServerPortFrameController(); // create StudentFrame
-		 
+		ServerPortFrameController aFrame = new ServerPortFrameController(); // create ServerPortFrame
 		aFrame.start(primaryStage);
 	}
-	
-	public static void runServer(String p)
-	{
-		 int port = 0; //Port to listen on
 
-	        try
-	        {
-	        	port = Integer.parseInt(p); //Set port to 5555
-	          
-	        }
-	        catch(Throwable t)
-	        {
-	        	System.out.println("ERROR - Could not connect!");
-	        }
-	    	
-	        EchoServer sv = new EchoServer(port);
-	        
-	        try 
-	        {
-	          sv.listen(); //Start listening for connections
-	        } 
-	        catch (Exception ex) 
-	        {
-	          System.out.println("ERROR - Could not listen for clients!");
-	        }
+	public static EchoServer runServer(String p) {
+		int port = 0; // Port to listen on
+
+		try {
+			port = Integer.parseInt(p); // Set port to 5555
+
+		} catch (Throwable t) {
+			System.out.println("ERROR - Connection Failed!\n" + t.getMessage());
+		}
+
+		EchoServer echoServer = new EchoServer(port);
+
+		try {
+			echoServer.listen(); // Start listening for connections
+
+		} catch (Exception ex) {
+			System.out.println("ERROR - Could not listen for clients!\n" + ex.getMessage());
+		}
+		return echoServer;
 	}
-	
 
 }

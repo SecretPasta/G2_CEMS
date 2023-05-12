@@ -24,7 +24,7 @@ public class ClientController implements ChatIF
   /**
    * The default port to connect on.
    */
-   public static int DEFAULT_PORT ;
+   public static int DEFAULT_PORT;
   
   //Instance variables **********************************************
   
@@ -45,7 +45,7 @@ public class ClientController implements ChatIF
   {
     try 
     {
-      client= new ChatClient(host, port, this);
+      client = new ChatClient(host, port, this);
     } 
     catch(IOException exception) 
     {

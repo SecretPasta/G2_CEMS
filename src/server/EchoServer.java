@@ -5,6 +5,8 @@ package server;
 // license found at www.lloseng.com 
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import Config.Question;
 
@@ -18,6 +20,7 @@ import JDBC.DBController;
 import JDBC.mysqlConnection;
 import client.ChatClient;
 import gui.QuestionBankController;
+import gui.ServerPortFrameController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ocsf.server.*;
@@ -35,7 +38,7 @@ import ocsf.server.*;
 public class EchoServer extends AbstractServer 
 {
   //Class variables *************************************************
-	
+   
   /**
    * The default port to listen on.
    */
@@ -48,6 +51,8 @@ public class EchoServer extends AbstractServer
    *
    * @param port The port number to connect on.
    */
+  public static String serverIP;
+  
   public EchoServer(int port) 
   {
     super(port);
@@ -65,17 +70,33 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  if(msg instanceof String) {
-		String sqlQuery = (String)msg;
+		  String sqlQuery = (String)msg;
 				
-		ArrayList<Question> questions = DBController.getAllQuestions(sqlQuery);
-		System.out.println(questions);
-		this.sendToAllClients(questions); // send the arraylist questions from here (server) to client (chatclient)
-				
-		  
-	    System.out.println("Message received: " + msg.toString() + " from " + client);
-	    
+		  ArrayList<Question> questions = DBController.getAllQuestions(sqlQuery);
+		  try {
+			client.sendToClient((ArrayList<Question>)questions);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		  System.out.println("Message received: " + msg.toString() + " from " + client);
 	  }
-  this.sendToAllClients(msg);
+	  if(msg instanceof ArrayList) {
+		  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
+		  try {
+			client.sendToClient(returnStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		  System.out.println("Message received: " + msg.toString() + " from " + client);
+	  }
+	  else {
+		  System.out.println("Message received: " + msg.toString() + " from " + client);
+		  try {
+			client.sendToClient(msg);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	  }
   
   }
     
@@ -122,6 +143,11 @@ public class EchoServer extends AbstractServer
     }
 	
     EchoServer sv = new EchoServer(port);
+    try {
+		serverIP = InetAddress.getLocalHost().getHostAddress();
+	} catch (UnknownHostException e) {
+		e.printStackTrace();
+	}
     
     try 
     {

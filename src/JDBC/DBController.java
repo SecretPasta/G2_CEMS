@@ -1,4 +1,5 @@
 package JDBC;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,13 +22,12 @@ public class DBController {
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
-					Statement st = mysqlConnection.conn.createStatement();
+					Statement st = mysqlConnection.getConnection().createStatement();
 					ResultSet rs = st.executeQuery(sqlQuery);
 
 					while (rs.next()) {
 						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
 	                    questions.add(question);
-						//System.out.println(question);
 					}
 
 					rs.close();
@@ -40,6 +40,25 @@ public class DBController {
 			e.printStackTrace();
 		}
 		return questions;
+	}
+	
+	public static String UpdateQuestionDataByID(ArrayList<String> qArr) {
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `questionbank`.`question` SET `questionText` =?, `questionNumber` =? WHERE (`id` =?);");
+				ps.setString(1,qArr.get(3));
+				ps.setString(2,qArr.get(4));
+				ps.setString(3,qArr.get(0));
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "Question updated succesfully";
 	}
 }
 

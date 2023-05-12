@@ -1,8 +1,8 @@
 package gui;
 
+import java.net.InetAddress;
 import java.net.URL;
-import java.sql.Connection;
-import java.util.ArrayList;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -12,78 +12,210 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Config.Question;
+
+import Config.ConnectedClient;
+
 import JDBC.mysqlConnection;
 import server.EchoServer;
 import server.ServerUI;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
-public class ServerPortFrameController  {
-	//private UpdateQuestionFrameController uqfc;
-	
-	String temp="";
-	
+public class ServerPortFrameController implements Initializable {
+
+	private static EchoServer serverCommunication;
+
+	private static final String DEFAULT_DB_USER = "root";
+
+	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/QuestionBank?serverTimezone=IST";
+
+	public static ObservableList<ConnectedClient> connectedClients = FXCollections.observableArrayList(); // clients
+																											// connected
+	// table
+
+	@FXML
+	private TableView<ConnectedClient> tableView = new TableView<>(); // clients connected table
+
+	@FXML
+	private TableColumn<ConnectedClient, String> ipColumn; // clients connected table
+	@FXML
+	private TableColumn<ConnectedClient, String> usernameColumn; // clients connected table
+
 	@FXML
 	private Button btnExit = null;
 	@FXML
-	private Button btnDone = null;
+	private Button btnConnect = null;
+
 	@FXML
-	private Label lbllist;
-	
+	private Button btnDiscon = null;
+
 	@FXML
-	private TextField portxt;
-	ObservableList<String> list;
-	
-	private String getport() {
-		return portxt.getText();			
+	private Label lblStatus;
+	@FXML
+	private Label lblMessage;
+	@FXML
+	private Label txtIPAddress;
+//	@FXML
+//	private Label txtHost;
+
+	// Connection Detail Variables
+	@FXML
+	private TextField txtPort = new TextField();
+
+	@FXML
+	private TextField txtServerIP = new TextField();
+
+	// Data Base Details
+
+	@FXML
+	private TextField txtURL = new TextField();
+
+	@FXML
+	private TextField txtUserName = new TextField();
+
+	@FXML
+	private PasswordField txtPassWord = new PasswordField();
+
+	public ObservableList<ConnectedClient> getConnectedClients() { // clients
+		return connectedClients;
 	}
-	
-	public void Done(ActionEvent event) throws Exception {
-		String p;
-		
-		p=getport();
-		if(p.trim().isEmpty()) {
-			System.out.println("You must enter a port number");
-					
+
+	public static void addConnectedClient(ConnectedClient client) { // clients
+		try {
+			connectedClients.add(client);
+			//tableView.setItems(connectedClients);
+			//tableView.refresh();
+			System.out.println(connectedClients.get(0).getUsername());
+			System.out.println(client.getUsername() + " " + client.getIp());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		else
-		{
-			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-			Stage primaryStage = new Stage();
-			FXMLLoader loader = new FXMLLoader();
-			ServerUI.runServer(p);
-			
-			try {
-				mysqlConnection.conn = mysqlConnection.connect();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	}
+
+	public void getConnectbtn(ActionEvent event) throws Exception {
+		String port = getPort();
+
+		if (port.trim().isEmpty()) {
+			lblMessage.setText("[Error] You must enter a port number");
+			lblMessage.setTextFill(Color.color(1, 0, 0));
+		}
+
+		else {
+
+			if (serverCommunication == null) {
+				serverCommunication = ServerUI.runServer(port);
 			}
 
+			try {
+				mysqlConnection.conn = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
+			} catch (Exception e) {
+				System.out.println("Error: " + e.getMessage());
+				// e.printStackTrace();
+			}
+			if (mysqlConnection.conn != null) {
+				lblMessage.setText("");
+				lblStatus.setTextFill(Color.rgb(0, 102, 0));
+				lblStatus.setText("Connected");
+				setVisabilityForUI(true);
+			}
 		}
 	}
 
-	public void start(Stage primaryStage) throws Exception {	
+	private void setVisabilityForUI(boolean isVisable) {
+		this.btnDiscon.setDisable(!isVisable);
+		this.txtPort.setDisable(isVisable);
+		this.txtURL.setDisable(isVisable);
+		this.txtUserName.setDisable(isVisable);
+		this.txtPassWord.setDisable(isVisable);
+		this.btnConnect.setDisable(isVisable);
+	}
+
+	public void DisconnectServer() {
+		// console.add("The server is Disconnected\n");
+		int idx = 0;
+		while (idx < connectedClients.size()) {
+			connectedClients.remove(idx);
+			++idx;
+		}
+		serverCommunication.stopListening();
+		setVisabilityForUI(false);
+	}
+
+	private String getPassWord() {
+		return txtPassWord.getText();
+	}
+
+	private String getUserName() {
+		return txtUserName.getText();
+	}
+
+	private String getURL() {
+		return txtURL.getText();
+	}
+
+	private String getPort() {
+		return txtPort.getText();
+	}
+
+	public void start(Stage primaryStage) throws Exception {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
-				
+
 		Scene scene = new Scene(root);
 		scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Client");
+		primaryStage.setTitle("Server");
 		primaryStage.setScene(scene);
-		
-		primaryStage.show();		
+
+		primaryStage.show();
 	}
-	
+
 	public void getExitBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
-		System.exit(0);			
+		System.exit(0);
+	}
+
+	public void loadInfo() {
+		txtPort.setText("5555");
+		try {
+			txtServerIP.setText(InetAddress.getLocalHost().getHostAddress());
+			txtServerIP.setDisable(true);
+
+		} catch (UnknownHostException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		txtURL.setText(DEFAULT_DB_NAME);
+		txtUserName.setText(DEFAULT_DB_USER);
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+	    loadInfo();
+	    btnDiscon.setDisable(true);
+	    lblStatus.setTextFill(Color.color(1, 0, 0));
+	    lblStatus.setText("Disconnected");
+	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("username"));
+	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
+
+	    // Check if columns are already present before adding them
+	    if (!tableView.getColumns().contains(ipColumn)) {
+	        tableView.getColumns().add(ipColumn);
+	    }
+	    if (!tableView.getColumns().contains(usernameColumn)) {
+	        tableView.getColumns().add(usernameColumn);
+	    }
+
+	    tableView.setItems(connectedClients);
+	    tableView.refresh();
 	}
 
 }

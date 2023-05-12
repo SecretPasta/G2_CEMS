@@ -21,11 +21,11 @@ import java.sql.Statement;
 
 public class mysqlConnection {
 	public static Connection conn;
-	private static String url = "jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST";
-	private static String user = "root";
-	private static String password = "Omrish18";
+//	private static String url = "jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST";
+//	private static String user = "root";
+//	private static String password = "765765";
 	
-	public static Connection connect() {
+	public static Connection connect(String url, String user, String password) {
 		try 
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -51,9 +51,9 @@ public class mysqlConnection {
 	}
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{
-        if(conn !=null && !conn.isClosed())
+        if(conn != null && !conn.isClosed())
             return conn;
-        connect();
+        //connect(url, user, password);
         return conn;
     }
 }

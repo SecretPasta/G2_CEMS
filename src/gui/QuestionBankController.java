@@ -16,8 +16,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -25,8 +27,8 @@ import Config.Question;
 import JDBC.DBController;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+
 public class QuestionBankController implements Initializable {
-	private Question q;
 	@FXML
 	private Button btnClose=null;
 	
@@ -34,20 +36,34 @@ public class QuestionBankController implements Initializable {
 	private Button btnSelect = null;
 	
 	@FXML
-	static  TableView<Question> tableView = new TableView<>();
+	private Label lblMessage;
 	
 	@FXML
-	public  TableColumn<Question, String> idColumn;
+	private TableView<Question> tableView = new TableView<>();;
+	
 	@FXML
-	public   TableColumn<Question, String> subjectColumn;
+	private TableColumn<Question, String> idColumn;
 	@FXML
-	public   TableColumn<Question, String> courseNameColumn;
+	private TableColumn<Question, String> subjectColumn;
 	@FXML
-	public  TableColumn<Question, String> questionTextColumn;
+	private TableColumn<Question, String> courseNameColumn;
 	@FXML
-	public  TableColumn<Question, String> authorColumn;
+	private TableColumn<Question, String> questionTextColumn;
 	@FXML
-	public  TableColumn<Question, String> questionNumberColumn;
+	private TableColumn<Question, String> authorColumn;
+	@FXML
+	private TableColumn<Question, String> questionNumberColumn;
+	
+	private static QuestionBankController instance;
+	static Question questionSelected;
+	
+    public QuestionBankController() {
+        instance = this;
+    }
+    
+    public static QuestionBankController getInstance() {
+        return instance;
+    }
 	
 	
 	public void getClosebtn(ActionEvent event) throws Exception {
@@ -57,16 +73,26 @@ public class QuestionBankController implements Initializable {
 	
 	public void getSelectbtn(ActionEvent event) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
-		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = loader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml").openStream());		
+		
+		questionSelected = tableView.getSelectionModel().getSelectedItem();
+		if(questionSelected == null) {
+			lblMessage.setTextFill(Color.color(1, 0, 0));
+			lblMessage.setText("[Error] No question was selected.");
+		}
+		else {
+			lblMessage.setText("");
+			
+			((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+			Stage primaryStage = new Stage();
+			Pane root = loader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml").openStream());		
+		
+			Scene scene = new Scene(root);			
+			scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
+			primaryStage.setTitle("Question Update Managment Tool");
 	
-		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
-		primaryStage.setTitle("Question Update Managment Tool");
-
-		primaryStage.setScene(scene);		
-		primaryStage.show();
+			primaryStage.setScene(scene);		
+			primaryStage.show();
+		}
 	}
 	
 	
@@ -90,13 +116,11 @@ public class QuestionBankController implements Initializable {
 	    questionTextColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
 	    questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
-	    
-		ClientUI.chat.accept("SELECT * FROM Question");
-      
-        
+
+		ClientUI.chat.accept("SELECT * FROM Question");   
 	}
 	
-	public static void loadQuestionsFromDBtoTable(ArrayList<Question> questions) {
+	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
 		ObservableList<Question> observableList = FXCollections.observableArrayList();
         observableList.addAll(questions);
         tableView.setItems(observableList);

@@ -2,15 +2,19 @@
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
-package client; //test
+package client;
 
 import ocsf.client.*;
+import server.EchoServer;
 import client.*;
 import gui.QuestionBankController;
+import gui.ServerPortFrameController;
 import ClientServerComm.ChatIF;
 import java.io.*;
+import java.net.InetAddress;
 import java.util.ArrayList;
 
+import Config.ConnectedClient;
 import Config.Question;
 
 /**
@@ -25,7 +29,8 @@ import Config.Question;
 public class ChatClient extends AbstractClient
 {
   //Instance variables **********************************************
-  
+	static ChatClient Instance_host;
+	
   /**
    * The interface type variable.  It allows the implementation of 
    * the display method in the client.
@@ -49,11 +54,16 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
-    //openConnection();
+    Instance_host = this;
+    openConnection();
+    getInetAddress();
+	ServerPortFrameController.addConnectedClient(new ConnectedClient(InetAddress.getLocalHost().getHostAddress(), InetAddress.getLocalHost().getHostName()));
   }
 
   //Instance methods ************************************************
-    
+  public static ChatClient getInstance_host() {
+      return Instance_host;
+  }
   /**
    * This method handles all data that comes in from the server.
    *
@@ -62,13 +72,16 @@ public class ChatClient extends AbstractClient
   public void handleMessageFromServer(Object msg) 
   {
 	  System.out.println("--> handleMessageFromServer");
-     
 	  awaitResponse = false;
-	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table/
+	  
+	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
 		  ArrayList<Question> questions = (ArrayList<Question>)msg;
-		  QuestionBankController.loadQuestionsFromDBtoTable(questions);
+		  QuestionBankController.getInstance().loadArrayQuestionsToTable(questions);
+		  System.out.println("The questions succesfully loaded from the DB to the table.");
 	  }
-	  System.out.println(msg);
+	  else {
+		  System.out.println(msg);
+	  }
   }
 
   /**
