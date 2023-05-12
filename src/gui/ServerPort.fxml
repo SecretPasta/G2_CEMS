@@ -6,35 +6,125 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="525.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
+<Pane prefHeight="550.0" prefWidth="985.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
    <children>
-      <Button fx:id="btnConnect" layoutX="18.0" layoutY="476.0" mnemonicParsing="false" onAction="#getConnectbtn" text="Connect" />
-      <Button fx:id="btnExit" layoutX="695.0" layoutY="476.0" mnemonicParsing="false" onAction="#getExitBtn" text="Exit" />
-      <Label layoutX="23.0" layoutY="69.0" prefHeight="17.0" prefWidth="35.0" text="Port:" />
-      <Label layoutX="27.0" layoutY="24.0" text="Connection Details" />
-      <Label layoutX="18.0" layoutY="221.0" prefHeight="17.0" prefWidth="45.0" text="Status:" />
-      <Label fx:id="lblStatus" layoutX="87.0" layoutY="221.0" prefHeight="17.0" prefWidth="119.0" text="Disconnected" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4958ff" height="70.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="985.0" />
+      <Button fx:id="btnConnect" layoutX="50.0" layoutY="460.0" mnemonicParsing="false" onAction="#getConnectbtn" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4958ff;" text="Connect" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Button fx:id="btnExit" layoutX="800.0" layoutY="24.0" maxHeight="35.0" maxWidth="150.0" minHeight="35.0" minWidth="150.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #F39C63;" text="Exit" textFill="WHITE" underline="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Label layoutX="50.0" layoutY="90.0" text="Connection Details" textFill="#383838">
+         <font>
+            <Font size="28.0" />
+         </font></Label>
       <Label fx:id="txtIPAddress" layoutX="90.0" layoutY="117.0" />
-      <TextField fx:id="txtPort" layoutX="90.0" layoutY="65.0" />
-      <Label fx:id="lblMessage" layoutX="32.0" layoutY="263.0" prefHeight="25.0" prefWidth="277.0" />
-      <TableView fx:id="tableView" layoutX="361.0" layoutY="31.0" prefHeight="290.0" prefWidth="377.0">
-        <columns>
-          <TableColumn fx:id="ipColumn" prefWidth="189.60003662109375" text="IP Address" />
-          <TableColumn fx:id="usernameColumn" prefWidth="187.19992065429688" text="Client Name" />
-        </columns>
-      </TableView>
-      <Text layoutX="22.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Base Details" />
-      <Text layoutX="29.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:" />
-      <Text layoutX="29.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" />
-      <Text layoutX="29.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
-      <TextField fx:id="txtURL" layoutX="102.0" layoutY="373.0" prefHeight="25.0" prefWidth="414.0" />
-      <TextField fx:id="txtUserName" layoutX="102.0" layoutY="404.0" prefWidth="195.0" />
-      <PasswordField fx:id="txtPassWord" layoutX="102.0" layoutY="434.0" />
-      <Label layoutX="16.0" layoutY="109.0" text="Server IP:" />
-      <TextField fx:id="txtServerIP" editable="false" layoutX="90.0" layoutY="105.0" />
-      <Button fx:id="btnDiscon" layoutX="82.0" layoutY="476.0" mnemonicParsing="false" onAction="#DisconnectServer" text="Disconnect" />
+      <Text fill="#383838" layoutX="50.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Base Details">
+         <font>
+            <Font size="28.0" />
+         </font></Text>
+      <Button fx:id="btnDiscon" layoutX="263.0" layoutY="460.0" mnemonicParsing="false" onAction="#DisconnectServer" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4958ff;" text="Disconnect" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Label layoutX="50.0" layoutY="14.0" text="CEMS - Server Configuration" textFill="WHITE">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <VBox layoutX="50.0" layoutY="140.0" prefHeight="80.0" prefWidth="185.0" spacing="5.0">
+         <children>
+            <Label prefHeight="27.0" prefWidth="61.0" text="Port:" textFill="#383838" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label prefHeight="35.0" prefWidth="119.0" text="Server IP:" textFill="#383838" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <VBox layoutX="190.0" layoutY="140.0" prefHeight="80.0" prefWidth="185.0" spacing="5.0">
+         <children>
+            <TextField fx:id="txtPort" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" prefHeight="35.0" prefWidth="200.0" />
+            <TextField fx:id="txtServerIP" editable="false" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" prefHeight="35.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="50.0" layoutY="300.0" prefHeight="120.0" prefWidth="125.0" spacing="5.0">
+         <children>
+            <Text fill="#383838" strokeType="OUTSIDE" strokeWidth="0.0" text="URL:" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text fill="#383838" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Text fill="#383838" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" underline="true">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+      <VBox layoutX="190.0" layoutY="300.0" prefHeight="120.0" prefWidth="415.0" spacing="5.0">
+         <children>
+            <TextField fx:id="txtURL" maxHeight="35.0" maxWidth="415.0" minHeight="35.0" minWidth="415.0" prefHeight="35.0" prefWidth="415.0" />
+            <TextField fx:id="txtUserName" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" prefHeight="35.0" prefWidth="200.0" />
+            <PasswordField fx:id="txtPassWord" maxHeight="35.0" maxWidth="200.0" minHeight="35.0" minWidth="200.0" prefHeight="35.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" layoutX="544.0" layoutY="81.0" prefHeight="199.0" prefWidth="390.0" spacing="5.0">
+         <children>
+            <Label text="Connected Clients">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tableView" prefHeight="130.0" prefWidth="365.0">
+              <columns>
+                <TableColumn fx:id="ipColumn" prefWidth="189.60003662109375" text="IP Address" />
+                <TableColumn fx:id="usernameColumn" prefWidth="187.19992065429688" text="Client Name" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="544.0" layoutY="455.0" prefHeight="110.0" prefWidth="300.0" spacing="5.0">
+         <children>
+            <HBox prefHeight="40.0" prefWidth="253.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="35.0" prefWidth="110.0" text="Status:" textFill="#383838">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblStatus" alignment="CENTER" prefHeight="35.0" prefWidth="120.0" text="Disconnected">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <Label fx:id="lblMessage" prefHeight="52.0" prefWidth="300.0" underline="true">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
    </children>
 </Pane>
