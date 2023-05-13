@@ -15,15 +15,14 @@ import javafx.scene.control.TableView;
 public class DBController {
 	
 	
-	public static ArrayList<Question> getAllQuestions(String sqlQuery) {
+	public static ArrayList<Question> getAllQuestions() {
 		
 		ArrayList<Question> questions = new ArrayList<Question>();
-		//String sqlQuery = "SELECT * FROM Question";
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
 					Statement st = mysqlConnection.getConnection().createStatement();
-					ResultSet rs = st.executeQuery(sqlQuery);
+					ResultSet rs = st.executeQuery("SELECT * FROM Question");
 
 					while (rs.next()) {
 						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
@@ -46,9 +45,9 @@ public class DBController {
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `questionbank`.`question` SET `questionText` =?, `questionNumber` =? WHERE (`id` =?);");
-				ps.setString(1,qArr.get(3));
-				ps.setString(2,qArr.get(4));
-				ps.setString(3,qArr.get(0));
+				ps.setString(1,qArr.get(2));
+				ps.setString(2,qArr.get(3));
+				ps.setString(3,qArr.get(1));
 		 		ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {

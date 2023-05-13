@@ -2,12 +2,12 @@ package Config;
 
 public class ConnectedClient {
     private String ip;
-    private String username;
+    private String clientname;
     // other fields as needed
     
-    public ConnectedClient(String ip, String username) {
+    public ConnectedClient(String ip, String clientname) {
         this.ip = ip;
-        this.username = username;
+        this.clientname = clientname;
     }
 
 	public String getIp() {
@@ -18,12 +18,12 @@ public class ConnectedClient {
 		this.ip = ip;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getClientname() {
+		return clientname;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setClientname(String username) {
+		this.clientname = username;
 	}
     
     

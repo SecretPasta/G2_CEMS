@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import Config.ConnectedClient;
 
 import JDBC.mysqlConnection;
+import client.ClientUI;
 import server.EchoServer;
 import server.ServerUI;
 import javafx.scene.control.TableColumn;
@@ -87,34 +88,37 @@ public class ServerPortFrameController implements Initializable {
 	@FXML
 	private PasswordField txtPassWord = new PasswordField();
 
-	public ObservableList<ConnectedClient> getConnectedClients() { // clients
+	public static ObservableList<ConnectedClient> getConnectedClients() { // clients
 		return connectedClients;
 	}
 
 	public static void addConnectedClient(ConnectedClient client) { // clients
 		try {
 			connectedClients.add(client);
-			//tableView.setItems(connectedClients);
-			//tableView.refresh();
-			System.out.println(connectedClients.get(0).getUsername());
-			System.out.println(client.getUsername() + " " + client.getIp());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void removeConnectedClient(ConnectedClient client) { // clients
+		try {
+			connectedClients.remove(client);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void getConnectbtn(ActionEvent event) throws Exception {
-		String port = getPort();
-
-		if (port.trim().isEmpty()) {
-			lblMessage.setText("[Error] You must enter a port number");
+		
+		if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
+			lblMessage.setText("[Error] Missing fields");
 			lblMessage.setTextFill(Color.color(1, 0, 0));
 		}
 
 		else {
 
 			if (serverCommunication == null) {
-				serverCommunication = ServerUI.runServer(port);
+				serverCommunication = ServerUI.runServer(getPort());
 			}
 
 			try {
@@ -127,6 +131,7 @@ public class ServerPortFrameController implements Initializable {
 				lblMessage.setText("");
 				lblStatus.setTextFill(Color.rgb(0, 102, 0));
 				lblStatus.setText("Connected");
+				serverCommunication.listen(); // connecting back to the port
 				setVisabilityForUI(true);
 			}
 		}
@@ -143,6 +148,8 @@ public class ServerPortFrameController implements Initializable {
 
 	public void DisconnectServer() {
 		// console.add("The server is Disconnected\n");
+	    lblStatus.setTextFill(Color.color(1, 0, 0));
+	    lblStatus.setText("Disconnected");
 		int idx = 0;
 		while (idx < connectedClients.size()) {
 			connectedClients.remove(idx);
@@ -203,19 +210,10 @@ public class ServerPortFrameController implements Initializable {
 	    btnDiscon.setDisable(true);
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
-	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("username"));
+	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
-
-	    // Check if columns are already present before adding them
-	    if (!tableView.getColumns().contains(ipColumn)) {
-	        tableView.getColumns().add(ipColumn);
-	    }
-	    if (!tableView.getColumns().contains(usernameColumn)) {
-	        tableView.getColumns().add(usernameColumn);
-	    }
-
+	    
 	    tableView.setItems(connectedClients);
-	    tableView.refresh();
 	}
 
 }

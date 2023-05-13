@@ -94,12 +94,10 @@ public class UpdateQuestionFrameController implements Initializable {
 			lblMessage.setTextFill(Color.rgb(0, 102, 0));
 			lblMessage.setText("Question Saved Successfully");
 			ArrayList<String> sArr = new ArrayList<>();
+			sArr.add("UpdateQuestionDataByID");
 			sArr.add(question.getId());
-			sArr.add(question.getSubject());
-			sArr.add(question.getCourseName());
 			sArr.add(txtQuestionText.getText());
 			sArr.add(txtQuestionNumber.getText());
-			sArr.add(question.getLecturer());
 			ClientUI.chat.client.sendToServer(sArr);
 		}
 	}

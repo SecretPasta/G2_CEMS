@@ -1,7 +1,9 @@
 package gui;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -68,6 +70,7 @@ public class QuestionBankController implements Initializable {
 	
 	public void getClosebtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		ClientUI.chat.client.quit();
 	}
 	
 	
@@ -117,7 +120,7 @@ public class QuestionBankController implements Initializable {
 	    questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 
-		ClientUI.chat.accept("SELECT * FROM Question");   
+		ClientUI.chat.accept("GetAllQuestionsFromDB");   
 	}
 	
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {

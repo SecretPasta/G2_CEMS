@@ -21,9 +21,6 @@ import java.sql.Statement;
 
 public class mysqlConnection {
 	public static Connection conn;
-//	private static String url = "jdbc:mysql://127.0.0.1/QuestionBank?serverTimezone=IST";
-//	private static String user = "root";
-//	private static String password = "765765";
 	
 	public static Connection connect(String url, String user, String password) {
 		try 

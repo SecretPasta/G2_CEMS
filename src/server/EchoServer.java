@@ -8,6 +8,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import Config.ConnectedClient;
 import Config.Question;
 
 import java.sql.Connection;
@@ -70,33 +71,45 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  if(msg instanceof String) {
-		  String sqlQuery = (String)msg;
-				
-		  ArrayList<Question> questions = DBController.getAllQuestions(sqlQuery);
-		  try {
-			client.sendToClient((ArrayList<Question>)questions);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		  System.out.println("Message received: " + msg.toString() + " from " + client);
+		  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
+			  ArrayList<Question> questions = DBController.getAllQuestions();
+			  try {
+				  client.sendToClient((ArrayList<Question>)questions);
+			  } catch (IOException e) {
+				  e.printStackTrace();
+			  }
+		  }
 	  }
+	  
 	  if(msg instanceof ArrayList) {
-		  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
-		  try {
-			client.sendToClient(returnStr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		  System.out.println("Message received: " + msg.toString() + " from " + client);
+		  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
+		  {
+			  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
+		  }
+		  
+		  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
+			  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
+			  try {
+				client.sendToClient(returnStr);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		  }
+		  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){
+
+				ObservableList<ConnectedClient> connectedClients = ServerPortFrameController.getConnectedClients();
+				for(int idx = 0; idx < connectedClients.size(); idx++) {
+					if(connectedClients.get(idx).getIp().equals(((ArrayList<String>)msg).get(1))) {
+						if(connectedClients.get(idx).getClientname().equals(((ArrayList<String>)msg).get(2))) {
+							ServerPortFrameController.removeConnectedClient(connectedClients.get(idx));
+						}
+					}
+				}
+		  }
+
 	  }
-	  else {
-		  System.out.println("Message received: " + msg.toString() + " from " + client);
-		  try {
-			client.sendToClient(msg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	  }
+	  System.out.println("Message received: " + msg.toString() + " from " + client);
   
   }
     
@@ -129,7 +142,7 @@ public class EchoServer extends AbstractServer
    * @param args[0] The port number to listen on.  Defaults to 5555 
    *          if no argument is entered.
    */
-  public static void main(String[] args) 
+ /* public static void main(String[] args) 
   {
     int port = 0; //Port to listen on
 
@@ -157,6 +170,6 @@ public class EchoServer extends AbstractServer
     {
       System.out.println("ERROR - Could not listen for clients!");
     }
-  }
+  }*/
 }
 //End of EchoServer class

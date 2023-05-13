@@ -28,11 +28,5 @@ public class ClientUI extends Application {
 		QuestionBankController aFrame = new QuestionBankController(); // create QuestionBankFrame
 		aFrame.start(primaryStage);
 		
-		// all this need to be after client click on connect and not here. 
-		/*String ip = InetAddress.getLocalHost().getHostAddress(); // clients connected table
-		String username = "ClientTest"; // clients connected table
-		ConnectedClient user = new ConnectedClient(ip, username); // clients connected table
-		ServerPortFrameController.addConnectedClient(user);*/ // clients connected table
-		
 	}
 }
