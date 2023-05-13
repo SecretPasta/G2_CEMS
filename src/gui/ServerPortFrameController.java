@@ -126,7 +126,7 @@ public class ServerPortFrameController implements Initializable {
 		}
 
 		else {
-
+			lblMessage.setText("");
 			if (serverCommunication == null) {
 				serverCommunication = ServerUI.runServer(getPort());
 			}
@@ -138,7 +138,6 @@ public class ServerPortFrameController implements Initializable {
 				// e.printStackTrace();
 			}
 			if (mysqlConnection.conn != null) {
-				lblMessage.setText("");
 				lblStatus.setTextFill(Color.rgb(0, 102, 0));
 				lblStatus.setText("Connected");
 				serverCommunication.listen(); // connecting back to the port
@@ -160,11 +159,13 @@ public class ServerPortFrameController implements Initializable {
 		// console.add("The server is Disconnected\n");
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
+	    lblMessage.setText("");
 		int idx = 0;
 		while (idx < connectedClients.size()) {
 			connectedClients.remove(idx);
 			++idx;
 		}
+		mysqlConnection.conn = null;
 		if(serverCommunication != null) {
 			serverCommunication.stopListening();
 		}

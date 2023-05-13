@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import client.ChatClient;
+import server.EchoServer;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,7 +40,7 @@ public class mysqlConnection {
             
             // 172.20.10.3
      	} catch (SQLException ex) 
-     	    {/* handle any errors*/
+     	    {/* handle any errors*/  		
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
