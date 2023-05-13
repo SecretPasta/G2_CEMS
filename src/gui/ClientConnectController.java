@@ -64,7 +64,7 @@ public class ClientConnectController implements Initializable {
 																					// the use of client: ClientUI.chat.client
 		    ArrayList<String> clientInfo = new ArrayList<>();
 		    clientInfo.add("ClientConnecting");
-		    clientInfo.add(getTxtServerIP());
+		    clientInfo.add(InetAddress.getLocalHost().getHostAddress());
 		    clientInfo.add(InetAddress.getLocalHost().getHostName());
 		    ClientUI.chat.client.sendToServer(clientInfo);
 		    
