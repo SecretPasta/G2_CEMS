@@ -13,7 +13,7 @@
       <Button id="btnClose" fx:id="btnClose" layoutX="818.0" layoutY="746.0" mnemonicParsing="false" onAction="#getClosebtn" prefHeight="25.0" prefWidth="105.0" text="Close" />
       <Button id="btnSelect" fx:id="btnSelect" layoutX="32.0" layoutY="746.0" mnemonicParsing="false" onAction="#getSelectbtn" prefHeight="25.0" prefWidth="105.0" text="Select" />
       <Label fx:id="lblMessage" alignment="CENTER" layoutX="440.0" layoutY="700.0" prefHeight="20.0" prefWidth="276.0" text="" textAlignment="CENTER" />
-      <Label layoutX="405.0" layoutY="14.0" prefHeight="25.0" prefWidth="141.0" text="Question's Bank">
+      <Label layoutX="405.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" text="Question's Bank">
          <font>
             <Font name="System Bold" size="19.0" />
          </font></Label>

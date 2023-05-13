@@ -14,6 +14,6 @@
       <TextField fx:id="txtServerIP" layoutX="123.0" layoutY="164.0" />
       <Button fx:id="btnExit" layoutX="287.0" layoutY="410.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="26.0" prefWidth="46.0" text="Exit" />
       <Button fx:id="btnConnect" layoutX="43.0" layoutY="410.0" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
-      <Label fx:id="lblMessage" contentDisplay="CENTER" layoutX="99.0" layoutY="326.0" prefHeight="18.0" prefWidth="173.0" />
+      <Label fx:id="lblMessage" contentDisplay="CENTER" layoutX="99.0" layoutY="326.0" prefHeight="18.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

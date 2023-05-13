@@ -59,12 +59,18 @@ public class ClientConnectController implements Initializable {
 			lblMessage.setTextFill(Color.color(1, 0, 0));
 		}
 		else {
-
+			
+			// create the client and connect him to server								
+			// the use of client: ClientUI.chat.client
+			// to send the server message, use: ClientUI.chat.accept(object)
+			if(!ClientUI.connectClient(getTxtServerIP(), Integer.valueOf(getTxtPort()))) {
+				lblMessage.setText("[Error] Couldn't connect to the server");
+				lblMessage.setTextFill(Color.color(1, 0, 0));
+				return;
+			}
+			
 			lblMessage.setText("");
-			ClientUI.connectClient(getTxtServerIP(), Integer.valueOf(getTxtPort())); // create the client and connect him to server
-																					// the use of client: ClientUI.chat.client
-																					// to send the server message, use: ClientUI.chat.accept(object)
-		    ArrayList<String> clientInfo = new ArrayList<>();
+			ArrayList<String> clientInfo = new ArrayList<>();
 		    clientInfo.add("ClientConnecting");
 		    clientInfo.add(InetAddress.getLocalHost().getHostAddress());
 		    clientInfo.add(InetAddress.getLocalHost().getHostName());
@@ -90,7 +96,7 @@ public class ClientConnectController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientConnectGUI.fxml"));
 				
 		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/ClientConnectGUI.css").toExternalForm()); // need to create css file for design
+		scene.getStylesheets().add(getClass().getResource("/gui/ClientConnect.css").toExternalForm()); // need to create css file for design
 		primaryStage.setTitle("Client Connect Managment Tool");
 		primaryStage.setScene(scene);
 		
