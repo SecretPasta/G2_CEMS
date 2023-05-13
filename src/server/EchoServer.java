@@ -71,6 +71,7 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  if(msg instanceof String) {
+		  
 		  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
 			  ArrayList<Question> questions = DBController.getAllQuestions();
 			  try {
@@ -79,12 +80,19 @@ public class EchoServer extends AbstractServer
 				  e.printStackTrace();
 			  }
 		  }
+		  
 	  }
 	  
 	  if(msg instanceof ArrayList) {
 		  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
 		  {
 			  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
+			  try {
+				client.sendToClient("client connected");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		  }
 		  
 		  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
@@ -96,16 +104,8 @@ public class EchoServer extends AbstractServer
 			}
 
 		  }
-		  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){
-
-				ObservableList<ConnectedClient> connectedClients = ServerPortFrameController.getConnectedClients();
-				for(int idx = 0; idx < connectedClients.size(); idx++) {
-					if(connectedClients.get(idx).getIp().equals(((ArrayList<String>)msg).get(1))) {
-						if(connectedClients.get(idx).getClientname().equals(((ArrayList<String>)msg).get(2))) {
-							ServerPortFrameController.removeConnectedClient(connectedClients.get(idx));
-						}
-					}
-				}
+		  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){  
+			  ServerPortFrameController.removeConnectedClientFromTable(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)); // call function to remove the client from the table
 		  }
 
 	  }

@@ -98,7 +98,7 @@ public class UpdateQuestionFrameController implements Initializable {
 			sArr.add(question.getId());
 			sArr.add(txtQuestionText.getText());
 			sArr.add(txtQuestionNumber.getText());
-			ClientUI.chat.client.sendToServer(sArr);
+			ClientUI.chat.accept(sArr);
 		}
 	}
 	

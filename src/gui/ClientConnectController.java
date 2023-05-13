@@ -59,14 +59,16 @@ public class ClientConnectController implements Initializable {
 			lblMessage.setTextFill(Color.color(1, 0, 0));
 		}
 		else {
+
 			lblMessage.setText("");
 			ClientUI.connectClient(getTxtServerIP(), Integer.valueOf(getTxtPort())); // create the client and connect him to server
 																					// the use of client: ClientUI.chat.client
+																					// to send the server message, use: ClientUI.chat.accept(object)
 		    ArrayList<String> clientInfo = new ArrayList<>();
 		    clientInfo.add("ClientConnecting");
 		    clientInfo.add(InetAddress.getLocalHost().getHostAddress());
 		    clientInfo.add(InetAddress.getLocalHost().getHostName());
-		    ClientUI.chat.client.sendToServer(clientInfo);
+		    ClientUI.chat.accept(clientInfo);
 		    
 		    ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		    

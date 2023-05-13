@@ -7,6 +7,7 @@ package client;
 import ocsf.client.*;
 import server.EchoServer;
 import client.*;
+import gui.ClientConnectController;
 import gui.QuestionBankController;
 import gui.ServerPortFrameController;
 import ClientServerComm.ChatIF;
@@ -70,6 +71,7 @@ public class ChatClient extends AbstractClient
   {
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
+	  
 	  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
 	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
 		  ArrayList<Question> questions = (ArrayList<Question>)msg;
@@ -84,16 +86,16 @@ public class ChatClient extends AbstractClient
   /**
    * This method handles all data coming from the UI            
    *
-   * @param message The message from the UI.    
+   * @param str The message from the UI.    
    */
   
-  public void handleMessageFromClientUI(String message)  
+  public void handleMessageFromClientUI(Object str)  
   {
     try
     {
     	openConnection();//in order to send more than one message
        	awaitResponse = true;
-    	sendToServer(message);
+    	sendToServer(str);
 		// wait for response
 		while (awaitResponse) {
 			try {
@@ -117,27 +119,31 @@ public class ChatClient extends AbstractClient
    */
   public void quit()
   {
-	ArrayList<String> clientInfo = new ArrayList<>();
-	clientInfo.add("ClientQuitting");
-    try {
-		clientInfo.add(InetAddress.getLocalHost().getHostAddress());
-		clientInfo.add(InetAddress.getLocalHost().getHostName());
-	} catch (UnknownHostException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	if(isConnected()) {
+		ArrayList<String> clientInfo = new ArrayList<>();
+		clientInfo.add("ClientQuitting");
+	    try {
+			clientInfo.add(InetAddress.getLocalHost().getHostAddress());
+			clientInfo.add(InetAddress.getLocalHost().getHostName());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sendToServer(clientInfo);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try
+	    {
+	      closeConnection();
+	    }
+	    catch(IOException e) {}
+	    System.exit(0);
 	}
-	try {
-		sendToServer(clientInfo);
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-    try
-    {
-      closeConnection();
-    }
-    catch(IOException e) {}
-    System.exit(0);
+	//System.exit(0);
   }
+  
 }
 //End of ChatClient class

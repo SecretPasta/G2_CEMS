@@ -25,14 +25,14 @@ public class ClientUI extends Application {
         } catch (SecurityException se) {
             System.out.println("Program exited with error: " + se.getMessage());
         } finally {
-            System.out.println("exited");
-            if(ChatClient.getInstance().isConnected()) // if the client is connect to the server
-            {
+        	System.out.println("exited");
+        	try {
             	chat.client.quit(); // send the server message to remove the client from the connected clients and terminates the client
-            }
-        } 
+        	}catch (NullPointerException e){ // if catched, the client still not connected
+        		System.exit(0);
+        	}
+        }
 	}
-	
 	
 	// function to create the client and to connect him
 	public static void connectClient(String host, int port) throws IOException {
@@ -42,7 +42,7 @@ public class ClientUI extends Application {
 	 
 	@Override
 	public void start(Stage primaryStage) throws Exception {			  		
-		ClientConnectController aFrame = new ClientConnectController(); // create ClientConnectFrameController
+		ClientConnectController aFrame = new ClientConnectController(); // create ClientConnectController
 		aFrame.start(primaryStage);
 		
 	}

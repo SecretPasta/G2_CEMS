@@ -3,6 +3,7 @@ package gui;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -96,10 +97,6 @@ public class ServerPortFrameController implements Initializable {
 	
 	public static ServerPortFrameController getInstance() {
 		return instance;
-	}
-
-	public static ObservableList<ConnectedClient> getConnectedClients() { // clients
-		return connectedClients;
 	}
 
 	public static void addConnectedClient(ConnectedClient client) { // clients
@@ -219,6 +216,16 @@ public class ServerPortFrameController implements Initializable {
 		}
 		txtURL.setText(DEFAULT_DB_NAME);
 		txtUserName.setText(DEFAULT_DB_USER);
+	}
+	
+	public static void removeConnectedClientFromTable(String ip, String clientName) {
+		for(int idx = 0; idx < connectedClients.size(); idx++) {
+			if(connectedClients.get(idx).getIp().equals(ip)) {
+				if(connectedClients.get(idx).getClientname().equals(clientName)) {
+					removeConnectedClient(connectedClients.get(idx));
+				}
+			}
+		}
 	}
 
 	@Override
