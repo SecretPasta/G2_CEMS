@@ -143,6 +143,9 @@ public class ServerPortFrameController implements Initializable {
 				serverCommunication.listen(); // connecting back to the port
 				setVisabilityForUI(true);
 			}
+			else { // if after click on connect, the connection is null, the password is wrong
+				lblMessage.setText("[Error] Wrong paswword");
+			}
 		}
 	}
 
