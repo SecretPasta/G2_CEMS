@@ -49,7 +49,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Label prefHeight="35.0" prefWidth="119.0" text="Server IP:" textFill="#383838" underline="true">
+            <Label prefHeight="35.0" prefWidth="119.0" text="Host:" textFill="#383838" underline="true">
                <font>
                   <Font size="24.0" />
                </font>

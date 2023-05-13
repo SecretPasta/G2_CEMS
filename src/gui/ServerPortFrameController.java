@@ -165,7 +165,9 @@ public class ServerPortFrameController implements Initializable {
 			connectedClients.remove(idx);
 			++idx;
 		}
-		serverCommunication.stopListening();
+		if(serverCommunication != null) {
+			serverCommunication.stopListening();
+		}
 		setVisabilityForUI(false);
 	}
 
@@ -198,6 +200,7 @@ public class ServerPortFrameController implements Initializable {
 
 	public void getExitBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
+		DisconnectServer();
 		System.exit(0);
 	}
 

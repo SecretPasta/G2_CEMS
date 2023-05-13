@@ -97,18 +97,6 @@ public class QuestionBankController implements Initializable {
 		}
 	}
 	
-	
-	public void start(Stage primaryStage) throws Exception {	
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/QuestionBankGUI.fxml"));
-				
-		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
-		primaryStage.setTitle("Question Bank Managment Tool");
-		primaryStage.setScene(scene);
-		
-		primaryStage.show();	 	   
-	}
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources){
 		

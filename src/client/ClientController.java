@@ -56,7 +56,7 @@ public class ClientController implements ChatIF
 
   
   //Instance methods ************************************************
-  
+
   /**
    * This method waits for input from the console.  Once it is 
    * received, it sends it to the client's message handler.

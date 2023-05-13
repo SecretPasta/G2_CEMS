@@ -30,7 +30,7 @@ import Config.Question;
 public class ChatClient extends AbstractClient
 {
   //Instance variables **********************************************
-	
+	private static ChatClient instance;
   /**
    * The interface type variable.  It allows the implementation of 
    * the display method in the client.
@@ -54,17 +54,13 @@ public class ChatClient extends AbstractClient
   {
     super(host, port); //Call the superclass constructor
     this.clientUI = clientUI;
-    openConnection();
-    getInetAddress();
-    ArrayList<String> clientInfo = new ArrayList<>();
-    clientInfo.add("ClientConnecting");
-    clientInfo.add(InetAddress.getLocalHost().getHostAddress());
-    clientInfo.add(InetAddress.getLocalHost().getHostName());
-    sendToServer(clientInfo);
+    instance = this;
   }
 
   //Instance methods ************************************************
-
+  public static ChatClient getInstance() {
+  	return instance;
+  }
   /**
    * This method handles all data that comes in from the server.
    *
