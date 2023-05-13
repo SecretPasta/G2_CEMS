@@ -70,10 +70,8 @@ public class ChatClient extends AbstractClient
   {
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
-	  System.out.println(msg);
 	  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
 	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
-	  //if(msg.toString().startsWith("[Config.Question")) {
 		  ArrayList<Question> questions = (ArrayList<Question>)msg;
 		  QuestionBankController.getInstance().loadArrayQuestionsToTable(questions);
 		  System.out.println("The questions succesfully loaded from the DB to the table.");

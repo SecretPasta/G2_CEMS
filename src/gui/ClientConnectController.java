@@ -24,7 +24,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import server.EchoServer;
 
-public class ClientConnectFrameController implements Initializable {
+public class ClientConnectController implements Initializable {
+	
+	public static ClientController chat; //only one instance
 	
 	@FXML
 	private TextField txtPort;
@@ -60,14 +62,13 @@ public class ClientConnectFrameController implements Initializable {
 		}
 		else {
 			lblMessage.setText("");
-			ClientUI.chat.client.setPort(Integer.valueOf(getTxtPort())); // set the connect port for client
-			ClientUI.chat.client.setHost(getTxtServerIP()); // set the connect ip for client
-			ClientUI.chat.client.openConnection();
+			chat = new ClientController(getTxtServerIP(), Integer.valueOf(getTxtPort()));	
+			chat.client.openConnection();
 		    ArrayList<String> clientInfo = new ArrayList<>();
 		    clientInfo.add("ClientConnecting");
 		    clientInfo.add(getTxtServerIP());
 		    clientInfo.add(InetAddress.getLocalHost().getHostName());
-		    ClientUI.chat.client.sendToServer(clientInfo);
+		    ClientConnectController.chat.client.sendToServer(clientInfo);
 		    
 		    ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		    
