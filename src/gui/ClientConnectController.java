@@ -26,8 +26,6 @@ import server.EchoServer;
 
 public class ClientConnectController implements Initializable {
 	
-	public static ClientController chat; //only one instance
-	
 	@FXML
 	private TextField txtPort;
 
@@ -62,13 +60,13 @@ public class ClientConnectController implements Initializable {
 		}
 		else {
 			lblMessage.setText("");
-			chat = new ClientController(getTxtServerIP(), Integer.valueOf(getTxtPort()));	
-			chat.client.openConnection();
+			ClientUI.connectClient(getTxtServerIP(), Integer.valueOf(getTxtPort())); // create the client and connect him to server
+																					// the use of client: ClientUI.chat.client
 		    ArrayList<String> clientInfo = new ArrayList<>();
 		    clientInfo.add("ClientConnecting");
 		    clientInfo.add(getTxtServerIP());
 		    clientInfo.add(InetAddress.getLocalHost().getHostName());
-		    ClientConnectController.chat.client.sendToServer(clientInfo);
+		    ClientUI.chat.client.sendToServer(clientInfo);
 		    
 		    ((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
 		    

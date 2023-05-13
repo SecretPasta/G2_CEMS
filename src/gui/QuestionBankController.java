@@ -107,7 +107,7 @@ public class QuestionBankController implements Initializable {
 	    questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 
-	    ClientConnectController.chat.accept("GetAllQuestionsFromDB");   
+	    ClientUI.chat.accept("GetAllQuestionsFromDB");   
 	}
 	
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
