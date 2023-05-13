@@ -34,6 +34,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class ServerPortFrameController implements Initializable {
+	
+	private static ServerPortFrameController instance;
 
 	private static EchoServer serverCommunication;
 
@@ -87,6 +89,14 @@ public class ServerPortFrameController implements Initializable {
 
 	@FXML
 	private PasswordField txtPassWord = new PasswordField();
+	
+	public ServerPortFrameController() {
+		instance = this;
+	}
+	
+	public static ServerPortFrameController getInstance() {
+		return instance;
+	}
 
 	public static ObservableList<ConnectedClient> getConnectedClients() { // clients
 		return connectedClients;

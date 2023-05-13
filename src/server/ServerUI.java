@@ -3,6 +3,7 @@ package server;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import Config.Question;
+import client.ClientUI;
 
 import java.util.Vector;
 import gui.ServerPortFrameController;
@@ -14,8 +15,15 @@ public class ServerUI extends Application {
 	final public static int DEFAULT_PORT = 5555;
 	public static Vector<Question> students = new Vector<Question>();
 
-	public static void main(String args[]) throws Exception {
-		launch(args);
+	public static void main(String args[]) throws Exception {	
+		try {
+			launch(args); 
+        } catch (SecurityException se) {
+            System.out.println("Program exited with error: " + se.getMessage());
+        } finally {
+            System.out.println("Server exited");
+            ServerPortFrameController.getInstance().DisconnectServer(); // call the btn disconnect to exit the server correctly
+        } 
 	}
 
 	@Override

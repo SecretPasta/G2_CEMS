@@ -70,7 +70,6 @@ public class QuestionBankController implements Initializable {
 	
 	public void getClosebtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
-		ClientUI.chat.client.quit();
 	}
 	
 	

@@ -19,7 +19,14 @@ public class ClientUI extends Application {
 	public static ClientController chat; //only one instance
 
 	public static void main( String args[] ) throws Exception {
-		launch(args);  
+		try {
+			launch(args); 
+        } catch (SecurityException se) {
+            System.out.println("Program exited with error: " + se.getMessage());
+        } finally {
+            System.out.println("exited");
+            ClientUI.chat.client.quit(); // send the server message to remove the client from the connected clients and terminates the client
+        } 
 	}
 	 
 	@Override
