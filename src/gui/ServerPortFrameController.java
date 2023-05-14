@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -163,8 +164,11 @@ public class ServerPortFrameController implements Initializable {
 			++idx;
 		}
 		if(serverCommunication != null) {
-			mysqlConnection.conn = null;
-			serverCommunication.stopListening();
+			try {
+				serverCommunication.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		setVisabilityForUI(false);
 	}
