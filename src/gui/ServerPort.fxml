@@ -28,7 +28,6 @@
          <font>
             <Font size="28.0" />
          </font></Label>
-      <Label fx:id="txtIPAddress" layoutX="90.0" layoutY="117.0" />
       <Text fill="#383838" layoutX="50.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data Base Details">
          <font>
             <Font size="28.0" />

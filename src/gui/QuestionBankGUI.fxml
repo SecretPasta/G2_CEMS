@@ -20,12 +20,12 @@
          <font>
             <Font name="System Bold" size="22.0" />
          </font></Button>
-      <Label fx:id="lblMessage" alignment="CENTER" layoutX="440.0" layoutY="700.0" prefHeight="20.0" prefWidth="276.0" text="" textAlignment="CENTER" />
+      <Label fx:id="lblMessage" alignment="CENTER" layoutX="300.0" layoutY="764.0" prefHeight="30.0" prefWidth="334.0" text="" textAlignment="CENTER" />
       <Label layoutX="15.0" layoutY="15.0" prefHeight="38.0" prefWidth="352.0" text="Lecturer -&gt; Question's Bank" textFill="WHITE">
          <font>
             <Font name="System Bold" size="26.0" />
          </font></Label>
-      <TableView id="tableView" fx:id="tableView" layoutX="25.0" layoutY="123.0" prefHeight="635.0" prefWidth="890.0">
+      <TableView id="tableView" fx:id="tableView" layoutX="25.0" layoutY="122.0" prefHeight="635.0" prefWidth="890.0">
         <columns>
           <TableColumn id="idColumn" fx:id="idColumn" prefWidth="31.0" text="id" />
           <TableColumn id="subjectColumn" fx:id="subjectColumn" prefWidth="99.0" text="subject" />
