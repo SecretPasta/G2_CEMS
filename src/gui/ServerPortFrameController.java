@@ -122,23 +122,14 @@ public class ServerPortFrameController implements Initializable {
 
 		else {
 			lblMessage.setText("");
-			if (serverCommunication == null) {
-				serverCommunication = ServerUI.runServer(getPort());
-			}
-
-			try {
-				mysqlConnection.conn = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
-			} catch (Exception e) {
-				System.out.println("Error: " + e.getMessage());
-				// e.printStackTrace();
-			}
-			if (mysqlConnection.conn != null) {
+			boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord()); // connect to mySQL
+			if (sqlConnectionSucceed) {
 				lblStatus.setTextFill(Color.rgb(0, 102, 0));
 				lblStatus.setText("Connected");
-				serverCommunication.listen(); // connecting back to the port
 				setVisabilityForUI(true);
+				serverCommunication = ServerUI.runServer(getPort());	// connect to server
 			}
-			else { // if after click on connect, the connection is null, the password is wrong
+			else if(!sqlConnectionSucceed){ // if after click on connect, no connection, the password is wrong
 				lblMessage.setText("[Error] Wrong paswword");
 			}
 		}
@@ -164,12 +155,11 @@ public class ServerPortFrameController implements Initializable {
 			connectedClients.remove(idx);
 			++idx;
 		}
-		if(serverCommunication != null) {
-			try {
-				serverCommunication.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			serverCommunication.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		setVisabilityForUI(false);
 	}

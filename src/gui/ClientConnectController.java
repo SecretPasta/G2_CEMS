@@ -6,6 +6,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import client.ChatClient;
 import client.ClientController;
 import client.ClientUI;
@@ -67,8 +69,10 @@ public class ClientConnectController implements Initializable {
 			// the use of client: ClientUI.chat.client
 			// to send the server message, use: ClientUI.chat.accept(object)
 			if(!ClientUI.connectClient(getTxtServerIP(), Integer.valueOf(getTxtPort()))) {
-				lblMessage.setText("[Error] Couldn't connect to the server");
-				lblMessage.setTextFill(Color.color(1, 0, 0));
+				JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+				/*lblMessage.setText("[Error] Couldn't connect to the server");
+				lblMessage.setTextFill(Color.color(1, 0, 0));*/
 				return;
 			}
 			

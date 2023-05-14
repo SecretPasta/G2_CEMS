@@ -23,20 +23,22 @@ import java.sql.Statement;
 public class mysqlConnection {
 	public static Connection conn;
 	
-	public static Connection connect(String url, String user, String password) {
-		try 
+	public static boolean connect(String url, String user, String password) {
+		try
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             System.out.println("Driver definition succeed");
         } catch (Exception ex) {
         	/* handle the error*/
         	 System.out.println("Driver definition failed");
+        	 return false;
         	 }
         
         try 
         {
             conn = DriverManager.getConnection(url, user, password);
             System.out.println("SQL connection succeed");
+            return true;
             
             // 172.20.10.3
      	} catch (SQLException ex) 
@@ -44,8 +46,8 @@ public class mysqlConnection {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
             }
-		return conn;
 	}
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{

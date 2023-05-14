@@ -16,6 +16,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import Config.ConnectedClient;
 import Config.Question;
 
@@ -74,8 +76,9 @@ public class ChatClient extends AbstractClient
 	  
 	  if(msg instanceof String) {
 		  if(((String)msg).equals("server is disconnected")){ // if get client get the meesage server is disconnected, get him out of the program
+			  JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
 			  System.out.println("exited");
-			  System.exit(0);
+			  System.exit(0); 
 		  }
 	  }
 	  
