@@ -154,12 +154,13 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void DisconnectServer() {
+		serverCommunication.sendToAllClients("server is disconnected"); // send to all clients to close the program of every client
 		// console.add("The server is Disconnected\n");
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
 	    lblMessage.setText("");
 		int idx = 0;
-		while (idx < connectedClients.size()) {
+		while (idx < connectedClients.size()) { // clear the connectedClients table
 			connectedClients.remove(idx);
 			++idx;
 		}

@@ -72,6 +72,13 @@ public class ChatClient extends AbstractClient
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
 	  
+	  if(msg instanceof String) {
+		  if(((String)msg).equals("server is disconnected")){ // if get client get the meesage server is disconnected, get him out of the program
+			  System.out.println("exited");
+			  System.exit(0);
+		  }
+	  }
+	  
 	  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
 	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
 		  ArrayList<Question> questions = (ArrayList<Question>)msg;
@@ -143,7 +150,7 @@ public class ChatClient extends AbstractClient
 	    catch(IOException e) {}
 	    System.exit(0);
 	}
-	//System.exit(0);
+	System.exit(0);
   }
   
 }
