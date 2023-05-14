@@ -24,7 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
+import javafx.stage.StageStyle;
 import Config.ConnectedClient;
 
 import JDBC.mysqlConnection;
@@ -192,9 +192,17 @@ public class ServerPortFrameController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
 
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
+		//scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
 		primaryStage.setTitle("Server");
 		primaryStage.setScene(scene);
+		
+		primaryStage.setResizable(false); // disable window resize option
+		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+		// we can move window without the menu row
+		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
 
 		primaryStage.show();
 	}
@@ -203,6 +211,7 @@ public class ServerPortFrameController implements Initializable {
 		System.out.println("exit Academic Tool");
 		DisconnectServer();
 		System.exit(0);
+		System.gc();
 	}
 
 	public void loadInfo() {

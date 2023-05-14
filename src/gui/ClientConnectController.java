@@ -22,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import server.EchoServer;
 
 public class ClientConnectController implements Initializable {
@@ -50,6 +51,8 @@ public class ClientConnectController implements Initializable {
 	
 	public void getExitBtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		System.exit(0);
+		System.gc();
 	}
 	
 	public void getConnectBtn(ActionEvent event) throws Exception {
@@ -82,9 +85,17 @@ public class ClientConnectController implements Initializable {
 			Parent root = FXMLLoader.load(getClass().getResource("/gui/QuestionBankGUI.fxml"));
 			
 			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
 			primaryStage.setTitle("Question Bank Managment Tool");
 			primaryStage.setScene(scene);
+			
+			primaryStage.setResizable(false); // disable window resize option
+			primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+			// we can move window without the menu row
+			scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+	            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+	            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+	        }));
 			
 			primaryStage.show();	
 		}
@@ -96,9 +107,17 @@ public class ClientConnectController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientConnectGUI.fxml"));
 				
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/ClientConnect.css").toExternalForm()); // need to create css file for design
+		//scene.getStylesheets().add(getClass().getResource("/gui/ClientConnect.css").toExternalForm()); // need to create css file for design
 		primaryStage.setTitle("Client Connect Managment Tool");
 		primaryStage.setScene(scene);
+		
+		primaryStage.setResizable(false); // disable window resize option
+		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+		// we can move window without the menu row
+		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
 		
 		primaryStage.show();	   
 	}

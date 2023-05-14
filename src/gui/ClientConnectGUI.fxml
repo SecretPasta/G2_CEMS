@@ -4,16 +4,66 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientConnectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientConnectController">
    <children>
-      <Label layoutX="144.0" layoutY="38.0" prefHeight="18.0" prefWidth="92.0" text="Client Connect" />
-      <Label layoutX="50.0" layoutY="106.0" prefHeight="18.0" prefWidth="39.0" text="Port:" />
-      <Label layoutX="40.0" layoutY="168.0" text="Host:" />
-      <TextField fx:id="txtPort" layoutX="122.0" layoutY="103.0" />
-      <TextField fx:id="txtServerIP" layoutX="123.0" layoutY="164.0" />
-      <Button fx:id="btnExit" layoutX="287.0" layoutY="410.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="26.0" prefWidth="46.0" text="Exit" />
-      <Button fx:id="btnConnect" layoutX="43.0" layoutY="410.0" mnemonicParsing="false" onAction="#getConnectBtn" text="Connect" />
-      <Label fx:id="lblMessage" contentDisplay="CENTER" layoutX="99.0" layoutY="326.0" prefHeight="18.0" prefWidth="200.0" />
+      <Rectangle arcWidth="5.0" fill="#4958ff" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="400.0" />
+      <Label layoutX="15.0" layoutY="10.0" prefHeight="35.0" prefWidth="252.0" text="CEMS - Client Connect" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Button fx:id="btnExit" layoutX="315.0" layoutY="11.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #F39C63;" text="Exit" textFill="WHITE" underline="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="btnConnect" layoutX="106.0" layoutY="335.0" mnemonicParsing="false" onAction="#getConnectBtn" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #4958ff;" text="Connect" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="285.0" prefHeight="30.0" prefWidth="375.0">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <VBox layoutX="63.0" layoutY="162.0" prefHeight="103.0" prefWidth="285.0" spacing="20.0">
+         <children>
+            <HBox prefHeight="40.0" prefWidth="280.0">
+               <children>
+                  <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="60.0" text="Port:" textFill="#383838">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtPort">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="40.0" prefWidth="280.0">
+               <children>
+                  <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="60.0" text="Host:" textFill="#383838">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtServerIP">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Label layoutX="112.0" layoutY="91.0" prefHeight="35.0" prefWidth="185.0" text="Ready to do some Exams?" textFill="#383838">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

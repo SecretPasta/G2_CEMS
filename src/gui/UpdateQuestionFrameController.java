@@ -1,5 +1,7 @@
 package gui;
 
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -18,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import Config.Question;
 import client.ClientUI;
 
@@ -46,9 +49,9 @@ public class UpdateQuestionFrameController implements Initializable {
 	@FXML
 	private Label txtCourseName;
 	@FXML
-	private TextField txtQuestionText;
-	@FXML
 	private TextField txtQuestionNumber;
+    @FXML
+    private TextArea txtQuestionText;
 	@FXML
 	private Label txtQuestionAuthor;
 	
@@ -62,9 +65,9 @@ public class UpdateQuestionFrameController implements Initializable {
 		this.question = question;
 		this.txtQuestionID.setText(question.getId());
 		this.txtSubject.setText(question.getSubject());
-		this.txtCourseName.setText(question.getCourseName());		
-		this.txtQuestionText.setPromptText(question.getQuestionText());
-		this.txtQuestionNumber.setPromptText(question.getQuestionNumber());
+		this.txtCourseName.setText(question.getCourseName());
+		this.txtQuestionText.setText(question.getQuestionText());
+		this.txtQuestionNumber.setText(question.getQuestionNumber());
 		this.txtQuestionAuthor.setText(question.getLecturer());
 	}
 	
@@ -75,12 +78,19 @@ public class UpdateQuestionFrameController implements Initializable {
 		Pane root = loader.load(getClass().getResource("/gui/QuestionBankGUI.fxml").openStream());		
 	
 		Scene scene = new Scene(root);			
-		scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
+		//scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
 		primaryStage.setTitle("Question Managment Tool");
-
-		primaryStage.setScene(scene);		
+		primaryStage.setScene(scene);
+		
+		primaryStage.setResizable(false); // disable window resize option
+		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+		// we can move window without the menu row
+		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
+		
 		primaryStage.show();
-	
 	}
 	
 	
@@ -107,9 +117,17 @@ public class UpdateQuestionFrameController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml"));
 				
 		Scene scene = new Scene(root);
-		scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
+		//scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
 		primaryStage.setTitle("Question Managment Tool");
 		primaryStage.setScene(scene);
+		
+		primaryStage.setResizable(false); // disable window resize option
+		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+		// we can move window without the menu row
+		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
 		
 		primaryStage.show();	 	   
 	}

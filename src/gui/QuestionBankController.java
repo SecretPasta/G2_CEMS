@@ -25,6 +25,7 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import Config.Question;
 import JDBC.DBController;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -70,6 +71,8 @@ public class QuestionBankController implements Initializable {
 	
 	public void getClosebtn(ActionEvent event) throws Exception {
 		((Node)event.getSource()).getScene().getWindow().hide(); //hiding primary window
+		System.exit(0);
+		System.gc();
 	}
 	
 	
@@ -89,10 +92,18 @@ public class QuestionBankController implements Initializable {
 			Pane root = loader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml").openStream());		
 		
 			Scene scene = new Scene(root);			
-			scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
+			//scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
 			primaryStage.setTitle("Question Update Managment Tool");
-	
-			primaryStage.setScene(scene);		
+			primaryStage.setScene(scene);
+			
+			primaryStage.setResizable(false); // disable window resize option
+			primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+			// we can move window without the menu row
+			scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
+	            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+	            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+	        }));
+			
 			primaryStage.show();
 		}
 	}
