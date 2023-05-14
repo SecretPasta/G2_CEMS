@@ -68,46 +68,39 @@ public class EchoServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
-  public void handleMessageFromClient(Object msg, ConnectionToClient client)
+  @SuppressWarnings("unchecked")
+public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
-	  if(msg instanceof String) {
-		  
-		  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
-			  ArrayList<Question> questions = DBController.getAllQuestions();
-			  try {
+	  try {
+		  if(msg instanceof String) {
+			  
+			  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
+				  ArrayList<Question> questions = DBController.getAllQuestions();
 				  client.sendToClient((ArrayList<Question>)questions);
-			  } catch (IOException e) {
-				  e.printStackTrace();
 			  }
+			  
 		  }
 		  
-	  }
-	  
-	  if(msg instanceof ArrayList) {
-		  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
-		  {
-			  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
-			  try {
-				client.sendToClient("client connected");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		  if(msg instanceof ArrayList) {
+			  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
+			  {
+				  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
+				  client.sendToClient("client connected");
+			  }
+			  
+			  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
+				  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
+				  client.sendToClient(returnStr);
+	
+	
+			  }
+			  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){  
+				  ServerPortFrameController.removeConnectedClientFromTable(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)); // call function to remove the client from the table
+			  }
+	
 		  }
-		  
-		  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
-			  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
-			  try {
-				client.sendToClient(returnStr);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		  }
-		  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){  
-			  ServerPortFrameController.removeConnectedClientFromTable(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)); // call function to remove the client from the table
-		  }
-
+	  } catch (IOException e) {
+		  e.printStackTrace();
 	  }
 	  System.out.println("Message received: " + msg.toString() + " from " + client);
   

@@ -120,6 +120,7 @@ public class ChatClient extends AbstractClient
   public void quit()
   {
 	if(isConnected()) {
+		System.out.println("exited");
 		ArrayList<String> clientInfo = new ArrayList<>();
 		clientInfo.add("ClientQuitting");
 	    try {

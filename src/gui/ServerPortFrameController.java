@@ -70,8 +70,6 @@ public class ServerPortFrameController implements Initializable {
 	private Label lblMessage;
 	@FXML
 	private Label txtIPAddress;
-//	@FXML
-//	private Label txtHost;
 
 	// Connection Detail Variables
 	@FXML
@@ -119,7 +117,6 @@ public class ServerPortFrameController implements Initializable {
 		
 		if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
 			lblMessage.setText("[Error] Missing fields");
-			lblMessage.setTextFill(Color.color(1, 0, 0));
 		}
 
 		else {
@@ -165,8 +162,8 @@ public class ServerPortFrameController implements Initializable {
 			connectedClients.remove(idx);
 			++idx;
 		}
-		mysqlConnection.conn = null;
 		if(serverCommunication != null) {
+			mysqlConnection.conn = null;
 			serverCommunication.stopListening();
 		}
 		setVisabilityForUI(false);

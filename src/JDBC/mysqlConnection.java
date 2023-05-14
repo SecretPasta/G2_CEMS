@@ -51,7 +51,6 @@ public class mysqlConnection {
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{
         if(conn != null && !conn.isClosed())
             return conn;
-        //connect(url, user, password);
         return conn;
     }
 }
