@@ -145,7 +145,11 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void DisconnectServer() {
-		serverCommunication.sendToAllClients("server is disconnected"); // send to all clients to close the program of every client
+		try { // send message to clients only if the server is on. if the server in not connected, the connection is null
+			serverCommunication.sendToAllClients("server is disconnected"); // send to all clients to close the program of every client
+		}catch (NullPointerException e) {
+			System.exit(0);
+		}
 		// console.add("The server is Disconnected\n");
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
