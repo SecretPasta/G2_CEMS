@@ -98,51 +98,54 @@ public class ServerPortFrameController implements Initializable {
 		return instance;
 	}
 
-	public static void addConnectedClient(ConnectedClient client) { // clients
-		try {
-			connectedClients.add(client);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public static void addConnectedClient(ConnectedClient client) {
+	    // Add a connected client to the list of connected clients
+	    try {
+	        connectedClients.add(client);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
-	
-	public static void removeConnectedClient(ConnectedClient client) { // clients
-		try {
-			connectedClients.remove(client);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+	public static void removeConnectedClient(ConnectedClient client) {
+	    // Remove a connected client from the list of connected clients
+	    try {
+	        connectedClients.remove(client);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	public void getConnectbtn(ActionEvent event) throws Exception {
-		
-		if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
-			lblMessage.setText("[Error] Missing fields");
-		}
-
-		else {
-			lblMessage.setText("");
-			boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord()); // connect to mySQL
-			if (sqlConnectionSucceed) {
-				lblStatus.setTextFill(Color.rgb(0, 102, 0));
-				lblStatus.setText("Connected");
-				setVisabilityForUI(true);
-				serverCommunication = ServerUI.runServer(getPort());	// connect to server
-			}
-			else if(!sqlConnectionSucceed){ // if after click on connect, no connection, the password is wrong
-				lblMessage.setText("[Error] Wrong paswword");
-			}
-		}
+	    // Handle the Connect button click event
+	    if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
+	        lblMessage.setText("[Error] Missing fields");
+	    } else {
+	        lblMessage.setText("");
+	        // Connect to the MySQL database
+	        boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
+	        if (sqlConnectionSucceed) {
+	            lblStatus.setTextFill(Color.rgb(0, 102, 0));
+	            lblStatus.setText("Connected");
+	            setVisabilityForUI(true);
+	            // Start the server
+	            serverCommunication = ServerUI.runServer(getPort());
+	        } else if (!sqlConnectionSucceed) {
+	            lblMessage.setText("[Error] Wrong password");
+	        }
+	    }
 	}
 
-	private void setVisabilityForUI(boolean isVisable) {
-		this.btnDiscon.setDisable(!isVisable);
-		this.txtPort.setDisable(isVisable);
-		this.txtURL.setDisable(isVisable);
-		this.txtUserName.setDisable(isVisable);
-		this.txtPassWord.setDisable(isVisable);
-		this.btnConnect.setDisable(isVisable);
+	private void setVisabilityForUI(boolean isVisible) {
+	    // Set the visibility of UI components when Connecting and Disconnecting
+	    this.btnDiscon.setDisable(!isVisible);
+	    this.txtPort.setDisable(isVisible);
+	    this.txtURL.setDisable(isVisible);
+	    this.txtUserName.setDisable(isVisible);
+	    this.txtPassWord.setDisable(isVisible);
+	    this.btnConnect.setDisable(isVisible);
 	}
+
 
 	public void DisconnectServer() {
 		try { // send message to clients only if the server is on. if the server in not connected, the connection is null
@@ -167,7 +170,8 @@ public class ServerPortFrameController implements Initializable {
 		}
 		setVisabilityForUI(false);
 	}
-
+	
+	//Text Field getters
 	private String getPassWord() {
 		return txtPassWord.getText();
 	}
@@ -203,13 +207,15 @@ public class ServerPortFrameController implements Initializable {
 		primaryStage.show();
 	}
 
+	//Exit Button functionality 
 	public void getExitBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
 		DisconnectServer();
 		System.exit(0);
 		System.gc();
 	}
-
+	
+	//Instantiating the text field with default strings
 	public void loadInfo() {
 		txtPort.setText("5555");
 		try {
@@ -223,6 +229,7 @@ public class ServerPortFrameController implements Initializable {
 		txtUserName.setText(DEFAULT_DB_USER);
 	}
 	
+	//Removing the client from the table after it disconnects
 	public static void removeConnectedClientFromTable(String ip, String clientName) {
 		for(int idx = 0; idx < connectedClients.size(); idx++) {
 			if(connectedClients.get(idx).getIp().equals(ip)) {
