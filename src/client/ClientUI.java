@@ -14,7 +14,7 @@ import java.net.UnknownHostException;
 import java.util.Vector;
 
 import client.ClientController;
-import gui.ClientConnectController;
+import gui.ClientConnectFrameController;
 import gui.ServerPortFrameController;
 
 public class ClientUI extends Application {
@@ -50,7 +50,7 @@ public class ClientUI extends Application {
 	 
 	@Override
 	public void start(Stage primaryStage) throws Exception {			  		
-		ClientConnectController aFrame = new ClientConnectController(); // create ClientConnectController
+		ClientConnectFrameController aFrame = new ClientConnectFrameController(); // create ClientConnectController
 		aFrame.start(primaryStage);
 		
 	}

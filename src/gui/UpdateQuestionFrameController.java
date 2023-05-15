@@ -73,25 +73,10 @@ public class UpdateQuestionFrameController implements Initializable {
 
 	// Back Button functionality
 	public void getBackbtn(ActionEvent event) throws Exception {
-		FXMLLoader loader = new FXMLLoader();
+		
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		Stage primaryStage = new Stage();
-		Pane root = loader.load(getClass().getResource("/gui/QuestionBankGUI.fxml").openStream());
-
-		Scene scene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
-		primaryStage.setTitle("Question Managment Tool");
-		primaryStage.setScene(scene);
-
-		primaryStage.setResizable(false); // disable window resize option
-		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
-		// we can move window without the menu row
-		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-			primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-			primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-		}));
-
-		primaryStage.show();
+		
+		QuestionBankFrameController.start();
 	}
 
 	// Save button functionality
@@ -103,38 +88,23 @@ public class UpdateQuestionFrameController implements Initializable {
 			lblMessage.setTextFill(Color.rgb(0, 102, 0));
 			lblMessage.setText("Question Saved Successfully");
 			// Create an ArrayList to hold the data for updating the question
-			ArrayList<String> sArr = new ArrayList<>();
-			sArr.add("UpdateQuestionDataByID");
-			sArr.add(question.getId()); // Add the question ID
-			sArr.add(txtQuestionText.getText()); // Add the updated question text
-			sArr.add(txtQuestionNumber.getText()); // Add the updated question number
+			ArrayList<String> updateQuestionArr = new ArrayList<>();
+			updateQuestionArr.add("UpdateQuestionDataByID");
+			updateQuestionArr.add(question.getId()); // Add the question ID
+			updateQuestionArr.add(txtQuestionText.getText()); // Add the updated question text
+			updateQuestionArr.add(txtQuestionNumber.getText()); // Add the updated question number
 			// Send the ArrayList to the server for updating the question data
-			ClientUI.chat.accept(sArr);
+			ClientUI.chat.accept(updateQuestionArr);
 		}
 	}
 
-	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml"));
-
-		Scene scene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/UpdateQuestion.css").toExternalForm());
-		primaryStage.setTitle("Question Managment Tool");
-		primaryStage.setScene(scene);
-
-		primaryStage.setResizable(false); // disable window resize option
-		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
-		// we can move window without the menu row
-		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-			primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-			primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-		}));
-
-		primaryStage.show();
+	public static void start() throws Exception {
+		SceneManagment.createNewStage("/gui/UpdateQuestionGUI.fxml", null, "Question Update Managment Tool").show();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadSelectedQuestion(QuestionBankController.questionSelected);
+		loadSelectedQuestion(QuestionBankFrameController.questionSelected);
 	}
 
 }

@@ -30,7 +30,7 @@ import Config.Question;
 import JDBC.DBController;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class QuestionBankController implements Initializable {
+public class QuestionBankFrameController implements Initializable {
 	@FXML
 	private Button btnClose = null;
 
@@ -56,14 +56,14 @@ public class QuestionBankController implements Initializable {
 	@FXML
 	private TableColumn<Question, String> questionNumberColumn;
 
-	private static QuestionBankController instance;
+	private static QuestionBankFrameController instance;
 	static Question questionSelected;
 
-	public QuestionBankController() {
+	public QuestionBankFrameController() {
 		instance = this;
 	}
 
-	public static QuestionBankController getInstance() {
+	public static QuestionBankFrameController getInstance() {
 		return instance;
 	}
 	
@@ -79,7 +79,6 @@ public class QuestionBankController implements Initializable {
 	
 	//Select Button functionality  
 	public void getSelectbtn(ActionEvent event) throws Exception {
-		FXMLLoader loader = new FXMLLoader();
 
 		// Getting the selected question from the table view
 		questionSelected = tableView.getSelectionModel().getSelectedItem();
@@ -91,24 +90,15 @@ public class QuestionBankController implements Initializable {
 
 			// Hiding the primary window
 			((Node) event.getSource()).getScene().getWindow().hide();
+			
 			// Creating and showing the UpdateQuestionGUI window
-			Stage primaryStage = new Stage();
-			Pane root = loader.load(getClass().getResource("/gui/UpdateQuestionGUI.fxml").openStream());
-
-			Scene scene = new Scene(root);
-			primaryStage.setTitle("Question Update Managment Tool");
-			primaryStage.setScene(scene);
-
-			primaryStage.setResizable(false);
-			primaryStage.initStyle(StageStyle.UNDECORATED);
-			// Making the window draggable
-			scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-				primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-				primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-			}));
-
-			primaryStage.show();
+			
+			UpdateQuestionFrameController.start();
 		}
+	}
+	
+	public static void start() throws IOException {
+		SceneManagment.createNewStage("/gui/QuestionBankGUI.fxml", null, "Question Bank Management Tool").show();
 	}
 
 	@Override

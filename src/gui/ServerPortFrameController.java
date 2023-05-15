@@ -163,7 +163,7 @@ public class ServerPortFrameController implements Initializable {
 			++idx;
 		}
 		try {
-			serverCommunication.close();
+			serverCommunication.close(); // close the server
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -189,22 +189,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
-
-		Scene scene = new Scene(root);
-		//scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
-		primaryStage.setTitle("Server");
-		primaryStage.setScene(scene);
-		
-		primaryStage.setResizable(false); // disable window resize option
-		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
-		// we can move window without the menu row
-		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-        }));
-
-		primaryStage.show();
+		SceneManagment.createNewStage("/gui/ServerPort.fxml", null, "Server").show();
 	}
 
 	//Exit Button functionality 

@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import server.EchoServer;
 
-public class ClientConnectController implements Initializable {
+public class ClientConnectFrameController implements Initializable {
 
 	@FXML
 	private TextField txtPort;
@@ -71,10 +71,6 @@ public class ClientConnectController implements Initializable {
 				JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server",
 						JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
-				/*
-				 * lblMessage.setText("[Error] Couldn't connect to the server");
-				 * lblMessage.setTextFill(Color.color(1, 0, 0));
-				 */
 				return;
 			}
 
@@ -88,45 +84,13 @@ public class ClientConnectController implements Initializable {
 
 			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 
-			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("/gui/QuestionBankGUI.fxml"));
-
-			Scene scene = new Scene(root);
-			// scene.getStylesheets().add(getClass().getResource("/gui/QuestionBank.css").toExternalForm());
-			primaryStage.setTitle("Question Bank Managment Tool");
-			primaryStage.setScene(scene);
-
-			primaryStage.setResizable(false); // disable window resize option
-			primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
-			// we can move window without the menu row
-			scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-				primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-				primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-			}));
-
-			primaryStage.show();
+	        QuestionBankFrameController.start();
 		}
 
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ClientConnectGUI.fxml"));
-
-		Scene scene = new Scene(root);
-		// scene.getStylesheets().add(getClass().getResource("/gui/ClientConnect.css").toExternalForm());
-		// // need to create css file for design
-		primaryStage.setTitle("Client Connect Managment Tool");
-		primaryStage.setScene(scene);
-
-		primaryStage.setResizable(false); // disable window resize option
-		primaryStage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
-		// we can move window without the menu row
-		scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
-			primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-			primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-		}));
-
-		primaryStage.show();
+		SceneManagment.createNewStage("/gui/ClientConnectGUI.fxml", null, "Client Connect Managment Tool").show();
 	}
 
 	@Override

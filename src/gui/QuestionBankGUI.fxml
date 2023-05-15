@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="880.0" prefWidth="940.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.QuestionBankController">
+<AnchorPane prefHeight="880.0" prefWidth="940.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.QuestionBankFrameController">
    <children>
       <Rectangle arcWidth="5.0" fill="#4958ff" height="70.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="940.0" />
    

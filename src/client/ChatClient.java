@@ -7,8 +7,8 @@ package client;
 import ocsf.client.*;
 import server.EchoServer;
 import client.*;
-import gui.ClientConnectController;
-import gui.QuestionBankController;
+import gui.ClientConnectFrameController;
+import gui.QuestionBankFrameController;
 import gui.ServerPortFrameController;
 import ClientServerComm.ChatIF;
 import java.io.*;
@@ -39,7 +39,6 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
-  public static Question  q1 = new Question(null,null,null,null,null,null);
   public static boolean awaitResponse = false;
 
   //Constructors ****************************************************
@@ -85,7 +84,7 @@ public class ChatClient extends AbstractClient
 	  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
 	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
 		  ArrayList<Question> questions = (ArrayList<Question>)msg;
-		  QuestionBankController.getInstance().loadArrayQuestionsToTable(questions);
+		  QuestionBankFrameController.getInstance().loadArrayQuestionsToTable(questions);
 		  System.out.println("The questions succesfully loaded from the DB to the table.");
 	  }
 	  else {
@@ -140,12 +139,7 @@ public class ChatClient extends AbstractClient
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			sendToServer(clientInfo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ClientUI.chat.accept(clientInfo);
 	    try
 	    {
 	      closeConnection();
