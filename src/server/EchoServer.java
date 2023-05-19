@@ -5,25 +5,14 @@ package server;
 // license found at www.lloseng.com 
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import Config.ConnectedClient;
 import Config.Question;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import JDBC.DBController;
-import JDBC.mysqlConnection;
-import client.ChatClient;
-import gui.QuestionBankFrameController;
 import gui.ServerPortFrameController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import ocsf.server.*;
 
 /**

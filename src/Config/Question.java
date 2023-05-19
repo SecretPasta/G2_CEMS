@@ -6,7 +6,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
-public class Question implements Callback<TableView<Question>, TableRow<Question>>, Serializable {
+public class Question implements Callback<TableView<Question>, TableRow<Question>>, Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String id;
@@ -89,9 +89,9 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	}
 
 	@Override
-	public TableRow<Question> call(TableView<Question> param) {
+	public TableRow<Question> call(TableView<Question> arg0) {
 		// TODO Auto-generated method stub
-		return null; // Callback method that is not implemented in this class
+		return null;
 	}
 
 }
