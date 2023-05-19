@@ -59,5 +59,10 @@ public class DBController {
 		}
 		return "Question updated succesfully";
 	}
+	
+	public static Boolean userExist(ArrayList<String> userInfoArr) {
+		
+		return true;
+	}
 }
 

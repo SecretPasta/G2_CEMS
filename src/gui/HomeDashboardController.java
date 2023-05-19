@@ -16,14 +16,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 public class HomeDashboardController implements Initializable{
 	@FXML
     private JFXButton btnEditQuestion;
+	
+	@FXML
+	private Label lblMessage;
+	//private JFXBadge lblMessage;
+	
+	@FXML
+	private VBox pnItems;
 
     @FXML
     private Button btnOrders;
@@ -100,7 +109,6 @@ public class HomeDashboardController implements Initializable{
 		questionTextColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
 		questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
-		
 		ClientUI.chat.accept("GetAllQuestionsFromDB");
 		
 	}

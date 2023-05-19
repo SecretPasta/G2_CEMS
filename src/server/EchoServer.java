@@ -77,6 +77,16 @@ public void handleMessageFromClient(Object msg, ConnectionToClient client)
 				  client.sendToClient("client connected");
 			  }
 			  
+			  else if(((ArrayList<String>)msg).get(0).equals("UserLogin")) {
+				  if(DBController.userExist((ArrayList<String>)msg)) {
+					  ServerPortFrameController.updateUserDetailsInTable((ArrayList<String>)msg);
+					  //client.sendToClient("UserLoginSucceed");
+				  }
+				  else {
+					  client.sendToClient("UserLoginFailed");
+				  }
+			  }
+			  
 			  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
 				  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
 				  client.sendToClient(returnStr);

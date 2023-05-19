@@ -149,7 +149,7 @@
                         <Insets />
                      </opaqueInsets>
                   </JFXButton>
-                  <JFXBadge fx:id="lblMessage" layoutX="350.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" stylesheets="@HomeStyle.css" />
+                  <Label fx:id="lblMessage" layoutX="350.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" stylesheets="@HomeStyle.css" />
                </children>
             </Pane>
          </children>

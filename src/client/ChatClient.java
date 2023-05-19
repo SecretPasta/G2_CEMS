@@ -7,6 +7,8 @@ package client;
 import ocsf.client.*;
 
 import gui.HomeDashboardController;
+import gui.LoginController;
+import javafx.scene.Node;
 import ClientServerComm.ChatIF;
 import java.io.*;
 import java.net.InetAddress;
@@ -64,27 +66,42 @@ public class ChatClient extends AbstractClient
    *
    * @param msg The message from the server.
    */
+  @SuppressWarnings("unchecked")
   public void handleMessageFromServer(Object msg) 
   {
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
 	  
-	  if(msg instanceof String) {
-		  if(((String)msg).equals("server is disconnected")){ // if get client get the meesage server is disconnected, get him out of the program
-			  JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
-			  System.out.println("exited");
-			  System.exit(0); 
+	  try {
+		  
+		  if(msg instanceof String) {
+			  if(((String)msg).equals("server is disconnected")){ // if get client get the meesage server is disconnected, get him out of the program
+				  JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
+				  System.out.println("exited");
+				  System.exit(0); 
+			  }
+			  else if(((String)msg).equals("UserLoginSucceed")){
+				  //HomeDashboardController.start();
+				  System.out.println("logged in succesfully");
+			  }
+			  else if(((String)msg).equals("UserLoginFailed")){
+				  LoginController.getInstance().loginFailedInvalidUserPass();
+			  }
 		  }
-	  }
-	  
-	  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
-	  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
-		  ArrayList<Question> questions = (ArrayList<Question>)msg;
-		  HomeDashboardController.getInstance().loadArrayQuestionsToTable(questions);
-		  System.out.println("The questions succesfully loaded from the DB to the table.");
-	  }
-	  else {
-		  System.out.println(msg);
+		  
+		  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
+		  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
+			  ArrayList<Question> questions = (ArrayList<Question>)msg;
+			  HomeDashboardController.getInstance().loadArrayQuestionsToTable(questions);
+			  System.out.println("The questions succesfully loaded from the DB to the table.");
+		  }
+		  else {
+			  System.out.println(msg);
+		  }
+		  
+	  } catch (IOException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
 	  }
   }
 
