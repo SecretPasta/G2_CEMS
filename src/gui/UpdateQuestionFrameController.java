@@ -68,7 +68,7 @@ public class UpdateQuestionFrameController implements Initializable {
 		
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		
-		LecturerDashboardFrameController.start(question.getLecturer());
+		LecturerDashboardFrameController.start();
 	}
 
 	// Save button functionality

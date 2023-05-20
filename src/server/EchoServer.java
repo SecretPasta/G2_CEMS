@@ -79,15 +79,18 @@ public class EchoServer extends AbstractServer
 					  client.sendToClient("client connected");
 				  }
 	
-				// if the user exist, send him that
+				  // if the user exist, send him that
 				  else if(arrayListStr.get(0).equals("UserLogin")) {
-					  String name;
-					  name = DBController.userExist(arrayListStr); // need to get here the full name by this func in DB
-					  if(name != null) { // if the func return the full name of the user -> succeed
+					  ArrayList<String> userDetails;
+					  userDetails = DBController.userExist(arrayListStr); // getting from DB details about the user
+					  //System.out.println(userDetails);
+					  if(userDetails != null) { // if the func return the details of the user -> succeed
 						  ArrayList<String> loginSucceedArr = new ArrayList<>();
 						  loginSucceedArr.add("UserLoginSucceed");
 						  loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
-						  loginSucceedArr.add(name); // send to client to know his full name
+						  for(int i = 0; i < userDetails.size(); i++) { // to send the details of the user to the user
+							  loginSucceedArr.add(userDetails.get(i));
+						  }
 						  client.sendToClient(loginSucceedArr);
 					  }
 					  else {

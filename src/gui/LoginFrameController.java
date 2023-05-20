@@ -81,7 +81,7 @@ public class LoginFrameController implements Initializable{
 			userInfo.add(loginAs.getSelectionModel().getSelectedItem());
 			userInfo.add(txtUsername.getText());
 			userInfo.add(txtPassword.getText());
-			ClientUI.chat.accept(userInfo); // send to server to info of the user
+			ClientUI.chat.accept(userInfo); // send to server to info of the user to check username and password and to get details about the user from DB
 				
 		}
 		

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+
+import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
 import javafx.application.Platform;
@@ -29,6 +31,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private Label lblMessage;
+	
+	@FXML
+	private Label lbluserNameAndID;
 	
 	@FXML
 	private VBox pnItems;
@@ -85,7 +90,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableColumn<Question, String> questionNumberColumn;
 	
-	private static String UserFullName;
+	private static Lecturer lecturer; // current lecture
 	
 	private ObservableList<Question> questionsToUpdateObservableList = FXCollections.observableArrayList(); // list of questions to select to update in the table
 
@@ -110,9 +115,11 @@ public class LecturerDashboardFrameController implements Initializable{
 		questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 		
+		lbluserNameAndID.setText(lecturer.getName() + "\n(" + lecturer.getId() + ")"); // set lecturer name and id under the picture
+		
 		ArrayList<String> getQuestionArray = new ArrayList<>();
 		getQuestionArray.add("GetAllQuestionsFromDB");
-		getQuestionArray.add(UserFullName);
+		getQuestionArray.add(lecturer.getName());
 		ClientUI.chat.accept(getQuestionArray);
 		
 	}
@@ -124,9 +131,16 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
-	// this function called also from non javafx class. starting the frame. get the user full name
-	public static void start(String name) throws IOException {
-		UserFullName = name; // save the user full name in: UserFullName
+	// this function called also from non javafx class. starting the frame. get the lecturer details
+	public static void start(ArrayList<String> lecturerDetails) throws IOException {
+		lecturer = new Lecturer(lecturerDetails.get(2), lecturerDetails.get(3), lecturerDetails.get(4), lecturerDetails.get(5), lecturerDetails.get(6));
+		// -- lecturerDetails --
+		// 1 - login As
+		// 2 - user ID
+		// 3 - userName
+		// 4 - user Password
+		// 5 - user Name
+		// 6 - user Email
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -137,6 +151,11 @@ public class LecturerDashboardFrameController implements Initializable{
 				}
             }
         });
+	}
+	
+	// another start func for getting back
+	public static void start() throws IOException {
+		SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
 	}
 	
 	// when lecturer click on close button

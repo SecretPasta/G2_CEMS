@@ -56,7 +56,7 @@ public class DBController {
 		return "Question updated succesfully";
 	}
 	
-	public static String userExist(ArrayList<String> userInfoArr) throws ClassNotFoundException {
+	public static ArrayList<String> userExist(ArrayList<String> userInfoArr) throws ClassNotFoundException {
 		// 1 - loginAs: Lecturer, Student, Head Of Department
 		// 2 - Username
 		// 3 - Password
@@ -69,7 +69,7 @@ public class DBController {
 	            ResultSet resultSet = ps.executeQuery();
 	            if(resultSet.next()) {
 	                if(resultSet.getInt(1) == 1) {
-	                	return getUserFullName(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
+	                	return getUserDetails(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
 	                }
 	            }
 	            return null;
@@ -83,10 +83,11 @@ public class DBController {
 		return null;
 	}
 	
-	// func to return full name of user by his username and password
-	public static String getUserFullName(String loginAs, String username, String password) {
+	// func to return details of user by his username and password
+	public static ArrayList<String> getUserDetails(String loginAs, String username, String password) {
 	    String name = null;
-	    String query = "SELECT name FROM " + loginAs + " WHERE username = ? AND password = ?";
+	    String query = "SELECT * FROM " + loginAs + " WHERE username = ? AND password = ?";
+	    ArrayList<String> userDetailsArr = new ArrayList<>();
 	    try {
 	    	if (mysqlConnection.getConnection() != null) {
 	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
@@ -94,13 +95,15 @@ public class DBController {
 	    		ps.setString(2, password);
 	    		ResultSet resultSet = ps.executeQuery();
 	    		if(resultSet.next()) {
-	    			name = resultSet.getString("name");
+	    			for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+	    				userDetailsArr.add(resultSet.getString(i));
+	    			}
 	    		}
 		    } 
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
 	    }
-	    return name;
+	    return userDetailsArr;
 	}
 }
 

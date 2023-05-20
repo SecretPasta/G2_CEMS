@@ -92,11 +92,15 @@ public class ChatClient extends AbstractClient
 				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
 				  
 				  // 1 - login As
-				  // 2 - user full name
+				  // 2 - user ID
+				  // 3 - userName
+				  // 4 - user Password
+				  // 5 - user Name
+				  // 6 - user Email
 				  if(arrayListStr.get(0).equals("UserLoginSucceed")){
 					  LoginFrameController.hideCurrentScene(); // hide login frame
 					  if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
-						  LecturerDashboardFrameController.start(arrayListStr.get(2)); // to save the user full name in the dashboard controller
+						  LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
 					  }
 					  /*else if() { // login as lecturer
 						  
