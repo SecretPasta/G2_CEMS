@@ -69,7 +69,7 @@ public class DBController {
 	            ResultSet resultSet = ps.executeQuery();
 	            if(resultSet.next()) {
 	                if(resultSet.getInt(1) == 1) {
-	                	return getUserFullName(userInfoArr.get(2), userInfoArr.get(3));
+	                	return getUserFullName(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
 	                }
 	            }
 	            return null;
@@ -84,9 +84,23 @@ public class DBController {
 	}
 	
 	// func to return full name of user by his username and password
-	public static String getUserFullName(String username, String password) {
-		
-		return "Omri Sharof";
+	public static String getUserFullName(String loginAs, String username, String password) {
+	    String name = null;
+	    String query = "SELECT name FROM " + loginAs + " WHERE username = ? AND password = ?";
+	    try {
+	    	if (mysqlConnection.getConnection() != null) {
+	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	    		ps.setString(1, username);
+	    		ps.setString(2, password);
+	    		ResultSet resultSet = ps.executeQuery();
+	    		if(resultSet.next()) {
+	    			name = resultSet.getString("name");
+	    		}
+		    } 
+	    } catch (SQLException | ClassNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+	    return name;
 	}
 }
 
