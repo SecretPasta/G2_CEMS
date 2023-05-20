@@ -84,7 +84,7 @@ public class ClientConnectFrameController implements Initializable {
 
 			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 
-	        LoginController.start();
+	        LoginFrameController.start();
 		}
 
 	}

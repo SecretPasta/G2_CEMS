@@ -189,7 +189,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/gui/ServerPort.fxml", null, "Server").show();
+		SceneManagment.createNewStage("/gui/ServerPortGUI.fxml", null, "Server").show();
 	}
 
 	//Exit Button functionality 
@@ -235,19 +235,6 @@ public class ServerPortFrameController implements Initializable {
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
 	    
 	    tableView.setItems(connectedClients);
-	}
-
-	public static void updateUserDetailsInTable(ArrayList<String> arr) {
-		for(int idx = 0; idx < connectedClients.size(); idx++) {
-			if(connectedClients.get(idx).getIp().equals(arr.get(1))) {
-				if(connectedClients.get(idx).getClientname().equals(arr.get(2))) {
-					System.out.println(arr.get(4) + " " + connectedClients.get(idx).getClientname() + " ");
-					connectedClients.get(idx).setClientname(arr.get(4)); // not updating
-					System.out.println(arr.get(4) + " " + connectedClients.get(idx).getClientname() + " ");
-					//connectedClients.refresh();
-				}
-			}
-		}
 	}
 
 }

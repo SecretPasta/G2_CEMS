@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 
 import client.ClientUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
-public class LoginController implements Initializable{
+public class LoginFrameController implements Initializable{
 	@FXML
 	private Button btnClose;
 	
@@ -39,15 +40,15 @@ public class LoginController implements Initializable{
     @FXML
     private JFXComboBox<String> loginAs;
     
-    //private static ActionEvent CurrEvent;
+    private static ActionEvent CurrEvent;
     
-    public static LoginController instance;
+    public static LoginFrameController instance;
     
-    public LoginController() {
+    public LoginFrameController() {
     	instance = this;
 	}
     
-    public static LoginController getInstance() {
+    public static LoginFrameController getInstance() {
     	return instance;
     }
     
@@ -73,38 +74,42 @@ public class LoginController implements Initializable{
 			lblMessage.setText("[Error] Missing fields");
 		}
 		
-		else {
-			((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-			
-			HomeDashboardController.start(); // temporary
-			
+		else {		
 			lblMessage.setText("");
-			//CurrEvent = event; // save current scene to hide
+			CurrEvent = event; // save current scene to hide
 			ArrayList<String> userInfo = new ArrayList<>();
 			userInfo.add("UserLogin");
-			userInfo.add(InetAddress.getLocalHost().getHostAddress());
-			userInfo.add(InetAddress.getLocalHost().getHostName());
 			userInfo.add(loginAs.getSelectionModel().getSelectedItem());
 			userInfo.add(txtUsername.getText());
 			userInfo.add(txtPassword.getText());
-			ClientUI.chat.accept(userInfo);
+			ClientUI.chat.accept(userInfo); // send to server to info of the user
 				
 		}
 		
 	}
 	
-	/*public static void hideCurrentScene() throws Exception {
-		((Node) CurrEvent.getSource()).getScene().getWindow().hide(); // hiding primary window
-	}*/
+	// call this function from non javaFX
+	public static void hideCurrentScene() throws Exception {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+            	((Node) CurrEvent.getSource()).getScene().getWindow().hide(); // hiding primary window
+            }
+        });
+	}
 	
 	public static void start() throws IOException {
-		SceneManagment.createNewStage("/gui/Login.fxml", null, "Login").show();
+		SceneManagment.createNewStage("/gui/LoginGUI.fxml", null, "Login").show();
 	}
 
-	public void loginFailedInvalidUserPass() throws IOException {
-		start(); // start again the login window because it failed
-		lblMessage.setText("[Error] Wrong Username or Password");
+	// call this function from non javaFX
+	public void loginFailedInvalidUserPass() throws IOException {	
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                lblMessage.setText("[Error] Wrong Username or Password");
+            }
+        });
 	}
-
 }
 

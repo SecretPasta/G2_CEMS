@@ -6,8 +6,8 @@ package client;
 
 import ocsf.client.*;
 
-import gui.HomeDashboardController;
-import gui.LoginController;
+import gui.StudentDashboardFrameController;
+import gui.LoginFrameController;
 import javafx.scene.Node;
 import ClientServerComm.ChatIF;
 import java.io.*;
@@ -72,28 +72,49 @@ public class ChatClient extends AbstractClient
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
 	  
-	  try {
+	  try { 
 		  
 		  if(msg instanceof String) {
-			  if(((String)msg).equals("server is disconnected")){ // if get client get the meesage server is disconnected, get him out of the program
-				  JOptionPane.showMessageDialog(null, "Couldn't connect to server.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
+			  if(((String)msg).equals("server is disconnected")){ // if get client get the message server is disconnected, get him out of the program
+				  JOptionPane.showMessageDialog(null, "server is disconnected.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
 				  System.out.println("exited");
 				  System.exit(0); 
 			  }
-			  else if(((String)msg).equals("UserLoginSucceed")){
-				  //HomeDashboardController.start();
-				  System.out.println("logged in succesfully");
-			  }
 			  else if(((String)msg).equals("UserLoginFailed")){
-				  LoginController.getInstance().loginFailedInvalidUserPass();
+				  LoginFrameController.getInstance().loginFailedInvalidUserPass(); // set label text error, incorrect password / username
 			  }
 		  }
-		  
-		  // its important to get an idea how to check different arraylist like we did in echoserver with: handlemessagefromclient
+
 		  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
-			  ArrayList<Question> questions = (ArrayList<Question>)msg;
-			  HomeDashboardController.getInstance().loadArrayQuestionsToTable(questions);
-			  System.out.println("The questions succesfully loaded from the DB to the table.");
+			  ArrayList<?> arrayList = (ArrayList<?>) msg;
+			  
+			  if(arrayList.get(0) instanceof String) { // handle all arraylist type String
+				  
+				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
+				  if(arrayListStr.get(0).equals("UserLoginSucceed")){
+					  LoginFrameController.hideCurrentScene(); // hide login frame
+					  if(arrayListStr.get(1).equals("Student")) { // login as student
+						  StudentDashboardFrameController.start();
+					  }
+					  /*else if() { // login as lecturer
+						  
+					  }
+					  else if() { // login as head of department
+						  
+					  }*/
+					  System.out.println("logged in succesfully");
+				  }
+			  }
+			  
+			  else if(arrayList.get(0) instanceof Question) { // handle all arraylist type Question
+				  
+				  ArrayList<Question> arrayListQue = (ArrayList<Question>) msg;
+				  if(arrayListQue.get(0).getId().equals("LoadQuestionsFromDB")) { // check the id of first question to handle it
+					  arrayListQue.remove(0); // remove the first question (the question that identified)
+					  StudentDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);
+					  System.out.println("The questions succesfully loaded from the DB to the table.");
+				  }
+			  }
 		  }
 		  else {
 			  System.out.println(msg);
@@ -102,7 +123,10 @@ public class ChatClient extends AbstractClient
 	  } catch (IOException e) {
 		  // TODO Auto-generated catch block
 		  e.printStackTrace();
-	  }
+	  } catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
   }
 
   /**

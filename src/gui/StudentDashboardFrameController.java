@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import Config.Question;
 import client.ClientUI;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,7 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class HomeDashboardController implements Initializable{
+public class StudentDashboardFrameController implements Initializable{
 	@FXML
     private JFXButton btnEditQuestion;
 	
@@ -90,13 +91,13 @@ public class HomeDashboardController implements Initializable{
 	private TableColumn<Question, String> questionNumberColumn;
 
 	static Question questionSelected;
-	private static HomeDashboardController instance;
+	private static StudentDashboardFrameController instance;
 	
-	public HomeDashboardController() {
+	public StudentDashboardFrameController() {
 		instance = this;
 	}
 
-	public static HomeDashboardController getInstance() {
+	public static StudentDashboardFrameController getInstance() {
 		return instance;
 	}
 
@@ -121,7 +122,22 @@ public class HomeDashboardController implements Initializable{
 	}
 	
 	public static void start() throws IOException {
-		SceneManagment.createNewStage("/gui/HomeDashboard.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+            	try {
+					SceneManagment.createNewStage("/gui/StudentDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }
+        });
+	}
+	
+	public void getCloseBtn(ActionEvent event) throws Exception {
+		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+		ClientUI.chat.client.quit();
 	}
 	
 	public void getSelectBtn(ActionEvent event) throws Exception {
@@ -154,6 +170,7 @@ public class HomeDashboardController implements Initializable{
         if (actionEvent.getSource() == btnEditQuestion) {
             pnlEditQuestion.setStyle("-fx-background-color : #02030A");
             pnlEditQuestion.toFront();
+            
         }
         if(actionEvent.getSource()==btnOrders)
         {

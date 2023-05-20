@@ -76,7 +76,7 @@ public class UpdateQuestionFrameController implements Initializable {
 		
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		
-		HomeDashboardController.start();
+		StudentDashboardFrameController.start();
 	}
 
 	// Save button functionality
@@ -104,7 +104,7 @@ public class UpdateQuestionFrameController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadSelectedQuestion(HomeDashboardController.questionSelected);
+		loadSelectedQuestion(StudentDashboardFrameController.questionSelected);
 	}
 
 }

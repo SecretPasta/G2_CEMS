@@ -58,7 +58,7 @@ public class EchoServer extends AbstractServer
    * @param client The connection from which the message originated.
    */
   @SuppressWarnings("unchecked")
-public void handleMessageFromClient(Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  try {
 		  if(msg instanceof String) {
@@ -79,8 +79,10 @@ public void handleMessageFromClient(Object msg, ConnectionToClient client)
 			  
 			  else if(((ArrayList<String>)msg).get(0).equals("UserLogin")) {
 				  if(DBController.userExist((ArrayList<String>)msg)) {
-					  ServerPortFrameController.updateUserDetailsInTable((ArrayList<String>)msg);
-					  //client.sendToClient("UserLoginSucceed");
+					  ArrayList<String> loginSucceedArr = new ArrayList<>();
+					  loginSucceedArr.add("UserLoginSucceed");
+					  loginSucceedArr.add(((ArrayList<String>)msg).get(1)); // send to client to know the correct dashboard to open
+					  client.sendToClient(loginSucceedArr);
 				  }
 				  else {
 					  client.sendToClient("UserLoginFailed");
@@ -98,7 +100,7 @@ public void handleMessageFromClient(Object msg, ConnectionToClient client)
 			  }
 	
 		  }
-	  } catch (IOException e) {
+	  } catch (IOException | ClassNotFoundException e) {
 		  e.printStackTrace();
 	  }
 	  System.out.println("Message received: " + msg.toString() + " from " + client);

@@ -18,6 +18,7 @@ public class DBController {
 	public static ArrayList<Question> getAllQuestions() {
 		
 		ArrayList<Question> questions = new ArrayList<Question>();
+		questions.add(new Question("LoadQuestionsFromDB", null, null, null, null, null)); // set the first in the array to know how to handle it
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
@@ -60,9 +61,29 @@ public class DBController {
 		return "Question updated succesfully";
 	}
 	
-	public static Boolean userExist(ArrayList<String> userInfoArr) {
-		
-		return true;
+	public static Boolean userExist(ArrayList<String> userInfoArr) throws ClassNotFoundException {
+		// 1 - loginAs: Lecturer, Student, Head Of Department
+		// 2 - Username
+		// 3 - Password
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("SELECT EXISTS (SELECT * FROM " + userInfoArr.get(1) + " WHERE username =? AND password =?)");
+	            ps.setString(1, userInfoArr.get(2));
+	            ps.setString(2, userInfoArr.get(3));
+	
+	            ResultSet resultSet = ps.executeQuery();
+	            if(resultSet.next()) {
+	                return (resultSet.getInt(1) == 1);
+	            }
+	            return false;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {}
+		return false;
 	}
 }
 
