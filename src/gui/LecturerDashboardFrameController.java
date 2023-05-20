@@ -24,7 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class StudentDashboardFrameController implements Initializable{
+public class LecturerDashboardFrameController implements Initializable{
 	@FXML
     private JFXButton btnEditQuestion;
 	
@@ -91,13 +91,13 @@ public class StudentDashboardFrameController implements Initializable{
 	private TableColumn<Question, String> questionNumberColumn;
 
 	static Question questionSelected;
-	private static StudentDashboardFrameController instance;
+	private static LecturerDashboardFrameController instance;
 	
-	public StudentDashboardFrameController() {
+	public LecturerDashboardFrameController() {
 		instance = this;
 	}
 
-	public static StudentDashboardFrameController getInstance() {
+	public static LecturerDashboardFrameController getInstance() {
 		return instance;
 	}
 
@@ -126,7 +126,7 @@ public class StudentDashboardFrameController implements Initializable{
             @Override
             public void run() {
             	try {
-					SceneManagment.createNewStage("/gui/StudentDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
+					SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

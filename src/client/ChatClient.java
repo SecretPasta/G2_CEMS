@@ -6,7 +6,7 @@ package client;
 
 import ocsf.client.*;
 
-import gui.StudentDashboardFrameController;
+import gui.LecturerDashboardFrameController;
 import gui.LoginFrameController;
 import javafx.scene.Node;
 import ClientServerComm.ChatIF;
@@ -94,7 +94,7 @@ public class ChatClient extends AbstractClient
 				  if(arrayListStr.get(0).equals("UserLoginSucceed")){
 					  LoginFrameController.hideCurrentScene(); // hide login frame
 					  if(arrayListStr.get(1).equals("Student")) { // login as student
-						  StudentDashboardFrameController.start();
+						  LecturerDashboardFrameController.start();
 					  }
 					  /*else if() { // login as lecturer
 						  
@@ -111,7 +111,7 @@ public class ChatClient extends AbstractClient
 				  ArrayList<Question> arrayListQue = (ArrayList<Question>) msg;
 				  if(arrayListQue.get(0).getId().equals("LoadQuestionsFromDB")) { // check the id of first question to handle it
 					  arrayListQue.remove(0); // remove the first question (the question that identified)
-					  StudentDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);
+					  LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);
 					  System.out.println("The questions succesfully loaded from the DB to the table.");
 				  }
 			  }
