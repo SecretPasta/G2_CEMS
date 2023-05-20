@@ -1,21 +1,11 @@
 package client;
 import javafx.application.Application;
 
-import Config.ConnectedClient; // to remove
-
 import javafx.stage.Stage;
-import server.EchoServer;
-import Config.Question;
 
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.InetAddress; // to remove
-import java.net.UnknownHostException;
-import java.util.Vector;
 
-import client.ClientController;
 import gui.ClientConnectFrameController;
-import gui.ServerPortFrameController;
 
 public class ClientUI extends Application {
 	

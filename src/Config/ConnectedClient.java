@@ -6,7 +6,7 @@ public class ConnectedClient {
 
 	/**
 	 * Constructor for creating a ConnectedClient object with the specified IP and
-	 * client name.
+	 * client name. for the connected clients table
 	 *
 	 * @param ip         The IP address of the connected client.
 	 * @param clientname The client name of the connected client.

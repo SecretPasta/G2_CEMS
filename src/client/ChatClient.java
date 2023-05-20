@@ -8,7 +8,6 @@ import ocsf.client.*;
 
 import gui.LecturerDashboardFrameController;
 import gui.LoginFrameController;
-import javafx.scene.Node;
 import ClientServerComm.ChatIF;
 import java.io.*;
 import java.net.InetAddress;
@@ -85,16 +84,19 @@ public class ChatClient extends AbstractClient
 			  }
 		  }
 
-		  if(msg instanceof ArrayList) { // get the arraylist from server and set in the table
+		  if(msg instanceof ArrayList) {
 			  ArrayList<?> arrayList = (ArrayList<?>) msg;
 			  
 			  if(arrayList.get(0) instanceof String) { // handle all arraylist type String
 				  
 				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
+				  
+				  // 1 - login As
+				  // 2 - user full name
 				  if(arrayListStr.get(0).equals("UserLoginSucceed")){
 					  LoginFrameController.hideCurrentScene(); // hide login frame
-					  if(arrayListStr.get(1).equals("Student")) { // login as student
-						  LecturerDashboardFrameController.start();
+					  if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
+						  LecturerDashboardFrameController.start(arrayListStr.get(2)); // to save the user full name in the dashboard controller
 					  }
 					  /*else if() { // login as lecturer
 						  
@@ -109,6 +111,7 @@ public class ChatClient extends AbstractClient
 			  else if(arrayList.get(0) instanceof Question) { // handle all arraylist type Question
 				  
 				  ArrayList<Question> arrayListQue = (ArrayList<Question>) msg;
+				  
 				  if(arrayListQue.get(0).getId().equals("LoadQuestionsFromDB")) { // check the id of first question to handle it
 					  arrayListQue.remove(0); // remove the first question (the question that identified)
 					  LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);

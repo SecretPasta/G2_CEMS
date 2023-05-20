@@ -1,28 +1,12 @@
 package JDBC;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import client.ChatClient;
-import server.EchoServer;
-
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 
 public class mysqlConnection {
 	public static Connection conn;
 	
+	@SuppressWarnings("deprecation")
 	public static boolean connect(String url, String user, String password) {
 		try
 		{

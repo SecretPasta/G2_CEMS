@@ -4,18 +4,14 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
@@ -25,11 +21,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import Config.ConnectedClient;
 
 import JDBC.mysqlConnection;
-import client.ClientUI;
 import server.EchoServer;
 import server.ServerUI;
 import javafx.scene.control.TableColumn;
@@ -43,7 +37,7 @@ public class ServerPortFrameController implements Initializable {
 
 	private static final String DEFAULT_DB_USER = "root";
 
-	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/QuestionBank?serverTimezone=IST";
+	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/cemsdatabase?serverTimezone=IST";
 
 	public static ObservableList<ConnectedClient> connectedClients = FXCollections.observableArrayList(); // clients
 																											// connected
@@ -98,10 +92,10 @@ public class ServerPortFrameController implements Initializable {
 		return instance;
 	}
 
-	public static void addConnectedClient(ConnectedClient client) {
-	    // Add a connected client to the list of connected clients
+	public static void addConnectedClient(String userHostName, String userIP) {
+	    // Add a connected client to the list of connected clients by his hostname and ip
 	    try {
-	        connectedClients.add(client);
+	        connectedClients.add(new ConnectedClient(userHostName, userIP));
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
@@ -153,7 +147,6 @@ public class ServerPortFrameController implements Initializable {
 		}catch (NullPointerException e) {
 			System.exit(0);
 		}
-		// console.add("The server is Disconnected\n");
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
 	    lblMessage.setText("");
@@ -165,7 +158,6 @@ public class ServerPortFrameController implements Initializable {
 		try {
 			serverCommunication.close(); // close the server
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setVisabilityForUI(false);
@@ -231,6 +223,7 @@ public class ServerPortFrameController implements Initializable {
 	    btnDiscon.setDisable(true);
 	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
+	    lblMessage.setTextFill(Color.color(1, 0, 0));
 	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
 	    

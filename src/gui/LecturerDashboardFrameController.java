@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXButton;
 import Config.Question;
 import client.ClientUI;
@@ -30,7 +29,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private Label lblMessage;
-	//private JFXBadge lblMessage;
 	
 	@FXML
 	private VBox pnItems;
@@ -64,9 +62,6 @@ public class LecturerDashboardFrameController implements Initializable{
 
     @FXML
     private Pane pnlMenus;
-    
-    
-    //OLD VERSION
 	
 	@FXML
 	private Button btnClose = null;
@@ -89,8 +84,12 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableColumn<Question, String> authorColumn;
 	@FXML
 	private TableColumn<Question, String> questionNumberColumn;
+	
+	private static String UserFullName;
+	
+	private ObservableList<Question> questionsToUpdateObservableList = FXCollections.observableArrayList(); // list of questions to select to update in the table
 
-	static Question questionSelected;
+	static Question questionSelected; // question selected to save
 	private static LecturerDashboardFrameController instance;
 	
 	public LecturerDashboardFrameController() {
@@ -103,43 +102,50 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// Setting up cell value factories for table columns
+		// Setting up cell value factories for connected clients table columns
 		idColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 		subjectColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 		courseNameColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 		questionTextColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
 		questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 		authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
-		ClientUI.chat.accept("GetAllQuestionsFromDB");
+		
+		ArrayList<String> getQuestionArray = new ArrayList<>();
+		getQuestionArray.add("GetAllQuestionsFromDB");
+		getQuestionArray.add(UserFullName);
+		ClientUI.chat.accept(getQuestionArray);
 		
 	}
 	
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
 		// Loading the array of questions into the table view
-		ObservableList<Question> observableList = FXCollections.observableArrayList();
-		observableList.addAll(questions);
-		tableView.setItems(observableList);
+		questionsToUpdateObservableList.addAll(questions);
+		tableView.setItems(questionsToUpdateObservableList);
 	}
 	
-	public static void start() throws IOException {
+	
+	// this function called also from non javafx class. starting the frame. get the user full name
+	public static void start(String name) throws IOException {
+		UserFullName = name; // save the user full name in: UserFullName
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
             	try {
 					SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
             }
         });
 	}
 	
+	// when lecturer click on close button
 	public void getCloseBtn(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		ClientUI.chat.client.quit();
 	}
 	
+	// when lecturer click on save on updating question 
 	public void getSelectBtn(ActionEvent event) throws Exception {
 
 		// Getting the selected question from the table view
@@ -158,6 +164,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		}
 	}
 	
+	// handle the tabs in the dashboard
 	public void handleClicks(ActionEvent actionEvent) {
         if (actionEvent.getSource() == btnCustomers) {
             pnlCustomer.setStyle("-fx-background-color : #1620A1");

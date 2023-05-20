@@ -6,7 +6,6 @@ package server;
 
 import java.io.*;
 
-import Config.ConnectedClient;
 import Config.Question;
 
 import java.util.ArrayList;
@@ -61,43 +60,58 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  try {
-		  if(msg instanceof String) {
-			  
-			  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
-				  ArrayList<Question> questions = DBController.getAllQuestions();
-				  client.sendToClient((ArrayList<Question>)questions);
-			  }
-			  
-		  }
 		  
+		  if(msg instanceof String) {
+
+		  }
+
 		  if(msg instanceof ArrayList) {
-			  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
-			  {
-				  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
-				  client.sendToClient("client connected");
+			  ArrayList<?> arrayList = (ArrayList<?>) msg;
+			  
+			  if(arrayList.get(0) instanceof String) { // handle all arraylist type String
+				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
+					  
+				  // when client connecting
+				  // sending to the server the client hostname and ip to add him to the connected clients table
+				  if(arrayListStr.get(0).equals("ClientConnecting")) 
+				  {
+					  ServerPortFrameController.addConnectedClient(arrayListStr.get(1), arrayListStr.get(2));
+					  client.sendToClient("client connected");
+				  }
+	
+				// if the user exist, send him that
+				  else if(arrayListStr.get(0).equals("UserLogin")) {
+					  String name;
+					  name = DBController.userExist(arrayListStr); // need to get here the full name by this func in DB
+					  if(name != null) { // if the func return the full name of the user -> succeed
+						  ArrayList<String> loginSucceedArr = new ArrayList<>();
+						  loginSucceedArr.add("UserLoginSucceed");
+						  loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
+						  loginSucceedArr.add(name); // send to client to know his full name
+						  client.sendToClient(loginSucceedArr);
+					  }
+					  else {
+						  client.sendToClient("UserLoginFailed");
+					  }
+				  }
+				  
+				  // the DB update the question
+				  else if(arrayListStr.get(0).equals("UpdateQuestionDataByID")){
+					  String returnStr = DBController.UpdateQuestionDataByID(arrayListStr);
+					  client.sendToClient(returnStr);
+				  }
+				  
+				  // 1 - UserFullName
+				  else if(arrayListStr.get(0).equals("GetAllQuestionsFromDB")) {		
+					  ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1)); // send the full name of the user
+					  client.sendToClient((ArrayList<Question>)questions);
+				  }
+				  
+				  else if(arrayListStr.get(0).equals("ClientQuitting")){  
+					  ServerPortFrameController.removeConnectedClientFromTable(arrayListStr.get(1), arrayListStr.get(2)); // call function to remove the client from the table
+				  }
 			  }
 			  
-			  else if(((ArrayList<String>)msg).get(0).equals("UserLogin")) {
-				  if(DBController.userExist((ArrayList<String>)msg)) {
-					  ArrayList<String> loginSucceedArr = new ArrayList<>();
-					  loginSucceedArr.add("UserLoginSucceed");
-					  loginSucceedArr.add(((ArrayList<String>)msg).get(1)); // send to client to know the correct dashboard to open
-					  client.sendToClient(loginSucceedArr);
-				  }
-				  else {
-					  client.sendToClient("UserLoginFailed");
-				  }
-			  }
-			  
-			  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
-				  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
-				  client.sendToClient(returnStr);
-	
-	
-			  }
-			  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){  
-				  ServerPortFrameController.removeConnectedClientFromTable(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)); // call function to remove the client from the table
-			  }
 	
 		  }
 	  } catch (IOException | ClassNotFoundException e) {
