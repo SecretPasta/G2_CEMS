@@ -83,8 +83,8 @@ public class EchoServer extends AbstractServer
 				  else if(arrayListStr.get(0).equals("UserLogin")) {
 					  ArrayList<String> userDetails;
 					  userDetails = DBController.userExist(arrayListStr); // getting from DB details about the user
-					  //System.out.println(userDetails);
-					  if(userDetails != null) { // if the func return the details of the user -> succeed
+					  // if the func return the details of the user -> succeed
+					  if(!(userDetails.get(0)).equals("UserAlreadyLoggedIn") && !(userDetails.get(0)).equals("UserEnteredWrondPasswwordOrUsername")) {
 						  ArrayList<String> loginSucceedArr = new ArrayList<>();
 						  loginSucceedArr.add("UserLoginSucceed");
 						  loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
@@ -94,7 +94,7 @@ public class EchoServer extends AbstractServer
 						  client.sendToClient(loginSucceedArr);
 					  }
 					  else {
-						  client.sendToClient("UserLoginFailed");
+						  client.sendToClient(userDetails.get(0)); // send back to the client the reason he failed to login
 					  }
 				  }
 				  
@@ -121,7 +121,12 @@ public class EchoServer extends AbstractServer
 				  }
 				  
 				  else if(arrayListStr.get(0).equals("ClientQuitting")){  
+					  // 1 - HostAddress
+					  // 2 - HostName
+					  // 3 - UserID
+					  // 4 - userLoginAs
 					  ServerPortFrameController.removeConnectedClientFromTable(arrayListStr.get(1), arrayListStr.get(2)); // call function to remove the client from the table
+					  DBController.setUserIsLogin("0", arrayListStr.get(4), arrayListStr.get(3));
 				  }
 			  }
 			  

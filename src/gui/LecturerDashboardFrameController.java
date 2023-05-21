@@ -184,7 +184,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	// when lecturer click on close button
 	public void getCloseBtn(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		ClientUI.chat.client.quit();
+		ClientUI.chat.client.quit(lecturer.getId(), "lecturer");
 	}
 	
 	// when lecturer click on edit on edit question 

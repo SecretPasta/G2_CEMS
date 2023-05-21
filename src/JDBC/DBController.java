@@ -77,6 +77,7 @@ public class DBController {
 		// 1 - loginAs: Lecturer, Student, Head Of Department
 		// 2 - Username
 		// 3 - Password
+		ArrayList<String> userCannotConnect = new ArrayList<>(); // an array if there was a problem with sign in - wrond pass/username or user already exist
 		try {
 			if (mysqlConnection.getConnection() != null) {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("SELECT EXISTS (SELECT * FROM " + userInfoArr.get(1) + " WHERE UserName =? AND Password =?)");
@@ -86,10 +87,21 @@ public class DBController {
 	            ResultSet resultSet = ps.executeQuery();
 	            if(resultSet.next()) {
 	                if(resultSet.getInt(1) == 1) {
-	                	return getUserDetails(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
+	                	ArrayList<String> getUserDetails_arr = getUserDetails(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
+	                	// check if the user is already logged in by his ID
+	                	if(!UserAlreadyLoggedin(getUserDetails_arr.get(0))) {
+	                		// userInfoArr.get(1) - loginAs, getUserDetails_arr.get(0) - user ID
+	                		setUserIsLogin("1", userInfoArr.get(1), getUserDetails_arr.get(0));
+	                		return getUserDetails_arr;
+	                	}
+	                	else {
+	                		userCannotConnect.add("UserAlreadyLoggedIn");
+	                		return userCannotConnect;
+	                	}	
 	                }
 	            }
-	            return null;
+	            userCannotConnect.add("UserEnteredWrondPasswwordOrUsername");
+	            return userCannotConnect;
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -100,6 +112,24 @@ public class DBController {
 		return null;
 	}
 	
+	// set the user 'isLogin' in DB to 1 or 0 by his ID, loginAs = {Lecturer, Student, Head Of Department} - the table
+	public static void setUserIsLogin(String loggedInStatus, String loginAs, String id) {
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogin` =? WHERE (`id` =?);");
+				ps.setString(1, loggedInStatus);
+				ps.setString(2, id);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	// func to return details of user by his username and password
 	public static ArrayList<String> getUserDetails(String loginAs, String username, String password) {
 	    String query = "SELECT * FROM " + loginAs + " WHERE username = ? AND password = ?";
@@ -119,6 +149,11 @@ public class DBController {
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
 	    }
+		  // 0 - user ID
+		  // 1 - userName
+		  // 2 - user Password
+		  // 3 - user Name
+		  // 4 - user Email
 	    return userDetailsArr;
 	}
 	

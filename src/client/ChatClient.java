@@ -74,13 +74,19 @@ public class ChatClient extends AbstractClient
 	  try { 
 		  
 		  if(msg instanceof String) {
+			  
 			  if(((String)msg).equals("server is disconnected")){ // if get client get the message server is disconnected, get him out of the program
 				  JOptionPane.showMessageDialog(null, "server is disconnected.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
 				  System.out.println("exited");
+				  // quit also here with general user?
 				  System.exit(0); 
 			  }
-			  else if(((String)msg).equals("UserLoginFailed")){
-				  LoginFrameController.getInstance().loginFailedInvalidUserPass(); // set label text error, incorrect password / username
+			  else if(((String)msg).equals("UserAlreadyLoggedIn")) {
+				  LoginFrameController.getInstance().userLoginFailed("[Error] this user is already connected");
+			  }
+			  
+			  else if(((String)msg).equals("UserEnteredWrondPasswwordOrUsername")) {
+				  LoginFrameController.getInstance().userLoginFailed("[Error] Wrong Username or Password");
 			  }
 		  }
 
@@ -170,6 +176,33 @@ public class ChatClient extends AbstractClient
   /**
    * This method terminates the client.
    */
+  public void quit(String userID, String userLoginAs)
+  {
+	if(isConnected()) {
+		System.out.println("exited");
+		ArrayList<String> clientInfo = new ArrayList<>();
+		clientInfo.add("ClientQuitting");
+	    try {
+			clientInfo.add(InetAddress.getLocalHost().getHostAddress());
+			clientInfo.add(InetAddress.getLocalHost().getHostName());
+			clientInfo.add(userID);
+			clientInfo.add(userLoginAs);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ClientUI.chat.accept(clientInfo);
+	    try
+	    {
+	      closeConnection();
+	    }
+	    catch(IOException e) {}
+	    System.exit(0);
+	}
+	System.exit(0);
+  }
+  
+  // another quit function to handle with clients that are not yet connected to the system via login
   public void quit()
   {
 	if(isConnected()) {

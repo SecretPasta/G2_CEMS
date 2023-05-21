@@ -101,12 +101,12 @@ public class LoginFrameController implements Initializable{
 		SceneManagment.createNewStage("/gui/LoginGUI.fxml", null, "Login").show();
 	}
 
-	// call this function from non javaFX
-	public void loginFailedInvalidUserPass() throws IOException {	
+	// call this function from non javaFX to change the label to the reason of failing to login
+	public void userLoginFailed(String reason) throws IOException {	
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                lblMessage.setText("[Error] Wrong Username or Password");
+                lblMessage.setText(reason);
             }
         });
 	}
