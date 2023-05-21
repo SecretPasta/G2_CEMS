@@ -26,8 +26,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class LecturerDashboardFrameController implements Initializable{
+	
 	@FXML
-    private JFXButton btnEditQuestion;
+	private JFXButton btnManageExams;
+	
+	@FXML
+    private JFXButton btnManageQuestions;
 	
 	@FXML
     private JFXButton btnAddQuestion;
@@ -36,43 +40,34 @@ public class LecturerDashboardFrameController implements Initializable{
     private JFXButton btnRemoveQuestion;
 	
 	@FXML
+    private JFXButton btnShowReport;
+	
+	@FXML
+	private JFXButton btnCreateExam;
+	
+	@FXML
+    private JFXButton btnCheckExams;
+
+	@FXML
 	private Label lblMessage;
 	
 	@FXML
 	private Label lbluserNameAndID;
-	
-	@FXML
-	private VBox pnItems;
 
     @FXML
-    private Button btnOrders;
+    private Pane pnlShowReport = new Pane();
 
     @FXML
-    private Button btnCustomers;
+    private Pane pnlCreateExam = new Pane();
 
     @FXML
-    private Button btnMenus;
+    private Pane pnlManageQuestions = new Pane();
+    
+    @FXML
+    private Pane pnlManageExams = new Pane();
 
     @FXML
-    private Button btnPackages;
-
-    @FXML
-    private Button btnSettings;
-
-    @FXML
-    private Button btnSignout;
-
-    @FXML
-    private Pane pnlCustomer;
-
-    @FXML
-    private Pane pnlOrders;
-
-    @FXML
-    private Pane pnlEditQuestion;
-
-    @FXML
-    private Pane pnlMenus;
+    private Pane pnlCheckExams = new Pane();
 	
 	@FXML
 	private Button btnClose = null;
@@ -127,6 +122,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getQuestionArray.add("GetAllQuestionsFromDB");
 		getQuestionArray.add(lecturer.getName());
 		ClientUI.chat.accept(getQuestionArray);
+		pnlManageQuestions.toFront();
 		
 	}
 	
@@ -151,7 +147,7 @@ public class LecturerDashboardFrameController implements Initializable{
             @Override
             public void run() {
             	try {
-					SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
+					SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/LecturerDashboard.css", "Home Dashboard").show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -171,7 +167,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	// when lecturer click on edit on edit question 
-	public void getEditBtn_EditQuestion(ActionEvent event) throws Exception {
+	public void getEditBtn_ManageQuestions(ActionEvent event) throws Exception {
 
 		// Getting the selected question from the table view
 		questionSelected = tableView.getSelectionModel().getSelectedItem();
@@ -189,12 +185,12 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	// when lecturer click on Add on edit question 
-	public void getAddBtn_EditQuestion(ActionEvent event) throws Exception {
+	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {
 		
 	}
 	
 	// when lecturer click on Add on edit question 
-	public void getRemoveBtn_EditQuestion(ActionEvent event) throws Exception {
+	public void getRemoveBtn_ManageQuestions(ActionEvent event) throws Exception {
 		// Getting the selected question from the table view
 		questionSelected = tableView.getSelectionModel().getSelectedItem();
 		if (questionSelected == null) {
@@ -220,23 +216,23 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	// handle the tabs in the dashboard
 	public void handleClicks(ActionEvent actionEvent) {
-        if (actionEvent.getSource() == btnCustomers) {
-            pnlCustomer.setStyle("-fx-background-color : #1620A1");
-            pnlCustomer.toFront();
+        if (actionEvent.getSource() == btnShowReport) {
+            pnlShowReport.toFront();
         }
-        if (actionEvent.getSource() == btnMenus) {
-            pnlMenus.setStyle("-fx-background-color : #53639F");
-            pnlMenus.toFront();
+        if (actionEvent.getSource() == btnCheckExams) {
+        	pnlCheckExams.setStyle("-fx-background-color: #FFFFFF");
+            pnlCheckExams.toFront();
         }
-        if (actionEvent.getSource() == btnEditQuestion) {
-            pnlEditQuestion.setStyle("-fx-background-color : #02030A");
-            pnlEditQuestion.toFront();
-            
+        if (actionEvent.getSource() == btnManageQuestions) {
+            pnlManageQuestions.toFront();    
         }
-        if(actionEvent.getSource()==btnOrders)
-        {
-            pnlOrders.setStyle("-fx-background-color : #464F67");
-            pnlOrders.toFront();
+        if(actionEvent.getSource() == btnCreateExam){
+        	pnlCreateExam.setStyle("-fx-background-color: #FFFFFF");
+            pnlCreateExam.toFront();
+        }
+        if(actionEvent.getSource() == btnManageExams){
+        	pnlManageExams.setStyle("-fx-background-color: #FFFFFF");
+            pnlManageExams.toFront();
         }
     }
 

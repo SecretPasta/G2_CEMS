@@ -41,7 +41,7 @@ public class ServerPortFrameController implements Initializable {
 
 	private static final String DEFAULT_DB_USER = "root";
 
-	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/QuestionBank?serverTimezone=IST";
+	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/cemsdatabase?serverTimezone=IST";
 
 	public static ObservableList<ConnectedClient> connectedClients = FXCollections.observableArrayList(); // clients
 																											// connected

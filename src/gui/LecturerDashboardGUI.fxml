@@ -7,128 +7,118 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" stylesheets="@HomeStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LecturerDashboardFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" stylesheets="@LecturerDashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LecturerDashboardFrameController">
    <children>
-      <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="256.0" style="-fx-background-color: #05071F;" stylesheets="@HomeStyle.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane prefHeight="576.0" prefWidth="260.0" style="-fx-background-color: #242633;">
          <children>
-            <ImageView fitHeight="73.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/jimmy-fallon.png" />
-               </image>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="50.0" />
-               </VBox.margin></ImageView>
-            <Label fx:id="lbluserNameAndID" textFill="#e7e5e5">
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </Label>
-            <JFXButton fx:id="btnEditQuestion" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="BLACK" text="Edit Question">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" styleClass="button">
-                     <image>
-                        <Image url="@../images/icons8_Home_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
+            <JFXButton fx:id="btnCheckExams" graphicTextGap="22.0" layoutX="1.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Check Exams" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </JFXButton>
-            <Button fx:id="btnOrders" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Orders">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Open_Envelope_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnCustomers" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Customers">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Person_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnMenus" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Menus">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Xbox_Menu_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnPackages" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Packages">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Box_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnSettings" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Settings">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Slider__32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
-            <Button fx:id="btnSignout" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="259.0" stylesheets="@HomeStyle.css" text="Sign Out">
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8_Sign_Out_32px.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-            </Button>
+            <JFXButton fx:id="btnManageQuestions" graphicTextGap="22.0" layoutX="1.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Manage Questions" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnCreateExam" graphicTextGap="22.0" layoutX="1.0" layoutY="116.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Create Exam" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnShowReport" graphicTextGap="22.0" layoutX="1.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Show Report" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnManageExams" graphicTextGap="22.0" layoutX="1.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Manage Exams" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </JFXButton>
+            <Circle fill="#5dd299" layoutX="108.0" layoutY="60.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+            <Circle fill="#66a7f2" layoutX="86.0" layoutY="60.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+            <Label layoutX="129.0" layoutY="43.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="59.0" layoutY="487.0" prefHeight="36.0" prefWidth="144.0" ripplerFill="#242633" style="-fx-background-color: #FFC152; -fx-background-radius: 10 10 10 10;" text="Logout">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Circle fill="DODGERBLUE" layoutX="111.0" layoutY="539.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label layoutX="108.0" layoutY="531.0" text="?" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="123.0" layoutY="529.0" text="FAQ" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lbluserNameAndID" layoutX="106.0" layoutY="367.0" text="Label" />
          </children>
-      </VBox>
-      <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #02030A;">
+      </Pane>
+      <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #242633;">
          <children>
-            <Pane fx:id="pnlCustomer" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pnlOrders" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pnlMenus" prefHeight="200.0" prefWidth="200.0" />
-            <Pane fx:id="pnlEditQuestion" prefHeight="554.0" prefWidth="793.0" stylesheets="@HomeStyle.css">
+            <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
+            <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
+            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
-                  <VBox fx:id="pnItems" layoutX="25.0" layoutY="74.0" prefHeight="397.0" prefWidth="744.0" spacing="5.0" style="-fx-background-color: #02030A;">
+                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="85.0" text="Hello World" />
+               </children></Pane>
+            <Pane fx:id="pnlManageQuestions" prefHeight="576.0" prefWidth="809.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
+               <children>
+                  <Label fx:id="lblMessage" layoutX="350.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" style="-fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
+                  <Label layoutX="57.0" layoutY="25.0" text="Manage Questions" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="717.0" layoutY="30.0" mnemonicParsing="false" onAction="#getCloseBtn" text="Close" />
+                  <JFXButton fx:id="btnEdit" alignment="CENTER" layoutX="53.0" layoutY="488.0" onAction="#getEditBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Edit Question" textFill="#faf9f6">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnRemoveQuestion" alignment="CENTER" layoutX="567.0" layoutY="488.0" onAction="#getRemoveBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #FE774C; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Remove Question" textFill="#faf9f6">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnAddQuestion" alignment="CENTER" layoutX="312.0" layoutY="488.0" onAction="#getAddBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Add Question" textFill="#faf9f6">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <VBox fx:id="pnItems" layoutX="25.0" layoutY="74.0" prefHeight="397.0" prefWidth="744.0" spacing="5.0" style="-fx-background-color: #FAF9F6;">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                      <children>
-                        <TableView id="tableView" fx:id="tableView" prefHeight="395.0" prefWidth="735.0" stylesheets="@HomeStyle.css">
+                        <TableView id="tableView" fx:id="tableView" prefHeight="395.0" prefWidth="735.0" stylesheets="@LecturerDashboard.css">
                            <columns>
-                              <TableColumn id="idColumn" fx:id="idColumn" prefWidth="31.0" style="-fx-background-color: #2458bf;" text="id" />
+                              <TableColumn id="idColumn" fx:id="idColumn" prefWidth="31.0" text="id" />
                               <TableColumn id="subjectColumn" fx:id="subjectColumn" prefWidth="99.0" text="subject" />
                               <TableColumn id="courseNameColumn" fx:id="courseNameColumn" prefWidth="95.0" text="courseName" />
                               <TableColumn id="questionTextColumn" fx:id="questionTextColumn" prefWidth="222.40003967285156" text="questionText" />
@@ -138,20 +128,6 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <Label layoutX="57.0" layoutY="25.0" text="Edit Question" textFill="#e7e5e5">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <JFXButton fx:id="btnEdit" alignment="CENTER" buttonType="RAISED" layoutX="371.0" layoutY="493.0" onAction="#getEditBtn_EditQuestion" prefHeight="25.0" prefWidth="101.0" ripplerFill="BLACK" stylesheets="@HomeStyle.css" text="Edit">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </JFXButton>
-                  <Label fx:id="lblMessage" layoutX="350.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" stylesheets="@HomeStyle.css" />
-                  <Button layoutX="717.0" layoutY="30.0" mnemonicParsing="false" onAction="#getCloseBtn" text="Close" />
-                  <JFXButton fx:id="btnAddQuestion" layoutX="285.0" layoutY="493.0" onAction="#getAddBtn_EditQuestion" text="add" />
-                  <JFXButton fx:id="btnRemoveQuestion" layoutX="174.0" layoutY="493.0" onAction="#getRemoveBtn_EditQuestion" text="remove" />
                </children>
             </Pane>
          </children>

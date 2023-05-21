@@ -31,10 +31,10 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Label>
-            <TableView fx:id="tableView" prefHeight="255.0" prefWidth="380.0" stylesheets="@ServerGUI.css">
+            <TableView fx:id="tableView" prefHeight="255.0" prefWidth="394.0" stylesheets="@ServerGUI.css">
               <columns>
                 <TableColumn fx:id="ipColumn" prefWidth="174.0" text="IP Address" />
-                <TableColumn fx:id="usernameColumn" prefWidth="215.0" text="Client Name" />
+                <TableColumn fx:id="usernameColumn" prefWidth="204.79998779296875" text="Client Name" />
               </columns>
             </TableView>
          </children>
