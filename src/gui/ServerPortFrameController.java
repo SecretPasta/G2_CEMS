@@ -181,7 +181,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/gui/ServerPort2.fxml"));
 
 		Scene scene = new Scene(root);
 		//scene.getStylesheets().add(getClass().getResource("/gui/ServerPort.css").toExternalForm());
