@@ -106,8 +106,18 @@ public class EchoServer extends AbstractServer
 				  
 				  // 1 - UserFullName
 				  else if(arrayListStr.get(0).equals("GetAllQuestionsFromDB")) {		
-					  ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1)); // send the full name of the user
+					  ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null); // send the full name of the user
 					  client.sendToClient((ArrayList<Question>)questions);
+				  }
+				  
+				  else if(arrayListStr.get(0).equals("RemoveQuestionFromDB")) {
+					  // 1 - question id to remove
+					  if(DBController.removeQuestion(arrayListStr.get(1))) {
+						  client.sendToClient("question removed");
+					  }
+					  else {
+						  client.sendToClient("question not removed");
+					  }
 				  }
 				  
 				  else if(arrayListStr.get(0).equals("ClientQuitting")){  

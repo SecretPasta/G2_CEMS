@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
 import Config.Question;
 import client.ClientUI;
 
-public class UpdateQuestionFrameController implements Initializable {
+public class EditQuestionFrameController implements Initializable {
 	private Question question;
 	@FXML
 	private Label lblidQuestion;
@@ -91,7 +91,7 @@ public class UpdateQuestionFrameController implements Initializable {
 	}
 
 	public static void start() throws Exception {
-		SceneManagment.createNewStage("/gui/UpdateQuestionGUI.fxml", null, "Question Update Managment Tool").show();
+		SceneManagment.createNewStage("/gui/EditQuestionGUI.fxml", null, "Question Edit Managment Tool").show();
 	}
 
 	@Override

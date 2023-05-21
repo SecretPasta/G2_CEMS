@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="770.0" prefWidth="565.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.UpdateQuestionFrameController">
+<AnchorPane prefHeight="770.0" prefWidth="565.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EditQuestionFrameController">
    <children>
       <Rectangle arcWidth="5.0" fill="#4958ff" height="50.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="565.0" />
       <Button id="btnBack" fx:id="btnBack" layoutX="440.0" layoutY="8.0" mnemonicParsing="false" onAction="#getBackbtn" prefHeight="30.0" prefWidth="100.0" style="-fx-background-color: #F39C63;" text="Back" textFill="WHITE" underline="true">

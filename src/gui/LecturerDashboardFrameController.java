@@ -30,6 +30,12 @@ public class LecturerDashboardFrameController implements Initializable{
     private JFXButton btnEditQuestion;
 	
 	@FXML
+    private JFXButton btnAddQuestion;
+	
+	@FXML
+    private JFXButton btnRemoveQuestion;
+	
+	@FXML
 	private Label lblMessage;
 	
 	@FXML
@@ -72,7 +78,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	private Button btnClose = null;
 
 	@FXML
-	private Button btnSelect = null;
+	private Button btnEdit = null;
 
 	@FXML
 	private TableView<Question> tableView = new TableView<>();
@@ -92,7 +98,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private static Lecturer lecturer; // current lecture
 	
-	private ObservableList<Question> questionsToUpdateObservableList = FXCollections.observableArrayList(); // list of questions to select to update in the table
+	private ObservableList<Question> questionsToEditObservableList = FXCollections.observableArrayList(); // list of questions to select to Edit in the table
 
 	static Question questionSelected; // question selected to save
 	private static LecturerDashboardFrameController instance;
@@ -126,8 +132,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
 		// Loading the array of questions into the table view
-		questionsToUpdateObservableList.addAll(questions);
-		tableView.setItems(questionsToUpdateObservableList);
+		questionsToEditObservableList.addAll(questions);
+		tableView.setItems(questionsToEditObservableList);
 	}
 	
 	
@@ -164,8 +170,8 @@ public class LecturerDashboardFrameController implements Initializable{
 		ClientUI.chat.client.quit();
 	}
 	
-	// when lecturer click on save on updating question 
-	public void getSelectBtn(ActionEvent event) throws Exception {
+	// when lecturer click on edit on edit question 
+	public void getEditBtn_EditQuestion(ActionEvent event) throws Exception {
 
 		// Getting the selected question from the table view
 		questionSelected = tableView.getSelectionModel().getSelectedItem();
@@ -178,8 +184,37 @@ public class LecturerDashboardFrameController implements Initializable{
 			((Node) event.getSource()).getScene().getWindow().hide();
 			
 			// Creating and showing the UpdateQuestionGUI window
+			EditQuestionFrameController.start();
+		}
+	}
+	
+	// when lecturer click on Add on edit question 
+	public void getAddBtn_EditQuestion(ActionEvent event) throws Exception {
+		
+	}
+	
+	// when lecturer click on Add on edit question 
+	public void getRemoveBtn_EditQuestion(ActionEvent event) throws Exception {
+		// Getting the selected question from the table view
+		questionSelected = tableView.getSelectionModel().getSelectedItem();
+		if (questionSelected == null) {
+			lblMessage.setText("[Error] No question was selected.");
+		} else {
+			lblMessage.setText("");
 			
-			UpdateQuestionFrameController.start();
+			// sending the server the id of the question to remove from DB
+			ArrayList<String> questionToRemoveArr = new ArrayList<>();
+			questionToRemoveArr.add("RemoveQuestionFromDB");
+			questionToRemoveArr.add(questionSelected.getId());
+			ClientUI.chat.accept(questionToRemoveArr);
+			
+			// remove also from the question table to edit
+			for(int i = 0; i < questionsToEditObservableList.size(); i++) {
+				if(questionsToEditObservableList.get(i).getId() == questionSelected.getId()) {
+					questionsToEditObservableList.remove(i);
+				}
+			}
+			
 		}
 	}
 	

@@ -31,7 +31,7 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Label>
-            <JFXButton fx:id="btnEditQuestion" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="BLACK" text="Update Question">
+            <JFXButton fx:id="btnEditQuestion" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="259.0" ripplerFill="BLACK" text="Edit Question">
                <graphic>
                   <ImageView fitHeight="23.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true" styleClass="button">
                      <image>
@@ -138,18 +138,20 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <Label layoutX="57.0" layoutY="25.0" text="Update Question" textFill="#e7e5e5">
+                  <Label layoutX="57.0" layoutY="25.0" text="Edit Question" textFill="#e7e5e5">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="btnSelect" alignment="CENTER" buttonType="RAISED" layoutX="371.0" layoutY="493.0" onAction="#getSelectBtn" prefHeight="25.0" prefWidth="101.0" ripplerFill="BLACK" stylesheets="@HomeStyle.css" text="Select">
+                  <JFXButton fx:id="btnEdit" alignment="CENTER" buttonType="RAISED" layoutX="371.0" layoutY="493.0" onAction="#getEditBtn_EditQuestion" prefHeight="25.0" prefWidth="101.0" ripplerFill="BLACK" stylesheets="@HomeStyle.css" text="Edit">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </JFXButton>
                   <Label fx:id="lblMessage" layoutX="350.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" stylesheets="@HomeStyle.css" />
-                  <Button layoutX="717.0" layoutY="30.0" onAction="#getCloseBtn" mnemonicParsing="false" text="Close" />
+                  <Button layoutX="717.0" layoutY="30.0" mnemonicParsing="false" onAction="#getCloseBtn" text="Close" />
+                  <JFXButton fx:id="btnAddQuestion" layoutX="285.0" layoutY="493.0" onAction="#getAddBtn_EditQuestion" text="add" />
+                  <JFXButton fx:id="btnRemoveQuestion" layoutX="174.0" layoutY="493.0" onAction="#getRemoveBtn_EditQuestion" text="remove" />
                </children>
             </Pane>
          </children>

@@ -9,14 +9,31 @@ import Config.Question;
 public class DBController {
 	
 	
-	public static ArrayList<Question> getAllQuestions(String lecturerName) {
+	// func to get all questions from DB that created by specific lecturer and/or specific courseName.
+	// if the lecturerName and courseName is null, getting all questions from DB.
+	public static ArrayList<Question> getAllQuestions(String lecturerName, String courseName) {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		questions.add(new Question("LoadQuestionsFromDB", null, null, null, null, null)); // set the first in the array to know how to handle it
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
-					PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer =?");
-					ps.setString(1, lecturerName);
+					PreparedStatement ps = null;
+					if(lecturerName == null && courseName == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question");
+					}
+					else if(lecturerName != null && courseName == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer =?");
+						ps.setString(1, lecturerName);	
+					}
+					else if(lecturerName == null && courseName != null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName =?");
+						ps.setString(1, courseName);	
+					}	
+					else if(lecturerName != null && courseName != null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer =? AND courseName =?");
+						ps.setString(1, lecturerName);
+						ps.setString(2, courseName);
+					}
 					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
 						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
@@ -85,7 +102,6 @@ public class DBController {
 	
 	// func to return details of user by his username and password
 	public static ArrayList<String> getUserDetails(String loginAs, String username, String password) {
-	    String name = null;
 	    String query = "SELECT * FROM " + loginAs + " WHERE username = ? AND password = ?";
 	    ArrayList<String> userDetailsArr = new ArrayList<>();
 	    try {
@@ -104,6 +120,23 @@ public class DBController {
 	    	e.printStackTrace();
 	    }
 	    return userDetailsArr;
+	}
+
+	public static boolean removeQuestion(String questionID) {
+		String query = "DELETE FROM question WHERE id = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, questionID);
+	            ps.executeUpdate();
+	            return true;
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;	
 	}
 }
 
