@@ -113,19 +113,19 @@ public class ServerPortFrameController implements Initializable {
 	public void getConnectbtn(ActionEvent event) throws Exception {
 	    // Handle the Connect button click event
 	    if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
-	        lblMessage.setText("[Error] Missing fields");
+	        lblMessage.setText("[Error] Missing fields!");
 	    } else {
 	        lblMessage.setText("");
 	        // Connect to the MySQL database
 	        boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
 	        if (sqlConnectionSucceed) {
-	            lblStatus.setTextFill(Color.rgb(0, 102, 0));
+	            lblStatus.setTextFill(Color.rgb(93, 210, 153));
 	            lblStatus.setText("Connected");
 	            setVisabilityForUI(true);
 	            // Start the server
 	            serverCommunication = ServerUI.runServer(getPort());
 	        } else if (!sqlConnectionSucceed) {
-	            lblMessage.setText("[Error] Wrong password");
+	            lblMessage.setText("[Error] Wrong password!");
 	        }
 	    }
 	}
@@ -147,7 +147,7 @@ public class ServerPortFrameController implements Initializable {
 		}catch (NullPointerException e) {
 			System.exit(0);
 		}
-	    lblStatus.setTextFill(Color.color(1, 0, 0));
+	    lblStatus.setTextFill(Color.rgb(254, 119, 76));
 	    lblStatus.setText("Disconnected");
 	    lblMessage.setText("");
 		int idx = 0;
@@ -181,7 +181,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/gui/ServerPortGUI.fxml", null, "Server").show();
+		SceneManagment.createNewStage("/gui/ServerGUI.fxml", null, "Server").show();
 	}
 
 	//Exit Button functionality 
@@ -221,9 +221,8 @@ public class ServerPortFrameController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 	    loadInfo();
 	    btnDiscon.setDisable(true);
-	    lblStatus.setTextFill(Color.color(1, 0, 0));
 	    lblStatus.setText("Disconnected");
-	    lblMessage.setTextFill(Color.color(1, 0, 0));
+	    lblMessage.setTextFill(Color.rgb(254, 119, 76));
 	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
 	    
