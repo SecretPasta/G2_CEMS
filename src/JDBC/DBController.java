@@ -121,6 +121,27 @@ public class DBController {
 	    }
 	    return userDetailsArr;
 	}
+	
+	// check if the user is already logged in
+	public static boolean UserAlreadyLoggedin(String userID) {
+		String query = "SELECT IF(islogin = 1, true, false) AS isLoggedIn FROM lecturer WHERE ID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, userID);
+	            try (ResultSet resultSet = ps.executeQuery()) {
+	                if (resultSet.next()) {
+	                    return resultSet.getBoolean("isLoggedIn"); // isLoggedIn: true / false
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;	
+	}
 
 	public static boolean removeQuestion(String questionID) {
 		String query = "DELETE FROM question WHERE id = ?";

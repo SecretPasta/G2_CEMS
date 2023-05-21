@@ -24,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class LecturerDashboardFrameController implements Initializable{
 	
@@ -95,6 +96,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private ObservableList<Question> questionsToEditObservableList = FXCollections.observableArrayList(); // list of questions to select to Edit in the table
 
+	protected static Stage currStage; // save current stage
+
 	static Question questionSelected; // question selected to save
 	private static LecturerDashboardFrameController instance;
 	
@@ -108,7 +111,8 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// Setting up cell value factories for connected clients table columns
+		//ManageQuestions
+		// Setting up cell value factories for lecturer's questions management table columns
 		idColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 		subjectColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 		courseNameColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
@@ -123,9 +127,13 @@ public class LecturerDashboardFrameController implements Initializable{
 		getQuestionArray.add(lecturer.getName());
 		ClientUI.chat.accept(getQuestionArray);
 		pnlManageQuestions.toFront();
+		tableView.getSelectionModel().clearSelection(); // to unselect row in the questions table
+		
+		
 		
 	}
 	
+	// ManageQuestions
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
 		// Loading the array of questions into the table view
 		questionsToEditObservableList.addAll(questions);
@@ -135,6 +143,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	// this function called also from non javafx class. starting the frame. get the lecturer details
 	public static void start(ArrayList<String> lecturerDetails) throws IOException {
+		
 		lecturer = new Lecturer(lecturerDetails.get(2), lecturerDetails.get(3), lecturerDetails.get(4), lecturerDetails.get(5), lecturerDetails.get(6));
 		// -- lecturerDetails --
 		// 1 - login As
@@ -147,7 +156,9 @@ public class LecturerDashboardFrameController implements Initializable{
             @Override
             public void run() {
             	try {
-					SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/LecturerDashboard.css", "Home Dashboard").show();
+            		// saving the current dashboard screen for returning back
+					currStage = SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/LecturerDashboard.css", "Home Dashboard");
+					currStage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -155,9 +166,19 @@ public class LecturerDashboardFrameController implements Initializable{
         });
 	}
 	
-	// another start func for getting back
-	public static void start() throws IOException {
-		SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/HomeStyle.css", "Home Dashboard").show();
+	// function to open the dashboard screen from EditQuestionFrameController without creating it again
+	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, String edited_QuestionNumber) throws IOException {
+		
+		// updating the edited question in the table of the lecturer questions
+		for(int i = 0; i < questionsToEditObservableList.size(); i++) {
+			if(questionsToEditObservableList.get(i).getId() == edited_QuestionID) {
+				questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
+				questionsToEditObservableList.get(i).setQuestionNumber(edited_QuestionNumber);
+			}
+		}
+		currStage.show();
+		tableView.refresh();
+		tableView.getSelectionModel().clearSelection(); // to unselect row in the questions table
 	}
 	
 	// when lecturer click on close button
@@ -210,6 +231,7 @@ public class LecturerDashboardFrameController implements Initializable{
 					questionsToEditObservableList.remove(i);
 				}
 			}
+			tableView.refresh();
 			
 		}
 	}
@@ -224,6 +246,7 @@ public class LecturerDashboardFrameController implements Initializable{
             pnlCheckExams.toFront();
         }
         if (actionEvent.getSource() == btnManageQuestions) {
+        	tableView.getSelectionModel().clearSelection(); // to unselect row in the questions table
             pnlManageQuestions.toFront();    
         }
         if(actionEvent.getSource() == btnCreateExam){
