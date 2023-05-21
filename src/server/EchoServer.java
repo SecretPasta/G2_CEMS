@@ -5,25 +5,13 @@ package server;
 // license found at www.lloseng.com 
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
-import Config.ConnectedClient;
 import Config.Question;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import JDBC.DBController;
-import JDBC.mysqlConnection;
-import client.ChatClient;
-import gui.QuestionBankController;
 import gui.ServerPortFrameController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import ocsf.server.*;
 
 /**
@@ -69,37 +57,77 @@ public class EchoServer extends AbstractServer
    * @param client The connection from which the message originated.
    */
   @SuppressWarnings("unchecked")
-public void handleMessageFromClient(Object msg, ConnectionToClient client)
+  public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
 	  try {
-		  if(msg instanceof String) {
-			  
-			  if(((String)msg).equals("GetAllQuestionsFromDB")) {		
-				  ArrayList<Question> questions = DBController.getAllQuestions();
-				  client.sendToClient((ArrayList<Question>)questions);
-			  }
-			  
-		  }
 		  
+		  if(msg instanceof String) {
+
+		  }
+
 		  if(msg instanceof ArrayList) {
-			  if(((ArrayList<String>)msg).get(0).equals("ClientConnecting"))
-			  {
-				  ServerPortFrameController.addConnectedClient(new ConnectedClient(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)));
-				  client.sendToClient("client connected");
+			  ArrayList<?> arrayList = (ArrayList<?>) msg;
+			  
+			  if(arrayList.get(0) instanceof String) { // handle all arraylist type String
+				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
+					  
+				  // when client connecting
+				  // sending to the server the client hostname and ip to add him to the connected clients table
+				  if(arrayListStr.get(0).equals("ClientConnecting")) 
+				  {
+					  ServerPortFrameController.addConnectedClient(arrayListStr.get(1), arrayListStr.get(2));
+					  client.sendToClient("client connected");
+				  }
+	
+				  // if the user exist, send him that
+				  else if(arrayListStr.get(0).equals("UserLogin")) {
+					  ArrayList<String> userDetails;
+					  userDetails = DBController.userExist(arrayListStr); // getting from DB details about the user
+					  //System.out.println(userDetails);
+					  if(userDetails != null) { // if the func return the details of the user -> succeed
+						  ArrayList<String> loginSucceedArr = new ArrayList<>();
+						  loginSucceedArr.add("UserLoginSucceed");
+						  loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
+						  for(int i = 0; i < userDetails.size(); i++) { // to send the details of the user to the user
+							  loginSucceedArr.add(userDetails.get(i));
+						  }
+						  client.sendToClient(loginSucceedArr);
+					  }
+					  else {
+						  client.sendToClient("UserLoginFailed");
+					  }
+				  }
+				  
+				  // the DB update the question
+				  else if(arrayListStr.get(0).equals("UpdateQuestionDataByID")){
+					  String returnStr = DBController.UpdateQuestionDataByID(arrayListStr);
+					  client.sendToClient(returnStr);
+				  }
+				  
+				  // 1 - UserFullName
+				  else if(arrayListStr.get(0).equals("GetAllQuestionsFromDB")) {		
+					  ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null); // send the full name of the user
+					  client.sendToClient((ArrayList<Question>)questions);
+				  }
+				  
+				  else if(arrayListStr.get(0).equals("RemoveQuestionFromDB")) {
+					  // 1 - question id to remove
+					  if(DBController.removeQuestion(arrayListStr.get(1))) {
+						  client.sendToClient("question removed");
+					  }
+					  else {
+						  client.sendToClient("question not removed");
+					  }
+				  }
+				  
+				  else if(arrayListStr.get(0).equals("ClientQuitting")){  
+					  ServerPortFrameController.removeConnectedClientFromTable(arrayListStr.get(1), arrayListStr.get(2)); // call function to remove the client from the table
+				  }
 			  }
 			  
-			  else if(((ArrayList<String>)msg).get(0).equals("UpdateQuestionDataByID")){
-				  String returnStr = DBController.UpdateQuestionDataByID((ArrayList<String>)msg);
-				  client.sendToClient(returnStr);
-	
-	
-			  }
-			  else if(((ArrayList<String>)msg).get(0).equals("ClientQuitting")){  
-				  ServerPortFrameController.removeConnectedClientFromTable(((ArrayList<String>)msg).get(1), ((ArrayList<String>)msg).get(2)); // call function to remove the client from the table
-			  }
 	
 		  }
-	  } catch (IOException e) {
+	  } catch (IOException | ClassNotFoundException e) {
 		  e.printStackTrace();
 	  }
 	  System.out.println("Message received: " + msg.toString() + " from " + client);
@@ -126,43 +154,5 @@ public void handleMessageFromClient(Object msg, ConnectionToClient client)
       ("Server has stopped listening for connections.");
   }
   
-  //Class methods ***************************************************
-  
-  /**
-   * This method is responsible for the creation of 
-   * the server instance (there is no UI in this phase).
-   *
-   * @param args[0] The port number to listen on.  Defaults to 5555 
-   *          if no argument is entered.
-   */
- /* public static void main(String[] args) 
-  {
-    int port = 0; //Port to listen on
-
-    try
-    {
-      port = Integer.parseInt(args[0]); //Get port from command line
-    }
-    catch(Throwable t)
-    {
-      port = DEFAULT_PORT; //Set port to 5555
-    }
-	
-    EchoServer sv = new EchoServer(port);
-    try {
-		serverIP = InetAddress.getLocalHost().getHostAddress();
-	} catch (UnknownHostException e) {
-		e.printStackTrace();
-	}
-    
-    try 
-    {
-      sv.listen(); //Start listening for connections
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println("ERROR - Could not listen for clients!");
-    }
-  }*/
 }
 //End of EchoServer class

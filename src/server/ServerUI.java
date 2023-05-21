@@ -2,18 +2,10 @@ package server;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import Config.Question;
-import client.ClientUI;
 
-import java.util.Vector;
 import gui.ServerPortFrameController;
-import gui.UpdateQuestionFrameController;
-import server.EchoServer;
 
 public class ServerUI extends Application {
-
-	final public static int DEFAULT_PORT = 5555;
-	public static Vector<Question> students = new Vector<Question>();
 
 	public static void main(String args[]) throws Exception {	
 		try {
@@ -22,7 +14,7 @@ public class ServerUI extends Application {
             System.out.println("Program exited with error: " + se.getMessage());
         } finally {
             System.out.println("Server exited");
-            ServerPortFrameController.getInstance().DisconnectServer(); // call the btn disconnect to exit the server correctly
+            ServerPortFrameController.getInstance().DisconnectServer(); // call disconnect server func to exit the server correctly
         } 
 	}
 
