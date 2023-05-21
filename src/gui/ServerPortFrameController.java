@@ -1,10 +1,14 @@
 package gui;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import javafx.scene.control.Button;
+
 
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -37,7 +41,7 @@ public class ServerPortFrameController implements Initializable {
 
 	private static final String DEFAULT_DB_USER = "root";
 
-	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/cemsdatabase?serverTimezone=IST";
+	private static final String DEFAULT_DB_NAME = "jdbc:mysql://localhost/QuestionBank?serverTimezone=IST";
 
 	public static ObservableList<ConnectedClient> connectedClients = FXCollections.observableArrayList(); // clients
 																											// connected
@@ -50,15 +54,16 @@ public class ServerPortFrameController implements Initializable {
 	private TableColumn<ConnectedClient, String> ipColumn; // clients connected table
 	@FXML
 	private TableColumn<ConnectedClient, String> usernameColumn; // clients connected table
-
+	
 	@FXML
-	private Button btnExit = null;
-	@FXML
-	private Button btnConnect = null;
+    private JFXButton btnConnect;
 
-	@FXML
-	private Button btnDiscon = null;
-
+    @FXML
+    private JFXButton btnDisconnect;
+    
+    @FXML
+    private JFXButton btnExit;
+    
 	@FXML
 	private Label lblStatus;
 	@FXML
@@ -74,7 +79,7 @@ public class ServerPortFrameController implements Initializable {
 	private TextField txtServerIP = new TextField();
 
 	// Data Base Details
-
+	
 	@FXML
 	private TextField txtURL = new TextField();
 
@@ -110,7 +115,7 @@ public class ServerPortFrameController implements Initializable {
 	    }
 	}
 
-	public void getConnectbtn(ActionEvent event) throws Exception {
+	public void connectBtn(ActionEvent event) throws Exception {
 	    // Handle the Connect button click event
 	    if (getPort().trim().isEmpty() || getPassWord().equals("") || getURL().equals("") || getUserName().equals("")) {
 	        lblMessage.setText("[Error] Missing fields!");
@@ -132,7 +137,7 @@ public class ServerPortFrameController implements Initializable {
 
 	private void setVisabilityForUI(boolean isVisible) {
 	    // Set the visibility of UI components when Connecting and Disconnecting
-	    this.btnDiscon.setDisable(!isVisible);
+	    this.btnDisconnect.setDisable(!isVisible);
 	    this.txtPort.setDisable(isVisible);
 	    this.txtURL.setDisable(isVisible);
 	    this.txtUserName.setDisable(isVisible);
@@ -141,7 +146,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 
-	public void DisconnectServer() {
+	public void disconnectBtn() {
 		try { // send message to clients only if the server is on. if the server in not connected, the connection is null
 			serverCommunication.sendToAllClients("server is disconnected"); // send to all clients to close the program of every client
 		}catch (NullPointerException e) {
@@ -181,13 +186,13 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/gui/ServerGUI.fxml", null, "Server").show();
+		SceneManagment.createNewStage("/gui/ServerGUI.fxml", "/gui/ServerGUI.css", "Server").show();
 	}
 
 	//Exit Button functionality 
-	public void getExitBtn(ActionEvent event) throws Exception {
+	public void exitBtn(ActionEvent event) throws Exception {
 		System.out.println("exit Academic Tool");
-		DisconnectServer();
+		disconnectBtn();
 		System.exit(0);
 		System.gc();
 	}
@@ -220,7 +225,7 @@ public class ServerPortFrameController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	    loadInfo();
-	    btnDiscon.setDisable(true);
+	    btnDisconnect.setDisable(true);
 	    lblStatus.setText("Disconnected");
 	    lblMessage.setTextFill(Color.rgb(254, 119, 76));
 	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));

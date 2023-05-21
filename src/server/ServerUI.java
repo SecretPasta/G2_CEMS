@@ -14,7 +14,7 @@ public class ServerUI extends Application {
             System.out.println("Program exited with error: " + se.getMessage());
         } finally {
             System.out.println("Server exited");
-            ServerPortFrameController.getInstance().DisconnectServer(); // call disconnect server func to exit the server correctly
+            ServerPortFrameController.getInstance().disconnectBtn(); // call disconnect server func to exit the server correctly
         } 
 	}
 
