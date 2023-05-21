@@ -68,7 +68,8 @@ public class EditQuestionFrameController implements Initializable {
 		
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		
-		LecturerDashboardFrameController.start();
+		// when getting back, update the edited question in the question's lecturer table in the dashboard screen
+		LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(question.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
 	}
 
 	// Save button functionality
