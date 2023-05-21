@@ -3,6 +3,7 @@ package gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -35,7 +36,10 @@ public class SceneManagment {
         stage.setScene(scene);
         stage.setTitle(title);
         stage.setResizable(false); // disable window resize option
-        stage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
+        //***Round Corners For Window + Disable top menu
+        scene.setFill(Color.TRANSPARENT);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        //stage.initStyle(StageStyle.UNDECORATED); // disable the menu row on the top of the window
         // we can move window without the menu row
         scene.setOnMousePressed(pressEvent -> scene.setOnMouseDragged(dragEvent -> {
             stage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());

@@ -1,69 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #EAF6Fd;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientConnectFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="370.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClientConnectFrameController">
    <children>
-      <Rectangle arcWidth="5.0" fill="#4958ff" height="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="400.0" />
-      <Label layoutX="15.0" layoutY="10.0" prefHeight="35.0" prefWidth="252.0" text="CEMS - Client Connect" textFill="WHITE">
+      <Pane layoutY="50.0" prefHeight="340.0" prefWidth="370.0" style="-fx-background-color: #faf9f6; -fx-background-radius: 0 60 0 0;">
+         <children>
+            <JFXButton fx:id="btnConnect" layoutX="50.0" layoutY="200.0" onAction="#getConnectBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-radius: 10; -fx-background-color: #5DD299;" text="Connect" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="btnExit" layoutX="50.0" layoutY="281.0" onAction="#getExitBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-radius: 10; -fx-background-color: #FFC152;" text="Exit" textFill="#242633">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <Label layoutX="131.0" layoutY="10.0" prefHeight="35.0" prefWidth="184.0" text="CEMS - Connect" textFill="#faf9f6">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="22.0" />
          </font></Label>
-      <Button fx:id="btnExit" layoutX="315.0" layoutY="11.0" mnemonicParsing="false" onAction="#getExitBtn" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #F39C63;" text="Exit" textFill="WHITE" underline="true">
-         <font>
-            <Font size="16.0" />
-         </font></Button>
-      <Button fx:id="btnConnect" layoutX="106.0" layoutY="335.0" mnemonicParsing="false" onAction="#getConnectBtn" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #4958ff;" text="Connect" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Button>
-      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="13.0" layoutY="285.0" prefHeight="30.0" prefWidth="375.0">
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutY="294.0" prefHeight="37.0" prefWidth="370.0" textFill="#fe774c">
          <font>
             <Font size="18.0" />
-         </font></Label>
-      <VBox layoutX="63.0" layoutY="162.0" prefHeight="103.0" prefWidth="285.0" spacing="20.0">
-         <children>
-            <HBox prefHeight="40.0" prefWidth="280.0">
-               <children>
-                  <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="60.0" text="Port:" textFill="#383838">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtPort">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </HBox>
-            <HBox prefHeight="40.0" prefWidth="280.0">
-               <children>
-                  <Label alignment="TOP_LEFT" prefHeight="30.0" prefWidth="60.0" text="Host:" textFill="#383838">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtServerIP">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-      <Label layoutX="112.0" layoutY="91.0" prefHeight="35.0" prefWidth="185.0" text="Ready to do some Exams?" textFill="#383838">
+         </font>
+      </Label>
+      <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="159.0" prefHeight="30.0" prefWidth="60.0" text="Port:" textFill="#242633">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="72.0" prefHeight="30.0" prefWidth="82.0" text="Host IP:" textFill="#242633">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtPort" layoutX="50.0" layoutY="98.0" prefHeight="44.0" prefWidth="277.0" style="-fx-background-radius: 10;">
          <font>
             <Font size="16.0" />
          </font>
-      </Label>
+      </TextField>
+      <TextField fx:id="txtServerIP" layoutX="50.0" layoutY="184.0" prefHeight="44.0" prefWidth="277.0" style="-fx-background-radius: 10;">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </TextField>
+      <Circle fill="#5dd299" layoutX="112.0" layoutY="26.0" radius="14.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="95.0" layoutY="26.0" radius="14.0" stroke="#66a7f2" strokeType="INSIDE" />
    </children>
 </AnchorPane>

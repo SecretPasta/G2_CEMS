@@ -14,14 +14,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="600.0" prefWidth="1055.0" style="-fx-background-color: #242633;" stylesheets="@ServerGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
+<Pane prefHeight="600.0" prefWidth="1055.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@ServerGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ServerPortFrameController">
    <children>
-      <Label layoutX="332.0" layoutY="20.0" text="CEMS - Server Connect" textFill="WHITE">
+      <Label layoutX="332.0" layoutY="15.0" text="CEMS - Server Connect" textFill="WHITE">
          <font>
             <Font name="System Bold" size="28.0" />
          </font>
       </Label>
-      <VBox alignment="TOP_CENTER" layoutX="663.0" layoutY="104.0" prefHeight="310.0" prefWidth="380.0" spacing="5.0">
+      <VBox alignment="TOP_CENTER" layoutX="660.0" layoutY="100.0" prefHeight="310.0" prefWidth="380.0" spacing="5.0">
          <children>
             <Label text="Connected Clients" textFill="#faf9f6">
                <font>
@@ -116,12 +116,12 @@
                   </PasswordField>
                </children>
             </VBox>
-            <JFXButton fx:id="btnDisconnect" buttonType="RAISED" layoutX="330.0" layoutY="451.0" onAction="#disconnectBtn" prefHeight="44.0" prefWidth="277.0" ripplerFill="#faf9f6" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Disconnect" textFill="#faf9f6">
+            <JFXButton fx:id="btnDisconnect" layoutX="330.0" layoutY="451.0" onAction="#disconnectBtn" prefHeight="44.0" prefWidth="277.0" ripplerFill="#faf9f6" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Disconnect" textFill="#faf9f6">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="btnConnect" buttonType="RAISED" layoutX="26.0" layoutY="451.0" onAction="#connectBtn" prefHeight="44.0" prefWidth="277.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Connect" textFill="#faf9f6">
+            <JFXButton fx:id="btnConnect" layoutX="26.0" layoutY="451.0" onAction="#connectBtn" prefHeight="44.0" prefWidth="277.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Connect" textFill="#faf9f6">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -156,12 +156,12 @@
             </VBox>
          </children>
       </Pane>
-      <JFXButton fx:id="btnExit" buttonType="RAISED" layoutX="914.0" layoutY="22.0" onAction="#exitBtn" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #FCB215; -fx-background-radius: 10;" text="Exit" textFill="#383838">
+      <JFXButton fx:id="btnExit" buttonType="RAISED" layoutX="840.0" layoutY="13.0" onAction="#exitBtn" prefHeight="30.0" prefWidth="200.0" style="-fx-background-color: #FCB215; -fx-background-radius: 10;" text="Exit" textFill="#383838">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </JFXButton>
-      <Circle fill="#5dd299" layoutX="303.0" layoutY="41.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
-      <Circle fill="#66a7f2" layoutX="281.0" layoutY="41.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+      <Circle fill="#5dd299" layoutX="313.0" layoutY="35.0" radius="14.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="296.0" layoutY="35.0" radius="14.0" stroke="#66a7f2" strokeType="INSIDE" />
    </children>
 </Pane>

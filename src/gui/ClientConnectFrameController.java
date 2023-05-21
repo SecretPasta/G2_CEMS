@@ -52,8 +52,8 @@ public class ClientConnectFrameController implements Initializable {
 	public void getConnectBtn(ActionEvent event) throws Exception {
 
 		if (getTxtServerIP().equals("") || getTxtPort().equals("")) {
-			lblMessage.setText("[Error] Missing fields");
-			lblMessage.setTextFill(Color.color(1, 0, 0));
+			lblMessage.setText("[Error] Missing fields!");
+			lblMessage.setTextFill(Color.rgb(254, 119, 76));
 		} else {
 
 			// create the client and connect him to server
