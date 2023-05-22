@@ -120,6 +120,12 @@ public class EchoServer extends AbstractServer
 					  }
 				  }
 				  
+				  else if(arrayListStr.get(0).equals("UserLogout")){ 
+					  // 1 - loggedAs
+					  // 2 - userID
+					  DBController.setUserIsLogin("0", arrayListStr.get(1), arrayListStr.get(2));
+				  }
+				  
 				  else if(arrayListStr.get(0).equals("ClientQuitting")){  
 					  // 1 - HostAddress
 					  // 2 - HostName

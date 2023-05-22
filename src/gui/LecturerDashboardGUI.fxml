@@ -27,7 +27,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <JFXButton buttonType="RAISED" layoutX="59.0" layoutY="487.0" prefHeight="36.0" prefWidth="144.0" ripplerFill="#242633" style="-fx-background-color: #FFC152; -fx-background-radius: 10 10 10 10;" text="Logout">
+            <JFXButton buttonType="RAISED" layoutX="59.0" layoutY="487.0" prefHeight="36.0" prefWidth="144.0" onAction="#getLogoutBtn" ripplerFill="#242633" style="-fx-background-color: #FFC152; -fx-background-radius: 10 10 10 10;" text="Logout">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
