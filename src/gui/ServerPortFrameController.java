@@ -89,7 +89,7 @@ public class ServerPortFrameController implements Initializable {
 	@FXML
 	private PasswordField txtPassWord = new PasswordField();
 	
-	//private clientPinger pinger = new clientPinger();  
+	//private clientPinger pinger = new clientPinger();
 	
 	public ServerPortFrameController() {
 		instance = this;
