@@ -88,8 +88,8 @@ public class DBController {
 	            if(resultSet.next()) {
 	                if(resultSet.getInt(1) == 1) {
 	                	ArrayList<String> getUserDetails_arr = getUserDetails(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
-	                	// check if the user is already logged in by his ID
-	                	if(!UserAlreadyLoggedin(getUserDetails_arr.get(0))) {
+	                	// check if the user is already logged in by his ID and loginAs
+	                	if(!UserAlreadyLoggedin(getUserDetails_arr.get(0), userInfoArr.get(1))) {
 	                		// userInfoArr.get(1) - loginAs, getUserDetails_arr.get(0) - user ID
 	                		setUserIsLogin("1", userInfoArr.get(1), getUserDetails_arr.get(0));
 	                		return getUserDetails_arr;
@@ -116,7 +116,8 @@ public class DBController {
 	public static void setUserIsLogin(String loggedInStatus, String loginAs, String id) {
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogin` =? WHERE (`id` =?);");
+				String userId = loginAs + "id";
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogged` =? WHERE (`" + userId + "` =?);");
 				ps.setString(1, loggedInStatus);
 				ps.setString(2, id);
 		 		ps.executeUpdate();
@@ -158,8 +159,9 @@ public class DBController {
 	}
 	
 	// check if the user is already logged in
-	public static boolean UserAlreadyLoggedin(String userID) {
-		String query = "SELECT IF(islogin = 1, true, false) AS isLoggedIn FROM lecturer WHERE ID = ?";
+	public static boolean UserAlreadyLoggedin(String userID, String logginAs) {
+		String userId = logginAs + "id";
+		String query = "SELECT IF(isLogged = 1, true, false) AS isLoggedIn FROM " + logginAs + " WHERE " + userId + "= ?";
 		try {
 			if (mysqlConnection.getConnection() != null) {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
