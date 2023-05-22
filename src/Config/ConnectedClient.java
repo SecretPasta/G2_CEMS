@@ -51,4 +51,5 @@ public class ConnectedClient {
 	public void setClientname(String username) {
 		this.clientname = username;
 	}
+	
 }
