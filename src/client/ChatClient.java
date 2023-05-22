@@ -78,7 +78,6 @@ public class ChatClient extends AbstractClient
 			  if(((String)msg).equals("server is disconnected")){ // if get client get the message server is disconnected, get him out of the program
 				  JOptionPane.showMessageDialog(null, "server is disconnected.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
 				  System.out.println("exited");
-				  // quit also here with general user?
 				  System.exit(0); 
 			  }
 			  else if(((String)msg).equals("UserAlreadyLoggedIn")) {
