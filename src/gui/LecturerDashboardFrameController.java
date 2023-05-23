@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 
 import Config.Lecturer;
 import Config.Question;
+import client.ChatClient;
 import client.ClientUI;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -194,11 +195,11 @@ public class LecturerDashboardFrameController implements Initializable{
 		qArr.add("UserLogout");
 		qArr.add("lecturer");
 		qArr.add(lecturer.getId());
-		ClientUI.chat.accept(qArr); // send to the server that the user logout the change his islogged to 0
+		//ClientUI.chat.accept(qArr);
+		System.out.println("logged out");
+		ChatClient.getInstance().sendToServer(qArr); // send to the server that the user logout the change his islogged to 0
 		
-		// @@@@@@@@@@@@@@@@@@@@@@
-		//LoginFrameController.start(); // the login window is not showing up @@@@@@@@@@@@@@@@@@@@@@
-		// @@@@@@@@@@@@@@@@@@@@@@
+		LoginFrameController.start(); // start the login screen after logout
 		
 	}
 	// when lecturer click on edit on edit question 

@@ -179,7 +179,7 @@ public class ChatClient extends AbstractClient
   public void quit(String userID, String userLoginAs)
   {
 	if(isConnected()) {
-		System.out.println("exited");
+		System.out.println("exited2");
 		ArrayList<String> clientInfo = new ArrayList<>();
 		clientInfo.add("ClientQuitting");
 	    try {
@@ -187,11 +187,11 @@ public class ChatClient extends AbstractClient
 			clientInfo.add(InetAddress.getLocalHost().getHostName());
 			clientInfo.add(userID);
 			clientInfo.add(userLoginAs);
-		} catch (UnknownHostException e) {
+			sendToServer(clientInfo);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ClientUI.chat.accept(clientInfo);
 	    try
 	    {
 	      closeConnection();
@@ -206,17 +206,17 @@ public class ChatClient extends AbstractClient
   public void quit()
   {
 	if(isConnected()) {
-		System.out.println("exited");
+		System.out.println("exited1");
 		ArrayList<String> clientInfo = new ArrayList<>();
 		clientInfo.add("ClientQuitting");
 	    try {
 			clientInfo.add(InetAddress.getLocalHost().getHostAddress());
 			clientInfo.add(InetAddress.getLocalHost().getHostName());
-		} catch (UnknownHostException e) {
+			sendToServer(clientInfo);
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ClientUI.chat.accept(clientInfo);
 	    try
 	    {
 	      closeConnection();

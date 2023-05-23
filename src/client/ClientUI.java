@@ -21,7 +21,7 @@ public class ClientUI extends Application {
             	chat.client.quit(); // send the server message to remove the client from the connected clients and terminates the client
         	}catch (NullPointerException e){ // if catches, the client still not connected
         		System.exit(0);
-        		System.out.println("exited");
+        		System.out.println("exited3");
         	}
         }
 	}
