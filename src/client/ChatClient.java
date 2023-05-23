@@ -8,6 +8,7 @@ import ocsf.client.*;
 
 import gui.LecturerDashboardFrameController;
 import gui.LoginFrameController;
+import gui.SceneManagment;
 import ClientServerComm.ChatIF;
 import java.io.*;
 import java.net.InetAddress;

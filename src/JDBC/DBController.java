@@ -113,13 +113,21 @@ public class DBController {
 	}
 	
 	// set the user 'isLogin' in DB to 1 or 0 by his ID, loginAs = {Lecturer, Student, Head Of Department} - the table
+	// if id is "all", do for all users in table
 	public static void setUserIsLogin(String loggedInStatus, String loginAs, String id) {
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				String userId = loginAs + "id";
-				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogged` =? WHERE (`" + userId + "` =?);");
-				ps.setString(1, loggedInStatus);
-				ps.setString(2, id);
+				PreparedStatement ps;
+				if(id.equals("all")) {
+					ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogged` =?;");	
+					ps.setString(1, loggedInStatus);
+				}
+				else {
+					String userId = loginAs + "id";
+					ps = mysqlConnection.getConnection().prepareStatement("UPDATE "+ loginAs +" SET `isLogged` =? WHERE (`" + userId + "` =?);");
+					ps.setString(1, loggedInStatus);
+					ps.setString(2, id);
+				}
 		 		ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {
@@ -195,6 +203,13 @@ public class DBController {
 			e.printStackTrace();
 		}
 		return false;	
+	}
+
+	public static void setAllUsersNotIsLogged() {
+		
+		setUserIsLogin("0", "lecturer", "all");
+		setUserIsLogin("0", "student", "all");
+		setUserIsLogin("0", "headofdepartment", "all");
 	}
 }
 

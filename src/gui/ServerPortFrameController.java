@@ -26,8 +26,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import Config.ConnectedClient;
-
+import JDBC.DBController;
 import JDBC.mysqlConnection;
+import client.ClientUI;
 import server.EchoServer;
 import server.ServerUI;
 import javafx.scene.control.TableColumn;
@@ -129,6 +130,7 @@ public class ServerPortFrameController implements Initializable {
 	            lblStatus.setTextFill(Color.rgb(93, 210, 153));
 	            lblStatus.setText("Connected");
 	            setVisabilityForUI(true);
+	            DBController.setAllUsersNotIsLogged(); // set all users isLogged = 0
 	            // Start the server
 	            serverCommunication = ServerUI.runServer(getPort());
 	        } else if (!sqlConnectionSucceed) {
@@ -234,6 +236,7 @@ public class ServerPortFrameController implements Initializable {
 	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
 	   
+	    
 //	    pinger.start();
 	    tableView.setItems(connectedClients);
 	}

@@ -189,16 +189,17 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	public void getLogoutBtn(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		
-		// @@@@@@@@@@@@@@@@@@@@@@
-		LoginFrameController.start(); // the login window is not showing up @@@@@@@@@@@@@@@@@@@@@@
-		// @@@@@@@@@@@@@@@@@@@@@@
-		
+
 		ArrayList<String> qArr = new ArrayList<>();
 		qArr.add("UserLogout");
 		qArr.add("lecturer");
 		qArr.add(lecturer.getId());
 		ClientUI.chat.accept(qArr); // send to the server that the user logout the change his islogged to 0
+		
+		// @@@@@@@@@@@@@@@@@@@@@@
+		//LoginFrameController.start(); // the login window is not showing up @@@@@@@@@@@@@@@@@@@@@@
+		// @@@@@@@@@@@@@@@@@@@@@@
+		
 	}
 	// when lecturer click on edit on edit question 
 	public void getEditBtn_ManageQuestions(ActionEvent event) throws Exception {
