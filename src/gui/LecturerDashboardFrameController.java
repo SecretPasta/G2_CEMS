@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXButton;
 
 import Config.Lecturer;
 import Config.Question;
-import client.ChatClient;
 import client.ClientUI;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,7 +23,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LecturerDashboardFrameController implements Initializable{

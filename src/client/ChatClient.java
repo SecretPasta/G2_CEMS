@@ -6,18 +6,11 @@ package client;
 
 import ocsf.client.*;
 
-import gui.LecturerDashboardFrameController;
-import gui.LoginFrameController;
-import gui.SceneManagment;
+import handlers.MessageHandler_Client;
 import ClientServerComm.ChatIF;
 import java.io.*;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import Config.Question;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -66,76 +59,14 @@ public class ChatClient extends AbstractClient
    *
    * @param msg The message from the server.
    */
-  @SuppressWarnings("unchecked")
+
   public void handleMessageFromServer(Object msg) 
   {
 	  System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
 	  
-	  try { 
-		  
-		  if(msg instanceof String) {
-			  
-			  if(((String)msg).equals("server is disconnected")){ // if get client get the message server is disconnected, get him out of the program
-				  JOptionPane.showMessageDialog(null, "server is disconnected.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
-				  System.out.println("exited");
-				  System.exit(0); 
-			  }
-			  else if(((String)msg).equals("UserAlreadyLoggedIn")) {
-				  LoginFrameController.getInstance().userLoginFailed("[Error] this user is already connected");
-			  }
-			  
-			  else if(((String)msg).equals("UserEnteredWrondPasswwordOrUsername")) {
-				  LoginFrameController.getInstance().userLoginFailed("[Error] Wrong Username or Password");
-			  }
-		  }
+	  MessageHandler_Client.handleMessage(msg); // handle the message from the server in different class
 
-		  if(msg instanceof ArrayList) {
-			  ArrayList<?> arrayList = (ArrayList<?>) msg;
-			  
-			  if(arrayList.get(0) instanceof String) { // handle all arraylist type String
-				  
-				  ArrayList<String> arrayListStr = (ArrayList<String>) msg;
-				  
-				  // 1 - login As
-				  // 2 - user ID
-				  // 3 - userName
-				  // 4 - user Password
-				  // 5 - user Name
-				  // 6 - user Email
-				  if(arrayListStr.get(0).equals("UserLoginSucceed")){
-					  LoginFrameController.hideCurrentScene(); // hide login frame
-					  if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
-						  LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
-					  }
-					  /*else if() { // login as lecturer
-						  
-					  }
-					  else if() { // login as head of department
-						  
-					  }*/
-					  System.out.println("logged in succesfully");
-				  }
-			  }
-			  
-			  else if(arrayList.get(0) instanceof Question) { // handle all arraylist type Question
-				  
-				  ArrayList<Question> arrayListQue = (ArrayList<Question>) msg;
-				  
-				  if(arrayListQue.get(0).getId().equals("LoadQuestionsFromDB")) { // check the id of first question to handle it
-					  arrayListQue.remove(0); // remove the first question (the question that identified)
-					  LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);
-					  System.out.println("The questions succesfully loaded from the DB to the table.");
-				  }
-			  }
-		  }
-		  else {
-			  System.out.println(msg);
-		  }
-		  
-	  } catch (Exception e) {
-		  e.printStackTrace();
-	  }
   }
 
   /**

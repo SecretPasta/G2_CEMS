@@ -8,7 +8,6 @@ import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXTextField;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +27,6 @@ import javafx.stage.Stage;
 import Config.ConnectedClient;
 import JDBC.DBController;
 import JDBC.mysqlConnection;
-import client.ClientUI;
 import server.EchoServer;
 import server.ServerUI;
 import javafx.scene.control.TableColumn;
