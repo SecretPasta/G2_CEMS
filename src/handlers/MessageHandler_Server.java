@@ -1,7 +1,11 @@
 package handlers;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import Config.Question;
 import JDBC.DBController;
@@ -27,25 +31,38 @@ public class MessageHandler_Server {
             case ARRAY_LIST_QUESTION:
                 handleQuestionArrayListMessage((ArrayList<Question>) msg, client);
                 break;
+            case MAP_STRING_ARRAYLIST_STRING:
+            	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg, client);
+            	break;
         }
     }
 	
 	private static MessageType getMessageType(Object msg) {
-        if (msg instanceof String) {
-            return MessageType.STRING;
-        } else if (msg instanceof ArrayList) {
-            ArrayList<?> arrayList = (ArrayList<?>) msg;
-            if (!arrayList.isEmpty()) {
-                Object firstElement = arrayList.get(0);
-                if (firstElement instanceof String) {
-                    return MessageType.ARRAY_LIST_STRING;
-                } else if (firstElement instanceof Question) {
-                    return MessageType.ARRAY_LIST_QUESTION;
-                }
-            }
-        }
-        return null;
-    }
+	    if (msg instanceof String) {
+	        return MessageType.STRING;
+	    } else if (msg instanceof ArrayList) {
+	        ArrayList<?> arrayList = (ArrayList<?>) msg;
+	        if (!arrayList.isEmpty()) {
+	            Object firstElement = arrayList.get(0);
+	            if (firstElement instanceof String) {
+	                return MessageType.ARRAY_LIST_STRING;
+	            } else if (firstElement instanceof Question) {
+	                return MessageType.ARRAY_LIST_QUESTION;
+	            }
+	        }
+	    } else if (msg instanceof Map) {
+	        Map<?, ?> map = (Map<?, ?>) msg;
+	        if (!map.isEmpty()) {
+	            Object firstKey = map.keySet().iterator().next();
+	            Object firstValue = map.get(firstKey);
+	            if (firstKey instanceof String && firstValue instanceof ArrayList
+	                    && ((ArrayList<?>) firstValue).get(0) instanceof String) {
+	                return MessageType.MAP_STRING_ARRAYLIST_STRING;
+	            }
+	        }
+	    }
+	    return null;
+	}
 
     private static void handleStringMessage(String message, ConnectionToClient client) {
         // Handle string messages
@@ -134,6 +151,26 @@ public class MessageHandler_Server {
 						client.sendToClient("quit");
 						
 	                    break;
+	                    
+	                case "GetLecturerDepartmentsAndCourses":
+	                	// 1 - lecturer ID
+				    	//Map<String, ArrayList<String>> lecDepartmentsCoursesHashMap = DBController.getLecturerDepartmentCourses(arrayListStr.get(1));
+				    	
+	                	Map<String, ArrayList<String>> lecDepartmentsCoursesHashMap = new HashMap<>(); 
+	                	
+				    	ArrayList<String> values1 = new ArrayList<>();
+				        values1.add("Value1");
+				        values1.add("Value2");
+				        lecDepartmentsCoursesHashMap.put("Key1", values1);
+
+				        ArrayList<String> values2 = new ArrayList<>();
+				        values2.add("Value3");
+				        values2.add("Value4");
+				        lecDepartmentsCoursesHashMap.put("Key2", values2);
+				        
+				        lecDepartmentsCoursesHashMap.put("HashMapWithLecturerDepartmentsAndCourses", null);
+				    	
+				    	client.sendToClient(lecDepartmentsCoursesHashMap);
 	            }
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -144,4 +181,12 @@ public class MessageHandler_Server {
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
         // Handle ArrayList<Question> messages
     }
+    
+    private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map, ConnectionToClient client) {
+        // Handle Map<String, ArrayList<String>> messages
+    	
+
+    }
+    
+    
 }

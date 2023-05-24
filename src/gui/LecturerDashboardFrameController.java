@@ -100,6 +100,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	static Question questionSelected; // question selected to save
 	private static LecturerDashboardFrameController instance;
 	
+	public static Lecturer getLecturer() {
+		return lecturer;
+	}
+	
+	
 	public LecturerDashboardFrameController() {
 		instance = this;
 	}
@@ -277,7 +282,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	// when lecturer click on Add on edit question 
 	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {
+		// Hide the primary window
+		((Node) event.getSource()).getScene().getWindow().hide();
 		
+		AddQuestionFrameController.start(lecturer); // send the lecturer to the add question screen
 	}
 	
 	/**

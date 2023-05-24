@@ -1,12 +1,18 @@
 package handlers;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
 
 import Config.Question;
+import gui.AddQuestionFrameController;
 import gui.LecturerDashboardFrameController;
 import gui.LoginFrameController;
+import ocsf.server.ConnectionToClient;
 
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")
@@ -26,25 +32,40 @@ public class MessageHandler_Client {
             case ARRAY_LIST_QUESTION:
                 handleQuestionArrayListMessage((ArrayList<Question>) msg);
                 break;
+            case MAP_STRING_ARRAYLIST_STRING:
+            	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg);
+			break;
+		default:
+			break;
         }
     }
 	
 	private static MessageType getMessageType(Object msg) {
-        if (msg instanceof String) {
-            return MessageType.STRING;
-        } else if (msg instanceof ArrayList) {
-            ArrayList<?> arrayList = (ArrayList<?>) msg;
-            if (!arrayList.isEmpty()) {
-                Object firstElement = arrayList.get(0);
-                if (firstElement instanceof String) {
-                    return MessageType.ARRAY_LIST_STRING;
-                } else if (firstElement instanceof Question) {
-                    return MessageType.ARRAY_LIST_QUESTION;
-                }
-            }
-        }
-        return null;
-    }
+	    if (msg instanceof String) {
+	        return MessageType.STRING;
+	    } else if (msg instanceof ArrayList) {
+	        ArrayList<?> arrayList = (ArrayList<?>) msg;
+	        if (!arrayList.isEmpty()) {
+	            Object firstElement = arrayList.get(0);
+	            if (firstElement instanceof String) {
+	                return MessageType.ARRAY_LIST_STRING;
+	            } else if (firstElement instanceof Question) {
+	                return MessageType.ARRAY_LIST_QUESTION;
+	            }
+	        }
+	    } else if (msg instanceof Map) {
+	        Map<?, ?> map = (Map<?, ?>) msg;
+	        if (!map.isEmpty()) {
+	            Object firstKey = map.keySet().iterator().next();
+	            Object firstValue = map.get(firstKey);
+	            if (firstKey instanceof String && firstValue instanceof ArrayList
+	                    && ((ArrayList<?>) firstValue).get(0) instanceof String) {
+	                return MessageType.MAP_STRING_ARRAYLIST_STRING;
+	            }
+	        }
+	    }
+	    return null;
+	}
 	
     private static void handleStringMessage(String message) {
         // Handle string messages
@@ -115,19 +136,45 @@ public class MessageHandler_Client {
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList) {
         // Handle ArrayList<Question> messages
     	
-    	ArrayList<Question> arrayListQue = (ArrayList<Question>) questionList;
-    	String messageType = arrayListQue.get(0).getId();
+    	String messageType = questionList.get(0).getId();
     	
     	switch (messageType) {
     		case "LoadQuestionsFromDB":
     			// Handle LoadQuestionsFromDB message
     			
-    			arrayListQue.remove(0); // remove the first question (the question that identified)
-				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(arrayListQue);
+    			questionList.remove(0); // remove the first question (the question that identified)
+				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(questionList);
 				System.out.println("The questions succesfully loaded from the DB to the table.");
 				break;
-    	}
-    	
-    	
+    	} 	
     }
+    
+    // must remove the messageType (last entry) from the map - map.remove(messageType);
+    private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map) {
+        // Handle Map<String, ArrayList<String>> messages
+    	
+    	Entry<String, ArrayList<String>> lastEntry = getLastEntry(map);
+    	String messageType = lastEntry.getKey();
+    	
+    	switch (messageType) {
+    	
+	    	case "HashMapWithLecturerDepartmentsAndCourses":
+	    		
+				map.remove(messageType);
+				AddQuestionFrameController.loadLecturerDepartmentsAndCourses(map);
+				
+				break;
+    	}
+
+
+    }
+    
+    public static <K, V> Entry<K, V> getLastEntry(Map<K, V> map) {
+        Entry<K, V> lastEntry = null;
+        for (Entry<K, V> entry : map.entrySet()) {
+            lastEntry = entry;
+        }
+        return lastEntry;
+    }
+
 }

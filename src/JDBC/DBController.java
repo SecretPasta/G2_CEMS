@@ -3,6 +3,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Config.Question;
 
@@ -210,6 +212,47 @@ public class DBController {
 		setUserIsLogin("0", "lecturer", "all");
 		setUserIsLogin("0", "student", "all");
 		setUserIsLogin("0", "headofdepartment", "all");
+	}
+
+	public static Map<String, ArrayList<String>> getLecturerDepartmentCourses(String lecturerID) {
+		
+		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
+		
+        String query = "SELECT d.Name, c.Name " +
+                "FROM department d " +
+                "JOIN course c ON d.departmentID = c.departmentID";
+
+	    try {
+	    	if (mysqlConnection.getConnection() != null) {
+	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	    		ps.setString(1, lecturerID);
+	    		ResultSet resultSet = ps.executeQuery();
+	    		while (resultSet.next()) {
+	                String department = resultSet.getString("d.Name");
+	                String course = resultSet.getString("c.Name");
+	                
+	                System.out.println(department);
+	                System.out.println(course);
+
+	                // Check if the department already exists in the map
+	                if (lecDepartmentCoursesMap.containsKey(department)) {
+	                    // Add the course to the existing ArrayList of courses for the department
+	                    ArrayList<String> courses = lecDepartmentCoursesMap.get(department);
+	                    courses.add(course);
+	                } else {
+	                    // Create a new ArrayList and add the course for the department
+	                	ArrayList<String> courses = new ArrayList<>();
+	                    courses.add(course);
+	                    lecDepartmentCoursesMap.put(department, courses);
+	                }
+	            }
+	    	}
+		     
+	    } catch (SQLException | ClassNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		
+		return lecDepartmentCoursesMap;
 	}
 }
 

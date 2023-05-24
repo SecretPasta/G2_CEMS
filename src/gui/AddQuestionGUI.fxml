@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddQuestionFrameController">
+   <children>
+      <JFXComboBox id="departmentSelectBox" fx:id="departmentSelectBox" layoutX="104.0" layoutY="74.0" onAction="#getDepartmentSelectBox" prefHeight="30.0" prefWidth="214.0" />
+      <JFXComboBox id="courseSelectBox" fx:id="courseSelectBox" layoutX="410.0" layoutY="74.0" prefHeight="30.0" prefWidth="225.0" />
+      <Label id="lblMessage" fx:id="lblMessage" layoutX="204.0" layoutY="455.0" prefHeight="18.0" prefWidth="318.0" />
+      <JFXButton id="addQuestionBtn" fx:id="addQuestionBtn" layoutX="299.0" layoutY="356.0" onAction="#getAddQuestionBtn" prefHeight="26.0" prefWidth="124.0" text="add question" />
+   </children>
+</AnchorPane>

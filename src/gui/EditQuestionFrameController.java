@@ -17,6 +17,7 @@ import Config.Question;
 import client.ClientUI;
 
 public class EditQuestionFrameController implements Initializable {
+	
 	private Question question;
 	@FXML
 	private Label lblidQuestion;
