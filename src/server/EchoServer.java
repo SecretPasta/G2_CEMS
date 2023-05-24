@@ -56,6 +56,8 @@ public class EchoServer extends AbstractServer
    * @param msg The message received from the client.
    * @param client The connection from which the message originated.
    */
+  
+  // must client.sendToClient(obj); after handling the message from the client to get response from the server
   @SuppressWarnings("unchecked")
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   {
@@ -124,6 +126,7 @@ public class EchoServer extends AbstractServer
 					  // 1 - loggedAs
 					  // 2 - userID
 					  DBController.setUserIsLogin("0", arrayListStr.get(1), arrayListStr.get(2));
+					  client.sendToClient("logged out");
 				  }
 				  
 				  else if(arrayListStr.get(0).equals("ClientQuitting")){  
@@ -131,8 +134,10 @@ public class EchoServer extends AbstractServer
 					  // 2 - HostName
 					  // 3 - UserID
 					  // 4 - userLoginAs
+					  // 5 - isLogged
 					  ServerPortFrameController.removeConnectedClientFromTable(arrayListStr.get(1), arrayListStr.get(2)); // call function to remove the client from the table
 					  DBController.setUserIsLogin("0", arrayListStr.get(4), arrayListStr.get(3));
+					  client.sendToClient("quit");
 				  }
 			  }
 			  

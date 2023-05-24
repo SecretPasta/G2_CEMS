@@ -52,44 +52,65 @@ public class EditQuestionFrameController implements Initializable {
 	@FXML
 	private Button btnSave = null;
 
-	// Loading a specific qustion into the GUI table
+	/**
+	 * Loads a specific question into the GUI table.
+	 *
+	 * @param question The question object to be loaded
+	 */
 	public void loadSelectedQuestion(Question question) {
-		this.question = question;
-		this.txtQuestionID.setText(question.getId());
-		this.txtSubject.setText(question.getSubject());
-		this.txtCourseName.setText(question.getCourseName());
-		this.txtQuestionText.setText(question.getQuestionText());
-		this.txtQuestionNumber.setText(question.getQuestionNumber());
-		this.txtQuestionAuthor.setText(question.getLecturer());
+	    // Set the current question object to the provided question
+	    this.question = question;
+
+	    // Set the text fields in the GUI with the properties of the question object
+	    this.txtQuestionID.setText(question.getId());
+	    this.txtSubject.setText(question.getSubject());
+	    this.txtCourseName.setText(question.getCourseName());
+	    this.txtQuestionText.setText(question.getQuestionText());
+	    this.txtQuestionNumber.setText(question.getQuestionNumber());
+	    this.txtQuestionAuthor.setText(question.getLecturer());
 	}
 
-	// Back Button functionality
+	/**
+	 * Handles the event when the back button is clicked.
+	 *
+	 * @param event The action event triggered by the back button
+	 * @throws Exception If an exception occurs during the execution
+	 */
 	public void getBackbtn(ActionEvent event) throws Exception {
-		
-		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
-		
-		// when getting back, update the edited question in the question's lecturer table in the dashboard screen
-		LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(question.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
+	    ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	    
+	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
+	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
+	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
+	            question.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
 	}
 
-	// Save button functionality
+	/**
+	 * Handles the event when the save button is clicked.
+	 *
+	 * @param event The action event triggered by the save button
+	 * @throws Exception If an exception occurs during the execution
+	 */
 	public void getSavebtn(ActionEvent event) throws Exception {
-		if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
-			lblMessage.setTextFill(Color.color(1, 0, 0));
-			lblMessage.setText("[Error] Missing fields");
-		} else {
-			lblMessage.setTextFill(Color.rgb(0, 102, 0));
-			lblMessage.setText("Question Saved Successfully");
-			// Create an ArrayList to hold the data for updating the question
-			ArrayList<String> updateQuestionArr = new ArrayList<>();
-			updateQuestionArr.add("UpdateQuestionDataByID");
-			updateQuestionArr.add(question.getId()); // Add the question ID
-			updateQuestionArr.add(txtQuestionText.getText()); // Add the updated question text
-			updateQuestionArr.add(txtQuestionNumber.getText()); // Add the updated question number
-			// Send the ArrayList to the server for updating the question data
-			ClientUI.chat.accept(updateQuestionArr);
-		}
+	    if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
+	        lblMessage.setTextFill(Color.color(1, 0, 0));
+	        lblMessage.setText("[Error] Missing fields");
+	    } else {
+	        lblMessage.setTextFill(Color.rgb(0, 102, 0));
+	        lblMessage.setText("Question Saved Successfully");
+	        
+	        // Create an ArrayList to hold the data for updating the question
+	        ArrayList<String> updateQuestionArr = new ArrayList<>();
+	        updateQuestionArr.add("UpdateQuestionDataByID");
+	        updateQuestionArr.add(question.getId()); // Add the question ID
+	        updateQuestionArr.add(txtQuestionText.getText()); // Add the updated question text
+	        updateQuestionArr.add(txtQuestionNumber.getText()); // Add the updated question number
+	        
+	        // Send the ArrayList to the server for updating the question data
+	        ClientUI.chat.accept(updateQuestionArr);
+	    }
 	}
+
 
 	public static void start() throws Exception {
 		SceneManagment.createNewStage("/gui/EditQuestionGUI.fxml", null, "Question Edit Managment Tool").show();

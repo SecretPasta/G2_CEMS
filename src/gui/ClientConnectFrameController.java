@@ -43,12 +43,24 @@ public class ClientConnectFrameController implements Initializable {
 		return txtServerIP.getText();
 	}
 
+	/**
+	 * Handles the event when the exit button is clicked.
+	 *
+	 * @param event The action event triggered by the exit button
+	 * @throws Exception If an exception occurs during the execution
+	 */
 	public void getExitBtn(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 		System.exit(0);
 		System.gc();
 	}
 
+	/**
+	 * Handles the event when the connect button is clicked.
+	 *
+	 * @param event The action event triggered by the connect button
+	 * @throws Exception If an exception occurs during the execution
+	 */
 	public void getConnectBtn(ActionEvent event) throws Exception {
 
 		if (getTxtServerIP().equals("") || getTxtPort().equals("")) {
@@ -87,13 +99,19 @@ public class ClientConnectFrameController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		txtPort.setText("5555");
-		try {
-			txtServerIP.setText(InetAddress.getLocalHost().getHostAddress());
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    // Initialize the user interface components and set default values
 
+	    // @param location The URL of the FXML file
+	    // @param resources The resource bundle for the FXML file (not used in this method)
+
+	    txtPort.setText("5555"); // Set the default port value to "5555"
+
+	    try {
+	        txtServerIP.setText(InetAddress.getLocalHost().getHostAddress());
+	        // Set the default server IP address value to the local host address
+	    } catch (UnknownHostException e) {
+	        // If an exception occurs while retrieving the local host address, print the stack trace
+	        e.printStackTrace();
+	    }
 	}
 }

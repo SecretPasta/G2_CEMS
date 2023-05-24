@@ -133,13 +133,9 @@ public class ChatClient extends AbstractClient
 			  System.out.println(msg);
 		  }
 		  
-	  } catch (IOException e) {
-		  // TODO Auto-generated catch block
-		  e.printStackTrace();
 	  } catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+		  e.printStackTrace();
+	  }
   }
 
   /**
