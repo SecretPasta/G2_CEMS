@@ -1,6 +1,7 @@
 package Config;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -14,6 +15,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private String courseName;
 	private String questionText;
 	private String questionNumber;
+	private ArrayList<String> answers;
 	private String lecturer;
 
 	/**
@@ -24,7 +26,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question number
 	 * @param question author
 	 */
-	public Question(String id, String subject, String courseName, String questionText, String questionNumber,
+	public Question(String id, String subject, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer) {
 		super();
 		this.id = id;
@@ -32,6 +34,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		this.courseName = courseName;
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
+		this.setAnswers(answers);
 		this.lecturer = lecturer;
 	}
 
@@ -92,6 +95,14 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	public TableRow<Question> call(TableView<Question> arg0) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public ArrayList<String> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(ArrayList<String> answers) {
+		this.answers = answers;
 	}
 
 }

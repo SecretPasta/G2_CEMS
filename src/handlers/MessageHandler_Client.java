@@ -124,7 +124,14 @@ public class MessageHandler_Client {
 						System.out.println("logged in succesfully");
 						
 	                    break;
-	            }
+	                    
+	                case "MaximunQuestionIdForSelectedDEpartment":
+	                	// 1 - maximum question id for selected department
+	                	AddQuestionFrameController.saveMaxIdOfQuestionInSelectedDepartment(arrayListStr.get(1));
+	                	
+	                	break;
+	            }       
+	            
             }catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

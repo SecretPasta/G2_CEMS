@@ -288,6 +288,23 @@ public class LecturerDashboardFrameController implements Initializable{
 		AddQuestionFrameController.start(lecturer); // send the lecturer to the add question screen
 	}
 	
+	public void showDashboardFrom_AddQuestion(Question newQuestion) {
+		if(newQuestion != null) {
+			questionsToEditObservableList.add(newQuestion);
+			lblMessage.setText("Question (ID: " + newQuestion.getId() + ") added succesfully");
+		}
+		
+		
+		// Show the current stage
+	    currStage.show();
+
+	    // Refresh the table view to reflect the changes
+	    tableView.refresh();
+
+	    // Clear the selection in the questions table
+	    tableView.getSelectionModel().clearSelection();
+	}
+	
 	/**
 	 * Handles the action when the lecturer clicks on the remove button for a question in the Manage Questions screen.
 	 *

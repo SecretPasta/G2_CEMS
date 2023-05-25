@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import Config.Question;
 import JDBC.DBController;
+import gui.LecturerDashboardFrameController;
 import gui.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
 
@@ -152,7 +153,7 @@ public class MessageHandler_Server {
 						
 	                    break;
 	                    
-	                case "GetLecturerDepartmentsAndCourses":
+	                case "GetLecturerDepartmentsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
 				    	//Map<String, ArrayList<String>> lecDepartmentsCoursesHashMap = DBController.getLecturerDepartmentCourses(arrayListStr.get(1));
 				    	
@@ -171,6 +172,19 @@ public class MessageHandler_Server {
 				        lecDepartmentsCoursesHashMap.put("HashMapWithLecturerDepartmentsAndCourses", null);
 				    	
 				    	client.sendToClient(lecDepartmentsCoursesHashMap);
+				    	
+				    	break;
+				    	
+	                case "GetMaxQuestionIdFromProvidedDepartment":
+	                	// 1 - Department Name
+	                	String questionID;
+	                	questionID = DBController.getMaxQuestionIdFromDepartment(arrayListStr.get(1));
+	                	
+	                	ArrayList<String> questionIdArr = new ArrayList<>();
+	                	questionIdArr.add("MaximunQuestionIdForSelectedDEpartment");
+	                	questionIdArr.add(questionID);
+	                	client.sendToClient(questionIdArr);
+	                	break;
 	            }
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -180,6 +194,25 @@ public class MessageHandler_Server {
     
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
         // Handle ArrayList<Question> messages
+    	
+    	String messageType = questionList.get(0).getId();
+    	try {
+	    	switch (messageType) {
+	    		case "AddNewQuestionToDB":
+	    			// Handle AddNewQuestionToDB message
+	    			// 1 - newQuestion
+	    			
+	    			DBController.addNewQuestion(questionList.get(1));
+	    			client.sendToClient("new question was added");
+	
+					break;
+	    	} 
+	    	
+        }catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+        }
+    	
     }
     
     private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map, ConnectionToClient client) {
