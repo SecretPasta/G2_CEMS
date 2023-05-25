@@ -286,7 +286,7 @@ public class DBController {
 	    try {
 	    	if (mysqlConnection.getConnection() != null) {
 	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	    		ps.setString(1, ""); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	    		ps.setString(1, newQuestion.getId()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	    		ps.setString(2, newQuestion.getSubject());
 	    		ps.setString(3, newQuestion.getCourseName());
 	    		ps.setString(4, newQuestion.getQuestionText());

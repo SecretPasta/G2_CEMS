@@ -288,10 +288,10 @@ public class LecturerDashboardFrameController implements Initializable{
 		AddQuestionFrameController.start(lecturer); // send the lecturer to the add question screen
 	}
 	
-	public void showDashboardFrom_AddQuestion(Question newQuestion) {
+	public void showDashboardFrom_AddQuestion(ArrayList<Question> newQuestion) {
 		if(newQuestion != null) {
-			questionsToEditObservableList.add(newQuestion);
-			lblMessage.setText("Question (ID: " + newQuestion.getId() + ") added succesfully");
+			questionsToEditObservableList.addAll(newQuestion);
+			lblMessage.setText("The question added succesfully");
 		}
 		
 		

@@ -17,6 +17,7 @@ import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,6 +25,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -35,10 +37,7 @@ public class AddQuestionFrameController implements Initializable {
     @FXML
     private JFXComboBox<String> departmentSelectBox;
     @FXML
-    private JFXComboBox<String> courseSelectBox;
-    
-    /*@FXML
-    private JFXButton addQuestionBtn;*/
+    private ListView<String> courseSelectList;
     
     @FXML
     private Label lblMessage;
@@ -66,7 +65,7 @@ public class AddQuestionFrameController implements Initializable {
     
     private Lecturer lecturer;
     
-    private Question newQuestion;
+    private ArrayList<Question> newQuestion = new ArrayList<>();
     
     private static String maxIdOfQuestionInCurrentDepartment;
     
@@ -101,7 +100,8 @@ public class AddQuestionFrameController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		lecturer = LecturerDashboardFrameController.getLecturer(); // save the current lecturer from the dashboard
 		
-		courseSelectBox.getItems().add("Please select a department first");
+		courseSelectList.getItems().add("Please select a department first");
+		courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		// add departments to choose from the departmentSelectBox
 		for(Map.Entry<String, ArrayList<String>> entry : departmentCoursesMap.entrySet()) {
@@ -113,24 +113,23 @@ public class AddQuestionFrameController implements Initializable {
 	    ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 	    
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
-	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
+	    // Pass the updated questions details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(newQuestion);
 	}
 	
 	public void getDepartmentSelectBox(ActionEvent event) throws Exception {
-		courseSelectBox.getItems().clear();
+		courseSelectList.getItems().clear();
 		// add to the courseSelectBox all the courses in the map (the courses in the department that the lecture selected)
 		for(Map.Entry<String, ArrayList<String>> entry : departmentCoursesMap.entrySet()) {
 			if(departmentSelectBox.getSelectionModel().getSelectedItem() == entry.getKey()) {
-				courseSelectBox.getItems().addAll(entry.getValue());
+				courseSelectList.getItems().addAll(entry.getValue());
 				break;
 			}
 		}
 	}
 	
-	/*public void getCoursetSelectBox(ActionEvent event) throws Exception {
-		setHideOnClick(false); 
-	}*/
+	public void getCourseSelectBox(ActionEvent event) throws Exception {
+	}
 	
 	public static void saveMaxIdOfQuestionInSelectedDepartment(String maxId) {
 		maxIdOfQuestionInCurrentDepartment = maxId;
@@ -138,10 +137,10 @@ public class AddQuestionFrameController implements Initializable {
 
 	public void getAddQuestionBtn(ActionEvent event) throws Exception {
 		
+		ObservableList<String> coursesSelect = courseSelectList.getSelectionModel().getSelectedItems();
 		String departmentSelect = departmentSelectBox.getSelectionModel().getSelectedItem();
-		String courseSelect = courseSelectBox.getSelectionModel().getSelectedItem();
 		try {
-		    if (departmentSelect == null || courseSelect.equals("Please select a department first") || courseSelect == null ||
+		    if (departmentSelect == null || coursesSelect.get(0).equals("Please select a department first") || coursesSelect == null ||
 		    		txtQuestionSubject.getText().equals("") || textQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") ||
 		    		txtAnswerCorrect.getText().equals("") || txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") ||
 		    		txtAnswerWrong3.getText().equals("")) {
@@ -164,12 +163,23 @@ public class AddQuestionFrameController implements Initializable {
 		        answersArr.add(txtAnswerWrong1.getText());
 		        answersArr.add(txtAnswerWrong2.getText());
 		        answersArr.add(txtAnswerWrong3.getText());
-		        newQuestion = new Question("id", txtQuestionSubject.getText(), courseSelect, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName());
 		        
-		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
-		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
-		        addQuestionToDBArr.add(newQuestion);
-		        ClientUI.chat.accept(addQuestionToDBArr);
+		        String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		        int i = 0;
+		        for(String courses : coursesSelect) {
+
+		        	System.out.println(courses);
+			        newQuestion.add(new Question(id, txtQuestionSubject.getText(), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));	
+			        id = Integer.toString(Integer.parseInt(id) + 1);
+			        
+			        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
+			        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
+			        addQuestionToDBArr.add(newQuestion.get(i));
+			        ClientUI.chat.accept(addQuestionToDBArr);
+			        i++;
+		        }
+		        
+		        //System.out.println(courseSelectList.getSelectionModel().getSelectedItems());
 		        
 		        //JOptionPane.showMessageDialog(null, "question added succesfully", "question managment", JOptionPane.INFORMATION_MESSAGE);
 		        getBackBtn(event);
