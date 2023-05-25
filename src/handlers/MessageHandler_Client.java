@@ -1,8 +1,6 @@
 package handlers;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -12,7 +10,6 @@ import Config.Question;
 import gui.AddQuestionFrameController;
 import gui.LecturerDashboardFrameController;
 import gui.LoginFrameController;
-import ocsf.server.ConnectionToClient;
 
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")

@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -16,14 +14,11 @@ import com.jfoenix.controls.JFXComboBox;
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -164,20 +159,19 @@ public class AddQuestionFrameController implements Initializable {
 		        answersArr.add(txtAnswerWrong2.getText());
 		        answersArr.add(txtAnswerWrong3.getText());
 		        
+		        
+		        //String id = maxIdOfQuestionInCurrentDepartment;
 		        String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        int i = 0;
+		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
+		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
 		        for(String courses : coursesSelect) {
-
-		        	System.out.println(courses);
-			        newQuestion.add(new Question(id, txtQuestionSubject.getText(), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));	
-			        id = Integer.toString(Integer.parseInt(id) + 1);
-			        
-			        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
-			        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
-			        addQuestionToDBArr.add(newQuestion.get(i));
-			        ClientUI.chat.accept(addQuestionToDBArr);
+		        	id = Integer.toString(Integer.parseInt(id) + 1);
+			        newQuestion.add(new Question(id, txtQuestionSubject.getText(), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));		        
+			        addQuestionToDBArr.add(newQuestion.get(i));	        
 			        i++;
 		        }
+		        ClientUI.chat.accept(addQuestionToDBArr);
 		        
 		        //System.out.println(courseSelectList.getSelectionModel().getSelectedItems());
 		        

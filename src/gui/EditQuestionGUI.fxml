@@ -23,11 +23,11 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <VBox layoutX="25.0" layoutY="70.0" prefHeight="680.0" prefWidth="515.0" spacing="30.0">
+      <VBox layoutX="34.0" layoutY="111.0" prefHeight="637.0" prefWidth="497.0" spacing="30.0">
          <children>
             <HBox prefHeight="45.0" prefWidth="330.0" spacing="5.0">
                <children>
-                  <Label id="lblidQuestion" prefHeight="40.0" prefWidth="200.0" text="Question ID:" textFill="#383838">
+                  <Label id="lblidQuestion" prefHeight="0.0" prefWidth="182.0" text="Question ID:" textFill="#383838">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -41,7 +41,7 @@
             </HBox>
             <HBox prefHeight="45.0" prefWidth="330.0">
                <children>
-                  <Label fx:id="lblSubjectInfo" prefHeight="40.0" prefWidth="200.0" text="Subject:" textFill="#383838">
+                  <Label fx:id="lblSubjectInfo" prefHeight="17.0" prefWidth="197.0" text="Subject:" textFill="#383838">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -52,9 +52,9 @@
                      </font></Label>
                </children>
             </HBox>
-            <HBox prefHeight="45.0" prefWidth="330.0">
+            <HBox prefHeight="14.0" prefWidth="494.0">
                <children>
-                  <Label fx:id="lblCourseNameInfo" prefHeight="40.0" prefWidth="200.0" text="Course Name:" textFill="#383838">
+                  <Label fx:id="lblCourseNameInfo" prefHeight="0.0" prefWidth="143.0" text="Course Name:" textFill="#383838">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -65,45 +65,23 @@
                      </font></Label>
                </children>
             </HBox>
-            <HBox prefHeight="147.0" prefWidth="694.0">
+            <HBox prefHeight="56.0" prefWidth="436.0">
                <children>
                   <Label fx:id="lblQuestionTextInfo" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="40.0" prefWidth="200.0" text="Question Text:" textFill="#383838">
                      <font>
-                        <Font size="20.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextArea fx:id="txtQuestionText" prefHeight="150.0" prefWidth="230.0" wrapText="true">
+                  <TextArea fx:id="txtQuestionText" prefHeight="81.0" prefWidth="198.0" wrapText="true">
                      <font>
                         <Font size="16.0" />
                      </font></TextArea>
                </children>
             </HBox>
-            <HBox prefHeight="40.0" prefWidth="300.0">
-               <children>
-                  <Label fx:id="lblQuestionNumberInfo" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="200.0" text="Question Number:" textFill="#383838">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtQuestionNumber" prefHeight="40.0" prefWidth="115.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font></TextField>
-               </children>
-            </HBox>
-            <HBox prefHeight="45.0" prefWidth="330.0">
-               <children>
-                  <Label fx:id="lblAuthorInfo" prefHeight="40.0" prefWidth="200.0" text="Author:" textFill="#383838">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="txtQuestionAuthor" prefHeight="40.0" prefWidth="225.0">
-                     <font>
-                        <Font size="18.0" />
-                     </font></Label>
-               </children>
-            </HBox>
+            <TextField id="txtAnswerCorrect" fx:id="txtAnswerCorrect" prefHeight="26.0" prefWidth="370.0" />
+            <TextField id="txtAnswerWrong1" fx:id="txtAnswerWrong1"/>
+            <TextField id="txtAnswerWrong2" fx:id="txtAnswerWrong2"/>
+            <TextField id="txtAnswerWrong3" fx:id="txtAnswerWrong3"/>
             <Label fx:id="lblMessage" alignment="CENTER" prefHeight="50.0" prefWidth="300.0" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -112,6 +90,33 @@
                   <Insets left="90.0" top="-10.0" />
                </VBox.margin>
             </Label>
+            <HBox prefHeight="40.0" prefWidth="300.0">
+               <children>
+                  <Label fx:id="lblQuestionNumberInfo" alignment="TOP_LEFT" prefHeight="40.0" prefWidth="200.0" text="Question Number:" textFill="#383838">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtQuestionNumber" prefHeight="14.0" prefWidth="61.0">
+                     <font>
+                        <Font size="19.0" />
+                     </font></TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="45.0" prefWidth="330.0">
+               <children>
+                  <Label fx:id="lblAuthorInfo" prefHeight="40.0" prefWidth="200.0" text="Author:" textFill="#383838">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="txtQuestionAuthor" prefHeight="40.0" prefWidth="225.0">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Button id="btnSaveInfo" fx:id="btnSave" alignment="CENTER" mnemonicParsing="false" onAction="#getSavebtn" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #4958ff;" text="Save" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />

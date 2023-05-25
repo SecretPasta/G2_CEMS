@@ -3,13 +3,10 @@ package handlers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import Config.Question;
 import JDBC.DBController;
-import gui.LecturerDashboardFrameController;
 import gui.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
 
@@ -201,8 +198,8 @@ public class MessageHandler_Server {
 	    		case "AddNewQuestionToDB":
 	    			// Handle AddNewQuestionToDB message
 	    			// 1 - newQuestion
-	    			
-	    			DBController.addNewQuestion(questionList.get(1));
+	    			questionList.remove(0);
+	    			DBController.addNewQuestion(questionList);
 	    			client.sendToClient("new question was added");
 	
 					break;

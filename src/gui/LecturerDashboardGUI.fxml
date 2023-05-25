@@ -158,7 +158,7 @@
                      </font>
                   </Label>
                   <Button layoutX="717.0" layoutY="30.0" mnemonicParsing="false" onAction="#getCloseBtn" text="Close" />
-                  <JFXButton fx:id="btnEdit" alignment="CENTER" layoutX="53.0" layoutY="488.0" onAction="#getEditBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Edit Question" textFill="#faf9f6">
+                  <JFXButton fx:id="btnEdit" alignment="CENTER" layoutX="53.0" layoutY="488.0" onAction="#getEditBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10 10 10 10;" stylesheets="@LecturerDashboard.css" text="Edit Question" textFill="#faf9f6">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -166,7 +166,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnRemoveQuestion" alignment="CENTER" layoutX="567.0" layoutY="488.0" onAction="#getRemoveBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #FE774C; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Remove Question" textFill="#faf9f6">
+                  <JFXButton fx:id="btnRemoveQuestion" alignment="CENTER" layoutX="567.0" layoutY="488.0" onAction="#getRemoveBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #FE774C; -fx-background-radius: 10 10 10 10;" stylesheets="@LecturerDashboard.css" text="Remove Question" textFill="#faf9f6">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -174,7 +174,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnAddQuestion" alignment="CENTER" layoutX="312.0" layoutY="488.0" onAction="#getAddBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" stylesheets="@HomeStyle.css" text="Add Question" textFill="#faf9f6">
+                  <JFXButton fx:id="btnAddQuestion" alignment="CENTER" layoutX="312.0" layoutY="488.0" onAction="#getAddBtn_ManageQuestions" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" stylesheets="@LecturerDashboard.css" text="Add Question" textFill="#faf9f6">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

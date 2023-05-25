@@ -122,10 +122,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	    subjectColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 	    courseNameColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 	    questionTextColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));
+	    
+	    
+	    
+	    
 	    questionNumberColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 
-	    lbluserNameAndID.setText(lecturer.getName() + "\n(" + lecturer.getId() + ")");
+	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")");
 	    // Set lecturer name and id under in the frame
 
 	    ArrayList<String> getQuestionArray = new ArrayList<>();

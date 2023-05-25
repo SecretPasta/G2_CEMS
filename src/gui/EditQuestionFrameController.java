@@ -43,6 +43,15 @@ public class EditQuestionFrameController implements Initializable {
 	@FXML
 	private TextField txtQuestionNumber;
 	@FXML
+	private TextField txtAnswerCorrect;
+	@FXML
+	private TextField txtAnswerWrong1;
+	@FXML
+	private TextField txtAnswerWrong2;
+	@FXML
+	private TextField txtAnswerWrong3;
+	
+	@FXML
 	private TextArea txtQuestionText;
 	@FXML
 	private Label txtQuestionAuthor;
@@ -67,6 +76,12 @@ public class EditQuestionFrameController implements Initializable {
 	    this.txtSubject.setText(question.getSubject());
 	    this.txtCourseName.setText(question.getCourseName());
 	    this.txtQuestionText.setText(question.getQuestionText());
+	    
+	    /*this.txtAnswerCorrect.setText(question.getAnswers().get(0));
+	    this.txtAnswerWrong1.setText(question.getAnswers().get(1));
+	    this.txtAnswerWrong2.setText(question.getAnswers().get(2));
+	    this.txtAnswerWrong3.setText(question.getAnswers().get(3));*/
+	    
 	    this.txtQuestionNumber.setText(question.getQuestionNumber());
 	    this.txtQuestionAuthor.setText(question.getLecturer());
 	}
@@ -93,7 +108,8 @@ public class EditQuestionFrameController implements Initializable {
 	 * @throws Exception If an exception occurs during the execution
 	 */
 	public void getSavebtn(ActionEvent event) throws Exception {
-	    if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("")) {
+	    if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") || txtAnswerCorrect.getText().equals("")
+	    		 || txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") || txtAnswerWrong3.getText().equals("")) {
 	        lblMessage.setTextFill(Color.color(1, 0, 0));
 	        lblMessage.setText("[Error] Missing fields");
 	    } else {
@@ -105,6 +121,10 @@ public class EditQuestionFrameController implements Initializable {
 	        updateQuestionArr.add("UpdateQuestionDataByID");
 	        updateQuestionArr.add(question.getId()); // Add the question ID
 	        updateQuestionArr.add(txtQuestionText.getText()); // Add the updated question text
+	        updateQuestionArr.add(txtAnswerCorrect.getText());
+	        updateQuestionArr.add(txtAnswerWrong1.getText());
+	        updateQuestionArr.add(txtAnswerWrong2.getText());
+	        updateQuestionArr.add(txtAnswerWrong3.getText());
 	        updateQuestionArr.add(txtQuestionNumber.getText()); // Add the updated question number
 	        
 	        // Send the ArrayList to the server for updating the question data

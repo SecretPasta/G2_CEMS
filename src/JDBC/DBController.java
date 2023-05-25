@@ -38,7 +38,7 @@ public class DBController {
 					}
 					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
-						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), null, rs.getString(5), rs.getString(6));
+						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), null, rs.getString(5), rs.getString(10));
 	                    questions.add(question);
 					}
 					rs.close();
@@ -56,13 +56,22 @@ public class DBController {
 	public static String UpdateQuestionDataByID(ArrayList<String> qArr) {
 		// 1 - question ID
 		// 2 - question text
-		// 3 - question number
+		// 3 - correct answer
+		// 4 - wrong answer1
+		// 5 - wrong answer2
+		// 6 - wrong answer3
+		// 7 - question number
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `question` SET `questionText` =?, `questionNumber` =? WHERE (`id` =?);");
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `question` SET `questionText` =?, "
+						+ "`answerCorrect` =?, `answerWrong1` =?, `answerWrong2` =?, `answerWrong3` =?, `questionNumber` =? WHERE (`id` =?);");
 				ps.setString(1,qArr.get(2));
 				ps.setString(2,qArr.get(3));
-				ps.setString(3,qArr.get(1));
+				ps.setString(3,qArr.get(4));
+				ps.setString(4,qArr.get(5));
+				ps.setString(5,qArr.get(6));
+				ps.setString(6,qArr.get(7));
+				ps.setString(7,qArr.get(1));
 		 		ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {
@@ -279,24 +288,26 @@ public class DBController {
 		return null;	
 	}
 
-	public static void addNewQuestion(Question newQuestion) {
+	public static void addNewQuestion(ArrayList<Question> questionList) {
 		String query = "INSERT INTO question (id, subject, courseName, questionText, questionNumber, answerCorrect, answerWrong1"
 				+ ", answerWrong2, answerWrong3, lecturer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 	    try {
-	    	if (mysqlConnection.getConnection() != null) {
-	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	    		ps.setString(1, newQuestion.getId()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	    		ps.setString(2, newQuestion.getSubject());
-	    		ps.setString(3, newQuestion.getCourseName());
-	    		ps.setString(4, newQuestion.getQuestionText());
-	    		ps.setString(5, newQuestion.getQuestionNumber());
-	    		ps.setString(6, newQuestion.getAnswers().get(0));
-	    		ps.setString(7, newQuestion.getAnswers().get(1));
-	    		ps.setString(8, newQuestion.getAnswers().get(2));
-	    		ps.setString(9, newQuestion.getAnswers().get(3));
-	    		ps.setString(10, newQuestion.getLecturer());
-	    		ps.executeUpdate();
+	    	for(Question question : questionList) {
+		    	if (mysqlConnection.getConnection() != null) {
+		    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+		    		ps.setString(1, question.getId()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		    		ps.setString(2, question.getSubject());
+		    		ps.setString(3, question.getCourseName());
+		    		ps.setString(4, question.getQuestionText());
+		    		ps.setString(5, question.getQuestionNumber());
+		    		ps.setString(6, question.getAnswers().get(0));
+		    		ps.setString(7, question.getAnswers().get(1));
+		    		ps.setString(8, question.getAnswers().get(2));
+		    		ps.setString(9, question.getAnswers().get(3));
+		    		ps.setString(10, question.getLecturer());
+		    		ps.executeUpdate();
+		    	}
 	    	}
 		
 	    } catch (SQLException | ClassNotFoundException e) {
