@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddQuestionFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" stylesheets="@AddQuestion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddQuestionFrameController">
    <children>
       <JFXButton id="backBtn" fx:id="backBtn" layoutX="633.0" layoutY="27.0" onAction="#getBackBtn" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
          <font>
@@ -78,7 +78,7 @@
       </Label>
       <AnchorPane layoutX="14.0" layoutY="143.0" prefHeight="470.0" prefWidth="244.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.leftAnchor="25.0">
          <children>
-            <JFXListView fx:id="courseSelectList" layoutX="29.0" layoutY="125.0" prefHeight="303.0" prefWidth="186.0" AnchorPane.leftAnchor="29.0" />
+            <JFXListView fx:id="courseSelectList" layoutX="29.0" layoutY="125.0" prefHeight="303.0" prefWidth="186.0" style="-fx-padding: 5;" AnchorPane.leftAnchor="29.0" />
             <JFXComboBox id="subjectSelectBox" fx:id="subjectSelectBox" layoutX="29.0" layoutY="56.0" onAction="#getSubjectSelectBox" prefHeight="30.0" prefWidth="186.0" />
             <Label layoutX="29.0" layoutY="39.0" text="Subject">
                <font>
