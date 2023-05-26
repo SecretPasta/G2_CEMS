@@ -2,23 +2,99 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddQuestionFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AddQuestionFrameController">
    <children>
-      <JFXComboBox id="subjectSelectBox" fx:id="subjectSelectBox" layoutX="104.0" layoutY="74.0" onAction="#getSubjectSelectBox" prefHeight="30.0" prefWidth="214.0" />
-      <Label id="lblMessage" fx:id="lblMessage" layoutX="201.0" layoutY="527.0" prefHeight="18.0" prefWidth="318.0" />
-      <JFXButton id="addQuestionBtn" fx:id="addQuestionBtn" layoutX="299.0" layoutY="468.0" onAction="#getAddQuestionBtn" prefHeight="26.0" prefWidth="124.0" text="add question" />
-      <JFXButton id="backBtn" fx:id="backBtn" layoutX="673.0" layoutY="26.0" onAction="#getBackBtn" text="Back" />
-      <TextField id="textQuestionText" fx:id="textQuestionText" layoutX="237.0" layoutY="137.0" prefHeight="126.0" prefWidth="248.0" />
-      <TextField id="txtAnswerCorrect" fx:id="txtAnswerCorrect" layoutX="287.0" layoutY="286.0" />
-      <TextField id="txtAnswerWrong1" fx:id="txtAnswerWrong1" layoutX="287.0" layoutY="324.0" />
-      <TextField id="txtAnswerWrong2" fx:id="txtAnswerWrong2" layoutX="288.0" layoutY="359.0" />
-      <TextField id="txtAnswerWrong3" fx:id="txtAnswerWrong3" layoutX="289.0" layoutY="400.0" />
-      <TextField id="txtQuestionNumber" fx:id="txtQuestionNumber" layoutX="543.0" layoutY="250.0" />
-      <ListView id="courseSelectList" fx:id="courseSelectList" layoutX="22.0" layoutY="150.0" prefHeight="200.0" prefWidth="200.0" />
+      <JFXButton id="backBtn" fx:id="backBtn" layoutX="633.0" layoutY="27.0" onAction="#getBackBtn" prefHeight="30.0" prefWidth="102.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="25.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></JFXButton>
+      <AnchorPane layoutX="286.0" layoutY="142.0" prefHeight="470.0" prefWidth="538.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.rightAnchor="25.600000000000023">
+         <children>
+            <TextField id="textQuestionText" fx:id="textQuestionText" layoutX="15.0" layoutY="60.0" prefHeight="90.0" prefWidth="386.0" />
+            <TextField id="txtQuestionNumber" fx:id="txtQuestionNumber" layoutX="421.0" layoutY="61.0" prefHeight="30.0" prefWidth="101.0" AnchorPane.rightAnchor="15.799999999999955" />
+            <Label layoutX="17.0" layoutY="31.0" text="Question Text">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <VBox layoutX="17.0" layoutY="171.0" prefHeight="265.0" prefWidth="506.0" spacing="12.0" AnchorPane.rightAnchor="15.0">
+               <children>
+                  <Label text="Correct Answer">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtAnswerCorrect" fx:id="txtAnswerCorrect" prefHeight="26.0" prefWidth="486.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Wrong Answer #1">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtAnswerWrong1" fx:id="txtAnswerWrong1" prefHeight="26.0" prefWidth="486.0" />
+                  <Label text="Wrong Answer #2">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtAnswerWrong2" fx:id="txtAnswerWrong2" prefHeight="26.0" prefWidth="486.0" />
+                  <Label text="Wrong Answer #3">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtAnswerWrong3" fx:id="txtAnswerWrong3" prefHeight="26.0" prefWidth="486.0" />
+               </children>
+            </VBox>
+            <Label layoutX="420.0" layoutY="40.0" text="Question Number">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Circle fill="#ffc152" layoutX="89.0" layoutY="70.0" radius="48.0" stroke="#ffc152" strokeType="INSIDE" />
+      <Label layoutX="78.0" layoutY="35.0" text="?">
+         <font>
+            <Font name="System Bold" size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="153.0" layoutY="43.0" text="Add Question">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="14.0" layoutY="143.0" prefHeight="470.0" prefWidth="244.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.leftAnchor="25.0">
+         <children>
+            <JFXListView fx:id="courseSelectList" layoutX="29.0" layoutY="125.0" prefHeight="303.0" prefWidth="186.0" AnchorPane.leftAnchor="29.0" />
+            <JFXComboBox id="subjectSelectBox" fx:id="subjectSelectBox" layoutX="29.0" layoutY="56.0" onAction="#getSubjectSelectBox" prefHeight="30.0" prefWidth="186.0" />
+            <Label layoutX="29.0" layoutY="39.0" text="Subject">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="29.0" layoutY="100.0" text="Courses">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+      <JFXButton id="addQuestionBtn" fx:id="addQuestionBtn" layoutX="322.0" layoutY="640.0" onAction="#getAddQuestionBtn" prefHeight="40.0" prefWidth="206.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Save">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></JFXButton>
+      <Label id="lblMessage" fx:id="lblMessage" layoutX="25.0" layoutY="651.0" prefHeight="18.0" prefWidth="288.0" />
    </children>
 </AnchorPane>

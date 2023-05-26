@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXListView;
 
 import Config.Lecturer;
 import Config.Question;
@@ -32,7 +33,7 @@ public class AddQuestionFrameController implements Initializable {
     @FXML
     private JFXComboBox<String> subjectSelectBox;
     @FXML
-    private ListView<String> courseSelectList;
+    private JFXListView<String> courseSelectList;
     
     @FXML
     private Label lblMessage;
