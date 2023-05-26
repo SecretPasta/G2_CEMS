@@ -79,12 +79,6 @@ public class LecturerDashboardFrameController implements Initializable{
     private Pane pnlCheckExams = new Pane();
 	
 	@FXML
-	private Button btnClose = null;
-
-	@FXML
-	private Button btnEdit = null;
-	
-	@FXML
 	private JFXComboBox<String> subjectSelectBox_CreateExam;
 	@FXML
 	private JFXComboBox<String> courseSelectBox_CreateExam;
@@ -165,9 +159,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // The lecturer's name is added as a parameter
 	    ClientUI.chat.accept(getQuestionArray);
 	    
-	    pnlGreeting.toFront();
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	    pnlManageQuestions.toFront();
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	    // Show the ManageQuestions panel and clear the selection in the questions table
 	    
@@ -182,6 +174,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionTextColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
 	    questionNumberColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
+	    
+	    pnlGreeting.toFront();
 	    
 	    
 	    
@@ -463,7 +457,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnCreateExam) {
 	    	courseSelectBox_CreateExam.getItems().clear();
-	        pnlCreateExam.setStyle("-fx-background-color: #FFFFFF");
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {
