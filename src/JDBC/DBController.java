@@ -38,7 +38,12 @@ public class DBController {
 					}
 					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
-						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), null, rs.getString(5), rs.getString(10));
+						ArrayList<String> answers= new ArrayList<>();
+						answers.add(rs.getString(6));
+						answers.add(rs.getString(7));
+						answers.add(rs.getString(8));
+						answers.add(rs.getString(9));
+						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), answers, rs.getString(5), rs.getString(10));
 	                    questions.add(question);
 					}
 					rs.close();
@@ -223,68 +228,37 @@ public class DBController {
 		setUserIsLogin("0", "headofdepartment", "all");
 	}
 
-	public static Map<String, ArrayList<String>> getLecturerDepartmentCourses(String lecturerID) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String lecturerID) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
-        /*String query = "SELECT d.Name, c.Name " +
-                "FROM department d " +
-                "JOIN course c ON d.departmentID = c.departmentID";*/
-        
-		String query = "SELECT d.Name, c.Name FROM lecturer l "
-        		+ "JOIN department d ON l.departmentID = d.departmentID JOIN course c "
-        		+ "ON c.departmentID = d.departmentID WHERE l.lecturerID = ?";
-
-		/*String query = "SELECT d.Name AS department, c.Name AS course " +
-	               "FROM lecturerdepartment ld " +
-	               "JOIN department d ON d.DepartmentID = ld.DepartmentID " +
-	               "JOIN lecturercourse lc ON lc.LecturerID = ld.LecturerID " +
-	               "JOIN course c ON c.CourseID = lc.CourseID " +
-	               "WHERE ld.LecturerID = ?";*/
-
-        
-
-	    try {
-	    	if (mysqlConnection.getConnection() != null) {
-	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	    		ps.setString(1, lecturerID);
-	    		ResultSet resultSet = ps.executeQuery();
-	    		while (resultSet.next()) {
-	    	        String department = resultSet.getString("Department");
-	    	        String course = resultSet.getString("Course");
-
-	                // If the department doesn't exist in the HashMap, create a new list of courses
-	                if (!lecDepartmentCoursesMap.containsKey(department)) {
-	                	lecDepartmentCoursesMap.put(department, new ArrayList<>());
-	                }
-
-	                // Add the course to the department's list of courses
-	                lecDepartmentCoursesMap.get(department).add(course);
-	            }
-	    		resultSet.close();
-	    	}
-	    	
-	    } catch (SQLException | ClassNotFoundException e) {
-	    	e.printStackTrace();
-	    }
+		/*
+		 * need to set in the hashmap (lecDepartmentCoursesMap) the subject as a key and all the courses belong to it in an arraylist as a
+		 * value for the key.  
+		 * the hashmap will be at the end:
+		 * 
+		 * (subject, [course1, course2, .....])
+		 * 
+		 *  <math, [algebra, hedva, ...]>
+		 *  <coding, [java, c, python, ...]>
+		 *  .
+		 *  .
+		 *  .
+		 *  .
+		 *  .
+		 */
 		
 		return lecDepartmentCoursesMap;
 	}
 
-	public static String getMaxQuestionIdFromDepartment(String departmentName) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	public static String getMaxQuestionIdFromSubject(String subjectName) {
 		
-		/*String query = "SELECT MaxQuestionID FROM department WHERE Name = ?";
-		
-		try {
-			PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-			ps.setString(1, departmentName);
-			ResultSet resultSet = ps.executeQuery();
-			
-			if(resultSet.next()) {
-				return resultSet.getString(1);
-			}
-		}catch (Exception e) {
-		}*/
+		/*
+		 * get the MaxQuestionID of subject and return it
+		 * 
+		 * 
+		 * 
+		 */
 		return null;	
 	}
 

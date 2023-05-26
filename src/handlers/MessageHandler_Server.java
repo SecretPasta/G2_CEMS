@@ -32,6 +32,9 @@ public class MessageHandler_Server {
             case MAP_STRING_ARRAYLIST_STRING:
             	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg, client);
             	break;
+            default:
+            	System.out.println("Message type non exist");
+            	break;
         }
     }
 	
@@ -150,35 +153,35 @@ public class MessageHandler_Server {
 						
 	                    break;
 	                    
-	                case "GetLecturerDepartmentsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                case "GetLecturerSubjectsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
-				    	//Map<String, ArrayList<String>> lecDepartmentsCoursesHashMap = DBController.getLecturerDepartmentCourses(arrayListStr.get(1));
+				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
-	                	Map<String, ArrayList<String>> lecDepartmentsCoursesHashMap = new HashMap<>(); 
+	                	/*Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
 	                	
 				    	ArrayList<String> values1 = new ArrayList<>();
 				        values1.add("Value1");
 				        values1.add("Value2");
-				        lecDepartmentsCoursesHashMap.put("Key1", values1);
+				        lecSubjectsCoursesHashMap.put("Key1", values1);
 
 				        ArrayList<String> values2 = new ArrayList<>();
 				        values2.add("Value3");
 				        values2.add("Value4");
-				        lecDepartmentsCoursesHashMap.put("Key2", values2);
+				        lecSubjectsCoursesHashMap.put("Key2", values2);
 				        
-				        lecDepartmentsCoursesHashMap.put("HashMapWithLecturerDepartmentsAndCourses", null);
+				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);*/
 				    	
-				    	client.sendToClient(lecDepartmentsCoursesHashMap);
+				    	client.sendToClient(lecSubjectsCoursesHashMap);
 				    	
 				    	break;
 				    	
-	                case "GetMaxQuestionIdFromProvidedDepartment":
+	                case "GetMaxQuestionIdFromProvidedSubject":
 	                	// 1 - Department Name
 	                	String questionID;
-	                	questionID = DBController.getMaxQuestionIdFromDepartment(arrayListStr.get(1));
+	                	questionID = DBController.getMaxQuestionIdFromSubject(arrayListStr.get(1));
 	                	
 	                	ArrayList<String> questionIdArr = new ArrayList<>();
-	                	questionIdArr.add("MaximunQuestionIdForSelectedDEpartment");
+	                	questionIdArr.add("MaximunQuestionIdForSelectedSubject");
 	                	questionIdArr.add(questionID);
 	                	client.sendToClient(questionIdArr);
 	                	break;

@@ -151,7 +151,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param questions The ArrayList of questions to be loaded
 	 */
 	public void loadArrayQuestionsToTable(ArrayList<Question> questions) {
-
+		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
 	    questionsToEditObservableList.addAll(questions);
 
@@ -220,6 +220,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    // Clear the selection in the questions table
 	    tableView.getSelectionModel().clearSelection();
+	    lblMessage.setText("");
 	}
 
 	
@@ -297,7 +298,9 @@ public class LecturerDashboardFrameController implements Initializable{
 			questionsToEditObservableList.addAll(newQuestion);
 			lblMessage.setText("The question added succesfully");
 		}
-		
+		if(newQuestion != null) {
+			lblMessage.setText("");
+		}
 		
 		// Show the current stage
 	    currStage.show();

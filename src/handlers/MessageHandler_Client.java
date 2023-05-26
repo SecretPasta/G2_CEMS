@@ -33,6 +33,7 @@ public class MessageHandler_Client {
             	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg);
 			break;
 		default:
+        		System.out.println("Message type non exist");
 			break;
         }
     }
@@ -112,7 +113,7 @@ public class MessageHandler_Client {
 						if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
 							LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
 						}
-						/*else if() { // login as lecturer
+						/*else if() { // login as student
 							  
 						}
 						else if() { // login as head of department
@@ -122,9 +123,9 @@ public class MessageHandler_Client {
 						
 	                    break;
 	                    
-	                case "MaximunQuestionIdForSelectedDEpartment":
+	                case "MaximunQuestionIdForSelectedSubject":
 	                	// 1 - maximum question id for selected department
-	                	AddQuestionFrameController.saveMaxIdOfQuestionInSelectedDepartment(arrayListStr.get(1));
+	                	AddQuestionFrameController.saveMaxIdOfQuestionInSelectedSubject(arrayListStr.get(1));
 	                	
 	                	break;
 	            }       
@@ -162,10 +163,10 @@ public class MessageHandler_Client {
     	
     	switch (messageType) {
     	
-	    	case "HashMapWithLecturerDepartmentsAndCourses":
+	    	case "HashMapWithLecturerSubjectsAndCourses":
 	    		
 				map.remove(messageType);
-				AddQuestionFrameController.loadLecturerDepartmentsAndCourses(map);
+				AddQuestionFrameController.loadLecturerSubjectsAndCourses(map);
 				
 				break;
     	}

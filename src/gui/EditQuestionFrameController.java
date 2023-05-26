@@ -77,10 +77,10 @@ public class EditQuestionFrameController implements Initializable {
 	    this.txtCourseName.setText(question.getCourseName());
 	    this.txtQuestionText.setText(question.getQuestionText());
 	    
-	    /*this.txtAnswerCorrect.setText(question.getAnswers().get(0));
+	    this.txtAnswerCorrect.setText(question.getAnswers().get(0));
 	    this.txtAnswerWrong1.setText(question.getAnswers().get(1));
 	    this.txtAnswerWrong2.setText(question.getAnswers().get(2));
-	    this.txtAnswerWrong3.setText(question.getAnswers().get(3));*/
+	    this.txtAnswerWrong3.setText(question.getAnswers().get(3));
 	    
 	    this.txtQuestionNumber.setText(question.getQuestionNumber());
 	    this.txtQuestionAuthor.setText(question.getLecturer());

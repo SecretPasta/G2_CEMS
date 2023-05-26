@@ -30,7 +30,7 @@ import javafx.scene.paint.Color;
 public class AddQuestionFrameController implements Initializable {
 	
     @FXML
-    private JFXComboBox<String> departmentSelectBox;
+    private JFXComboBox<String> subjectSelectBox;
     @FXML
     private ListView<String> courseSelectList;
     
@@ -48,8 +48,6 @@ public class AddQuestionFrameController implements Initializable {
     @FXML
     private TextField txtAnswerWrong3;
     @FXML
-    private TextField txtQuestionSubject;
-    @FXML
     private TextField txtQuestionNumber;
     
     @FXML
@@ -60,34 +58,34 @@ public class AddQuestionFrameController implements Initializable {
     
     private Lecturer lecturer;
     
-    private ArrayList<Question> newQuestion = new ArrayList<>();
+    private ArrayList<Question> newQuestion;
     
-    private static String maxIdOfQuestionInCurrentDepartment;
+    private static String maxIdOfQuestionInCurrentSubject;
     
-    private static Map<String, ArrayList<String>> departmentCoursesMap = new HashMap<>(); // map for departments and courses for the lecturer
+    private static Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for departments and courses for the lecturer
     
 	public static void start(Lecturer lecturer) throws IOException {
 
-		getLecturerDepartmentsAndCoursesFromDB(lecturer); // get the departments and courses of the lecturer from the DB
+		getLecturerSubjectsAndCoursesFromDB(lecturer); // get the departments and courses of the lecturer from the DB
 		
 		SceneManagment.createNewStage("/gui/AddQuestionGUI.fxml", null, "Question Add Managment Tool").show();
 
 		
 		
 	}
-	public static void getLecturerDepartmentsAndCoursesFromDB(Lecturer lecturer) {
+	public static void getLecturerSubjectsAndCoursesFromDB(Lecturer lecturer) {
 
 		// send the server an ArrayList with the lecturer id to get his departments and courses that belong to each department
 		// will return from the server and the DB an hashmap with department and its courses that belong to the lecturer
-		ArrayList<String> getLecturerDepartmentsCoursesArr = new ArrayList<>();
-		getLecturerDepartmentsCoursesArr.add("GetLecturerDepartmentsAndCourses");
-		getLecturerDepartmentsCoursesArr.add(lecturer.getId());
-		ClientUI.chat.accept(getLecturerDepartmentsCoursesArr);
+		ArrayList<String> getLecturerSubjectsCoursesArr = new ArrayList<>();
+		getLecturerSubjectsCoursesArr.add("GetLecturerSubjectsAndCourses");
+		getLecturerSubjectsCoursesArr.add(lecturer.getId());
+		ClientUI.chat.accept(getLecturerSubjectsCoursesArr);
 	}
 
 	// loading the hashmap for the departments and courses of the lecturer
-	public static void loadLecturerDepartmentsAndCourses(Map<String, ArrayList<String>> map) {
-		departmentCoursesMap = map;
+	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
+		subjectsCoursesMap = map;
 	}
 	
 	
@@ -95,12 +93,12 @@ public class AddQuestionFrameController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		lecturer = LecturerDashboardFrameController.getLecturer(); // save the current lecturer from the dashboard
 		
-		courseSelectList.getItems().add("Please select a department first");
+		courseSelectList.getItems().add("Please select a subject first");
 		courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		// add departments to choose from the departmentSelectBox
-		for(Map.Entry<String, ArrayList<String>> entry : departmentCoursesMap.entrySet()) {
-			departmentSelectBox.getItems().add(entry.getKey());
+		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+			subjectSelectBox.getItems().add(entry.getKey());
 		}
 	}
 	
@@ -112,11 +110,11 @@ public class AddQuestionFrameController implements Initializable {
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(newQuestion);
 	}
 	
-	public void getDepartmentSelectBox(ActionEvent event) throws Exception {
+	public void getSubjectSelectBox(ActionEvent event) throws Exception {
 		courseSelectList.getItems().clear();
 		// add to the courseSelectBox all the courses in the map (the courses in the department that the lecture selected)
-		for(Map.Entry<String, ArrayList<String>> entry : departmentCoursesMap.entrySet()) {
-			if(departmentSelectBox.getSelectionModel().getSelectedItem() == entry.getKey()) {
+		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+			if(subjectSelectBox.getSelectionModel().getSelectedItem() == entry.getKey()) {
 				courseSelectList.getItems().addAll(entry.getValue());
 				break;
 			}
@@ -126,17 +124,17 @@ public class AddQuestionFrameController implements Initializable {
 	public void getCourseSelectBox(ActionEvent event) throws Exception {
 	}
 	
-	public static void saveMaxIdOfQuestionInSelectedDepartment(String maxId) {
-		maxIdOfQuestionInCurrentDepartment = maxId;
+	public static void saveMaxIdOfQuestionInSelectedSubject(String maxId) {
+		maxIdOfQuestionInCurrentSubject = maxId;
 	}
 
 	public void getAddQuestionBtn(ActionEvent event) throws Exception {
 		
 		ObservableList<String> coursesSelect = courseSelectList.getSelectionModel().getSelectedItems();
-		String departmentSelect = departmentSelectBox.getSelectionModel().getSelectedItem();
+		String subjectSelect = subjectSelectBox.getSelectionModel().getSelectedItem();
 		try {
-		    if (departmentSelect == null || coursesSelect.get(0).equals("Please select a department first") || coursesSelect == null ||
-		    		txtQuestionSubject.getText().equals("") || textQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") ||
+		    if (subjectSelect == null || coursesSelect.get(0).equals("Please select a subject first") || coursesSelect == null ||
+		    		textQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") ||
 		    		txtAnswerCorrect.getText().equals("") || txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") ||
 		    		txtAnswerWrong3.getText().equals("")) {
 		        lblMessage.setTextFill(Color.color(1, 0, 0));
@@ -146,12 +144,12 @@ public class AddQuestionFrameController implements Initializable {
 		    	//lblMessage.setText("Question added Successfully");
 		    	lblMessage.setText("");
 		        
-		        ArrayList<String> getMaxQuestionIdFromCurrentDepartmentArr = new ArrayList<>();
-		        getMaxQuestionIdFromCurrentDepartmentArr.add("GetMaxQuestionIdFromProvidedDepartment");
-		        getMaxQuestionIdFromCurrentDepartmentArr.add(departmentSelect);
-		        ClientUI.chat.accept(getMaxQuestionIdFromCurrentDepartmentArr);
+		        ArrayList<String> getMaxQuestionIdFromCurrentSubjectArr = new ArrayList<>();
+		        getMaxQuestionIdFromCurrentSubjectArr.add("GetMaxQuestionIdFromProvidedSubject");
+		        getMaxQuestionIdFromCurrentSubjectArr.add(subjectSelect);
+		        ClientUI.chat.accept(getMaxQuestionIdFromCurrentSubjectArr);
 		        
-		        System.out.println(maxIdOfQuestionInCurrentDepartment);
+		        //System.out.println(maxIdOfQuestionInCurrentSubject);
 		        
 		        ArrayList<String> answersArr = new ArrayList<>();
 		        answersArr.add(txtAnswerCorrect.getText());
@@ -159,15 +157,15 @@ public class AddQuestionFrameController implements Initializable {
 		        answersArr.add(txtAnswerWrong2.getText());
 		        answersArr.add(txtAnswerWrong3.getText());
 		        
-		        
-		        //String id = maxIdOfQuestionInCurrentDepartment;
+		        newQuestion = new ArrayList<>();
+		        //String id = maxIdOfQuestionInCurrentSubject;
 		        String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        int i = 0;
 		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
 		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
 		        for(String courses : coursesSelect) {
-		        	id = Integer.toString(Integer.parseInt(id) + 1);
-			        newQuestion.add(new Question(id, txtQuestionSubject.getText(), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));		        
+		        	id = "0" + Integer.toString(Integer.parseInt(id) + 1);
+			        newQuestion.add(new Question(id, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));		        
 			        addQuestionToDBArr.add(newQuestion.get(i));	        
 			        i++;
 		        }
