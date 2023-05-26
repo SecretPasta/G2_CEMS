@@ -142,8 +142,8 @@ public class AddQuestionFrameController implements Initializable {
 		        answersArr.add(txtAnswerWrong3.getText());
 		        
 		        newQuestion = new ArrayList<>();
-		        //String id = maxIdOfQuestionInCurrentSubject;
-		        String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		        String id = maxIdOfQuestionInCurrentSubject;
+		        //String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        int i = 0;
 		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
 		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null));
