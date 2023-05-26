@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -21,7 +20,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
@@ -63,11 +61,7 @@ public class AddQuestionFrameController implements Initializable {
     
     private static String maxIdOfQuestionInCurrentSubject;
     
-    private static Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for subjects and courses for the lecturer
-    
-	public static void start(Lecturer lecturer, Map<String, ArrayList<String>> map) throws IOException {
-
-		subjectsCoursesMap = map; // get the subjects and courses of the lecturer
+	public static void start(Lecturer lecturer) throws IOException {
 		SceneManagment.createNewStage("/gui/AddQuestionGUI.fxml", null, "Question Add Managment Tool").show();
 
 	}
@@ -81,7 +75,7 @@ public class AddQuestionFrameController implements Initializable {
 		courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
 		// add subjects to choose from the subjectSelectBox
-		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 			subjectSelectBox.getItems().add(entry.getKey());
 		}
 	}
@@ -97,7 +91,7 @@ public class AddQuestionFrameController implements Initializable {
 	public void getSubjectSelectBox(ActionEvent event) throws Exception {
 		courseSelectList.getItems().clear();
 		// add to the courseSelectBox all the courses in the map (the courses in the subject that the lecture selected)
-		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 			if(subjectSelectBox.getSelectionModel().getSelectedItem() == entry.getKey()) {
 				courseSelectList.getItems().addAll(entry.getValue());
 				break;

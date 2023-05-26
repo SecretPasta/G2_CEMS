@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -20,7 +19,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -115,8 +113,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	private ObservableList<Question> questionsToCreateExamObservableList = FXCollections.observableArrayList();
 	
 	private ObservableList<Question> questionsToEditObservableList = FXCollections.observableArrayList(); // list of questions to select to Edit in the table
-
-	private static Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for subjects and courses for the lecturer
 	
 	protected static Stage currStage; // save current stage
 
@@ -167,7 +163,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_CreateExam.getSelectionModel().clearSelection();
 	    courseSelectBox_CreateExam.getItems().add("Please select a subject first");
 		// add subjects to choose from the subjectSelectBox
-		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 			subjectSelectBox_CreateExam.getItems().add(entry.getKey());
 		}
 	    idColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
@@ -193,7 +189,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	// loading the hashmap for the subjects and courses of the lecturer
 	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
-		subjectsCoursesMap = map;
+		lecturer.setLecturerSubjectsAndCourses(map);
 	}
 
 	
@@ -354,7 +350,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		// Hide the primary window
 		((Node) event.getSource()).getScene().getWindow().hide();
 		
-		AddQuestionFrameController.start(lecturer, subjectsCoursesMap); // send the lecturer to the add question screen
+		AddQuestionFrameController.start(lecturer); // send the lecturer to the add question screen
 	}
 	
 	public void showDashboardFrom_AddQuestion(ArrayList<Question> newQuestion) {
@@ -430,7 +426,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void getSubjectSelectBox_CreateExam(ActionEvent event) throws Exception {
 		courseSelectBox_CreateExam.getItems().clear();
 		// add to the courseSelectBox all the courses in the map (the courses in the subject that the lecture selected)
-		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 			if(subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem() == entry.getKey()) {
 				courseSelectBox_CreateExam.getItems().addAll(entry.getValue());
 				break;
