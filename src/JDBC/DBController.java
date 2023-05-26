@@ -11,31 +11,50 @@ import Config.Question;
 public class DBController {
 	
 	
-	// func to get all questions from DB that created by specific lecturer and/or specific courseName.
-	// if the lecturerName and courseName is null, getting all questions from DB.
-	public static ArrayList<Question> getAllQuestions(String lecturerName, String courseName) {
+	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectName.
+	public static ArrayList<Question> getAllQuestions(String lecturerName, String courseName, String subjectName) {
 		ArrayList<Question> questions = new ArrayList<Question>();
-		questions.add(new Question("LoadQuestionsFromDB",  null, null, null, null, null, null)); // set the first in the array to know how to handle it
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
 					PreparedStatement ps = null;
-					if(lecturerName == null && courseName == null) {
+					if(lecturerName == null && courseName == null && subjectName == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question");
 					}
-					else if(lecturerName != null && courseName == null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer =?");
+					else if(lecturerName != null && courseName == null && subjectName == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ?");
 						ps.setString(1, lecturerName);	
 					}
-					else if(lecturerName == null && courseName != null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName =?");
+					else if(lecturerName == null && courseName != null && subjectName == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ?");
 						ps.setString(1, courseName);	
 					}	
-					else if(lecturerName != null && courseName != null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer =? AND courseName =?");
-						ps.setString(1, lecturerName);
-						ps.setString(2, courseName);
+					else if(lecturerName == null && courseName == null && subjectName != null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE subject = ?");
+						ps.setString(1, subjectName);	
 					}
+					else if (lecturerName != null && courseName != null && subjectName == null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND courseName = ?");
+					    ps.setString(1, lecturerName);
+					    ps.setString(2, courseName);
+					}
+					else if (lecturerName != null && courseName == null && subjectName != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND subject = ?");
+					    ps.setString(1, lecturerName);
+					    ps.setString(2, subjectName);
+					}
+					else if (lecturerName == null && courseName != null && subjectName != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ? AND subject = ?");
+					    ps.setString(1, courseName);
+					    ps.setString(2, subjectName);
+					}		
+					else if (lecturerName != null && courseName != null && subjectName != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND courseName = ? AND subject = ?");
+					    ps.setString(1, lecturerName);
+					    ps.setString(2, courseName);
+					    ps.setString(3, subjectName);
+					}
+					
 					ResultSet rs = ps.executeQuery();
 					while (rs.next()) {
 						ArrayList<String> answers= new ArrayList<>();

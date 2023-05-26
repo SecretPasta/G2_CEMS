@@ -62,30 +62,13 @@ public class AddQuestionFrameController implements Initializable {
     
     private static String maxIdOfQuestionInCurrentSubject;
     
-    private static Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for departments and courses for the lecturer
+    private static Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for subjects and courses for the lecturer
     
-	public static void start(Lecturer lecturer) throws IOException {
+	public static void start(Lecturer lecturer, Map<String, ArrayList<String>> map) throws IOException {
 
-		getLecturerSubjectsAndCoursesFromDB(lecturer); // get the departments and courses of the lecturer from the DB
-		
+		subjectsCoursesMap = map; // get the subjects and courses of the lecturer
 		SceneManagment.createNewStage("/gui/AddQuestionGUI.fxml", null, "Question Add Managment Tool").show();
 
-		
-		
-	}
-	public static void getLecturerSubjectsAndCoursesFromDB(Lecturer lecturer) {
-
-		// send the server an ArrayList with the lecturer id to get his departments and courses that belong to each department
-		// will return from the server and the DB an hashmap with department and its courses that belong to the lecturer
-		ArrayList<String> getLecturerSubjectsCoursesArr = new ArrayList<>();
-		getLecturerSubjectsCoursesArr.add("GetLecturerSubjectsAndCourses");
-		getLecturerSubjectsCoursesArr.add(lecturer.getId());
-		ClientUI.chat.accept(getLecturerSubjectsCoursesArr);
-	}
-
-	// loading the hashmap for the departments and courses of the lecturer
-	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
-		subjectsCoursesMap = map;
 	}
 	
 	
@@ -96,7 +79,7 @@ public class AddQuestionFrameController implements Initializable {
 		courseSelectList.getItems().add("Please select a subject first");
 		courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
-		// add departments to choose from the departmentSelectBox
+		// add subjects to choose from the subjectSelectBox
 		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
 			subjectSelectBox.getItems().add(entry.getKey());
 		}
@@ -112,7 +95,7 @@ public class AddQuestionFrameController implements Initializable {
 	
 	public void getSubjectSelectBox(ActionEvent event) throws Exception {
 		courseSelectList.getItems().clear();
-		// add to the courseSelectBox all the courses in the map (the courses in the department that the lecture selected)
+		// add to the courseSelectBox all the courses in the map (the courses in the subject that the lecture selected)
 		for(Map.Entry<String, ArrayList<String>> entry : subjectsCoursesMap.entrySet()) {
 			if(subjectSelectBox.getSelectionModel().getSelectedItem() == entry.getKey()) {
 				courseSelectList.getItems().addAll(entry.getValue());

@@ -148,9 +148,16 @@ public class MessageHandler_Client {
     			// Handle LoadQuestionsFromDB message
     			
     			questionList.remove(0); // remove the first question (the question that identified)
-				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable(questionList);
+				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable_ManageQuestions(questionList);
 				System.out.println("The questions succesfully loaded from the DB to the table.");
 				break;
+				
+    		case "LoadQuestionsFromDB_CreateExamTable":
+    			
+    			questionList.remove(0); // remove the first question (the question that identified)
+    			LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable_CreateExam(questionList);
+    			System.out.println("The questions succesfully loaded from the DB to the create exam table.");
+    			break;
     	} 	
     }
     
@@ -166,7 +173,7 @@ public class MessageHandler_Client {
 	    	case "HashMapWithLecturerSubjectsAndCourses":
 	    		
 				map.remove(messageType);
-				AddQuestionFrameController.loadLecturerSubjectsAndCourses(map);
+				LecturerDashboardFrameController.loadLecturerSubjectsAndCourses(map);
 				
 				break;
     	}

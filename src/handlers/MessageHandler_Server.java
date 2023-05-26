@@ -114,8 +114,9 @@ public class MessageHandler_Server {
 	                case "GetAllQuestionsFromDB":
 	                    // Handle GetAllQuestionsFromDB message
 	                	
-	                	ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null); // send the full name of the user
-						client.sendToClient((ArrayList<Question>)questions);
+	                	ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null, null); // send the full name of the user
+	                	questions.add(0, new Question("LoadQuestionsFromDB",  null, null, null, null, null, null));
+	                	client.sendToClient((ArrayList<Question>)questions);
 						
 	                    break;
 	                case "RemoveQuestionFromDB":
@@ -155,9 +156,9 @@ public class MessageHandler_Server {
 	                    
 	                case "GetLecturerSubjectsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
-				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
+				    	//Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
-	                	/*Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
+	                	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
 	                	
 				    	ArrayList<String> values1 = new ArrayList<>();
 				        values1.add("Value1");
@@ -169,7 +170,7 @@ public class MessageHandler_Server {
 				        values2.add("Value4");
 				        lecSubjectsCoursesHashMap.put("Key2", values2);
 				        
-				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);*/
+				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);
 				    	
 				    	client.sendToClient(lecSubjectsCoursesHashMap);
 				    	
@@ -184,6 +185,14 @@ public class MessageHandler_Server {
 	                	questionIdArr.add("MaximunQuestionIdForSelectedSubject");
 	                	questionIdArr.add(questionID);
 	                	client.sendToClient(questionIdArr);
+	                	break;
+	                	
+	                case "GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable":
+	                	// 1 - Subject selected
+	                	// 2 - Course Select
+	                	ArrayList<Question> questionArr = DBController.getAllQuestions(null, arrayListStr.get(2), arrayListStr.get(1));
+	                	questionArr.add(0, new Question("LoadQuestionsFromDB_CreateExamTable",  null, null, null, null, null, null));
+	                	client.sendToClient(questionArr);
 	                	break;
 	            }
             }catch (IOException | ClassNotFoundException e) {
