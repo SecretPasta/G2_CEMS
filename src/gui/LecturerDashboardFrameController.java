@@ -59,7 +59,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private Label lbluserNameAndID;
-
+	
+	@FXML
+	private Pane pnlGreeting = new Pane();
+	
     @FXML
     private Pane pnlShowReport = new Pane();
 
@@ -162,6 +165,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // The lecturer's name is added as a parameter
 	    ClientUI.chat.accept(getQuestionArray);
 	    
+	    pnlGreeting.toFront();
+	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	    pnlManageQuestions.toFront();
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	    // Show the ManageQuestions panel and clear the selection in the questions table
@@ -450,7 +455,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	        pnlShowReport.toFront();
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {
-	        pnlCheckExams.setStyle("-fx-background-color: #FFFFFF");
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) {
@@ -463,7 +467,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {
-	        pnlManageExams.setStyle("-fx-background-color: #FFFFFF");
 	        pnlManageExams.toFront();
 	    }
 	}

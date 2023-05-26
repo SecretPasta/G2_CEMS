@@ -1,0 +1,16 @@
+.text-field {
+	-fx-background-color: #242633, #FAF9F6;
+	-fx-background-insets: 0, 1 1 1 1;
+	-fx-background-radius: 10;
+}
+.text-field:focused {
+	-fx-background-radius: 10;
+	-fx-background-color: #66A7F2, #FAF9F6;
+	/*-fx-background-insets: 0, -1 -1 2 -1;*/
+}
+
+.list-view{
+	-fx-background-color: #242633, #FAF9F6;
+	-fx-background-insets: 0, 1 1 1 1;
+	-fx-background-radius: 10;
+}
