@@ -18,7 +18,6 @@ import client.ClientUI;
 
 public class EditQuestionFrameController implements Initializable {
 	
-	private Question question;
 	@FXML
 	private Label lblidQuestion;
 	@FXML
@@ -33,13 +32,13 @@ public class EditQuestionFrameController implements Initializable {
 	private Label lblAuthorInfo;
 	@FXML
 	private Label lblMessage;
-
 	@FXML
 	private Label txtQuestionID;
 	@FXML
 	private Label txtSubject;
 	@FXML
 	private Label txtCourseName;
+	
 	@FXML
 	private TextField txtQuestionNumber;
 	@FXML
@@ -53,37 +52,37 @@ public class EditQuestionFrameController implements Initializable {
 	
 	@FXML
 	private TextArea txtQuestionText;
+	
 	@FXML
 	private Label txtQuestionAuthor;
 
 	@FXML
 	private Button btnBack = null;
-
 	@FXML
 	private Button btnSave = null;
+	
+	private static Question questionSelected;
 
 	/**
 	 * Loads a specific question into the GUI table.
 	 *
 	 * @param question The question object to be loaded
 	 */
-	public void loadSelectedQuestion(Question question) {
-	    // Set the current question object to the provided question
-	    this.question = question;
-
+	public void loadSelectedQuestion() {
+		
 	    // Set the text fields in the GUI with the properties of the question object
-	    this.txtQuestionID.setText(question.getId());
-	    this.txtSubject.setText(question.getSubject());
-	    this.txtCourseName.setText(question.getCourseName());
-	    this.txtQuestionText.setText(question.getQuestionText());
+	    txtQuestionID.setText(questionSelected.getId());
+	    txtSubject.setText(questionSelected.getSubject());
+	    txtCourseName.setText(questionSelected.getCourseName());
+	    txtQuestionText.setText(questionSelected.getQuestionText());
 	    
-	    this.txtAnswerCorrect.setText(question.getAnswers().get(0));
-	    this.txtAnswerWrong1.setText(question.getAnswers().get(1));
-	    this.txtAnswerWrong2.setText(question.getAnswers().get(2));
-	    this.txtAnswerWrong3.setText(question.getAnswers().get(3));
+	    txtAnswerCorrect.setText(questionSelected.getAnswers().get(0));
+	    txtAnswerWrong1.setText(questionSelected.getAnswers().get(1));
+	    txtAnswerWrong2.setText(questionSelected.getAnswers().get(2));
+	    txtAnswerWrong3.setText(questionSelected.getAnswers().get(3));
 	    
-	    this.txtQuestionNumber.setText(question.getQuestionNumber());
-	    this.txtQuestionAuthor.setText(question.getLecturer());
+	    txtQuestionNumber.setText(questionSelected.getQuestionNumber());
+	    txtQuestionAuthor.setText(questionSelected.getLecturer());
 	}
 
 	/**
@@ -93,12 +92,13 @@ public class EditQuestionFrameController implements Initializable {
 	 * @throws Exception If an exception occurs during the execution
 	 */
 	public void getBackbtn(ActionEvent event) throws Exception {
+		
 	    ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 	    
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-	            question.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
+	    		questionSelected.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
 	}
 
 	/**
@@ -108,6 +108,7 @@ public class EditQuestionFrameController implements Initializable {
 	 * @throws Exception If an exception occurs during the execution
 	 */
 	public void getSavebtn(ActionEvent event) throws Exception {
+		
 	    if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") || txtAnswerCorrect.getText().equals("")
 	    		 || txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") || txtAnswerWrong3.getText().equals("")) {
 	        lblMessage.setTextFill(Color.color(1, 0, 0));
@@ -116,30 +117,36 @@ public class EditQuestionFrameController implements Initializable {
 	        lblMessage.setTextFill(Color.rgb(0, 102, 0));
 	        lblMessage.setText("Question Saved Successfully");
 	        
-	        // Create an ArrayList to hold the data for updating the question
+	        // Create an ArrayList to hold the data for updating the question and send it to the server
 	        ArrayList<String> updateQuestionArr = new ArrayList<>();
 	        updateQuestionArr.add("UpdateQuestionDataByID");
-	        updateQuestionArr.add(question.getId()); // Add the question ID
-	        updateQuestionArr.add(txtQuestionText.getText()); // Add the updated question text
+	        updateQuestionArr.add(questionSelected.getId());
+	        updateQuestionArr.add(txtQuestionText.getText());
 	        updateQuestionArr.add(txtAnswerCorrect.getText());
 	        updateQuestionArr.add(txtAnswerWrong1.getText());
 	        updateQuestionArr.add(txtAnswerWrong2.getText());
 	        updateQuestionArr.add(txtAnswerWrong3.getText());
-	        updateQuestionArr.add(txtQuestionNumber.getText()); // Add the updated question number
-	        
-	        // Send the ArrayList to the server for updating the question data
+	        updateQuestionArr.add(txtQuestionNumber.getText());
 	        ClientUI.chat.accept(updateQuestionArr);
+	        
 	    }
 	}
 
 
-	public static void start() throws Exception {
-		SceneManagment.createNewStage("/gui/EditQuestionGUI.fxml", null, "Question Edit Managment Tool").show();
+	/**
+	 * Starts the question editing management tool by opening the "Edit Question" screen.
+	 *
+	 * @param questionSelected_temp The question selected for editing.
+	 * @throws Exception If an exception occurs during the opening of the "Edit Question" screen.
+	 */
+	public static void start(Question questionSelected_temp) throws Exception {
+	    questionSelected = questionSelected_temp;
+	    SceneManagment.createNewStage("/gui/EditQuestionGUI.fxml", null, "Question Edit Management Tool").show();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		loadSelectedQuestion(LecturerDashboardFrameController.questionSelected);
+		loadSelectedQuestion();
 	}
 
 }

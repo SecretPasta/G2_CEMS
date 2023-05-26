@@ -13,13 +13,19 @@ public class Lecturer extends User{
     	super(id, username, password, name, email);
     }
     
+    /**
+     * Retrieves the map of subjects and courses for the lecturer.
+     * @return The map containing subjects and their corresponding courses.
+     */
     public Map<String, ArrayList<String>> getLecturerSubjectsAndCourses(){
 		return subjectsCoursesMap;
-    	
     }
     
+    /**
+     * Sets the map of subjects and courses for the lecturer.
+     * @param subjectsCoursesMap The map containing subjects and their corresponding courses.
+     */
     public void setLecturerSubjectsAndCourses(Map<String, ArrayList<String>> subjectsCoursesMap){
     	this.subjectsCoursesMap = subjectsCoursesMap;	 	
     }
-
 }

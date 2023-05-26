@@ -30,49 +30,38 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private JFXButton btnManageExams;
-	
 	@FXML
     private JFXButton btnManageQuestions;
-	
 	@FXML
     private JFXButton btnAddQuestion;
-	
 	@FXML
     private JFXButton btnRemoveQuestion;
-	
 	@FXML
     private JFXButton btnShowReport;
-	
 	@FXML
 	private JFXButton btnCreateExam;
-	
 	@FXML
     private JFXButton btnCheckExams;
-	
 	@FXML
     private JFXButton btnSearch_CreateExam;
 
 	@FXML
-	private Label lblMessage;
-	
+	private Label lblMessage1;
+	@FXML
+	private Label lblMessage2;
 	@FXML
 	private Label lbluserNameAndID;
 	
 	@FXML
 	private Pane pnlGreeting = new Pane();
-	
     @FXML
     private Pane pnlShowReport = new Pane();
-
     @FXML
     private Pane pnlCreateExam = new Pane();
-
     @FXML
     private Pane pnlManageQuestions = new Pane();
-    
     @FXML
     private Pane pnlManageExams = new Pane();
-
     @FXML
     private Pane pnlCheckExams = new Pane();
 	
@@ -85,6 +74,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableView<Question> tableView_ManageQuestions = new TableView<>();
 	@FXML
 	private TableView<Question> tableView_CreateExam = new TableView<>();
+	@FXML
+	private TableView<Question> tableView_CreateExam2 = new TableView<>();
 
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
@@ -108,21 +99,28 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableColumn<Question, String> authorColumn_CreateExam;
 	
-	private static Lecturer lecturer; // current lecture
+	@FXML
+	private TableColumn<Question, String> idColumn_CreateExam2;
+	@FXML
+	private TableColumn<Question, String> questionTextColumn_CreateExam2;
+	@FXML
+	private TableColumn<Question, String> questionNumberColumn_CreateExam2;
+	@FXML
+	private TableColumn<Question, String> authorColumn_CreateExam2;
 	
-	private ObservableList<Question> questionsToCreateExamObservableList = FXCollections.observableArrayList();
+	private static Lecturer lecturer; // current lecturer
+	
+	private ObservableList<Question> questionsToCreateExamObservableList2 = FXCollections.observableArrayList(); // list2 of questions to select for exam
+
+	private ObservableList<Question> questionsToCreateExamObservableList = FXCollections.observableArrayList(); // list of questions to select for exam
 	
 	private ObservableList<Question> questionsToEditObservableList = FXCollections.observableArrayList(); // list of questions to select to Edit in the table
 	
 	protected static Stage currStage; // save current stage
 
-	static Question questionSelected; // question selected to save
+	private static Question questionSelected; // question selected to edit or to delete
+	
 	private static LecturerDashboardFrameController instance;
-	
-	public static Lecturer getLecturer() {
-		return lecturer;
-	}
-	
 	
 	public LecturerDashboardFrameController() {
 		instance = this;
@@ -134,11 +132,12 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
-	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")");
-	    // Set lecturer name and id under in the frame
+	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
+	    pnlGreeting.toFront();
 		
-	    // -------------- ManageQuestions --------------
+	    // -------------- ManageQuestions PANEL --------------
 
 	    // Setting up cell value factories for lecturer's questions management table columns
 	    idColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
@@ -148,50 +147,47 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionNumberColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 
+	    // Create an ArrayList to get all questions from the database for the current lecturer
 	    ArrayList<String> getQuestionArray = new ArrayList<>();
 	    getQuestionArray.add("GetAllQuestionsFromDB");
-	    getQuestionArray.add(lecturer.getName());
-	    // Create an ArrayList to get all questions from the database for the current lecturer
-	    // The lecturer's name is added as a parameter
+	    getQuestionArray.add(lecturer.getName()); // The lecturer's name is added as a parameter   
 	    ClientUI.chat.accept(getQuestionArray);
 	    
+	    // clear the selection in the questions management table
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	    // Show the ManageQuestions panel and clear the selection in the questions table
 	    
-	 // -------------- CreateExam --------------
+	    // -------------- ManageQuestions PANEL --------------
+	    
+	    // -------------- CreateExam --------------
+	    
+	    // clear the selection in the create exam table
 	    tableView_CreateExam.getSelectionModel().clearSelection();
 	    courseSelectBox_CreateExam.getItems().add("Please select a subject first");
-		// add subjects to choose from the subjectSelectBox
+	    
+		// add subjects to choose from the subjectSelectBox_CreateExam
 		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 			subjectSelectBox_CreateExam.getItems().add(entry.getKey());
 		}
+		
+		// Setting up cell value factories for lecturer's create exam tables columns
 	    idColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    questionTextColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
 	    questionNumberColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 	    
-	    pnlGreeting.toFront();
+	    idColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
+	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
+	    questionNumberColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
+	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 	    
+	 // -------------- CreateExam --------------
 	    
-	    
+   
 	}
 	
-	public static void getLecturerSubjectsAndCoursesFromDB(Lecturer lecturer) {
-
-		// send the server an ArrayList with the lecturer id to get his subjects and courses that belong to each subject
-		// will return from the server and the DB an hashmap with subjects and its courses that belong to the lecturer
-		ArrayList<String> getLecturerSubjectsCoursesArr = new ArrayList<>();
-		getLecturerSubjectsCoursesArr.add("GetLecturerSubjectsAndCourses");
-		getLecturerSubjectsCoursesArr.add(lecturer.getId());
-		ClientUI.chat.accept(getLecturerSubjectsCoursesArr);
-	}
 	
-	// loading the hashmap for the subjects and courses of the lecturer
-	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
-		lecturer.setLecturerSubjectsAndCourses(map);
-	}
 
+	// -------------- ManageQuestions PANEL --------------
 	
 	/**
 	 * Loads an array of questions into the table view.
@@ -208,18 +204,280 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
+	/**
+	 * Opens the dashboard screen from the EditQuestionFrameController without creating it again.
+	 *
+	 * @param edited_QuestionID      The ID of the edited question
+	 * @param edited_QuestionText    The edited question text
+	 * @param edited_QuestionNumber  The edited question number
+	 * @throws IOException If an I/O exception occurs during the execution
+	 */
+	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, String edited_QuestionNumber) throws IOException {
+	    
+		// Update the edited question in the table of the lecturer's questions
+	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
+	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
+	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
+	            questionsToEditObservableList.get(i).setQuestionNumber(edited_QuestionNumber);
+	        }
+	    }
+
+	    // Show the current stage
+	    currStage.show();
+
+	    // Refresh the table view to reflect the changes
+	    tableView_ManageQuestions.refresh();
+
+	    // Clear the selection in the questions table
+	    tableView_ManageQuestions.getSelectionModel().clearSelection();
+	    lblMessage1.setText("");
+	}
+	
+	
+	/**
+	 * Handles the action when the lecturer clicks on the edit button for a question in the Manage Questions screen.
+	 *
+	 * @param event The action event
+	 * @throws Exception If an exception occurs during the execution
+	 */
+	public void getEditBtn_ManageQuestions(ActionEvent event) throws Exception {
+		
+	    // Getting the selected question from the table view
+	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
+	    if (questionSelected == null) {
+	    	lblMessage1.setText("[Error] No question was selected.");
+	    } else {
+	    	lblMessage1.setText("");
+
+	        // Hide the primary window
+	        ((Node) event.getSource()).getScene().getWindow().hide();
+
+	        // Create and show the EditQuestion screen window
+	        EditQuestionFrameController.start(questionSelected);
+	        questionSelected = null;
+	    }
+	}
+
+	
+	/**
+	 * Event handler for when the lecturer clicks on the "Add" button in the "Manage Questions" screen.
+	 * Hides the primary window and navigates to the "Add Question" screen.
+	 *
+	 * @param event The action event triggered by clicking the "Add" button.
+	 * @throws Exception If an exception occurs during navigation to the "Add Question" screen.
+	 */
+	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {
+		
+	    // Hide the primary window
+	    ((Node) event.getSource()).getScene().getWindow().hide();
+
+	    // Navigate to the "Add Question" screen and pass the lecturer object
+	    AddQuestionFrameController.start(lecturer);
+	}
+
+	
+	/**
+	 * Handles the action when the lecturer clicks on the remove button for a question in the Manage Questions screen.
+	 *
+	 * @param event The action event
+	 * @throws Exception If an exception occurs during the execution
+	 */
+	public void getRemoveBtn_ManageQuestions(ActionEvent event) throws Exception {
+		
+	    // Getting the selected question from the table view
+	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
+	    
+	    if (questionSelected == null) {
+	        lblMessage1.setText("[Error] No question was selected.");
+	    } else {
+
+	        // Send a message to the server to remove the question from the database
+	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
+	        questionToRemoveArr.add("RemoveQuestionFromDB");
+	        questionToRemoveArr.add(questionSelected.getId());
+	        ClientUI.chat.accept(questionToRemoveArr);
+	        
+	        lblMessage1.setText("Question (ID:" + questionSelected.getId() + ") removed succesfully");     
+
+	        // Remove the question from the questionsToEditObservableList and refresh the table view
+	        for (int i = 0; i < questionsToEditObservableList.size(); i++) {
+	            if (questionsToEditObservableList.get(i).getId().equals(questionSelected.getId())) {
+	                questionsToEditObservableList.remove(i);
+	                break;
+	            }
+	        }
+	        
+	        tableView_ManageQuestions.refresh();
+	        questionSelected = null;
+	    }
+	}
+	
+
+	/**
+	 * Displays the dashboard screen after adding a question from the "Add Question" screen or getting back.
+	 *
+	 * @param newQuestion The newly added question to be displayed in the dashboard.
+	 */
+	public void showDashboardFrom_AddQuestion(ArrayList<Question> newQuestion) {
+		
+	    if (newQuestion != null) {
+	    	
+	        // Add the new question to the questionsToEditObservableList
+	        questionsToEditObservableList.addAll(newQuestion);
+	        lblMessage1.setText("The question added successfully");
+	    }
+
+	    // Clear the message if newQuestion is null or empty
+	    if (newQuestion == null || newQuestion.isEmpty()) {
+	    	lblMessage1.setText("");
+	    }
+
+	    // Show the current stage
+	    currStage.show();
+
+	    // Refresh the table view to reflect the changes
+	    tableView_ManageQuestions.refresh();
+
+	    // Clear the selection in the questions table
+	    tableView_ManageQuestions.getSelectionModel().clearSelection();
+	}
+	
+	// -------------- ManageQuestions PANEL --------------
+	
+
+	
+	// -------------- CreateExam PANEL --------------
+	
+	/**
+	 * Loads an ArrayList of questions into the table view for creating an exam.
+	 *
+	 * @param questions The ArrayList of questions to be loaded into the table view.
+	 */
 	public void loadArrayQuestionsToTable_CreateExam(ArrayList<Question> questions) {
-			
+
 	    // Add all questions from the ArrayList to the questionsToCreateExamObservableList
 	    questionsToCreateExamObservableList.addAll(questions);
 
 	    // Set the items of the table view to the questionsToCreateExamObservableList
 	    tableView_CreateExam.setItems(questionsToCreateExamObservableList);
+	}
+	
+	
+	/**
+	 * Event handler for when the lecturer clicks on the "Search" button in the "Create Exam" screen.
+	 * Retrieves questions based on the selected subject and course, and updates the table view accordingly.
+	 *
+	 * @param event The action event triggered by clicking the "Search" button.
+	 * @throws Exception If an exception occurs during the retrieval of questions.
+	 */
+	public void getSearchBtn_CreateExam(ActionEvent event) throws Exception {
+		
+	    // Clear the items in the table view
+	    tableView_CreateExam.getItems().clear();
+
+	    // Get the selected subject and course from the selection boxes
+	    String subjectSelect = subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem();
+	    String courseSelect = courseSelectBox_CreateExam.getSelectionModel().getSelectedItem();
+
+
+	    if (subjectSelect == null || courseSelect == null) {
+	        // Display an error message if any field is missing
+	        lblMessage2.setText("[Error] Missing fields.");
+	    } else {
+	        lblMessage2.setText("");
+
+	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
+	        ArrayList<String> getQuestionsArr = new ArrayList<>();
+	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
+	        getQuestionsArr.add(subjectSelect);
+	        getQuestionsArr.add(courseSelect);
+	        ClientUI.chat.accept(getQuestionsArr);
+	    }
+	}
+
+
+	/**
+	 * Event handler for when the lecturer selects a subject from the subject selection box in the "Create Exam" screen.
+	 * Populates the course selection box with the courses corresponding to the selected subject.
+	 *
+	 * @param event The action event triggered by selecting a subject from the subject selection box.
+	 * @throws Exception If an exception occurs during the retrieval of courses.
+	 */
+	public void getSubjectSelectBox_CreateExam(ActionEvent event) throws Exception {
+		
+	    courseSelectBox_CreateExam.getItems().clear();
+
+	    // Retrieve the selected subject from the subject selection box
+	    String selectedSubject = subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem();
+
+	    // Iterate through the subjects and courses map of the lecturer
+	    for (Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
+	        if (selectedSubject != null && selectedSubject.equals(entry.getKey())) {
+	            // Add the courses corresponding to the selected subject to the course selection box
+	            courseSelectBox_CreateExam.getItems().addAll(entry.getValue());
+	            break;
+	        }
+	    }
+	}
+	
+	public void getChooseQuestionBtn_CreateExam(ActionEvent event) throws Exception {
+		
+		questionSelected = tableView_CreateExam.getSelectionModel().getSelectedItem();
+	
+		if(questionsToCreateExamObservableList2.contains(questionSelected)) {
+			lblMessage2.setText("[Error] This question already added");
+		}
+		else if(questionSelected == null) {
+			lblMessage2.setText("[Error] No question selected");
+		}
+		else {
+			
+			lblMessage2.setText("");
+			questionsToCreateExamObservableList2.add(questionSelected);
+			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
+			
+			questionsToCreateExamObservableList.remove(questionSelected);
+			tableView_CreateExam.getSelectionModel().clearSelection();
+			tableView_CreateExam.refresh();
+			
+			btnSearch_CreateExam.setDisable(true);
+		}
+
 	    
-	    //tableView_CreateExam.refresh();
+
+	    
+		
+		
+		questionSelected = null;
+	}
+
+	// -------------- CreateExam PANEL --------------
+
+	/**
+	 * Retrieves the subjects and courses of the given lecturer from the database.
+	 * Sends a request to the server to fetch the data and updates the lecturer object accordingly.
+	 *
+	 * @param lecturer The lecturer object for which to retrieve the subjects and courses.
+	 */
+	public static void getLecturerSubjectsAndCoursesFromDB(Lecturer lecturer) {
+
+	    // Prepare and send a request to the server to fetch the subjects and courses
+	    // belonging to the given lecturer by providing their ID
+	    ArrayList<String> getLecturerSubjectsCoursesArr = new ArrayList<>();
+	    getLecturerSubjectsCoursesArr.add("GetLecturerSubjectsAndCourses");
+	    getLecturerSubjectsCoursesArr.add(lecturer.getId());
+	    ClientUI.chat.accept(getLecturerSubjectsCoursesArr);
 	}
 
 	
+	/**
+	 * Loads the subjects and courses map into the lecturer object.
+	 *
+	 * @param map The map containing subjects as keys and their corresponding courses as values.
+	 */
+	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
+	    lecturer.setLecturerSubjectsAndCourses(map);
+	}
 	
 	/**
 	 * Starts the frame and initializes the lecturer details.
@@ -228,6 +486,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @throws IOException If an I/O exception occurs during the execution
 	 */
 	public static void start(ArrayList<String> lecturerDetails) throws IOException {
+		
 	    // Initialize the lecturer with the provided details
 	    lecturer = new Lecturer(lecturerDetails.get(2), lecturerDetails.get(3), lecturerDetails.get(4), lecturerDetails.get(5), lecturerDetails.get(6));
 
@@ -252,36 +511,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	            }
 	        }
 	    });
-	}
-
-	
-	/**
-	 * Opens the dashboard screen from the EditQuestionFrameController without creating it again.
-	 *
-	 * @param edited_QuestionID      The ID of the edited question
-	 * @param edited_QuestionText    The edited question text
-	 * @param edited_QuestionNumber  The edited question number
-	 * @throws IOException If an I/O exception occurs during the execution
-	 */
-	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, String edited_QuestionNumber) throws IOException {
-	    // Update the edited question in the table of the lecturer's questions
-	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
-	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
-	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
-	            questionsToEditObservableList.get(i).setQuestionNumber(edited_QuestionNumber);
-	        }
-	    }
-
-	    // Show the current stage
-	    currStage.show();
-
-	    // Refresh the table view to reflect the changes
-	    tableView_ManageQuestions.refresh();
-
-	    // Clear the selection in the questions table
-	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	    lblMessage.setText("");
-	}
+	}	
 
 	
 	/**
@@ -291,6 +521,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @throws Exception If an exception occurs during the execution
 	 */
 	public void getCloseBtn(ActionEvent event) throws Exception {
+		
 	    // Hide the primary window
 	    ((Node) event.getSource()).getScene().getWindow().hide();
 
@@ -306,6 +537,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @throws Exception If an exception occurs during the execution
 	 */
 	public void getLogoutBtn(ActionEvent event) throws Exception {
+		
 	    // Hide the primary window
 	    ((Node) event.getSource()).getScene().getWindow().hide();
 
@@ -321,126 +553,26 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 
 	
-	
-	/**
-	 * Handles the action when the lecturer clicks on the edit button for a question in the Manage Questions screen.
-	 *
-	 * @param event The action event
-	 * @throws Exception If an exception occurs during the execution
-	 */
-	public void getEditBtn_ManageQuestions(ActionEvent event) throws Exception {
-	    // Getting the selected question from the table view
-	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
-	    if (questionSelected == null) {
-	        lblMessage.setText("[Error] No question was selected.");
-	    } else {
-	        lblMessage.setText("");
-
-	        // Hide the primary window
-	        ((Node) event.getSource()).getScene().getWindow().hide();
-
-	        // Create and show the UpdateQuestionGUI window
-	        EditQuestionFrameController.start();
-	    }
-	}
-
-	
-	// when lecturer click on Add on edit question 
-	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {
-		// Hide the primary window
-		((Node) event.getSource()).getScene().getWindow().hide();
-		
-		AddQuestionFrameController.start(lecturer); // send the lecturer to the add question screen
-	}
-	
-	public void showDashboardFrom_AddQuestion(ArrayList<Question> newQuestion) {
-		if(newQuestion != null) {
-			questionsToEditObservableList.addAll(newQuestion);
-			lblMessage.setText("The question added succesfully");
-		}
-		if(newQuestion != null) {
-			lblMessage.setText("");
-		}
-		
-		// Show the current stage
-	    currStage.show();
-
-	    // Refresh the table view to reflect the changes
-	    tableView_ManageQuestions.refresh();
-
-	    // Clear the selection in the questions table
-	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	}
-	
-	/**
-	 * Handles the action when the lecturer clicks on the remove button for a question in the Manage Questions screen.
-	 *
-	 * @param event The action event
-	 * @throws Exception If an exception occurs during the execution
-	 */
-	public void getRemoveBtn_ManageQuestions(ActionEvent event) throws Exception {
-	    // Getting the selected question from the table view
-	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
-	    if (questionSelected == null) {
-	        lblMessage.setText("[Error] No question was selected.");
-	    } else {
-
-	        // Send a message to the server to remove the question from the database
-	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
-	        questionToRemoveArr.add("RemoveQuestionFromDB");
-	        questionToRemoveArr.add(questionSelected.getId());
-	        ClientUI.chat.accept(questionToRemoveArr);
-	        
-	        lblMessage.setText("Question (ID:" + questionSelected.getId() + ") removed succesfully");     
-
-	        // Remove the question from the questionsToEditObservableList and refresh the table view
-	        for (int i = 0; i < questionsToEditObservableList.size(); i++) {
-	            if (questionsToEditObservableList.get(i).getId().equals(questionSelected.getId())) {
-	                questionsToEditObservableList.remove(i);
-	                break;
-	            }
-	        }
-	        tableView_ManageQuestions.refresh();
-	    }
-	}
-	
-	public void getSearchBtn_CreateExam(ActionEvent event) throws Exception {
-		
-		String subjectSelect = subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem();
-		String courseSelect = courseSelectBox_CreateExam.getSelectionModel().getSelectedItem();
-		tableView_CreateExam.getItems().clear();
-		
-		if(subjectSelect == null || courseSelect == null) {
-			lblMessage.setText("[Error] Missing fields.");
-		}
-		else {
-			lblMessage.setText("");
-			ArrayList<String> getQuestionsArr = new ArrayList<>();
-			getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
-			getQuestionsArr.add(subjectSelect);
-			getQuestionsArr.add(courseSelect);
-			ClientUI.chat.accept(getQuestionsArr);
-		}
-	}
-
-	public void getSubjectSelectBox_CreateExam(ActionEvent event) throws Exception {
-		courseSelectBox_CreateExam.getItems().clear();
-		// add to the courseSelectBox all the courses in the map (the courses in the subject that the lecture selected)
-		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
-			if(subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem() == entry.getKey()) {
-				courseSelectBox_CreateExam.getItems().addAll(entry.getValue());
-				break;
-			}
-		}
-	}
-	
 	/**
 	 * Handles the action when a tab button is clicked in the dashboard.
 	 *
 	 * @param actionEvent The action event
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
-		lblMessage.setText("");
+		
+		lblMessage1.setText("");
+		lblMessage2.setText("");
+		questionSelected = null;
+		questionsToCreateExamObservableList2.removeAll();
+		tableView_CreateExam2.getItems().clear();
+		tableView_CreateExam2.getSelectionModel().clearSelection();
+		questionsToCreateExamObservableList.removeAll();
+		tableView_CreateExam.getItems().clear();
+		tableView_CreateExam.getSelectionModel().clearSelection();
+		btnSearch_CreateExam.setDisable(false);
+		
+		
+
 	    if (actionEvent.getSource() == btnShowReport) {
 	        pnlShowReport.toFront();
 	    }
@@ -459,6 +591,5 @@ public class LecturerDashboardFrameController implements Initializable{
 	        pnlManageExams.toFront();
 	    }
 	}
-
 
 }
