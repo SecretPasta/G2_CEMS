@@ -3,7 +3,7 @@ package server;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import ClientAndSererLogin.ServerPortFrameController;
+import ClientAndServerLogin.ServerPortFrameController;
 
 public class ServerUI extends Application {
 

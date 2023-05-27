@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import Config.Question;
 import lecturer.AddQuestionFrameController;
 import lecturer.LecturerDashboardFrameController;
-import ClientAndSererLogin.LoginFrameController;
+import ClientAndServerLogin.LoginFrameController;
 
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")

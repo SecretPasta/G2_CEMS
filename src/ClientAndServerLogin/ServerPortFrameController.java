@@ -1,4 +1,4 @@
-package ClientAndSererLogin;
+package ClientAndServerLogin;
 
 import java.io.IOException;
 
@@ -224,7 +224,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/ClientAndSererLogin/ServerGUI.fxml", "/ClientAndSererLogin/ServerGUI.css", "Server").show();
+		SceneManagment.createNewStage("/ClientAndServerLogin/ServerGUI.fxml", "/ClientAndServerLogin/ServerGUI.css", "Server").show();
 	}
 
 	public void exitBtn(ActionEvent event) throws Exception {

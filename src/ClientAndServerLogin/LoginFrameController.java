@@ -1,4 +1,4 @@
-package clientandserver;
+package ClientAndServerLogin;
 
 import java.io.IOException;
 import java.net.URL;
@@ -118,7 +118,7 @@ public class LoginFrameController implements Initializable{
 	 * @throws IOException If an I/O exception occurs during the process
 	 */
 	public static void start() throws IOException {
-	    SceneManagment.createNewStage("/clientandserver/LoginGUI.fxml", null, "Login").show(); // Creates and shows the login screen stage
+	    SceneManagment.createNewStage("/ClientAndServerLogin/LoginGUI.fxml", null, "Login").show(); // Creates and shows the login screen stage
 	}
 
 

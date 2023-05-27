@@ -14,7 +14,7 @@ import com.jfoenix.controls.JFXListView;
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
-import clientandserver.SceneManagment;
+import ClientAndServerLogin.SceneManagment;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

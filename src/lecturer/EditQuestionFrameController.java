@@ -1,6 +1,6 @@
 package lecturer;
 
-import ClientAndSererLogin.SceneManagment;
+import ClientAndServerLogin.SceneManagment;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import java.net.URL;
