@@ -99,6 +99,7 @@ public class StudentDashboardFrameController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+        lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
 		// TODO Auto-generated method stub
 		
 	}
@@ -123,7 +124,7 @@ public class StudentDashboardFrameController implements Initializable{
             @Override
             public void run() {
                 try {
-                    // Save the current dashboard screen for returning back  , "/lecturer/LecturerDashboard.css", "Home Dashboard"
+                    // Save the current dashboard screen for returning back  , "/student/StudentDashboard.css", "Student Dashboard"
                     currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml");
                     currentStage.show();
                 } catch (IOException e) {
