@@ -240,7 +240,6 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    // Clear the selection in the questions table
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
-	    lblMessage1.setText("");
 	}
 	
 	
@@ -256,10 +255,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
 	    if (questionSelected == null) {
 	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
-	    	snackbarError.setPrefWidth(pnlManageQuestions.getPrefWidth());
+	    	snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
 	    } else {
-	    	lblMessage1.setText("");
 
 	        // Hide the primary window
 	        ((Node) event.getSource()).getScene().getWindow().hide();
@@ -300,7 +298,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
 	    
 	    if (questionSelected == null) {
-	        lblMessage1.setText("[Error] No question was selected.");
+	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
 	    } else {
 
 	        // Send a message to the server to remove the question from the database
@@ -309,7 +309,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	        questionToRemoveArr.add(questionSelected.getId());
 	        ClientUI.chat.accept(questionToRemoveArr);
 	        
-	        lblMessage1.setText("Question (ID:" + questionSelected.getId() + ") removed succesfully");     
+	        snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Question (ID:" + questionSelected.getId() + ") removed succesfully"), Duration.millis(3000), null));    
 
 	        // Remove the question from the questionsToEditObservableList and refresh the table view
 	        for (int i = 0; i < questionsToEditObservableList.size(); i++) {
@@ -336,12 +338,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	
 	        // Add the new question to the questionsToEditObservableList
 	        questionsToEditObservableList.addAll(newQuestion);
-	        lblMessage1.setText("The question added successfully");
-	    }
-
-	    // Clear the message if newQuestion is null or empty
-	    if (newQuestion == null || newQuestion.isEmpty()) {
-	    	lblMessage1.setText("");
+	        snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	    	JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
+	        snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
 	    }
 
 	    // Show the current stage
@@ -394,9 +394,10 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (subjectSelect == null || courseSelect == null) {
 	        // Display an error message if any field is missing
-	        lblMessage2.setText("[Error] Missing fields.");
+	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: Missing fields"), Duration.millis(3000), null));
 	    } else {
-	        lblMessage2.setText("");
 
 	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
@@ -437,14 +438,17 @@ public class LecturerDashboardFrameController implements Initializable{
 		questionSelected = tableView_CreateExam.getSelectionModel().getSelectedItem();
 	
 		if(questionsToCreateExamObservableList2.contains(questionSelected)) {
-			lblMessage2.setText("[Error] This question already added");
+			snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: This question already added"), Duration.millis(3000), null));
 		}
 		else if(questionSelected == null) {
-			lblMessage2.setText("[Error] No question selected");
+			snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
 		}
 		else {
 			
-			lblMessage2.setText("");
 			questionsToCreateExamObservableList2.add(questionSelected);
 			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
 			
@@ -572,8 +576,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
 		
-		lblMessage1.setText("");
-		lblMessage2.setText("");
 		questionSelected = null;
 		questionsToCreateExamObservableList2.removeAll();
 		tableView_CreateExam2.getItems().clear();
