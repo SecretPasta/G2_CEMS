@@ -1,5 +1,6 @@
-package gui;
+package lecturer;
 
+import ClientAndSererLogin.SceneManagment;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import java.net.URL;
@@ -141,7 +142,7 @@ public class EditQuestionFrameController implements Initializable {
 	 */
 	public static void start(Question questionSelected_temp) throws Exception {
 	    questionSelected = questionSelected_temp;
-	    SceneManagment.createNewStage("/gui/EditQuestionGUI.fxml", null, "Question Edit Management Tool").show();
+	    SceneManagment.createNewStage("/lecturer/EditQuestionGUI.fxml", null, "Question Edit Management Tool").show();
 	}
 
 	@Override

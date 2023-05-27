@@ -1,4 +1,4 @@
-package gui;
+package ClientAndSererLogin;
 
 import java.net.InetAddress;
 import java.net.URL;
@@ -94,7 +94,7 @@ public class ClientConnectFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/gui/ClientConnectGUI.fxml", null, "Client Connect Managment Tool").show();
+		SceneManagment.createNewStage("/ClientAndSererLogin/ClientConnectGUI.fxml", null, "Client Connect Managment Tool").show();
 	}
 
 	@Override

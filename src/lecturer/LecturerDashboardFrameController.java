@@ -1,4 +1,4 @@
-package gui;
+package lecturer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +12,8 @@ import com.jfoenix.controls.JFXComboBox;
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
+import ClientAndSererLogin.LoginFrameController;
+import ClientAndSererLogin.SceneManagment;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -504,7 +506,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        public void run() {
 	            try {
 	                // Save the current dashboard screen for returning back
-	                currStage = SceneManagment.createNewStage("/gui/LecturerDashboardGUI.fxml", "/gui/LecturerDashboard.css", "Home Dashboard");
+	                currStage = SceneManagment.createNewStage("/lecturer/LecturerDashboardGUI.fxml", "/lecturer/LecturerDashboard.css", "Home Dashboard");
 	                currStage.show();
 	            } catch (IOException e) {
 	                e.printStackTrace();

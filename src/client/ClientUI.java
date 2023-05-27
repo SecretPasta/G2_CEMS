@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import gui.ClientConnectFrameController;
+import clientandserver.ClientConnectFrameController;
 
 public class ClientUI extends Application {
 	

@@ -1,4 +1,4 @@
-package gui;
+package student;
 
 import java.net.URL;
 import java.util.ResourceBundle;

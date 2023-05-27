@@ -7,9 +7,9 @@ import java.util.Map.Entry;
 import javax.swing.JOptionPane;
 
 import Config.Question;
-import gui.AddQuestionFrameController;
-import gui.LecturerDashboardFrameController;
-import gui.LoginFrameController;
+import lecturer.AddQuestionFrameController;
+import lecturer.LecturerDashboardFrameController;
+import ClientAndSererLogin.LoginFrameController;
 
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")

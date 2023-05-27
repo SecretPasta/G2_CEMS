@@ -1,4 +1,4 @@
-package gui;
+package lecturer;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXListView;
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
+import clientandserver.SceneManagment;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,7 +68,7 @@ public class AddQuestionFrameController implements Initializable {
      */
     public static void start(Lecturer lecturer_temp) throws IOException {
         lecturer = lecturer_temp;
-        SceneManagment.createNewStage("/gui/AddQuestionGUI.fxml", null, "Question Add Management Tool").show();
+        SceneManagment.createNewStage("/lecturer/AddQuestionGUI.fxml", null, "Question Add Management Tool").show();
     }
 
 	
