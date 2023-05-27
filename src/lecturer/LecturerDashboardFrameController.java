@@ -144,6 +144,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
+		getAllSubjectsFromDB();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    pnlGreeting.toFront();
 		
@@ -192,7 +193,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    
 	 // -------------- CreateExam --------------
 	    
-   
+
 	}
 	
 	
@@ -484,7 +485,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    getLecturerSubjectsCoursesArr.add(lecturer.getId());
 	    ClientUI.chat.accept(getLecturerSubjectsCoursesArr);
 	}
-
 	
 	/**
 	 * Loads the subjects and courses map into the lecturer object.
@@ -493,6 +493,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public static void loadLecturerSubjectsAndCourses(Map<String, ArrayList<String>> map) {
 	    lecturer.setLecturerSubjectsAndCourses(map);
+	}
+	
+	public static void getAllSubjectsFromDB() {
+	    ClientUI.chat.accept("getAllSubjectsNamesAndIdsFromDB");
+	}
+	
+	public static void loadAllSubjectsFromDB(Map<String, String> map) {
+	    lecturer.setSubjectsIdByNames(map);
 	}
 	
 	/**

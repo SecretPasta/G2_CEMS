@@ -309,14 +309,36 @@ public class DBController {
 		    		ps.setString(8, question.getAnswers().get(2));
 		    		ps.setString(9, question.getAnswers().get(3));
 		    		ps.setString(10, question.getLecturer());
-		    		ps.setString(10, question.getLecturerID());
+		    		ps.setString(11, question.getLecturerID());
 		    		ps.executeUpdate();
 		    	}
 	    	}
+	    	//updateSubjectMaxQuestionID();
 		
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
 	    }
+	}
+
+	public static Map<String, String> getAllSubjectsNamesAndIds() {
+		
+		String query = "SELECT subjects.SubjectID, subjects.Name FROM subjects";
+		Map<String, String> map = new HashMap<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	map.put(rs.getString(2), rs.getString(1));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return map;
 	}
 }
 

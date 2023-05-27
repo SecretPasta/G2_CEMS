@@ -15,29 +15,33 @@ import student.StudentDashboardFrameController;
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg) {
-        MessageType messageType = getMessageType(msg);
-        if (messageType == null) {
-            return;
-        }
+	    MessageType messageType = getMessageType(msg);
+	    if (messageType == null) {
+	        return;
+	    }
 
-        switch (messageType) {
-            case STRING:
-                handleStringMessage((String) msg);
-                break;
-            case ARRAY_LIST_STRING:
-                handleStringArrayListMessage((ArrayList<String>) msg);
-                break;
-            case ARRAY_LIST_QUESTION:
-                handleQuestionArrayListMessage((ArrayList<Question>) msg);
-                break;
-            case MAP_STRING_ARRAYLIST_STRING:
-            	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg);
-			break;
-		default:
-        		System.out.println("Message type non exist");
-			break;
-        }
-    }
+	    switch (messageType) {
+	        case STRING:
+	            handleStringMessage((String) msg);
+	            break;
+	        case ARRAY_LIST_STRING:
+	            handleStringArrayListMessage((ArrayList<String>) msg);
+	            break;
+	        case ARRAY_LIST_QUESTION:
+	            handleQuestionArrayListMessage((ArrayList<Question>) msg);
+	            break;
+	        case MAP_STRING_ARRAYLIST_STRING:
+	            handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg);
+	            break;
+	        case MAP_STRING_STRING:
+	            handleMapStringStringValueMessage((Map<String, String>) msg);
+	            break;
+	        default:
+	            System.out.println("Message type does not exist");
+	            break;
+	    }
+	}
+
 	
 	private static MessageType getMessageType(Object msg) {
 	    if (msg instanceof String) {
@@ -60,11 +64,15 @@ public class MessageHandler_Client {
 	            if (firstKey instanceof String && firstValue instanceof ArrayList
 	                    && ((ArrayList<?>) firstValue).get(0) instanceof String) {
 	                return MessageType.MAP_STRING_ARRAYLIST_STRING;
+	            } else if (firstKey instanceof String && firstValue instanceof String) {
+	                return MessageType.MAP_STRING_STRING;
 	            }
 	        }
 	    }
 	    return null;
 	}
+
+
 	
     private static void handleStringMessage(String message) {
         // Handle string messages
@@ -167,6 +175,14 @@ public class MessageHandler_Client {
     private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map) {
         // Handle Map<String, ArrayList<String>> messages
     	
+    	
+    	if(map.containsKey("HashMapWithLecturerSubjectsAndCourses")) {
+			map.remove("HashMapWithLecturerSubjectsAndCourses");
+			LecturerDashboardFrameController.loadLecturerSubjectsAndCourses(map);
+    	}
+    	
+    	
+    	/*System.out.println(map);
     	Entry<String, ArrayList<String>> lastEntry = getLastEntry(map);
     	String messageType = lastEntry.getKey();
     	
@@ -175,13 +191,35 @@ public class MessageHandler_Client {
 	    	case "HashMapWithLecturerSubjectsAndCourses":
 	    		
 				map.remove(messageType);
+				System.out.println(map);
 				LecturerDashboardFrameController.loadLecturerSubjectsAndCourses(map);
 				
 				break;
-    	}
+    	}*/
 
 
     }
+    
+    
+    private static void handleMapStringStringValueMessage(Map<String, String> map) {
+        // Handle the Map<String, String> here
+
+    	Entry<String, String> lastEntry = getLastEntry(map);
+    	String messageType = lastEntry.getKey();
+    	
+    	switch (messageType) {
+    	
+	    	case "HashMapWithSubjects_names_ids":
+	    		
+				map.remove(messageType);
+				LecturerDashboardFrameController.loadAllSubjectsFromDB(map);
+				
+				break;
+    	}
+    	
+    }
+
+    
     
     public static <K, V> Entry<K, V> getLastEntry(Map<K, V> map) {
         Entry<K, V> lastEntry = null;

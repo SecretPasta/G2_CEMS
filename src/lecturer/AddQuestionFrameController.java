@@ -182,11 +182,14 @@ public class AddQuestionFrameController implements Initializable {
 		        
 		        newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
 		        
-		        String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
+		        //String id = String.format("%03d", maxIdOfQuestionInCurrentSubject); // Retrieve the current maximum question ID
 		        
-		        //String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		        String id = "002"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        
 		        int i = 0;
+		        
+		        //String formattedID = String.format("%03d", id);
+		        
 		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
 		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
 		        
@@ -194,10 +197,11 @@ public class AddQuestionFrameController implements Initializable {
 		        for(String courses : coursesSelect) {
 		        	
 		        	// Increment the question ID and format it
-		        	id = "0" + Integer.toString(Integer.parseInt(id) + 1);
+		        	id = Integer.toString(Integer.parseInt(id) + 1);
+		        	String formattedID = String.format("%03d", Integer.parseInt(id));
 		        	
 		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(id, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
+			        newQuestion.add(new Question(formattedID, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
 			        // Add the question to the addQuestionToDBArr
 			        addQuestionToDBArr.add(newQuestion.get(i));	        
 			        i++;

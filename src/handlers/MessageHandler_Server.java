@@ -14,30 +14,40 @@ public class MessageHandler_Server {
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
-        MessageType messageType = getMessageType(msg);
-        if (messageType == null) {
-            return;
-        }
+	    MessageType messageType = getMessageType(msg);
+	    if (messageType == null) {
+	        return;
+	    }
 
-        switch (messageType) {
-            case STRING:
-                handleStringMessage((String) msg, client);
-                break;
-            case ARRAY_LIST_STRING:
-                handleStringArrayListMessage((ArrayList<String>) msg, client);
-                break;
-            case ARRAY_LIST_QUESTION:
-                handleQuestionArrayListMessage((ArrayList<Question>) msg, client);
-                break;
-            case MAP_STRING_ARRAYLIST_STRING:
-            	handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg, client);
-            	break;
-            default:
-            	System.out.println("Message type non exist");
-            	break;
-        }
-    }
+	    switch (messageType) {
+	        case STRING:
+	            handleStringMessage((String) msg, client);
+	            break;
+	        case ARRAY_LIST_STRING:
+	            handleStringArrayListMessage((ArrayList<String>) msg, client);
+	            break;
+	        case ARRAY_LIST_QUESTION:
+	            handleQuestionArrayListMessage((ArrayList<Question>) msg, client);
+	            break;
+	        case MAP_STRING_ARRAYLIST_STRING:
+	            handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg, client);
+	            break;
+	        case MAP_STRING_STRING:
+	            handleMapStringStringValueMessage((Map<String, String>) msg, client);
+	            break;
+	        default:
+	            System.out.println("Message type does not exist");
+	            break;
+	    }
+	}
+
 	
+	private static void handleMapStringStringValueMessage(Map<String, String> msg, ConnectionToClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private static MessageType getMessageType(Object msg) {
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
@@ -59,14 +69,29 @@ public class MessageHandler_Server {
 	            if (firstKey instanceof String && firstValue instanceof ArrayList
 	                    && ((ArrayList<?>) firstValue).get(0) instanceof String) {
 	                return MessageType.MAP_STRING_ARRAYLIST_STRING;
+	            } else if (firstKey instanceof String && firstValue instanceof String) {
+	                return MessageType.MAP_STRING_STRING;
 	            }
 	        }
 	    }
 	    return null;
 	}
-
+	
+	
     private static void handleStringMessage(String message, ConnectionToClient client) {
         // Handle string messages
+    	try {
+	    	switch (message) {
+			    case "getAllSubjectsNamesAndIdsFromDB":
+			    	Map<String, String> subjects_name_id_map_arr = DBController.getAllSubjectsNamesAndIds();
+			    	subjects_name_id_map_arr.put("HashMapWithSubjects_names_ids", null);
+			    	client.sendToClient(subjects_name_id_map_arr);
+			    	break;
+	    	}
+    	}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+    	}
     }
     
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
@@ -156,19 +181,19 @@ public class MessageHandler_Server {
 	                    
 	                case "GetLecturerSubjectsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
-				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
+				    	//Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
-	                	/*Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
+	                	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
 	                	
 				    	ArrayList<String> values1 = new ArrayList<>();
-				        values1.add("Value1");
-				        values1.add("Value2");
-				        lecSubjectsCoursesHashMap.put("Key1", values1);
+				        values1.add("JAVA");
+				        values1.add("python");
+				        lecSubjectsCoursesHashMap.put("Coding", values1);
 
 				        ArrayList<String> values2 = new ArrayList<>();
 				        values2.add("Value3");
 				        values2.add("Value4");
-				        lecSubjectsCoursesHashMap.put("Key2", values2);*/
+				        lecSubjectsCoursesHashMap.put("Key2", values2);
 				        
 				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);
 				    	
@@ -194,6 +219,7 @@ public class MessageHandler_Server {
 	                	questionArr.add(0, new Question("LoadQuestionsFromDB_CreateExamTable",  null, null, null, null, null, null, null));
 	                	client.sendToClient(questionArr);
 	                	break;
+	                	
 	            }
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
