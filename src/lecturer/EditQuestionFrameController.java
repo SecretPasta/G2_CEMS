@@ -110,27 +110,35 @@ public class EditQuestionFrameController implements Initializable {
 	 */
 	public void getSavebtn(ActionEvent event) throws Exception {
 		
-	    if (txtQuestionText.getText().equals("") || txtQuestionNumber.getText().equals("") || txtAnswerCorrect.getText().equals("")
-	    		 || txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") || txtAnswerWrong3.getText().equals("")) {
+		try {
+			
+			if(txtQuestionText.getText().trim().equals("") || txtQuestionNumber.getText().trim().equals("") || 
+				txtAnswerCorrect.getText().trim().equals("") || txtAnswerWrong1.getText().trim().equals("") || 
+				txtAnswerWrong2.getText().trim().equals("") || txtAnswerWrong3.getText().trim().equals("")) {
+			
+		        lblMessage.setTextFill(Color.rgb(0, 102, 0));
+		        lblMessage.setText("[Error] Missing fields");
+		        
+			} else {
+				
+		        // Create an ArrayList to hold the data for updating the question and send it to the server
+		        ArrayList<String> updateQuestionArr = new ArrayList<>();
+		        updateQuestionArr.add("UpdateQuestionDataByID");
+		        updateQuestionArr.add(questionSelected.getId());
+		        updateQuestionArr.add(txtQuestionText.getText());
+		        updateQuestionArr.add(txtAnswerCorrect.getText());
+		        updateQuestionArr.add(txtAnswerWrong1.getText());
+		        updateQuestionArr.add(txtAnswerWrong2.getText());
+		        updateQuestionArr.add(txtAnswerWrong3.getText());
+		        updateQuestionArr.add(txtQuestionNumber.getText());
+		        ClientUI.chat.accept(updateQuestionArr);
+			}
+	    
+		}catch (NullPointerException e) {
 	        lblMessage.setTextFill(Color.color(1, 0, 0));
-	        lblMessage.setText("[Error] Missing fields");
-	    } else {
-	        lblMessage.setTextFill(Color.rgb(0, 102, 0));
-	        lblMessage.setText("Question Saved Successfully");
-	        
-	        // Create an ArrayList to hold the data for updating the question and send it to the server
-	        ArrayList<String> updateQuestionArr = new ArrayList<>();
-	        updateQuestionArr.add("UpdateQuestionDataByID");
-	        updateQuestionArr.add(questionSelected.getId());
-	        updateQuestionArr.add(txtQuestionText.getText());
-	        updateQuestionArr.add(txtAnswerCorrect.getText());
-	        updateQuestionArr.add(txtAnswerWrong1.getText());
-	        updateQuestionArr.add(txtAnswerWrong2.getText());
-	        updateQuestionArr.add(txtAnswerWrong3.getText());
-	        updateQuestionArr.add(txtQuestionNumber.getText());
-	        ClientUI.chat.accept(updateQuestionArr);
-	        
-	    }
+	        lblMessage.setText("[Error] Missing fields");	
+	
+		}
 	}
 
 

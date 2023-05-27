@@ -143,9 +143,10 @@ public class AddQuestionFrameController implements Initializable {
 		String subjectSelect = subjectSelectBox.getSelectionModel().getSelectedItem();
 		try {
 		    if (subjectSelect == null || subjectSelect.isEmpty() || coursesSelect.get(0).equals("Please select a subject first") || 
-		    		coursesSelect.isEmpty() || textQuestionText.getText().equals("") || 
-		    		txtQuestionNumber.getText().equals("") || txtAnswerCorrect.getText().equals("") || 
-		    		txtAnswerWrong1.getText().equals("") || txtAnswerWrong2.getText().equals("") || txtAnswerWrong3.getText().equals("")) {
+		    		coursesSelect.isEmpty() || textQuestionText.getText().trim().equals("") || 
+		    		txtQuestionNumber.getText().trim().equals("") || txtAnswerCorrect.getText().trim().equals("") || 
+		    		txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") || 
+		    		txtAnswerWrong3.getText().trim().equals("")) {
 		    	
 		        lblMessage.setTextFill(Color.color(1, 0, 0));
 		        lblMessage.setText("[Error] Missing fields");
@@ -171,9 +172,9 @@ public class AddQuestionFrameController implements Initializable {
 		        
 		        newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
 		        
-		        //String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
+		        String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
 		        
-		        String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		        //String id = "03101"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        
 		        int i = 0;
 		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
