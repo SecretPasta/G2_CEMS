@@ -1,6 +1,7 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -10,11 +11,15 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
 import ClientAndServerLogin.SceneManagment;
+import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +28,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 
 public class AddQuestionFrameController implements Initializable {
@@ -32,6 +38,12 @@ public class AddQuestionFrameController implements Initializable {
     private JFXComboBox<String> subjectSelectBox;
     @FXML
     private JFXListView<String> courseSelectList;
+    
+    @FXML
+    private AnchorPane root;
+    
+    @FXML
+    private JFXSnackbar snackbarError;
     
     @FXML
     private Label lblMessage;
@@ -147,16 +159,14 @@ public class AddQuestionFrameController implements Initializable {
 		    		txtQuestionNumber.getText().trim().equals("") || txtAnswerCorrect.getText().trim().equals("") || 
 		    		txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") || 
 		    		txtAnswerWrong3.getText().trim().equals("")) {
-		    	
-		        lblMessage.setTextFill(Color.color(1, 0, 0));
-		        lblMessage.setText("[Error] Missing fields");
+
+		    	snackbarError = new JFXSnackbar(root);
+				JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+				snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+		        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 		        
 		    } else {
-		    	//lblMessage.setTextFill(Color.rgb(0, 102, 0));
-		    	//lblMessage.setText("Question added Successfully");
-		    	
-		    	lblMessage.setText(""); // Clear the error message
-		    	
+	    	
 	            // Request the maximum question ID for the selected subject from the server        
 		        ArrayList<String> getMaxQuestionIdFromCurrentSubjectArr = new ArrayList<>();
 		        getMaxQuestionIdFromCurrentSubjectArr.add("GetMaxQuestionIdFromProvidedSubject");
@@ -200,8 +210,10 @@ public class AddQuestionFrameController implements Initializable {
 		        
 		    }
 		}catch (NullPointerException | IndexOutOfBoundsException e) {
-	        lblMessage.setTextFill(Color.color(1, 0, 0));
-	        lblMessage.setText("[Error] Missing fields");	
+			snackbarError = new JFXSnackbar(root);
+			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+			snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+	        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 
 		}
 	}

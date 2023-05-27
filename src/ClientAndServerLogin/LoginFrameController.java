@@ -7,6 +7,9 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
 import client.ClientUI;
 import javafx.application.Platform;
@@ -18,9 +21,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class LoginFrameController implements Initializable{
+	
+	@FXML
+	private AnchorPane root;
+
+	@FXML
+	private JFXSnackbar snackbarError;
+	
 	@FXML
 	private Button btnClose;
 	
@@ -79,7 +92,10 @@ public class LoginFrameController implements Initializable{
 	 */
 	public void getLoginBtn(ActionEvent event) throws Exception {
 	    if (txtUsername.getText().equals("") || txtPassword.getText().equals("") || loginAs.getSelectionModel().getSelectedItem() == null) {
-	        lblMessage.setText("[Error] Missing fields"); // Display an error message if any of the fields are empty
+	    	snackbarError = new JFXSnackbar(root);
+			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+			snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+	        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	    } else {
 	        lblMessage.setText(""); // Clear the error message
 	        
@@ -133,10 +149,42 @@ public class LoginFrameController implements Initializable{
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
-	            lblMessage.setText(reason); // Sets the login screen's label with the reason for login failure
+	        	snackbarError = new JFXSnackbar(root);
+				JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(reason);
+				snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+		        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null)); // Sets the login screen's label with the reason for login failure
 	        }
 	    });
 	}
+	
+	@FXML
+    void adminError(MouseEvent event) {
+		snackbarError = new JFXSnackbar(root);
+		JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Contact your admin to perform this operation");
+		snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+		
+		
+		/*
+		JFXDialogLayout dialogLayout = new JFXDialogLayout();
+		dialogLayout.setHeading(new Text("Contact your administrator"));
+		dialogLayout.setBody(new Text("hello world"));
+		dialogLayout.setPrefSize(stackPane.getPrefWidth(), stackPane.getPrefHeight());
+		JFXButton buttonOkay = new JFXButton("Okay");
+		dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
+		buttonOkay.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent arg0) {
+				dialog.close();
+				stackPane.toBack();
+				
+			}
+		});
+		dialogLayout.setActions(buttonOkay);
+		stackPane.toFront();
+		dialog.show();
+		*/
+    }
 
 }
 

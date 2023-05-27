@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.LoginFrameController">
+<AnchorPane fx:id="dialogRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@LoginGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.LoginFrameController">
 	<children>
-		<AnchorPane layoutX="575.0" prefHeight="720.0" prefWidth="425.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+		<AnchorPane fx:id="root" layoutX="575.0" prefHeight="720.0" prefWidth="425.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
             <Label fx:id="lblMessage" alignment="CENTER" layoutY="491.0" prefHeight="50.0" prefWidth="425.0" textFill="#fe774c">
                <font>
@@ -21,8 +22,9 @@
                </font>
             </Label>
             <Separator layoutY="288.0" opacity="0.5" prefHeight="3.0" prefWidth="425.0" style="-fx-background-color: #242633;" />
+            <JFXSnackbar fx:id="snackbarError" layoutX="230.0" layoutY="694.0" />
          </children></AnchorPane>
-      <JFXButton fx:id="loginBtn" layoutX="642.0" layoutY="541.0" onAction="#getLoginBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Sign In" textFill="WHITE">
+      <JFXButton fx:id="loginBtn" layoutX="642.0" layoutY="531.0" onAction="#getLoginBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Sign In" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -35,7 +37,7 @@
       </Label>
       <Circle fill="#5dd299" layoutX="215.0" layoutY="377.0" radius="40.0" stroke="#5dd299" strokeType="INSIDE" />
       <Circle fill="#66a7f2" layoutX="175.0" layoutY="377.0" radius="40.0" stroke="#66a7f2" strokeType="INSIDE" />
-      <JFXButton fx:id="btnClose" layoutX="642.0" layoutY="622.0" onAction="#getCloseBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: FFC152; -fx-background-radius: 10;" text="Exit" textFill="#242633">
+      <JFXButton fx:id="btnClose" layoutX="642.0" layoutY="612.0" onAction="#getCloseBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: FFC152; -fx-background-radius: 10;" text="Exit" textFill="#242633">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -50,14 +52,14 @@
             <Font name="System" size="14.0" />
          </font>
       </Label>
-      <HBox layoutX="705.0" layoutY="595.0" prefHeight="17.0" prefWidth="152.0" spacing="4.0">
+      <HBox layoutX="705.0" layoutY="585.0" prefHeight="17.0" prefWidth="152.0" spacing="4.0">
          <children>
             <Label text="Not a member yet?" textFill="#242633">
                <font>
                   <Font name="System" size="12.0" />
                </font>
             </Label>
-            <Label text="Sign Up" textFill="#242633">
+            <Label onMouseClicked="#adminError" text="Sign Up" textFill="#242633">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -84,7 +86,7 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <Label layoutX="824.0" layoutY="485.0" text="Forgot password?" textFill="#242633">
+      <Label layoutX="824.0" layoutY="485.0" onMouseClicked="#adminError" text="Forgot password?" textFill="#242633">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

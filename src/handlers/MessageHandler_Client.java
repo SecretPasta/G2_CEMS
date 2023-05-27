@@ -78,11 +78,11 @@ public class MessageHandler_Client {
 	    			break;
 	    			
 	    		case "UserAlreadyLoggedIn":
-	    			LoginFrameController.getInstance().userLoginFailed("[Error] this user is already connected");
+	    			LoginFrameController.getInstance().userLoginFailed("Error: This user is already connected");
 	    			break;
 	    			
     			case "UserEnteredWrondPasswwordOrUsername":
-    				LoginFrameController.getInstance().userLoginFailed("[Error] Wrong Username or Password");
+    				LoginFrameController.getInstance().userLoginFailed("Error: Wrong Username or Password");
     				break;
 	    	}
 	    	

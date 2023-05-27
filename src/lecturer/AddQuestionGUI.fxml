@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -11,8 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" stylesheets="@AddQuestion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.AddQuestionFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" stylesheets="@AddQuestion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.AddQuestionFrameController">
    <children>
       <JFXButton id="backBtn" fx:id="backBtn" layoutX="633.0" layoutY="27.0" onAction="#getBackBtn" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <font>
@@ -20,7 +23,7 @@
          </font></JFXButton>
       <AnchorPane layoutX="286.0" layoutY="142.0" prefHeight="470.0" prefWidth="538.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.rightAnchor="25.600000000000023">
          <children>
-            <TextField id="textQuestionText" fx:id="textQuestionText" layoutX="15.0" layoutY="60.0" prefHeight="90.0" prefWidth="386.0" />
+            <TextField id="textQuestionText" fx:id="textQuestionText" alignment="TOP_LEFT" layoutX="15.0" layoutY="60.0" prefHeight="90.0" prefWidth="386.0" />
             <TextField id="txtQuestionNumber" fx:id="txtQuestionNumber" layoutX="421.0" layoutY="61.0" prefHeight="30.0" prefWidth="101.0" AnchorPane.rightAnchor="15.799999999999955" />
             <Label layoutX="17.0" layoutY="31.0" text="Question Text">
                <font>
@@ -75,7 +78,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label layoutX="29.0" layoutY="100.0" text="Courses">
+            <Label layoutX="29.0" layoutY="100.0" text="Courses*">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -101,5 +104,35 @@
             </Label>
          </children>
       </Pane>
+      <TextFlow layoutX="24.0" layoutY="621.0" prefHeight="76.0" prefWidth="244.0" AnchorPane.bottomAnchor="0.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="*Press and hold">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" ctrl">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" on Windows or">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" command">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" on MacOS to select multiple courses">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
+      <JFXSnackbar fx:id="snackbarError" layoutX="702.0" layoutY="679.0" stylesheets="@AddQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>
