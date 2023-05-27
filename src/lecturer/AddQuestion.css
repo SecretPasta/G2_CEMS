@@ -1,16 +1,11 @@
 .text-field {
-	-fx-background-color: #242633, #FAF9F6;
+	-fx-background-color: #242633, #FFFFFF;
 	-fx-background-insets: 0, 1 1 1 1;
-	-fx-background-radius: 10;
+	-fx-background-radius: 5;
 }
 .text-field:focused {
-	-fx-background-radius: 10;
+	-fx-background-radius: 0;
 	-fx-background-color: #66A7F2, #FAF9F6;
-	/*-fx-background-insets: 0, -1 -1 2 -1;*/
+	-fx-background-insets: 0, -1 -1 2 -1;
 }
-
-.list-view{
-	-fx-background-color: #242633, #FAF9F6;
-	-fx-background-insets: 0, 1 1 1 1;
-	-fx-background-radius: 10;
-}
+ 

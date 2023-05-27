@@ -1,7 +1,7 @@
 package lecturer;
 
 import ClientAndServerLogin.SceneManagment;
-import javafx.scene.control.TextArea;
+
 import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class EditQuestionFrameController implements Initializable {
 	private TextField txtAnswerWrong3;
 	
 	@FXML
-	private TextArea txtQuestionText;
+	private TextField txtQuestionText;
 	
 	@FXML
 	private Label txtQuestionAuthor;

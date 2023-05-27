@@ -57,3 +57,12 @@
 .table-view .virtual-flow .scroll-bar:horizontal .thumb {
     -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
 }
+
+.jfx-snackbar-toast{
+	-fx-text-fill: #FE774C;
+	-fx-font-weight: bold;
+}
+
+.jfx-snackbar-content{
+	-fx-background-color: #383838;
+}
