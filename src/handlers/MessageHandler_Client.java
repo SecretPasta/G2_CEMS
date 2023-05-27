@@ -10,6 +10,7 @@ import Config.Question;
 import lecturer.AddQuestionFrameController;
 import lecturer.LecturerDashboardFrameController;
 import ClientAndServerLogin.LoginFrameController;
+import student.StudentDashboardFrameController;
 
 public class MessageHandler_Client {
 	@SuppressWarnings("unchecked")
@@ -113,10 +114,11 @@ public class MessageHandler_Client {
 						if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
 							LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
 						}
-						/*else if() { // login as student
-							  
+						else if(arrayListStr.get(1).equals("Student")) { // login as student
+							System.out.println("Student Login in\n");
+							StudentDashboardFrameController.start(arrayListStr);
 						}
-						else if() { // login as head of department
+						/*else if() { // login as head of department
 							  
 						}*/
 						System.out.println("logged in succesfully");
