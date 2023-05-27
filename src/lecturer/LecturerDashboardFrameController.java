@@ -160,7 +160,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Create an ArrayList to get all questions from the database for the current lecturer
 	    ArrayList<String> getQuestionArray = new ArrayList<>();
 	    getQuestionArray.add("GetAllQuestionsFromDB");
-	    getQuestionArray.add(lecturer.getName()); // The lecturer's name is added as a parameter   
+	    getQuestionArray.add(lecturer.getId()); // The lecturer's name is added as a parameter   
 	    ClientUI.chat.accept(getQuestionArray);
 	    
 	    // clear the selection in the questions management table

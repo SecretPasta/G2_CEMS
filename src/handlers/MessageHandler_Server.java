@@ -115,7 +115,7 @@ public class MessageHandler_Server {
 	                    // Handle GetAllQuestionsFromDB message
 	                	
 	                	ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null, null); // send the full name of the user
-	                	questions.add(0, new Question("LoadQuestionsFromDB",  null, null, null, null, null, null));
+	                	questions.add(0, new Question("LoadQuestionsFromDB",  null, null, null, null, null, null, null));
 	                	client.sendToClient((ArrayList<Question>)questions);
 						
 	                    break;
@@ -191,7 +191,7 @@ public class MessageHandler_Server {
 	                	// 1 - Subject selected
 	                	// 2 - Course Select
 	                	ArrayList<Question> questionArr = DBController.getAllQuestions(null, arrayListStr.get(2), arrayListStr.get(1));
-	                	questionArr.add(0, new Question("LoadQuestionsFromDB_CreateExamTable",  null, null, null, null, null, null));
+	                	questionArr.add(0, new Question("LoadQuestionsFromDB_CreateExamTable",  null, null, null, null, null, null, null));
 	                	client.sendToClient(questionArr);
 	                	break;
 	            }

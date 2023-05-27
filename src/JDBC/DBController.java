@@ -12,45 +12,45 @@ public class DBController {
 	
 	
 	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectName.
-	public static ArrayList<Question> getAllQuestions(String lecturerName, String courseName, String subjectName) {
+	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseName, String subjectName) {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
 					PreparedStatement ps = null;
-					if(lecturerName == null && courseName == null && subjectName == null) {
+					if(lecturerID == null && courseName == null && subjectName == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question");
 					}
-					else if(lecturerName != null && courseName == null && subjectName == null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ?");
-						ps.setString(1, lecturerName);	
+					else if(lecturerID != null && courseName == null && subjectName == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ?");
+						ps.setString(1, lecturerID);	
 					}
-					else if(lecturerName == null && courseName != null && subjectName == null) {
+					else if(lecturerID == null && courseName != null && subjectName == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ?");
 						ps.setString(1, courseName);	
 					}	
-					else if(lecturerName == null && courseName == null && subjectName != null) {
+					else if(lecturerID == null && courseName == null && subjectName != null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE subject = ?");
 						ps.setString(1, subjectName);	
 					}
-					else if (lecturerName != null && courseName != null && subjectName == null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND courseName = ?");
-					    ps.setString(1, lecturerName);
+					else if (lecturerID != null && courseName != null && subjectName == null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ?");
+					    ps.setString(1, lecturerID);
 					    ps.setString(2, courseName);
 					}
-					else if (lecturerName != null && courseName == null && subjectName != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND subject = ?");
-					    ps.setString(1, lecturerName);
+					else if (lecturerID != null && courseName == null && subjectName != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND subject = ?");
+					    ps.setString(1, lecturerID);
 					    ps.setString(2, subjectName);
 					}
-					else if (lecturerName == null && courseName != null && subjectName != null) {
+					else if (lecturerID == null && courseName != null && subjectName != null) {
 					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ? AND subject = ?");
 					    ps.setString(1, courseName);
 					    ps.setString(2, subjectName);
 					}		
-					else if (lecturerName != null && courseName != null && subjectName != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturer = ? AND courseName = ? AND subject = ?");
-					    ps.setString(1, lecturerName);
+					else if (lecturerID != null && courseName != null && subjectName != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ? AND subject = ?");
+					    ps.setString(1, lecturerID);
 					    ps.setString(2, courseName);
 					    ps.setString(3, subjectName);
 					}
@@ -62,7 +62,7 @@ public class DBController {
 						answers.add(rs.getString(7));
 						answers.add(rs.getString(8));
 						answers.add(rs.getString(9));
-						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), answers, rs.getString(5), rs.getString(10));
+						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), answers, rs.getString(5), rs.getString(10), rs.getString(11));
 	                    questions.add(question);
 					}
 					rs.close();
@@ -251,21 +251,31 @@ public class DBController {
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
-		/*
-		 * need to set in the hashmap (lecDepartmentCoursesMap) the subject as a key and all the courses belong to it in an arraylist as a
-		 * value for the key.  
-		 * the hashmap will be at the end:
-		 * 
-		 * (subject, [course1, course2, .....])
-		 * 
-		 *  <math, [algebra, hedva, ...]>
-		 *  <coding, [java, c, python, ...]>
-		 *  .
-		 *  .
-		 *  .
-		 *  .
-		 *  .
-		 */
+		String query = "SELECT subjects.Name AS SubjectName, course.Name AS CourseName "
+				+ "FROM subjects "
+				+ "JOIN coursesubject ON subjects.SubjectID = coursesubject.SubjectID "
+				+ "JOIN lecturercourse ON coursesubject.CourseID = lecturercourse.CourseID "
+				+ "JOIN course ON coursesubject.CourseID = course.CourseID "
+				+ "WHERE lecturercourse.LecturerID = ?";
+		
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, lecturerID);
+	            try (ResultSet resultSet = ps.executeQuery()) {
+	            	int i = 1;
+	                while (resultSet.next()) {
+	                	
+	                	System.out.println(resultSet.getString(i));
+	                	i++;
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return lecDepartmentCoursesMap;
 	}
@@ -283,7 +293,7 @@ public class DBController {
 
 	public static void addNewQuestion(ArrayList<Question> questionList) {
 		String query = "INSERT INTO question (id, subject, courseName, questionText, questionNumber, answerCorrect, answerWrong1"
-				+ ", answerWrong2, answerWrong3, lecturer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ ", answerWrong2, answerWrong3, lecturer, lecturerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 	    try {
 	    	for(Question question : questionList) {
@@ -299,6 +309,7 @@ public class DBController {
 		    		ps.setString(8, question.getAnswers().get(2));
 		    		ps.setString(9, question.getAnswers().get(3));
 		    		ps.setString(10, question.getLecturer());
+		    		ps.setString(10, question.getLecturerID());
 		    		ps.executeUpdate();
 		    	}
 	    	}

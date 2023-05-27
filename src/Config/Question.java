@@ -17,6 +17,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private String questionNumber;
 	private ArrayList<String> answers;
 	private String lecturer;
+	private String lecturerID;
 
 	/**
 	 * @param question id
@@ -27,7 +28,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question author
 	 */
 	public Question(String id, String subject, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
-			String lecturer) {
+			String lecturer, String lecturerID) {
 		super();
 		this.id = id;
 		this.subject = subject;
@@ -36,6 +37,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		this.questionNumber = questionNumber;
 		this.setAnswers(answers);
 		this.lecturer = lecturer;
+		this.lecturerID = lecturerID;
 	}
 
 	public String getId() {
@@ -103,6 +105,10 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	public void setAnswers(ArrayList<String> answers) {
 		this.answers = answers;
+	}
+
+	public String getLecturerID() {
+		return lecturerID;
 	}
 
 }

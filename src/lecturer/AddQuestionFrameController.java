@@ -188,7 +188,7 @@ public class AddQuestionFrameController implements Initializable {
 		        
 		        int i = 0;
 		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
-		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null)); // to identifying
+		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
 		        
 		        // Iterate over the selected courses and create a new Question object for each course
 		        for(String courses : coursesSelect) {
@@ -197,7 +197,7 @@ public class AddQuestionFrameController implements Initializable {
 		        	id = "0" + Integer.toString(Integer.parseInt(id) + 1);
 		        	
 		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(id, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName()));		        
+			        newQuestion.add(new Question(id, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
 			        // Add the question to the addQuestionToDBArr
 			        addQuestionToDBArr.add(newQuestion.get(i));	        
 			        i++;
