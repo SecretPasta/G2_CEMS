@@ -1,6 +1,7 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -8,6 +9,9 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import Config.Lecturer;
 import Config.Question;
@@ -27,6 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class LecturerDashboardFrameController implements Initializable{
 	
@@ -46,7 +51,10 @@ public class LecturerDashboardFrameController implements Initializable{
     private JFXButton btnCheckExams;
 	@FXML
     private JFXButton btnSearch_CreateExam;
-
+	
+	@FXML
+	private JFXSnackbar snackbarError;
+	
 	@FXML
 	private Label lblMessage1;
 	@FXML
@@ -247,7 +255,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Getting the selected question from the table view
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
 	    if (questionSelected == null) {
-	    	lblMessage1.setText("[Error] No question was selected.");
+	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError.setPrefWidth(pnlManageQuestions.getPrefWidth());
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
 	    } else {
 	    	lblMessage1.setText("");
 

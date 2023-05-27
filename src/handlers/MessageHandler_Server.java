@@ -156,9 +156,9 @@ public class MessageHandler_Server {
 	                    
 	                case "GetLecturerSubjectsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
-				    	//Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
+				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
-	                	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
+	                	/*Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
 	                	
 				    	ArrayList<String> values1 = new ArrayList<>();
 				        values1.add("Value1");
@@ -168,7 +168,7 @@ public class MessageHandler_Server {
 				        ArrayList<String> values2 = new ArrayList<>();
 				        values2.add("Value3");
 				        values2.add("Value4");
-				        lecSubjectsCoursesHashMap.put("Key2", values2);
+				        lecSubjectsCoursesHashMap.put("Key2", values2);*/
 				        
 				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);
 				    	
