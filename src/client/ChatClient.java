@@ -66,6 +66,7 @@ public class ChatClient extends AbstractClient
 	  awaitResponse = false;
 	  
 	  MessageHandler_Client.handleMessage(msg); // handle the message from the server in different class
+	  System.out.println(msg);
 
   }
 

@@ -80,23 +80,26 @@ public class DBController {
 	
 	public static String UpdateQuestionDataByID(ArrayList<String> qArr) {
 		// 1 - question ID
-		// 2 - question text
-		// 3 - correct answer
-		// 4 - wrong answer1
-		// 5 - wrong answer2
-		// 6 - wrong answer3
-		// 7 - question number
+		// 2 - subject ID
+		// 3 - question text
+		// 4 - correct answer
+		// 5 - wrong answer1
+		// 6 - wrong answer2
+		// 7 - wrong answer3
+		// 8 - question number
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `question` SET `questionText` =?, "
-						+ "`answerCorrect` =?, `answerWrong1` =?, `answerWrong2` =?, `answerWrong3` =?, `questionNumber` =? WHERE (`id` =?);");
-				ps.setString(1,qArr.get(2));
-				ps.setString(2,qArr.get(3));
-				ps.setString(3,qArr.get(4));
-				ps.setString(4,qArr.get(5));
-				ps.setString(5,qArr.get(6));
-				ps.setString(6,qArr.get(7));
+						+ "`answerCorrect` =?, `answerWrong1` =?, `answerWrong2` =?, `answerWrong3` =?, `questionNumber` =? "
+						+ "WHERE (`id` =? AND  `subjectID` = ?);");
+				ps.setString(1,qArr.get(3));
+				ps.setString(2,qArr.get(4));
+				ps.setString(3,qArr.get(5));
+				ps.setString(4,qArr.get(6));
+				ps.setString(5,qArr.get(7));
+				ps.setString(6,qArr.get(8));
 				ps.setString(7,qArr.get(1));
+				ps.setString(8,qArr.get(2));
 		 		ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {

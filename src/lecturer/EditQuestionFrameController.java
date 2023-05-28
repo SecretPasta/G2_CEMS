@@ -99,7 +99,7 @@ public class EditQuestionFrameController implements Initializable {
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-	    		questionSelected.getId(), txtQuestionText.getText(), txtQuestionNumber.getText());
+	    		questionSelected.getId(), questionSelected.getsubjectID(), txtQuestionText.getText(), txtQuestionNumber.getText());
 	}
 
 	/**
@@ -125,6 +125,9 @@ public class EditQuestionFrameController implements Initializable {
 		        ArrayList<String> updateQuestionArr = new ArrayList<>();
 		        updateQuestionArr.add("UpdateQuestionDataByID");
 		        updateQuestionArr.add(questionSelected.getId());
+		        
+		        updateQuestionArr.add(questionSelected.getsubjectID());
+		        
 		        updateQuestionArr.add(txtQuestionText.getText());
 		        updateQuestionArr.add(txtAnswerCorrect.getText());
 		        updateQuestionArr.add(txtAnswerWrong1.getText());

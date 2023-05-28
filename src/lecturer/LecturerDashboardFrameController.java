@@ -249,11 +249,13 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param edited_QuestionNumber  The edited question number
 	 * @throws IOException If an I/O exception occurs during the execution
 	 */
-	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, String edited_QuestionNumber) throws IOException {
-	    
+	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_SubjectID, 
+			String edited_QuestionText, String edited_QuestionNumber) throws IOException {
 		// Update the edited question in the table of the lecturer's questions
 	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
-	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
+	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID) && 
+	        		questionsToEditObservableList.get(i).getsubjectID().equals(edited_SubjectID)) {
+	        	
 	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
 	            questionsToEditObservableList.get(i).setQuestionNumber(edited_QuestionNumber);
 	        }
