@@ -63,8 +63,10 @@ public class DBController {
 						answers.add(rs.getString(7));
 						answers.add(rs.getString(8));
 						answers.add(rs.getString(9));
-						Question question = new Question(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), answers, rs.getString(5), rs.getString(10), rs.getString(11));
-	                    questions.add(question);
+						
+						Question question = new Question(null, rs.getString(2), rs.getString(3), rs.getString(4), answers, rs.getString(5), rs.getString(10), rs.getString(11));
+
+						questions.add(question);
 					}
 					rs.close();
 				} else
@@ -80,26 +82,22 @@ public class DBController {
 	
 	public static String UpdateQuestionDataByID(ArrayList<String> qArr) {
 		// 1 - question ID
-		// 2 - subject ID
-		// 3 - question text
-		// 4 - correct answer
-		// 5 - wrong answer1
-		// 6 - wrong answer2
-		// 7 - wrong answer3
-		// 8 - question number
+		// 2 - question text
+		// 3 - correct answer
+		// 4 - wrong answer1
+		// 5 - wrong answer2
+		// 6 - wrong answer3
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("UPDATE `question` SET `questionText` =?, "
-						+ "`answerCorrect` =?, `answerWrong1` =?, `answerWrong2` =?, `answerWrong3` =?, `questionNumber` =? "
-						+ "WHERE (`id` =? AND  `subjectID` = ?);");
-				ps.setString(1,qArr.get(3));
-				ps.setString(2,qArr.get(4));
-				ps.setString(3,qArr.get(5));
-				ps.setString(4,qArr.get(6));
-				ps.setString(5,qArr.get(7));
-				ps.setString(6,qArr.get(8));
-				ps.setString(7,qArr.get(1));
-				ps.setString(8,qArr.get(2));
+						+ "`answerCorrect` =?, `answerWrong1` =?, `answerWrong2` =?, `answerWrong3` =? "
+						+ "WHERE (`id` =?);");
+				ps.setString(1,qArr.get(2));
+				ps.setString(2,qArr.get(3));
+				ps.setString(3,qArr.get(4));
+				ps.setString(4,qArr.get(5));
+				ps.setString(5,qArr.get(6));
+				ps.setString(6,qArr.get(1));
 		 		ps.executeUpdate();
 			}
 		} catch (ClassNotFoundException e) {
@@ -228,13 +226,12 @@ public class DBController {
 		return false;	
 	}
 
-	public static boolean removeQuestion(String questionID, String subjectID) {
-		String query = "DELETE FROM question WHERE id = ? AND subjectID = ?";
+	public static boolean removeQuestion(String questionID) {
+		String query = "DELETE FROM question WHERE id = ?";
 		try {
 			if (mysqlConnection.getConnection() != null) {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 	            ps.setString(1, questionID);
-	            ps.setString(2, subjectID);
 	            ps.executeUpdate();
 	            return true;
 			}
@@ -315,7 +312,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 	public static String getMaxQuestionIdFromSubject(String subjectID) {
-		String query = "SELECT subjects.MaxID "
+		String query = "SELECT subjects.MaxQuestionNumber "
 		        + "FROM subjects "
 		        + "WHERE SubjectID = ?";
 		try {
@@ -345,7 +342,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    		i ++;
 		    	if (mysqlConnection.getConnection() != null) {
 		    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-		    		ps.setString(1, question.getId()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		    		ps.setString(1, question.getId());
 		    		ps.setString(2, question.getsubjectID());
 		    		ps.setString(3, question.getCourseName());
 		    		ps.setString(4, question.getQuestionText());
@@ -359,23 +356,34 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		    		ps.executeUpdate();
 		    	}
 	    	}
-	    	updateSubjectMaxQuestionID(questionList.get(1).getsubjectID(), i);
+	    	updateSubjectMaxQuestionNumber(questionList.get(1).getsubjectID(), i);
 		
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
 	    }
 	}
 
-	private static void updateSubjectMaxQuestionID(String subjectID, int i) { // @@@@@@@@@@@@@@@@@@@@@
-		/*ring query = "UPDATE subjects "
-	             + "SET MaxID = LPAD(?, 3, '0') "
+	private static void updateSubjectMaxQuestionNumber(String subjectID, int i) { // @@@@@@@@@@@@@@@@@@@@@
+		
+		String maxNumQuestion= getMaxQuestionIdFromSubject(subjectID); // 005
+		// i = 4
+		 // 009
+		
+		String query = "UPDATE subjects "
+	             + "SET MaxQuestionNumber = ? "
 	             + "WHERE SubjectID = ?";
 		System.out.println(i);
 		System.out.println(subjectID);
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);	
-				ps.setString(1, Integer.toString(i));
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				
+				maxNumQuestion = Integer.toString(Integer.parseInt(maxNumQuestion) + i);
+				maxNumQuestion = String.format("%03d", Integer.parseInt(maxNumQuestion));
+				
+				
+				ps.setString(1, maxNumQuestion);
+				
 				ps.setString(2, subjectID);
 		 		ps.executeUpdate();
 			}
@@ -385,7 +393,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 	public static Map<String, String> getAllSubjectsNamesAndIds() {

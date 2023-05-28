@@ -147,8 +147,7 @@ public class MessageHandler_Server {
 	                    // Handle RemoveQuestionFromDB message
 	                	
 						// 1 - question id to remove
-	                	// 2 - subject id to remove
-						if(DBController.removeQuestion(arrayListStr.get(1), arrayListStr.get(2))) {
+						if(DBController.removeQuestion(arrayListStr.get(1))) {
 							client.sendToClient("question removed");
 						}
 						else {

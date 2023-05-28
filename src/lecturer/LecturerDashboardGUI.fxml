@@ -236,35 +236,6 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
-               <children>
-                  <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" layoutX="137.0" layoutY="40.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" />
-                  <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" layoutX="420.0" layoutY="40.0" prefHeight="25.0" prefWidth="160.0" />
-                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="73.0" layoutY="81.0" prefHeight="130.0" prefWidth="561.0">
-                    <columns>
-                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" prefWidth="60.79998779296875" text="ID" />
-                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="260.00006103515625" text="Question text" />
-                        <TableColumn id="questionNumberColumn_CreateExam" fx:id="questionNumberColumn_CreateExam" prefWidth="126.39990234375" text="Question Number" />
-                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="9.5999755859375" prefWidth="100.800048828125" text="Lecturer" />
-                    </columns>
-                  </TableView>
-                  <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="626.0" layoutY="40.0" onAction="#getSearchBtn_CreateExam" text="search" />
-                  <Label id="lblMessage2" fx:id="lblMessage2" layoutX="297.0" layoutY="499.0" prefHeight="17.0" prefWidth="114.0" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="73.0" layoutY="231.0" onAction="#getChooseQuestionBtn_CreateExam" text="choose question" />
-                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="69.0" layoutY="288.0" prefHeight="168.0" prefWidth="569.0">
-                    <columns>
-                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="56.79998779296875" text="ID" />
-                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="307.20001220703125" text="Question text" />
-                        <TableColumn id="questionNumberColumn_CreateExam2" fx:id="questionNumberColumn_CreateExam2" prefWidth="111.99993896484375" text="Question Number" />
-                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="93.5999755859375" text="Lecturer" />
-                    </columns>
-                  </TableView>
-               </children></Pane>
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <Label id="lblMessage1" fx:id="lblMessage1" layoutX="69.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" style="-fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
@@ -308,7 +279,6 @@
                               <TableColumn id="subjectColumn_ManageQuestions" fx:id="subjectColumn_ManageQuestions" prefWidth="99.0" text="subject" />
                               <TableColumn id="courseNameColumn_ManageQuestions" fx:id="courseNameColumn_ManageQuestions" prefWidth="95.0" text="courseName" />
                               <TableColumn id="questionTextColumn_ManageQuestions" fx:id="questionTextColumn_ManageQuestions" prefWidth="222.40003967285156" text="questionText" />
-                              <TableColumn id="questionNumberColumn_ManageQuestions" fx:id="questionNumberColumn_ManageQuestions" minWidth="0.0" prefWidth="113.60003662109375" text="questionNumber" />
                               <TableColumn id="authorColumn_ManageQuestions" fx:id="authorColumn_ManageQuestions" minWidth="0.0" prefWidth="169.5999755859375" text="lecturer" />
                            </columns>
                         </TableView>
@@ -322,6 +292,35 @@
                   <JFXSnackbar fx:id="snackbarError" layoutX="396.0" layoutY="549.0" />
                </children>
             </Pane>
+            <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
+               <children>
+                  <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" layoutX="137.0" layoutY="40.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" />
+                  <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" layoutX="420.0" layoutY="40.0" prefHeight="25.0" prefWidth="160.0" />
+                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="73.0" layoutY="81.0" prefHeight="130.0" prefWidth="561.0">
+                    <columns>
+                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" prefWidth="87.20001220703125" text="ID" />
+                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="234.39996337890625" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="9.5999755859375" prefWidth="100.800048828125" text="Lecturer" />
+                    </columns>
+                  </TableView>
+                  <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="626.0" layoutY="40.0" onAction="#getSearchBtn_CreateExam" text="search" />
+                  <Label id="lblMessage2" fx:id="lblMessage2" layoutX="297.0" layoutY="499.0" prefHeight="17.0" prefWidth="114.0" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="73.0" layoutY="231.0" onAction="#getChooseQuestionBtn_CreateExam" text="choose question" />
+                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="69.0" layoutY="288.0" prefHeight="168.0" prefWidth="569.0">
+                    <columns>
+                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="104.79998779296875" text="ID" />
+                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="260.0" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="93.5999755859375" text="Lecturer" />
+                        <TableColumn id="pointsColumn_CreateExam2" fx:id="pointsColumn_CreateExam2" prefWidth="93.5999755859375" text="Points" />
+                    </columns>
+                  </TableView>
+                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="691.0" layoutY="231.0" onAction="#getRefreshBtn_CreateExam" text="Refresh" />
+               </children></Pane>
          </children>
       </StackPane>
    </children>

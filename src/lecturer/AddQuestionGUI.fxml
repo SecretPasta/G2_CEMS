@@ -24,7 +24,6 @@
       <AnchorPane layoutX="286.4" layoutY="126.0" prefHeight="470.0" prefWidth="538.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.rightAnchor="25.600000000000023">
          <children>
             <TextField id="textQuestionText" fx:id="textQuestionText" alignment="TOP_LEFT" layoutX="15.0" layoutY="60.0" prefHeight="90.0" prefWidth="386.0" />
-            <TextField id="txtQuestionNumber" fx:id="txtQuestionNumber" layoutX="421.0" layoutY="61.0" prefHeight="30.0" prefWidth="101.0" AnchorPane.rightAnchor="15.799999999999955" />
             <Label layoutX="17.0" layoutY="31.0" text="Question Text">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -62,11 +61,6 @@
                   <TextField id="txtAnswerWrong3" fx:id="txtAnswerWrong3" prefHeight="30.0" prefWidth="486.0" />
                </children>
             </VBox>
-            <Label layoutX="420.0" layoutY="31.0" text="Question Number" textFill="#242633">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="126.0" prefHeight="470.0" prefWidth="244.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.leftAnchor="25.0">

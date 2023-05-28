@@ -28,8 +28,6 @@ public class EditQuestionFrameController implements Initializable {
 	@FXML
 	private Label lblQuestionTextInfo;
 	@FXML
-	private Label lblQuestionNumberInfo;
-	@FXML
 	private Label lblAuthorInfo;
 	@FXML
 	private Label lblMessage;
@@ -40,8 +38,6 @@ public class EditQuestionFrameController implements Initializable {
 	@FXML
 	private Label txtCourseName;
 	
-	@FXML
-	private TextField txtQuestionNumber;
 	@FXML
 	private TextField txtAnswerCorrect;
 	@FXML
@@ -82,10 +78,8 @@ public class EditQuestionFrameController implements Initializable {
 	    txtAnswerWrong2.setText(questionSelected.getAnswers().get(2));
 	    txtAnswerWrong3.setText(questionSelected.getAnswers().get(3));
 	    
-	    txtQuestionNumber.setText(questionSelected.getQuestionNumber());
 	    txtQuestionAuthor.setText(questionSelected.getLecturer());
 	}
-
 	/**
 	 * Handles the event when the back button is clicked.
 	 *
@@ -99,7 +93,7 @@ public class EditQuestionFrameController implements Initializable {
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-	    		questionSelected.getId(), questionSelected.getsubjectID(), txtQuestionText.getText(), txtQuestionNumber.getText());
+	    		questionSelected.getId(), txtQuestionText.getText());
 	}
 
 	/**
@@ -112,7 +106,7 @@ public class EditQuestionFrameController implements Initializable {
 		
 		try {
 			
-			if(txtQuestionText.getText().trim().equals("") || txtQuestionNumber.getText().trim().equals("") || 
+			if(txtQuestionText.getText().trim().equals("") || 
 				txtAnswerCorrect.getText().trim().equals("") || txtAnswerWrong1.getText().trim().equals("") || 
 				txtAnswerWrong2.getText().trim().equals("") || txtAnswerWrong3.getText().trim().equals("")) {
 			
@@ -125,15 +119,11 @@ public class EditQuestionFrameController implements Initializable {
 		        ArrayList<String> updateQuestionArr = new ArrayList<>();
 		        updateQuestionArr.add("UpdateQuestionDataByID");
 		        updateQuestionArr.add(questionSelected.getId());
-		        
-		        updateQuestionArr.add(questionSelected.getsubjectID());
-		        
 		        updateQuestionArr.add(txtQuestionText.getText());
 		        updateQuestionArr.add(txtAnswerCorrect.getText());
 		        updateQuestionArr.add(txtAnswerWrong1.getText());
 		        updateQuestionArr.add(txtAnswerWrong2.getText());
 		        updateQuestionArr.add(txtAnswerWrong3.getText());
-		        updateQuestionArr.add(txtQuestionNumber.getText());
 		        ClientUI.chat.accept(updateQuestionArr);
 			}
 	    

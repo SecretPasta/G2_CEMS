@@ -152,11 +152,10 @@ public class MessageHandler_Client {
         // Handle ArrayList<Question> messages
     	
     	String messageType = questionList.get(0).getId();
-    	
+
     	switch (messageType) {
     		case "LoadQuestionsFromDB":
     			// Handle LoadQuestionsFromDB message
-    			
     			questionList.remove(0); // remove the first question (the question that identified)
 				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable_ManageQuestions(questionList);
 				System.out.println("The questions succesfully loaded from the DB to the table.");

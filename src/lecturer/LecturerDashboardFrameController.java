@@ -16,6 +16,7 @@ import com.jfoenix.controls.JFXSnackbarLayout;
 
 import Config.Lecturer;
 import Config.Question;
+import Config.QuestionInExam;
 import client.ClientUI;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
@@ -30,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -52,6 +54,8 @@ public class LecturerDashboardFrameController implements Initializable{
     private JFXButton btnCheckExams;
 	@FXML
     private JFXButton btnSearch_CreateExam;
+	@FXML
+    private JFXButton btnRefresh_CreateExam;
 	
 	@FXML
 	private JFXSnackbar snackbarError;
@@ -86,7 +90,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableView<Question> tableView_CreateExam = new TableView<>();
 	@FXML
-	private TableView<Question> tableView_CreateExam2 = new TableView<>();
+	private TableView<QuestionInExam> tableView_CreateExam2 = new TableView<>();
 
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
@@ -98,32 +102,28 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableColumn<Question, String> questionTextColumn_ManageQuestions;
 	@FXML
 	private TableColumn<Question, String> authorColumn_ManageQuestions;
-	@FXML
-	private TableColumn<Question, String> questionNumberColumn_ManageQuestions;
 	
 	@FXML
 	private TableColumn<Question, String> idColumn_CreateExam;
 	@FXML
 	private TableColumn<Question, String> questionTextColumn_CreateExam;
 	@FXML
-	private TableColumn<Question, String> questionNumberColumn_CreateExam;
-	@FXML
 	private TableColumn<Question, String> authorColumn_CreateExam;
 	
 	@FXML
-	private TableColumn<Question, String> idColumn_CreateExam2;
+	private TableColumn<QuestionInExam, String> idColumn_CreateExam2;
 	@FXML
-	private TableColumn<Question, String> questionTextColumn_CreateExam2;
+	private TableColumn<QuestionInExam, String> questionTextColumn_CreateExam2;
 	@FXML
-	private TableColumn<Question, String> questionNumberColumn_CreateExam2;
+	private TableColumn<QuestionInExam, String> authorColumn_CreateExam2;
 	@FXML
-	private TableColumn<Question, String> authorColumn_CreateExam2;
+	private TableColumn<QuestionInExam, String> pointsColumn_CreateExam2;
 	
 	private static Lecturer lecturer; // current lecturer
 	
 	private static Map<String, String> subjects_ID_Name = new HashMap<>();
 	
-	private ObservableList<Question> questionsToCreateExamObservableList2 = FXCollections.observableArrayList(); // list2 of questions to select for exam
+	private ObservableList<QuestionInExam> questionsToCreateExamObservableList2 = FXCollections.observableArrayList(); // list2 of questions to select for exam
 
 	private ObservableList<Question> questionsToCreateExamObservableList = FXCollections.observableArrayList(); // list of questions to select for exam
 	
@@ -158,7 +158,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    subjectColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 	    courseNameColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 	    questionTextColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
-	    questionNumberColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 
 	    // Create an ArrayList to get all questions from the database for the current lecturer
@@ -186,13 +185,13 @@ public class LecturerDashboardFrameController implements Initializable{
 		// Setting up cell value factories for lecturer's create exam tables columns
 	    idColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    questionTextColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
-	    questionNumberColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
 	    authorColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 	    
-	    idColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
-	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
-	    questionNumberColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("questionNumber"));
-	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
+	    idColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("id"));
+	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionText"));    
+	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("lecturer"));
+	    pointsColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("points"));
+	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn()); // @@@@@@@@@@@@@@@@@@@@@@ need to make it editable
 	    
 	 // -------------- CreateExam --------------
 	    
@@ -246,18 +245,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	 *
 	 * @param edited_QuestionID      The ID of the edited question
 	 * @param edited_QuestionText    The edited question text
-	 * @param edited_QuestionNumber  The edited question number
 	 * @throws IOException If an I/O exception occurs during the execution
 	 */
-	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_SubjectID, 
-			String edited_QuestionText, String edited_QuestionNumber) throws IOException {
+	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText) throws IOException {
 		// Update the edited question in the table of the lecturer's questions
 	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
-	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID) && 
-	        		questionsToEditObservableList.get(i).getsubjectID().equals(edited_SubjectID)) {
+	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
 	        	
 	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
-	            questionsToEditObservableList.get(i).setQuestionNumber(edited_QuestionNumber);
 	        }
 	    }
 
@@ -336,7 +331,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
 	        questionToRemoveArr.add("RemoveQuestionFromDB");
 	        questionToRemoveArr.add(questionSelected.getId());
-	        questionToRemoveArr.add(questionSelected.getsubjectID());
 	        ClientUI.chat.accept(questionToRemoveArr);
 	        
 	        snackbarError = new JFXSnackbar(pnlManageQuestions);
@@ -406,6 +400,8 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    // Set the items of the table view to the questionsToCreateExamObservableList
 	    tableView_CreateExam.setItems(questionsToCreateExamObservableList);
+	    
+	    tableView_CreateExam.getSelectionModel().clearSelection();
 	}
 	
 	
@@ -428,7 +424,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (subjectSelect == null || courseSelect == null) {
 	        // Display an error message if any field is missing
-	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
+	    	snackbarError = new JFXSnackbar(pnlCreateExam);
 	    	snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: Missing fields"), Duration.millis(3000), null));
 	    } else {
@@ -467,23 +463,37 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	}
 	
+	public void getRefreshBtn_CreateExam(ActionEvent event) throws Exception {
+		questionsToCreateExamObservableList2.removeAll();
+		tableView_CreateExam2.getItems().clear();
+		tableView_CreateExam2.getSelectionModel().clearSelection();
+		questionsToCreateExamObservableList.removeAll();
+		tableView_CreateExam.getItems().clear();
+		tableView_CreateExam.getSelectionModel().clearSelection();
+		btnSearch_CreateExam.setDisable(false);
+		subjectSelectBox_CreateExam.setDisable(false);
+		courseSelectBox_CreateExam.setDisable(false);
+    	courseSelectBox_CreateExam.getItems().clear();
+    	subjectSelectBox_CreateExam.setValue(null);
+	}
+	
 	public void getChooseQuestionBtn_CreateExam(ActionEvent event) throws Exception {
 		
 		questionSelected = tableView_CreateExam.getSelectionModel().getSelectedItem();
 	
 		if(questionsToCreateExamObservableList2.contains(questionSelected)) {
-			snackbarError = new JFXSnackbar(pnlManageQuestions);
+			snackbarError = new JFXSnackbar(pnlCreateExam);
 	    	snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: This question already added"), Duration.millis(3000), null));
 		}
 		else if(questionSelected == null) {
-			snackbarError = new JFXSnackbar(pnlManageQuestions);
+			snackbarError = new JFXSnackbar(pnlCreateExam);
 	    	snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
 		}
 		else {
-			
-			questionsToCreateExamObservableList2.add(questionSelected);
+			QuestionInExam questionInExam = new QuestionInExam(questionSelected);
+			questionsToCreateExamObservableList2.add(questionInExam);
 			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
 			
 			questionsToCreateExamObservableList.remove(questionSelected);
@@ -491,6 +501,9 @@ public class LecturerDashboardFrameController implements Initializable{
 			tableView_CreateExam.refresh();
 			
 			btnSearch_CreateExam.setDisable(true);
+			subjectSelectBox_CreateExam.setDisable(true);
+			courseSelectBox_CreateExam.setDisable(true);
+			questionSelected = null;
 		}
 
 	    
@@ -617,15 +630,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
 		
+
+
 		questionSelected = null;
-		questionsToCreateExamObservableList2.removeAll();
-		tableView_CreateExam2.getItems().clear();
-		tableView_CreateExam2.getSelectionModel().clearSelection();
-		questionsToCreateExamObservableList.removeAll();
-		tableView_CreateExam.getItems().clear();
-		tableView_CreateExam.getSelectionModel().clearSelection();
-		btnSearch_CreateExam.setDisable(false);
-		
 		
 
 	    if (actionEvent.getSource() == btnShowReport) {
@@ -639,7 +646,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	        pnlManageQuestions.toFront();    
 	    }
 	    if (actionEvent.getSource() == btnCreateExam) {
-	    	courseSelectBox_CreateExam.getItems().clear();
+			try {
+				getRefreshBtn_CreateExam(actionEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {

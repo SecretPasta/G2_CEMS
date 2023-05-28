@@ -58,8 +58,6 @@ public class AddQuestionFrameController implements Initializable {
     private TextField txtAnswerWrong2;
     @FXML
     private TextField txtAnswerWrong3;
-    @FXML
-    private TextField txtQuestionNumber;
     
     @FXML
     private JFXButton backBtn;
@@ -156,7 +154,7 @@ public class AddQuestionFrameController implements Initializable {
 		try {
 		    if (subjectSelect == null || subjectSelect.isEmpty() || coursesSelect.get(0).equals("Please select a subject first") || 
 		    		coursesSelect.isEmpty() || textQuestionText.getText().trim().equals("") || 
-		    		txtQuestionNumber.getText().trim().equals("") || txtAnswerCorrect.getText().trim().equals("") || 
+		    		txtAnswerCorrect.getText().trim().equals("") || 
 		    		txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") || 
 		    		txtAnswerWrong3.getText().trim().equals("")) {
 
@@ -198,10 +196,11 @@ public class AddQuestionFrameController implements Initializable {
 		        	
 		        	// Increment the question ID and format it
 		        	id = Integer.toString(Integer.parseInt(id) + 1);
-		        	String formattedID = String.format("%03d", Integer.parseInt(id));
+		        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id));
 		        	
 		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(formattedID, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
+			        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses, textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));		        
+			        
 			        
 			        // Add the question to the addQuestionToDBArr
 			        addQuestionToDBArr.add(newQuestion.get(i));	        

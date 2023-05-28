@@ -31,7 +31,12 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	public Question(String id, String subjectID, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
-		this.id = id;
+		if(id == null) {
+			this.id = subjectID + "" + questionNumber;
+		}
+		else {
+			this.id = id;
+		}
 		this.subjectID = subjectID;
 		this.courseName = courseName;
 		this.questionText = questionText;
@@ -100,7 +105,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	// Return a formatted string representation of the Question object
 	public String toString() {
-		return String.format("%s %s %s %s %s %s\n", id, subject, courseName, questionText, questionNumber, lecturer);
+		return String.format("%s %s %s %s %s\n", id, subject, courseName, questionText, lecturer);
 	}
 
 	@Override
