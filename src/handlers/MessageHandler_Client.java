@@ -171,32 +171,13 @@ public class MessageHandler_Client {
     	} 	
     }
     
-    // must remove the messageType (last entry) from the map - map.remove(messageType);
     private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map) {
         // Handle Map<String, ArrayList<String>> messages
-    	
-    	
+    		
     	if(map.containsKey("HashMapWithLecturerSubjectsAndCourses")) {
 			map.remove("HashMapWithLecturerSubjectsAndCourses");
 			LecturerDashboardFrameController.loadLecturerSubjectsAndCourses(map);
     	}
-    	
-    	
-    	/*System.out.println(map);
-    	Entry<String, ArrayList<String>> lastEntry = getLastEntry(map);
-    	String messageType = lastEntry.getKey();
-    	
-    	switch (messageType) {
-    	
-	    	case "HashMapWithLecturerSubjectsAndCourses":
-	    		
-				map.remove(messageType);
-				System.out.println(map);
-				LecturerDashboardFrameController.loadLecturerSubjectsAndCourses(map);
-				
-				break;
-    	}*/
-
 
     }
     

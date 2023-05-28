@@ -252,6 +252,11 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
+		
+		ArrayList<String> checkArr = new ArrayList<>();
+		checkArr.add("check");
+		lecDepartmentCoursesMap.put("HashMapWithLecturerSubjectsAndCourses", checkArr);
+		
 		String query = "SELECT subjects.Name AS SubjectName, course.Name AS CourseName "
 				+ "FROM subjects "
 				+ "JOIN coursesubject ON subjects.SubjectID = coursesubject.SubjectID "
@@ -288,7 +293,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		
 		//Print the subjects and their corresponding courses
-		for (Entry<String, ArrayList<String>> entry : lecDepartmentCoursesMap.entrySet()) {
+		/*for (Entry<String, ArrayList<String>> entry : lecDepartmentCoursesMap.entrySet()) {
 		    String subject = entry.getKey();
 		    ArrayList<String> courses = entry.getValue();
 
@@ -300,7 +305,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		    }
 		    //Optional line to add a blank line between subjects
 		    System.out.println();
-		}
+		}*/
 		
 		return lecDepartmentCoursesMap;
 	}
