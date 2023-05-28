@@ -181,9 +181,9 @@ public class MessageHandler_Server {
 	                    
 	                case "GetLecturerSubjectsAndCourses": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - lecturer ID
-				    	//Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
+				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
-	                	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
+	                	/*Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = new HashMap<>(); 
 	                	
 				    	ArrayList<String> values1 = new ArrayList<>();
 				        values1.add("JAVA");
@@ -193,7 +193,7 @@ public class MessageHandler_Server {
 				        ArrayList<String> values2 = new ArrayList<>();
 				        values2.add("Value3");
 				        values2.add("Value4");
-				        lecSubjectsCoursesHashMap.put("Key2", values2);
+				        lecSubjectsCoursesHashMap.put("Key2", values2);*/
 				        
 				        lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", null);
 				    	
@@ -202,7 +202,7 @@ public class MessageHandler_Server {
 				    	break;
 				    	
 	                case "GetMaxQuestionIdFromProvidedSubject":
-	                	// 1 - Department Name
+	                	// 1 - subject ID
 	                	String questionID;
 	                	questionID = DBController.getMaxQuestionIdFromSubject(arrayListStr.get(1));
 	                	

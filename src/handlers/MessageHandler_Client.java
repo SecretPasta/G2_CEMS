@@ -134,7 +134,7 @@ public class MessageHandler_Client {
 	                    break;
 	                    
 	                case "MaximunQuestionIdForSelectedSubject":
-	                	// 1 - maximum question id for selected department
+	                	// 1 - maximum question id for selected subject
 	                	AddQuestionFrameController.saveMaxIdOfQuestionInSelectedSubject(arrayListStr.get(1));
 	                	
 	                	break;

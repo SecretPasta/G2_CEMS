@@ -11,48 +11,48 @@ import Config.Question;
 public class DBController {
 	
 	
-	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectName.
-	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseName, String subjectName) {
+	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectID.
+	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseName, String subjectID) {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
 					PreparedStatement ps = null;
-					if(lecturerID == null && courseName == null && subjectName == null) {
+					if(lecturerID == null && courseName == null && subjectID == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question");
 					}
-					else if(lecturerID != null && courseName == null && subjectName == null) {
+					else if(lecturerID != null && courseName == null && subjectID == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ?");
 						ps.setString(1, lecturerID);	
 					}
-					else if(lecturerID == null && courseName != null && subjectName == null) {
+					else if(lecturerID == null && courseName != null && subjectID == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ?");
 						ps.setString(1, courseName);	
 					}	
-					else if(lecturerID == null && courseName == null && subjectName != null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE subject = ?");
-						ps.setString(1, subjectName);	
+					else if(lecturerID == null && courseName == null && subjectID != null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE subjectID = ?");
+						ps.setString(1, subjectID);	
 					}
-					else if (lecturerID != null && courseName != null && subjectName == null) {
+					else if (lecturerID != null && courseName != null && subjectID == null) {
 					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ?");
 					    ps.setString(1, lecturerID);
 					    ps.setString(2, courseName);
 					}
-					else if (lecturerID != null && courseName == null && subjectName != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND subject = ?");
+					else if (lecturerID != null && courseName == null && subjectID != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND subjectID = ?");
 					    ps.setString(1, lecturerID);
-					    ps.setString(2, subjectName);
+					    ps.setString(2, subjectID);
 					}
-					else if (lecturerID == null && courseName != null && subjectName != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ? AND subject = ?");
+					else if (lecturerID == null && courseName != null && subjectID != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ? AND subjectID = ?");
 					    ps.setString(1, courseName);
-					    ps.setString(2, subjectName);
+					    ps.setString(2, subjectID);
 					}		
-					else if (lecturerID != null && courseName != null && subjectName != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ? AND subject = ?");
+					else if (lecturerID != null && courseName != null && subjectID != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ? AND subjectID = ?");
 					    ps.setString(1, lecturerID);
 					    ps.setString(2, courseName);
-					    ps.setString(3, subjectName);
+					    ps.setString(3, subjectID);
 					}
 					
 					ResultSet rs = ps.executeQuery();
@@ -251,7 +251,7 @@ public class DBController {
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
-		String query = "SELECT subjects.Name AS SubjectName, course.Name AS CourseName "
+		String query = "SELECT subjects.Name AS SubjectID, course.Name AS CourseName "
 				+ "FROM subjects "
 				+ "JOIN coursesubject ON subjects.SubjectID = coursesubject.SubjectID "
 				+ "JOIN lecturercourse ON coursesubject.CourseID = lecturercourse.CourseID "
@@ -280,27 +280,39 @@ public class DBController {
 		return lecDepartmentCoursesMap;
 	}
 
-	public static String getMaxQuestionIdFromSubject(String subjectName) {
-		
-		/*
-		 * get the MaxQuestionID of subject and return it
-		 * 
-		 * 
-		 * 
-		 */
+	public static String getMaxQuestionIdFromSubject(String subjectID) {
+		String query = "SELECT subjects.MaxID "
+		        + "FROM subjects "
+		        + "WHERE SubjectID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, subjectID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if(rs.next()) {
+	                	return rs.getString(1);
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;	
 	}
 
 	public static void addNewQuestion(ArrayList<Question> questionList) {
-		String query = "INSERT INTO question (id, subject, courseName, questionText, questionNumber, answerCorrect, answerWrong1"
+		String query = "INSERT INTO question (id, subjectID, courseName, questionText, questionNumber, answerCorrect, answerWrong1"
 				+ ", answerWrong2, answerWrong3, lecturer, lecturerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
+		int i = 0;
 	    try {
 	    	for(Question question : questionList) {
+	    		i ++;
 		    	if (mysqlConnection.getConnection() != null) {
 		    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 		    		ps.setString(1, question.getId()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		    		ps.setString(2, question.getSubject());
+		    		ps.setString(2, question.getsubjectID());
 		    		ps.setString(3, question.getCourseName());
 		    		ps.setString(4, question.getQuestionText());
 		    		ps.setString(5, question.getQuestionNumber());
@@ -313,11 +325,33 @@ public class DBController {
 		    		ps.executeUpdate();
 		    	}
 	    	}
-	    	//updateSubjectMaxQuestionID();
+	    	updateSubjectMaxQuestionID(questionList.get(1).getsubjectID(), i);
 		
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
 	    }
+	}
+
+	private static void updateSubjectMaxQuestionID(String subjectID, int i) { // @@@@@@@@@@@@@@@@@@@@@
+		/*ring query = "UPDATE subjects "
+	             + "SET MaxID = LPAD(?, 3, '0') "
+	             + "WHERE SubjectID = ?";
+		System.out.println(i);
+		System.out.println(subjectID);
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);	
+				ps.setString(1, Integer.toString(i));
+				ps.setString(2, subjectID);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 	public static Map<String, String> getAllSubjectsNamesAndIds() {
@@ -329,7 +363,7 @@ public class DBController {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                	map.put(rs.getString(2), rs.getString(1));
+	                	map.put(rs.getString(1), rs.getString(2));
 	                }
 	            }
 			}

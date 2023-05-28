@@ -170,7 +170,7 @@ public class AddQuestionFrameController implements Initializable {
 	            // Request the maximum question ID for the selected subject from the server        
 		        ArrayList<String> getMaxQuestionIdFromCurrentSubjectArr = new ArrayList<>();
 		        getMaxQuestionIdFromCurrentSubjectArr.add("GetMaxQuestionIdFromProvidedSubject");
-		        getMaxQuestionIdFromCurrentSubjectArr.add(subjectSelect);
+		        getMaxQuestionIdFromCurrentSubjectArr.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
 		        ClientUI.chat.accept(getMaxQuestionIdFromCurrentSubjectArr);
 		        
 		        // Create an ArrayList of answers based on the input values
@@ -182,9 +182,9 @@ public class AddQuestionFrameController implements Initializable {
 		        
 		        newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
 		        
-		        //String id = String.format("%03d", maxIdOfQuestionInCurrentSubject); // Retrieve the current maximum question ID
+		        String id = String.format("%03d", Integer.parseInt(maxIdOfQuestionInCurrentSubject)); // Retrieve the current maximum question ID
 		        
-		        String id = "002"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		        //String id = "002"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		        
 		        int i = 0;
 		        
@@ -201,7 +201,8 @@ public class AddQuestionFrameController implements Initializable {
 		        	String formattedID = String.format("%03d", Integer.parseInt(id));
 		        	
 		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(formattedID, subjectSelect, courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
+			        newQuestion.add(new Question(formattedID, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses, textQuestionText.getText(), answersArr, txtQuestionNumber.getText(), lecturer.getName(), lecturer.getId()));		        
+			        
 			        // Add the question to the addQuestionToDBArr
 			        addQuestionToDBArr.add(newQuestion.get(i));	        
 			        i++;
@@ -209,6 +210,8 @@ public class AddQuestionFrameController implements Initializable {
 		        
 	            // Send the addQuestionToDBArr to the server to add the questions to the database
 		        ClientUI.chat.accept(addQuestionToDBArr);
+		        
+		        
 		        
 		        getBackBtn(event); // Go back to the previous screen
 		        

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -120,6 +121,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private static Lecturer lecturer; // current lecturer
 	
+	private static Map<String, String> subjects_ID_Name = new HashMap<>();
+	
 	private ObservableList<Question> questionsToCreateExamObservableList2 = FXCollections.observableArrayList(); // list2 of questions to select for exam
 
 	private ObservableList<Question> questionsToCreateExamObservableList = FXCollections.observableArrayList(); // list of questions to select for exam
@@ -197,6 +200,25 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
+	
+    public static void setSubjectsNameById(Map<String, String> subjects_map_id_name) { 	
+    	subjects_ID_Name = subjects_map_id_name;
+    }
+    
+    public String getSubjectNameById(String subjectID) { 	
+		return subjects_ID_Name.get(subjectID);
+    }
+    
+    public static String getSubjectIdByName(String subjectName) { 	
+    	for (Map.Entry<String, String> entry : subjects_ID_Name.entrySet()) {
+    		if (subjectName.equals(entry.getValue())) {
+    			return entry.getKey();
+    		}
+        }
+    	return null; // Value not found
+    }
+	
+	
 
 	// -------------- ManageQuestions PANEL --------------
 	
@@ -206,6 +228,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param questions The ArrayList of questions to be loaded
 	 */
 	public void loadArrayQuestionsToTable_ManageQuestions(ArrayList<Question> questions) {
+		
+		for(Question question : questions) {
+			question.setSubject(getSubjectNameById(question.getsubjectID()));
+		}
 		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
 	    questionsToEditObservableList.addAll(questions);
@@ -337,6 +363,10 @@ public class LecturerDashboardFrameController implements Initializable{
 		
 	    if (newQuestion != null) {
 	    	
+	    	for(Question q : newQuestion) {
+	    		q.setSubject(getSubjectNameById(q.getsubjectID()));
+	    	}
+	    	
 	        // Add the new question to the questionsToEditObservableList
 	        questionsToEditObservableList.addAll(newQuestion);
 	        snackbarError = new JFXSnackbar(pnlManageQuestions);
@@ -403,7 +433,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
 	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
-	        getQuestionsArr.add(subjectSelect);
+	        getQuestionsArr.add(getSubjectIdByName(subjectSelect));
 	        getQuestionsArr.add(courseSelect);
 	        ClientUI.chat.accept(getQuestionsArr);
 	    }
@@ -500,7 +530,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	public static void loadAllSubjectsFromDB(Map<String, String> map) {
-	    lecturer.setSubjectsIdByNames(map);
+	    setSubjectsNameById(map);
 	}
 	
 	/**

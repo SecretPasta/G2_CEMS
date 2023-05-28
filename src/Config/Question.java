@@ -11,13 +11,14 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	private static final long serialVersionUID = 1L;
 	private String id;
-	private String subject;
+	private String subjectID;
 	private String courseName;
 	private String questionText;
 	private String questionNumber;
 	private ArrayList<String> answers;
 	private String lecturer;
 	private String lecturerID;
+	private String subject;
 
 	/**
 	 * @param question id
@@ -27,17 +28,26 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question number
 	 * @param question author
 	 */
-	public Question(String id, String subject, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
+	public Question(String id, String subjectID, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
 		this.id = id;
-		this.subject = subject;
+		this.subjectID = subjectID;
 		this.courseName = courseName;
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
 		this.setAnswers(answers);
 		this.lecturer = lecturer;
 		this.lecturerID = lecturerID;
+		this.subject = "";
+	}
+	
+	public String getSubject() {
+		return subject; // Retrieve the subject Name of the question
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject; // Set the subject Name of the question
 	}
 
 	public String getId() {
@@ -48,12 +58,12 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		this.id = id; // Set the ID of the question
 	}
 
-	public String getSubject() {
-		return subject; // Retrieve the subject of the question
+	public String getsubjectID() {
+		return subjectID; // Retrieve the subject of the question
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject; // Set the subject of the question
+	public void setsubjectID(String subject) {
+		this.subjectID = subject; // Set the subject of the question
 	}
 
 	public String getCourseName() {
