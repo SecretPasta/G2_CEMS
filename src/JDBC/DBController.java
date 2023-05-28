@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import Config.Question;
 
@@ -247,11 +248,11 @@ public class DBController {
 		setUserIsLogin("0", "headofdepartment", "all");
 	}
 
-	public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String lecturerID) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String lecturerID) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
-		String query = "SELECT subjects.Name AS SubjectID, course.Name AS CourseName "
+		String query = "SELECT subjects.Name AS SubjectName, course.Name AS CourseName "
 				+ "FROM subjects "
 				+ "JOIN coursesubject ON subjects.SubjectID = coursesubject.SubjectID "
 				+ "JOIN lecturercourse ON coursesubject.CourseID = lecturercourse.CourseID "
@@ -263,18 +264,42 @@ public class DBController {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 	            ps.setString(1, lecturerID);
 	            try (ResultSet resultSet = ps.executeQuery()) {
-	            	int i = 1;
-	                while (resultSet.next()) {
-	                	
-	                	System.out.println(resultSet.getString(i));
-	                	i++;
-	                }
+	            	while (resultSet.next()) {
+	            	    String subjectName = resultSet.getString("SubjectName");
+	            	    String courseName = resultSet.getString("CourseName");
+
+	            	    //Check if the subject is already in the map
+	            	    if (lecDepartmentCoursesMap.containsKey(subjectName)) {
+	            	        //Add the course to the existing list of courses for the subject
+	            	    	lecDepartmentCoursesMap.get(subjectName).add(courseName);
+	            	    } else {
+	            	        //Create a new list and add the course
+	            	        ArrayList<String> courses = new ArrayList<>();
+	            	        courses.add(courseName);
+	            	        lecDepartmentCoursesMap.put(subjectName, courses);
+	            	    }
+	            	}
 	            }
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		
+		//Print the subjects and their corresponding courses
+		for (Entry<String, ArrayList<String>> entry : lecDepartmentCoursesMap.entrySet()) {
+		    String subject = entry.getKey();
+		    ArrayList<String> courses = entry.getValue();
+
+		    System.out.println("Subject: " + subject);
+		    System.out.println("Courses:");
+
+		    for (String course : courses) {
+		        System.out.println("- " + course);
+		    }
+		    //Optional line to add a blank line between subjects
+		    System.out.println();
 		}
 		
 		return lecDepartmentCoursesMap;
