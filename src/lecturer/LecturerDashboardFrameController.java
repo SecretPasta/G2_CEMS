@@ -334,6 +334,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
 	        questionToRemoveArr.add("RemoveQuestionFromDB");
 	        questionToRemoveArr.add(questionSelected.getId());
+	        questionToRemoveArr.add(questionSelected.getsubjectID());
 	        ClientUI.chat.accept(questionToRemoveArr);
 	        
 	        snackbarError = new JFXSnackbar(pnlManageQuestions);

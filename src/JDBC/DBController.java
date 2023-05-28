@@ -225,12 +225,13 @@ public class DBController {
 		return false;	
 	}
 
-	public static boolean removeQuestion(String questionID) {
-		String query = "DELETE FROM question WHERE id = ?";
+	public static boolean removeQuestion(String questionID, String subjectID) {
+		String query = "DELETE FROM question WHERE id = ? AND subjectID = ?";
 		try {
 			if (mysqlConnection.getConnection() != null) {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 	            ps.setString(1, questionID);
+	            ps.setString(2, subjectID);
 	            ps.executeUpdate();
 	            return true;
 			}
