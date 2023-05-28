@@ -356,7 +356,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		    		ps.executeUpdate();
 		    	}
 	    	}
-	    	updateSubjectMaxQuestionNumber(questionList.get(1).getsubjectID(), i);
+	    	updateSubjectMaxQuestionNumber(questionList.get(0).getsubjectID(), i);
 		
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();

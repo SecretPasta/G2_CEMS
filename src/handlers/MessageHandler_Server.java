@@ -138,7 +138,7 @@ public class MessageHandler_Server {
 	                case "GetAllQuestionsFromDB":
 	                    // Handle GetAllQuestionsFromDB message
 	                	
-	                	ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null, null); // send the full name of the user
+	                	ArrayList<Question> questions = DBController.getAllQuestions(arrayListStr.get(1), null, null); // send the id of the user
 	                	questions.add(0, new Question("LoadQuestionsFromDB",  null, null, null, null, null, null, null));
 	                	client.sendToClient((ArrayList<Question>)questions);
 						
