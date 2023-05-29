@@ -21,6 +21,7 @@ import client.ClientUI;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
 import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,17 +70,21 @@ public class LecturerDashboardFrameController implements Initializable{
 	private Label lbluserNameAndID;
 	
 	@FXML
-	private Pane pnlGreeting = new Pane();
+	private Pane pnlGreeting;
     @FXML
-    private Pane pnlShowReport = new Pane();
+    private Pane pnlShowReport;
     @FXML
-    private Pane pnlCreateExam = new Pane();
+    private Pane pnlCreateExam;
     @FXML
-    private Pane pnlManageQuestions = new Pane();
+    private Pane pnlManageQuestions;
     @FXML
-    private Pane pnlManageExams = new Pane();
+    private Pane pnlManageExams;
     @FXML
-    private Pane pnlCheckExams = new Pane();
+    private Pane pnlCheckExams;
+    @FXML
+    private Pane pnlEmpty;
+    
+    private Pane currentPane;
 	
 	@FXML
 	private JFXComboBox<String> subjectSelectBox_CreateExam;
@@ -150,6 +155,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
+	    currentPane = pnlGreeting;
 	    pnlGreeting.toFront();
 		
 	    // -------------- ManageQuestions PANEL --------------
@@ -661,11 +667,22 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	}
 	
-	public void handleAnimation(Pane newPane) {	
-        FadeTransition comingPane = new FadeTransition(Duration.millis(250), newPane);
+	public void handleAnimation(Pane newPane) {
+		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+        outgoingPane.setFromValue(1);
+        outgoingPane.setToValue(0);
+        
+        FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
         comingPane.setFromValue(0);
         comingPane.setToValue(1);
-        comingPane.play();
+            
+        SequentialTransition transition = new SequentialTransition();
+        transition.getChildren().addAll(outgoingPane, comingPane);
+        transition.play();
+        
+        currentPane = newPane;
+        
+        
 	}
 
 }
