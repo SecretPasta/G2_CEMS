@@ -20,6 +20,7 @@ import Config.QuestionInExam;
 import client.ClientUI;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -630,19 +631,19 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
 		
-
-
 		questionSelected = null;
 		
-
 	    if (actionEvent.getSource() == btnShowReport) {
+	    	handleAnimation(pnlShowReport);
 	        pnlShowReport.toFront();
 	    }
-	    if (actionEvent.getSource() == btnCheckExams) {
+	    if (actionEvent.getSource() == btnCheckExams) {	    	
+	    	handleAnimation(pnlCheckExams);
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) {
 	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unselect row in the questions table
+	    	handleAnimation(pnlManageQuestions);
 	        pnlManageQuestions.toFront();    
 	    }
 	    if (actionEvent.getSource() == btnCreateExam) {
@@ -651,11 +652,20 @@ public class LecturerDashboardFrameController implements Initializable{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			handleAnimation(pnlCreateExam);
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {
+	    	handleAnimation(pnlManageExams);
 	        pnlManageExams.toFront();
 	    }
+	}
+	
+	public void handleAnimation(Pane newPane) {	
+        FadeTransition comingPane = new FadeTransition(Duration.millis(250), newPane);
+        comingPane.setFromValue(0);
+        comingPane.setToValue(1);
+        comingPane.play();
 	}
 
 }
