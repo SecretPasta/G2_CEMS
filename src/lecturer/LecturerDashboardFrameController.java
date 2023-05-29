@@ -29,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -133,6 +134,8 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	private static Question questionSelected; // question selected to edit or to delete
 	
+	private QuestionInExam questionInExamSelected;
+	
 	private static LecturerDashboardFrameController instance;
 	
 	public LecturerDashboardFrameController() {
@@ -192,6 +195,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("lecturer"));
 	    pointsColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("points"));
 	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn()); // @@@@@@@@@@@@@@@@@@@@@@ need to make it editable
+	    tableView_CreateExam2.setEditable(true);
 	    
 	 // -------------- CreateExam --------------
 	    
@@ -492,8 +496,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
 		}
 		else {
-			QuestionInExam questionInExam = new QuestionInExam(questionSelected);
-			questionsToCreateExamObservableList2.add(questionInExam);
+			questionInExamSelected = new QuestionInExam(questionSelected);
+			questionsToCreateExamObservableList2.add(questionInExamSelected);
 			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
 			
 			questionsToCreateExamObservableList.remove(questionSelected);
@@ -513,6 +517,19 @@ public class LecturerDashboardFrameController implements Initializable{
 		
 		questionSelected = null;
 	}
+	
+    public void getEditPoints(CellEditEvent<QuestionInExam, String> event) {
+    	
+    	questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
+        String newPoints = event.getNewValue();
+        // Handle the newPoints value
+        
+        System.out.println(questionInExamSelected.getPoints());
+        
+        questionInExamSelected.setPoints(newPoints);
+        
+        System.out.println(questionInExamSelected.getPoints());
+    }
 
 	// -------------- CreateExam PANEL --------------
 

@@ -40,13 +40,6 @@ public class MessageHandler_Server {
 	    }
 	}
 
-	
-	private static void handleMapStringStringValueMessage(Map<String, String> msg, ConnectionToClient client) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	private static MessageType getMessageType(Object msg) {
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
@@ -83,7 +76,7 @@ public class MessageHandler_Server {
 	    	switch (message) {
 			    case "getAllSubjectsNamesAndIdsFromDB":
 			    	Map<String, String> subjects_name_id_map_arr = DBController.getAllSubjectsNamesAndIds();
-			    	subjects_name_id_map_arr.put("HashMapWithSubjects_names_ids", null);
+			    	subjects_name_id_map_arr.put("HashMapWithSubjects_names_ids", "forchecking");
 			    	client.sendToClient(subjects_name_id_map_arr);
 			    	break;
 	    	}
@@ -182,6 +175,10 @@ public class MessageHandler_Server {
 	                	// 1 - lecturer ID
 				    	Map<String, ArrayList<String>> lecSubjectsCoursesHashMap = DBController.getLecturerSubjectCourses(arrayListStr.get(1));
 				    	
+						ArrayList<String> checkArr = new ArrayList<>();
+						checkArr.add("forchecking");
+						lecSubjectsCoursesHashMap.put("HashMapWithLecturerSubjectsAndCourses", checkArr);
+				    	
 				    	client.sendToClient(lecSubjectsCoursesHashMap);
 				    	
 				    	break;
@@ -240,6 +237,11 @@ public class MessageHandler_Server {
     	
 
     }
+    
+	private static void handleMapStringStringValueMessage(Map<String, String> msg, ConnectionToClient client) {
+		// Handle Map<String, String> messages
+		
+	}
     
     
 }

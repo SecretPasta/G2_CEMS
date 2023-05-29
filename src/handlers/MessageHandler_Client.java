@@ -2,7 +2,6 @@ package handlers;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
 
@@ -183,30 +182,12 @@ public class MessageHandler_Client {
     
     private static void handleMapStringStringValueMessage(Map<String, String> map) {
         // Handle the Map<String, String> here
-
-    	Entry<String, String> lastEntry = getLastEntry(map);
-    	String messageType = lastEntry.getKey();
     	
-    	switch (messageType) {
-    	
-	    	case "HashMapWithSubjects_names_ids":
-	    		
-				map.remove(messageType);
-				LecturerDashboardFrameController.loadAllSubjectsFromDB(map);
-				
-				break;
+    	if(map.containsKey("HashMapWithSubjects_names_ids")) {
+			map.remove("HashMapWithSubjects_names_ids");
+			LecturerDashboardFrameController.loadAllSubjectsFromDB(map);
     	}
     	
-    }
-
-    
-    
-    public static <K, V> Entry<K, V> getLastEntry(Map<K, V> map) {
-        Entry<K, V> lastEntry = null;
-        for (Entry<K, V> entry : map.entrySet()) {
-            lastEntry = entry;
-        }
-        return lastEntry;
     }
 
 }

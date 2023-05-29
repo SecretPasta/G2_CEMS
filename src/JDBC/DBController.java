@@ -253,11 +253,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
-		
-		ArrayList<String> checkArr = new ArrayList<>();
-		checkArr.add("check");
-		lecDepartmentCoursesMap.put("HashMapWithLecturerSubjectsAndCourses", checkArr);
-		
 		String query = "SELECT subjects.Name AS SubjectName, course.Name AS CourseName "
 				+ "FROM subjects "
 				+ "JOIN coursesubject ON subjects.SubjectID = coursesubject.SubjectID "
