@@ -20,6 +20,8 @@ import Config.QuestionInExam;
 import client.ClientUI;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,17 +71,21 @@ public class LecturerDashboardFrameController implements Initializable{
 	private Label lbluserNameAndID;
 	
 	@FXML
-	private Pane pnlGreeting = new Pane();
+	private Pane pnlGreeting;
     @FXML
-    private Pane pnlShowReport = new Pane();
+    private Pane pnlShowReport;
     @FXML
-    private Pane pnlCreateExam = new Pane();
+    private Pane pnlCreateExam;
     @FXML
-    private Pane pnlManageQuestions = new Pane();
+    private Pane pnlManageQuestions;
     @FXML
-    private Pane pnlManageExams = new Pane();
+    private Pane pnlManageExams;
     @FXML
-    private Pane pnlCheckExams = new Pane();
+    private Pane pnlCheckExams;
+    @FXML
+    private Pane pnlEmpty;
+    
+    private Pane currentPane;
 	
 	@FXML
 	private JFXComboBox<String> subjectSelectBox_CreateExam;
@@ -152,6 +158,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
+	    currentPane = pnlGreeting;
 	    pnlGreeting.toFront();
 		
 	    // -------------- ManageQuestions PANEL --------------
@@ -647,19 +654,19 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
 		
-
-
 		questionSelected = null;
 		
-
 	    if (actionEvent.getSource() == btnShowReport) {
+	    	handleAnimation(pnlShowReport);
 	        pnlShowReport.toFront();
 	    }
-	    if (actionEvent.getSource() == btnCheckExams) {
+	    if (actionEvent.getSource() == btnCheckExams) {	    	
+	    	handleAnimation(pnlCheckExams);
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) {
 	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unselect row in the questions table
+	    	handleAnimation(pnlManageQuestions);
 	        pnlManageQuestions.toFront();    
 	    }
 	    if (actionEvent.getSource() == btnCreateExam) {
@@ -668,11 +675,31 @@ public class LecturerDashboardFrameController implements Initializable{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			handleAnimation(pnlCreateExam);
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {
+	    	handleAnimation(pnlManageExams);
 	        pnlManageExams.toFront();
 	    }
+	}
+	
+	public void handleAnimation(Pane newPane) {
+		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+        outgoingPane.setFromValue(1);
+        outgoingPane.setToValue(0);
+        
+        FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
+        comingPane.setFromValue(0);
+        comingPane.setToValue(1);
+            
+        SequentialTransition transition = new SequentialTransition();
+        transition.getChildren().addAll(outgoingPane, comingPane);
+        transition.play();
+        
+        currentPane = newPane;
+        
+        
 	}
 
 }

@@ -66,3 +66,8 @@
 .table-view .virtual-flow .scroll-bar:horizontal .thumb {
     -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
 }
+
+.button:hover{
+	-fx-scale-x: 1.05;
+	-fx-scale-y: 1.05;
+}
