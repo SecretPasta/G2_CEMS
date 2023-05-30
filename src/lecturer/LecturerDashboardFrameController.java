@@ -54,6 +54,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	private JFXButton btnCreateExam;
 	@FXML
     private JFXButton btnCheckExams;
+	
+	private JFXButton currentSection;
+	
 	@FXML
     private JFXButton btnSearch_CreateExam;
 	@FXML
@@ -640,16 +643,16 @@ public class LecturerDashboardFrameController implements Initializable{
 		questionSelected = null;
 		
 	    if (actionEvent.getSource() == btnShowReport) {
-	    	handleAnimation(pnlShowReport);
+	    	handleAnimation(pnlShowReport, btnShowReport);
 	        pnlShowReport.toFront();
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	
-	    	handleAnimation(pnlCheckExams);
+	    	handleAnimation(pnlCheckExams, btnCheckExams);
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) {
 	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unselect row in the questions table
-	    	handleAnimation(pnlManageQuestions);
+	    	handleAnimation(pnlManageQuestions, btnManageQuestions);
 	        pnlManageQuestions.toFront();    
 	    }
 	    if (actionEvent.getSource() == btnCreateExam) {
@@ -658,16 +661,16 @@ public class LecturerDashboardFrameController implements Initializable{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			handleAnimation(pnlCreateExam);
+			handleAnimation(pnlCreateExam, btnCreateExam);
 	        pnlCreateExam.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageExams) {
-	    	handleAnimation(pnlManageExams);
+	    	handleAnimation(pnlManageExams, btnManageExams);
 	        pnlManageExams.toFront();
 	    }
 	}
 	
-	public void handleAnimation(Pane newPane) {
+	public void handleAnimation(Pane newPane, JFXButton newSection) {
 		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
         outgoingPane.setFromValue(1);
         outgoingPane.setToValue(0);
@@ -680,9 +683,11 @@ public class LecturerDashboardFrameController implements Initializable{
         transition.getChildren().addAll(outgoingPane, comingPane);
         transition.play();
         
+        newSection.setStyle("-fx-border-color: #FAF9F6");
+        if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
+        
         currentPane = newPane;
-        
-        
+        currentSection = newSection;  
 	}
 
 }
