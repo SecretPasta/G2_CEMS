@@ -72,6 +72,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	private Label lblMessage2;
 	@FXML
 	private Label lbluserNameAndID;
+	@FXML
+	private Label lblTotalQuestionSelectedPoints;
 	
 	@FXML
 	private Pane pnlGreeting;
@@ -142,6 +144,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	protected static Stage currStage; // save current stage
 
 	private static Question questionSelected; // question selected to edit or to delete
+	
+	private double total_points;
 	
 	private QuestionInExam questionInExamSelected;
 	
@@ -489,6 +493,8 @@ public class LecturerDashboardFrameController implements Initializable{
 		courseSelectBox_CreateExam.setDisable(false);
     	courseSelectBox_CreateExam.getItems().clear();
     	subjectSelectBox_CreateExam.setValue(null);
+    	total_points = 0.0;
+    	lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points));
 	}
 	
 	public void getChooseQuestionBtn_CreateExam(ActionEvent event) throws Exception {
@@ -517,7 +523,6 @@ public class LecturerDashboardFrameController implements Initializable{
 			btnSearch_CreateExam.setDisable(true);
 			subjectSelectBox_CreateExam.setDisable(true);
 			courseSelectBox_CreateExam.setDisable(true);
-			questionSelected = null;
 		}
 
 	    
@@ -528,17 +533,68 @@ public class LecturerDashboardFrameController implements Initializable{
 		questionSelected = null;
 	}
 	
+	
+	public void getRemoveQuestion_CreateExam(ActionEvent event) throws Exception {
+		
+		questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
+	
+		if(questionInExamSelected == null) {
+			snackbarError = new JFXSnackbar(pnlCreateExam);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
+		}
+		else {
+			
+			total_points -= Double.valueOf(questionInExamSelected.getPoints());
+			
+			questionsToCreateExamObservableList.add((Question)questionInExamSelected);
+			tableView_CreateExam.setItems(questionsToCreateExamObservableList);
+			
+			questionsToCreateExamObservableList2.remove(questionInExamSelected);
+			tableView_CreateExam2.getSelectionModel().clearSelection();
+			tableView_CreateExam2.refresh();
+			
+			if(tableView_CreateExam2.getItems().isEmpty()) {
+				btnSearch_CreateExam.setDisable(false);
+				subjectSelectBox_CreateExam.setDisable(false);
+				courseSelectBox_CreateExam.setDisable(false);
+			}
+		}   
+		
+		questionInExamSelected = null;
+		questionSelected = null;
+	}
+	
+	
     public void getEditPoints(CellEditEvent<QuestionInExam, String> event) {
     	
     	questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
         String newPoints = event.getNewValue();
-        // Handle the newPoints value
+        Double oldPoints = Double.valueOf(questionInExamSelected.getPoints());
         
-        System.out.println(questionInExamSelected.getPoints());
+        Double temp_total_points = total_points + Double.valueOf(newPoints) - oldPoints;
         
-        questionInExamSelected.setPoints(newPoints);
+        if(temp_total_points > 100) {
+        	System.out.println("[Error] Total points will be over 100");
+        	System.out.println(2);
+        	System.out.println(questionInExamSelected.getPoints());
+        	System.out.println(2);
+        	
+        }
+        else {
+        	total_points = total_points - oldPoints + Double.valueOf(newPoints);
+            questionInExamSelected.setPoints(newPoints);
+            
+            System.out.println(1);
+            System.out.println(questionInExamSelected.getPoints());
+            System.out.println(1);
+        	
+        }
         
-        System.out.println(questionInExamSelected.getPoints());
+        tableView_CreateExam2.refresh();
+        lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points));
+        
+
     }
 
 	// -------------- CreateExam PANEL --------------

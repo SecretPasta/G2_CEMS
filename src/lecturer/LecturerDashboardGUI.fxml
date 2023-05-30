@@ -160,6 +160,7 @@
       </Pane>
       <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="85.0" text="Hello World" />
@@ -311,8 +312,10 @@
                     </columns>
                   </TableView>
                   <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="691.0" layoutY="231.0" onAction="#getRefreshBtn_CreateExam" text="Refresh" />
+                  <Label layoutX="669.0" layoutY="295.0" prefHeight="17.0" prefWidth="85.0" text="Total points:" />
+                  <Label id="lblTotalQuestionSelectedPoints" fx:id="lblTotalQuestionSelectedPoints" layoutX="691.0" layoutY="339.0" />
+                  <JFXButton id="btnRemoveQuestion_CreateExam" layoutX="147.0" layoutY="486.0" onAction="#getRemoveQuestion_CreateExam" text="Remove question" />
                </children></Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
          </children>
       </StackPane>
    </children>
