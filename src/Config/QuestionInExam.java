@@ -7,19 +7,19 @@ public class QuestionInExam extends Question{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String points;
+	private Double points;
 
 	public QuestionInExam(Question question) {
-		super(question.getId(), question.getsubjectID(), question.getCourseName(), question.getQuestionText(), question.getAnswers(), 
+		super(question.getId(), question.getsubjectID(), question.getCourseID(), question.getQuestionText(), question.getAnswers(), 
 				question.getQuestionNumber(), question.getLecturer(), question.getLecturerID());
-		this.points = "0";
+		this.points = 0.0;
 	}
 
-	public String getPoints() {
+	public Double getPoints() {
 		return points;
 	}
 
-	public void setPoints(String points) {
+	public void setPoints(Double points) {
 		this.points = points;
 	}
 

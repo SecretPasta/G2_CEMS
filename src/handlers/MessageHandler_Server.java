@@ -79,6 +79,12 @@ public class MessageHandler_Server {
 			    	subjects_name_id_map_arr.put("HashMapWithSubjects_names_ids", "forchecking");
 			    	client.sendToClient(subjects_name_id_map_arr);
 			    	break;
+			    	
+			    case "getAllCoursesNamesAndIdsFromDB":
+			    	Map<String, String> courses_name_id_map_arr = DBController.getAllCoursesNamesAndIds();
+			    	courses_name_id_map_arr.put("HashMapWithCourses_names_ids", "forchecking");
+			    	client.sendToClient(courses_name_id_map_arr);
+			    	break;
 	    	}
     	}catch (Exception e) {
 			// TODO Auto-generated catch block

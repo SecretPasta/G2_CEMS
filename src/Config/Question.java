@@ -12,6 +12,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String subjectID;
+	private String courseID;
 	private String courseName;
 	private String questionText;
 	private String questionNumber;
@@ -28,7 +29,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question number
 	 * @param question author
 	 */
-	public Question(String id, String subjectID, String courseName, String questionText, ArrayList<String> answers, String questionNumber,
+	public Question(String id, String subjectID, String courseID, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
 		if(id == null) {
@@ -38,7 +39,8 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 			this.id = id;
 		}
 		this.subjectID = subjectID;
-		this.courseName = courseName;
+		this.courseID = courseID;
+		this.courseName = "";
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
 		this.setAnswers(answers);
@@ -124,6 +126,14 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	public String getLecturerID() {
 		return lecturerID;
+	}
+
+	public String getCourseID() {
+		return courseID;
+	}
+
+	public void setCourseID(String courseID) {
+		this.courseID = courseID;
 	}
 
 }

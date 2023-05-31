@@ -192,14 +192,15 @@ public class AddQuestionFrameController implements Initializable {
 		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
 		        
 		        // Iterate over the selected courses and create a new Question object for each course
-		        for(String courses : coursesSelect) {
+		        for(String course : coursesSelect) {
 		        	
 		        	// Increment the question ID and format it
 		        	id = Integer.toString(Integer.parseInt(id) + 1);
 		        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id));
 		        	
 		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses, textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));		        
+			        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), LecturerDashboardFrameController.getCourseIdByName(course), 
+			        		textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));		        
 			        
 			        
 			        // Add the question to the addQuestionToDBArr

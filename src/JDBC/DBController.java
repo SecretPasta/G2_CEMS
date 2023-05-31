@@ -13,46 +13,46 @@ public class DBController {
 	
 	
 	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectID.
-	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseName, String subjectID) {
+	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseID, String subjectID) {
 		ArrayList<Question> questions = new ArrayList<Question>();
 		try {
 			try {
 				if (mysqlConnection.getConnection() != null) {
 					PreparedStatement ps = null;
-					if(lecturerID == null && courseName == null && subjectID == null) {
+					if(lecturerID == null && courseID == null && subjectID == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question");
 					}
-					else if(lecturerID != null && courseName == null && subjectID == null) {
+					else if(lecturerID != null && courseID == null && subjectID == null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ?");
 						ps.setString(1, lecturerID);	
 					}
-					else if(lecturerID == null && courseName != null && subjectID == null) {
-						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ?");
-						ps.setString(1, courseName);	
+					else if(lecturerID == null && courseID != null && subjectID == null) {
+						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseID = ?");
+						ps.setString(1, courseID);	
 					}	
-					else if(lecturerID == null && courseName == null && subjectID != null) {
+					else if(lecturerID == null && courseID == null && subjectID != null) {
 						ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE subjectID = ?");
 						ps.setString(1, subjectID);	
 					}
-					else if (lecturerID != null && courseName != null && subjectID == null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ?");
+					else if (lecturerID != null && courseID != null && subjectID == null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseID = ?");
 					    ps.setString(1, lecturerID);
-					    ps.setString(2, courseName);
+					    ps.setString(2, courseID);
 					}
-					else if (lecturerID != null && courseName == null && subjectID != null) {
+					else if (lecturerID != null && courseID == null && subjectID != null) {
 					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND subjectID = ?");
 					    ps.setString(1, lecturerID);
 					    ps.setString(2, subjectID);
 					}
-					else if (lecturerID == null && courseName != null && subjectID != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseName = ? AND subjectID = ?");
-					    ps.setString(1, courseName);
+					else if (lecturerID == null && courseID != null && subjectID != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE courseID = ? AND subjectID = ?");
+					    ps.setString(1, courseID);
 					    ps.setString(2, subjectID);
 					}		
-					else if (lecturerID != null && courseName != null && subjectID != null) {
-					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseName = ? AND subjectID = ?");
+					else if (lecturerID != null && courseID != null && subjectID != null) {
+					    ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM question WHERE lecturerID = ? AND courseID = ? AND subjectID = ?");
 					    ps.setString(1, lecturerID);
-					    ps.setString(2, courseName);
+					    ps.setString(2, courseID);
 					    ps.setString(3, subjectID);
 					}
 					
@@ -249,7 +249,7 @@ public class DBController {
 		setUserIsLogin("0", "headofdepartment", "all");
 	}
 
-public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String lecturerID) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String lecturerID) {
 		
 		Map<String, ArrayList<String>> lecDepartmentCoursesMap = new HashMap<>();
 		
@@ -329,7 +329,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 	public static void addNewQuestion(ArrayList<Question> questionList) {
-		String query = "INSERT INTO question (id, subjectID, courseName, questionText, questionNumber, answerCorrect, answerWrong1"
+		String query = "INSERT INTO question (id, subjectID, courseID, questionText, questionNumber, answerCorrect, answerWrong1"
 				+ ", answerWrong2, answerWrong3, lecturer, lecturerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		int i = 0;
 	    try {
@@ -339,7 +339,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 		    		ps.setString(1, question.getId());
 		    		ps.setString(2, question.getsubjectID());
-		    		ps.setString(3, question.getCourseName());
+		    		ps.setString(3, question.getCourseID());
 		    		ps.setString(4, question.getQuestionText());
 		    		ps.setString(5, question.getQuestionNumber());
 		    		ps.setString(6, question.getAnswers().get(0));
@@ -394,6 +394,27 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	public static Map<String, String> getAllSubjectsNamesAndIds() {
 		
 		String query = "SELECT subjects.SubjectID, subjects.Name FROM subjects";
+		Map<String, String> map = new HashMap<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	map.put(rs.getString(1), rs.getString(2));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	public static Map<String, String> getAllCoursesNamesAndIds() {
+		
+		String query = "SELECT course.CourseID, course.Name FROM course";
 		Map<String, String> map = new HashMap<>();
 		try {
 			if (mysqlConnection.getConnection() != null) {

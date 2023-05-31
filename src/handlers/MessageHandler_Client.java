@@ -188,6 +188,11 @@ public class MessageHandler_Client {
 			LecturerDashboardFrameController.loadAllSubjectsFromDB(map);
     	}
     	
+    	else if(map.containsKey("HashMapWithCourses_names_ids")) {
+			map.remove("HashMapWithCourses_names_ids");
+			LecturerDashboardFrameController.loadAllCoursesFromDB(map);
+    	}
+    	
     }
 
 }

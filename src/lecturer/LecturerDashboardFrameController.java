@@ -8,6 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DoubleStringConverter;
+
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
@@ -38,6 +42,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 public class LecturerDashboardFrameController implements Initializable{
 	
@@ -62,6 +67,8 @@ public class LecturerDashboardFrameController implements Initializable{
     private JFXButton btnSearch_CreateExam;
 	@FXML
     private JFXButton btnRefresh_CreateExam;
+	@FXML
+    private JFXButton btcContinue_CreateExam;
 	
 	@FXML
 	private JFXSnackbar snackbarError;
@@ -96,6 +103,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	private JFXComboBox<String> subjectSelectBox_CreateExam;
 	@FXML
 	private JFXComboBox<String> courseSelectBox_CreateExam;
+	@FXML
+	private JFXComboBox<String> boxSearchbyCourse_ManageQuestions;
 
 	@FXML
 	private TableView<Question> tableView_ManageQuestions = new TableView<>();
@@ -129,11 +138,13 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableColumn<QuestionInExam, String> authorColumn_CreateExam2;
 	@FXML
-	private TableColumn<QuestionInExam, String> pointsColumn_CreateExam2;
+	private TableColumn<QuestionInExam, Double> pointsColumn_CreateExam2;
 	
 	private static Lecturer lecturer; // current lecturer
 	
 	private static Map<String, String> subjects_ID_Name = new HashMap<>();
+	
+	private static Map<String, String> courses_ID_Name = new HashMap<>();
 	
 	private ObservableList<QuestionInExam> questionsToCreateExamObservableList2 = FXCollections.observableArrayList(); // list2 of questions to select for exam
 
@@ -145,7 +156,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	private static Question questionSelected; // question selected to edit or to delete
 	
-	private double total_points;
+	private double total_points_CreateExam;
 	
 	private QuestionInExam questionInExamSelected;
 	
@@ -164,6 +175,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
+		getAllCoursesFromDB();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    currentPane = pnlGreeting;
 	    pnlGreeting.toFront();
@@ -176,6 +188,12 @@ public class LecturerDashboardFrameController implements Initializable{
 	    courseNameColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 	    questionTextColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
 	    authorColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
+	      
+	    // all courses of lecturer here to add to boxSearchbyCourse_ManageQuestions
+	    boxSearchbyCourse_ManageQuestions.getItems().add("All");
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
+			boxSearchbyCourse_ManageQuestions.getItems().addAll(entry.getValue());
+		} 
 
 	    // Create an ArrayList to get all questions from the database for the current lecturer
 	    ArrayList<String> getQuestionArray = new ArrayList<>();
@@ -207,8 +225,33 @@ public class LecturerDashboardFrameController implements Initializable{
 	    idColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("id"));
 	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionText"));    
 	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("lecturer"));
-	    pointsColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("points"));
-	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn()); // @@@@@@@@@@@@@@@@@@@@@@ need to make it editable
+	    pointsColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, Double>("points")); 
+	    
+	    
+	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
+	        @Override
+	        public String toString(Double value) {
+	        	try {
+	            return value.toString();
+	        	}catch (NullPointerException e) {}
+				return null;
+	        }
+
+	        @Override
+	        public Double fromString(String str) {
+	            try {
+	                return Double.parseDouble(str);
+	            } catch (NumberFormatException e) {
+	                snackbarError = new JFXSnackbar(pnlCreateExam);
+	                snackbarError.setPrefWidth(754);
+	                snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points should be only numbers"), Duration.millis(3000), null));
+	                return null; // Return null to indicate a conversion error
+	            }
+	        }
+	    }));    
+	    //pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+
+	    
 	    tableView_CreateExam2.setEditable(true);
 	    
 	 // -------------- CreateExam --------------
@@ -234,6 +277,23 @@ public class LecturerDashboardFrameController implements Initializable{
         }
     	return null; // Value not found
     }
+    
+    public static void setCoursesNameById(Map<String, String> courses_map_id_name) { 	
+    	courses_ID_Name = courses_map_id_name;
+    }
+    
+    public String getCourseNameById(String courseID) { 	
+		return courses_ID_Name.get(courseID);
+    }
+    
+    public static String getCourseIdByName(String courseName) { 	
+    	for (Map.Entry<String, String> entry : courses_ID_Name.entrySet()) {
+    		if (courseName.equals(entry.getValue())) {
+    			return entry.getKey();
+    		}
+        }
+    	return null; // Value not found
+    }
 	
 	
 
@@ -248,6 +308,10 @@ public class LecturerDashboardFrameController implements Initializable{
 		
 		for(Question question : questions) {
 			question.setSubject(getSubjectNameById(question.getsubjectID()));
+		}
+		
+		for(Question question : questions) {
+			question.setCourseName(getCourseNameById(question.getCourseID()));
 		}
 		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
@@ -326,7 +390,30 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Navigate to the "Add Question" screen and pass the lecturer object
 	    AddQuestionFrameController.start(lecturer);
 	}
+	
+	public void getSearchBox_ManageQuestions(ActionEvent event) throws Exception {
+		
+		String courseName_toSort = boxSearchbyCourse_ManageQuestions.getSelectionModel().getSelectedItem();
+		
+		filterQuestions(courseName_toSort);
+		
+		tableView_ManageQuestions.getSelectionModel().clearSelection();
+		
+	}
 
+    public void filterQuestions(String selectedCourse) {
+        if (selectedCourse.equals("All")) {
+        	tableView_ManageQuestions.setItems(questionsToEditObservableList); // Show all questions
+        } else {
+            ObservableList<Question> filteredData = FXCollections.observableArrayList();
+            for (Question question : questionsToEditObservableList) {
+                if (question.getCourseName().equals(selectedCourse)) {
+                    filteredData.add(question);
+                }
+            }
+            tableView_ManageQuestions.setItems(filteredData); // Show questions for the selected course
+        }
+    }
 	
 	/**
 	 * Handles the action when the lecturer clicks on the remove button for a question in the Manage Questions screen.
@@ -380,6 +467,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	
 	    	for(Question q : newQuestion) {
 	    		q.setSubject(getSubjectNameById(q.getsubjectID()));
+	    	}
+	    	
+	    	for(Question q : newQuestion) {
+	    		q.setCourseName(getCourseNameById(q.getCourseID()));
 	    	}
 	    	
 	        // Add the new question to the questionsToEditObservableList
@@ -451,7 +542,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
 	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
 	        getQuestionsArr.add(getSubjectIdByName(subjectSelect));
-	        getQuestionsArr.add(courseSelect);
+	        getQuestionsArr.add(getCourseIdByName(courseSelect));
 	        ClientUI.chat.accept(getQuestionsArr);
 	    }
 	}
@@ -493,8 +584,9 @@ public class LecturerDashboardFrameController implements Initializable{
 		courseSelectBox_CreateExam.setDisable(false);
     	courseSelectBox_CreateExam.getItems().clear();
     	subjectSelectBox_CreateExam.setValue(null);
-    	total_points = 0.0;
-    	lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points));
+    	total_points_CreateExam = 0.0;
+    	lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
+    	btcContinue_CreateExam.setDisable(true);
 	}
 	
 	public void getChooseQuestionBtn_CreateExam(ActionEvent event) throws Exception {
@@ -523,6 +615,9 @@ public class LecturerDashboardFrameController implements Initializable{
 			btnSearch_CreateExam.setDisable(true);
 			subjectSelectBox_CreateExam.setDisable(true);
 			courseSelectBox_CreateExam.setDisable(true);
+			
+			tableView_CreateExam2.getSelectionModel().clearSelection();
+			tableView_CreateExam.getSelectionModel().clearSelection();
 		}
 
 	    
@@ -545,7 +640,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		}
 		else {
 			
-			total_points -= Double.valueOf(questionInExamSelected.getPoints());
+			total_points_CreateExam -= questionInExamSelected.getPoints();
 			
 			questionsToCreateExamObservableList.add((Question)questionInExamSelected);
 			tableView_CreateExam.setItems(questionsToCreateExamObservableList);
@@ -554,48 +649,84 @@ public class LecturerDashboardFrameController implements Initializable{
 			tableView_CreateExam2.getSelectionModel().clearSelection();
 			tableView_CreateExam2.refresh();
 			
+			lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
+			
 			if(tableView_CreateExam2.getItems().isEmpty()) {
 				btnSearch_CreateExam.setDisable(false);
 				subjectSelectBox_CreateExam.setDisable(false);
 				courseSelectBox_CreateExam.setDisable(false);
 			}
-		}   
+			
+			if(questionsToCreateExamObservableList2.isEmpty() || total_points_CreateExam != 100) {
+				btcContinue_CreateExam.setDisable(true);
+			}
+		}
 		
+		tableView_CreateExam2.getSelectionModel().clearSelection();
+		tableView_CreateExam.getSelectionModel().clearSelection();
 		questionInExamSelected = null;
 		questionSelected = null;
 	}
 	
 	
-    public void getEditPoints(CellEditEvent<QuestionInExam, String> event) {
-    	
-    	questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
-        String newPoints = event.getNewValue();
-        Double oldPoints = Double.valueOf(questionInExamSelected.getPoints());
+    public void getEditPoints(CellEditEvent<QuestionInExam, Double> event) {
+    	try {
+	    	questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
+	    	
+	    	Double newPoints = event.getNewValue();
+	    	
+	        Double oldPoints = questionInExamSelected.getPoints();
+	        
+	        Double temp_total_points = total_points_CreateExam + newPoints - oldPoints;
+	        
+	        if(temp_total_points > 100) {	
+				snackbarError = new JFXSnackbar(pnlCreateExam);
+		    	snackbarError.setPrefWidth(754);
+		        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points will be over 100"), Duration.millis(3000), null));       	
+	        }
+	        else {
+	        	total_points_CreateExam = total_points_CreateExam - oldPoints + newPoints;
+	            questionInExamSelected.setPoints(newPoints);
+	
+	        	
+	        }
+	        
+	        tableView_CreateExam2.refresh();
+	        lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
+	        
+			tableView_CreateExam2.getSelectionModel().clearSelection();
+			tableView_CreateExam.getSelectionModel().clearSelection();
+	        
+			if(total_points_CreateExam != 100) {
+				btcContinue_CreateExam.setDisable(true);
+			}
+			else if(total_points_CreateExam == 100) {
+				btcContinue_CreateExam.setDisable(false);
+			}
         
-        Double temp_total_points = total_points + Double.valueOf(newPoints) - oldPoints;
-        
-        if(temp_total_points > 100) {
-        	System.out.println("[Error] Total points will be over 100");
-        	System.out.println(2);
-        	System.out.println(questionInExamSelected.getPoints());
-        	System.out.println(2);
-        	
-        }
-        else {
-        	total_points = total_points - oldPoints + Double.valueOf(newPoints);
-            questionInExamSelected.setPoints(newPoints);
-            
-            System.out.println(1);
-            System.out.println(questionInExamSelected.getPoints());
-            System.out.println(1);
-        	
-        }
-        
-        tableView_CreateExam2.refresh();
-        lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points));
-        
-
+    	}catch (NumberFormatException | NullPointerException e) {
+			snackbarError = new JFXSnackbar(pnlCreateExam);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points sholud be only numbers"), Duration.millis(3000), null));   
+    	}
     }
+    
+	public void getBtnContinue_CreateExam(ActionEvent event) throws Exception {
+		if(questionsToCreateExamObservableList2.isEmpty()) {
+			snackbarError = new JFXSnackbar(pnlCreateExam);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No questions in the test"), Duration.millis(3000), null)); 
+		}
+		else if(total_points_CreateExam != 100){
+			snackbarError = new JFXSnackbar(pnlCreateExam);
+	    	snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points have to be 100"), Duration.millis(3000), null)); 
+		}
+		else {
+			((Node) event.getSource()).getScene().getWindow().hide();
+			CreateExam_CommentsAndTimeFrameController.start(lecturer, questionsToCreateExamObservableList2);
+		}
+	}
 
 	// -------------- CreateExam PANEL --------------
 
@@ -630,6 +761,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	public static void loadAllSubjectsFromDB(Map<String, String> map) {
 	    setSubjectsNameById(map);
+	}
+	
+	public static void getAllCoursesFromDB() {
+	    ClientUI.chat.accept("getAllCoursesNamesAndIdsFromDB");
+	}
+	
+	public static void loadAllCoursesFromDB(Map<String, String> map) {
+	    setCoursesNameById(map);
 	}
 	
 	/**
