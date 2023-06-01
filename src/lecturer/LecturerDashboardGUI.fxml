@@ -227,6 +227,7 @@
                   </JFXButton>
                   <Label layoutX="208.0" layoutY="206.0" text="Manage Exams" />
                </children></Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <Label id="lblMessage1" fx:id="lblMessage1" layoutX="69.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" style="-fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
@@ -281,43 +282,68 @@
                      </font>
                   </JFXButton>
                   <JFXSnackbar fx:id="snackbarError" layoutX="396.0" layoutY="549.0" />
-                  <JFXComboBox id="boxSearchbyCourse_ManageQuestions" fx:id="boxSearchbyCourse_ManageQuestions" layoutX="322.0" layoutY="27.0" onAction="#getSearchBox_ManageQuestions" prefHeight="25.0" prefWidth="210.0" />
+                  <JFXComboBox id="boxSearchbyCourse_ManageQuestions" fx:id="boxSearchbyCourse_ManageQuestions" focusColor="#66a7f2" layoutX="462.0" layoutY="30.0" onAction="#getSearchBox_ManageQuestions" prefHeight="25.0" prefWidth="210.0" promptText="Search by course..." />
+                  <ImageView fitHeight="20.0" fitWidth="18.0" layoutX="436.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/search.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
             <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
-                  <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" layoutX="137.0" layoutY="40.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" />
-                  <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" layoutX="420.0" layoutY="40.0" prefHeight="25.0" prefWidth="160.0" />
-                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="73.0" layoutY="81.0" prefHeight="130.0" prefWidth="561.0">
+                  <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" focusColor="#66a7f2" layoutX="54.0" layoutY="69.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" promptText="Select subject..." />
+                  <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" focusColor="#66a7f2" layoutX="263.0" layoutY="69.0" prefHeight="25.0" prefWidth="160.0" promptText="Select course..." />
+                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="32.0" layoutY="110.0" prefHeight="160.0" prefWidth="735.0">
                     <columns>
-                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" prefWidth="87.20001220703125" text="ID" />
-                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="234.39996337890625" text="Question text" />
-                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="9.5999755859375" prefWidth="100.800048828125" text="Lecturer" />
+                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" text="ID" />
+                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="515.2000427246094" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="0.0" prefWidth="121.5999755859375" text="Lecturer" />
                     </columns>
                   </TableView>
-                  <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="626.0" layoutY="40.0" onAction="#getSearchBtn_CreateExam" text="search" />
-                  <Label id="lblMessage2" fx:id="lblMessage2" layoutX="297.0" layoutY="499.0" prefHeight="17.0" prefWidth="114.0" />
+                  <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="455.0" layoutY="68.0" onAction="#getSearchBtn_CreateExam" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Search" />
+                  <Label id="lblMessage2" fx:id="lblMessage2" layoutX="325.0" layoutY="536.0" prefHeight="17.0" prefWidth="114.0" />
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="73.0" layoutY="231.0" onAction="#getChooseQuestionBtn_CreateExam" text="choose question" />
-                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="69.0" layoutY="288.0" prefHeight="168.0" prefWidth="569.0">
+                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="301.0" layoutY="287.0" onAction="#getChooseQuestionBtn_CreateExam" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Choose question" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="32.0" layoutY="340.0" prefHeight="160.0" prefWidth="735.0">
                     <columns>
-                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="104.79998779296875" text="ID" />
-                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="260.0" text="Question text" />
-                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="93.5999755859375" text="Lecturer" />
-                        <TableColumn id="pointsColumn_CreateExam2" fx:id="pointsColumn_CreateExam2" onEditCommit="#getEditPoints" prefWidth="93.5999755859375" text="Points" />
+                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="80.79998779296875" text="ID" />
+                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="462.4000549316406" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="91.2000732421875" text="Lecturer" />
+                        <TableColumn id="pointsColumn_CreateExam2" fx:id="pointsColumn_CreateExam2" onEditCommit="#getEditPoints" prefWidth="82.40008544921875" text="Points" />
                     </columns>
                   </TableView>
-                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="691.0" layoutY="231.0" onAction="#getRefreshBtn_CreateExam" text="Refresh" />
-                  <Label layoutX="669.0" layoutY="295.0" prefHeight="17.0" prefWidth="85.0" text="Total points:" />
-                  <Label id="lblTotalQuestionSelectedPoints" fx:id="lblTotalQuestionSelectedPoints" layoutX="691.0" layoutY="339.0" />
-                  <JFXButton id="btnRemoveQuestion_CreateExam" layoutX="147.0" layoutY="486.0" onAction="#getRemoveQuestion_CreateExam" text="Remove question" />
-                  <JFXButton id="btcContinue_CreateExam" fx:id="btcContinue_CreateExam" layoutX="528.0" layoutY="486.0" onAction="#getBtnContinue_CreateExam" text="Continue" />
-               </children></Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
+                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="629.0" layoutY="289.0" onAction="#getRefreshBtn_CreateExam" text="Refresh" />
+                  <Label id="lblTotalQuestionSelectedPoints" fx:id="lblTotalQuestionSelectedPoints" layoutX="357.0" layoutY="527.0">
+                     <graphic>
+                        <Label prefHeight="17.0" prefWidth="85.0" text="Total points:" />
+                     </graphic>
+                  </Label>
+                  <JFXButton id="btnRemoveQuestion_CreateExam" layoutX="54.0" layoutY="518.0" onAction="#getRemoveQuestion_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Remove question" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btcContinue_CreateExam" fx:id="btcContinue_CreateExam" layoutX="562.0" layoutY="518.0" onAction="#getBtnContinue_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Continue" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="57.0" layoutY="25.0" text="Create Exam">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </StackPane>
    </children>

@@ -3,13 +3,13 @@
     -fx-background-color: #1E1E1E ,#FAF9F6;
     -fx-background-radius: 10 10 10 10;
     -fx-background-insets: 0, 2 2 2 2;
-    -fx-padding: 2px;
+    -fx-padding: 2 3 7 3;
 }
 
 .table-view .column-header-background{
         -fx-background-color: #1E1E1E ,#FAF9F6;
         -fx-background-radius: 10 10 0 0;
-        -fx-background-insets: 0, 0 0 2 0;    
+        -fx-background-insets: 0, -1 -1 2 -1;    
 }
 
 .table-view .column-header, .table-view .filler{
@@ -24,7 +24,7 @@
 
 .table-view .table-column{
     -fx-alignment: CENTER;
-    -fx-font-weight: bold; 
+    -fx-font-weight: bold;
 }
 
 .table-row-cell{
