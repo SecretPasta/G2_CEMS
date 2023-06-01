@@ -12,6 +12,8 @@ public class QuestionInExam extends Question{
 	public QuestionInExam(Question question) {
 		super(question.getId(), question.getsubjectID(), question.getCourseID(), question.getQuestionText(), question.getAnswers(), 
 				question.getQuestionNumber(), question.getLecturer(), question.getLecturerID());
+		setCourseName(question.getCourseName());
+		setSubject(question.getSubject());
 		this.points = 0.0;
 	}
 

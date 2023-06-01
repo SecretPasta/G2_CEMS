@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
+   <children>
+      <VBox fx:id="vbox" layoutX="173.0" layoutY="340.0" prefHeight="342.0" prefWidth="573.0">
+         <children>
+         </children>
+      </VBox>
+      <Label layoutX="42.0" layoutY="116.0" prefHeight="37.0" prefWidth="54.0" text="Subject: " />
+      <Label layoutX="36.0" layoutY="203.0" text="Course: " />
+      <Label layoutX="38.0" layoutY="28.0" text="Student ID: " />
+      <Label layoutX="728.0" layoutY="47.0" text="Date: " />
+      <Label layoutX="721.0" layoutY="96.0" text="Exam ID:" />
+      <JFXButton id="btnSaveExam" layoutX="774.0" layoutY="614.0" onAction="#getBtnSaveExam" text="Save exam" />
+      <JFXButton id="btnBack" layoutX="69.0" layoutY="614.0" onAction="#getBtnBack" text="Back" />
+      <Label id="lblStudentID" fx:id="lblStudentID" layoutX="112.0" layoutY="27.0" prefHeight="18.0" prefWidth="112.0" />
+      <Label id="lblSubjectName" fx:id="lblSubjectName" layoutX="89.0" layoutY="126.0" prefHeight="18.0" prefWidth="232.0" />
+      <Label id="lblCourseName" fx:id="lblCourseName" layoutX="100.0" layoutY="202.0" prefHeight="18.0" prefWidth="159.0" />
+      <Label id="lblDate" fx:id="lblDate" layoutX="774.0" layoutY="47.0" prefHeight="18.0" prefWidth="122.0" />
+      <Label id="lblExamID" fx:id="lblExamID" layoutX="785.0" layoutY="96.0" prefHeight="18.0" prefWidth="122.0" />
+      <Label layoutX="38.0" layoutY="65.0" text="Author:" />
+      <Label id="lblAuthor" fx:id="lblAuthor" layoutX="100.0" layoutY="66.0" prefHeight="18.0" prefWidth="159.0" />
+      <Label layoutX="704.0" layoutY="164.0" text="Exam duration:" />
+      <Label id="lblExamDuration" fx:id="lblExamDuration" layoutX="815.0" layoutY="164.0" prefHeight="18.0" prefWidth="62.0" />
+      <Label layoutX="388.0" layoutY="27.0" text="Comments for lecturer:" />
+      <Label layoutX="396.0" layoutY="173.0" text="Comments for students:" />
+      <Label id="lblCommentsForLecturer" fx:id="lblCommentsForLecturer" layoutX="381.0" layoutY="50.0" prefHeight="109.0" prefWidth="285.0" />
+      <Label id="lblCommentsForStudent" fx:id="lblCommentsForStudent" layoutX="396.0" layoutY="202.0" prefHeight="109.0" prefWidth="285.0" />
+      
+   </children>
+</AnchorPane>

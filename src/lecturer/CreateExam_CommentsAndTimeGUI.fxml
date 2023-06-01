@@ -9,20 +9,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
    <children>
-      <TableView layoutX="14.0" layoutY="27.0" prefHeight="562.0" prefWidth="500.0">
+      <TableView id="tableExam" fx:id="tableExam" layoutX="14.0" layoutY="27.0" prefHeight="562.0" prefWidth="500.0">
         <columns>
-          <TableColumn prefWidth="99.20001411437988" text="ID" />
-          <TableColumn prefWidth="313.5999984741211" text="Question Text" />
-            <TableColumn prefWidth="86.40005493164062" text="Points" />
+          <TableColumn id="idColumn_tableExam" fx:id="idColumn_tableExam" prefWidth="99.20001411437988" text="ID" />
+          <TableColumn id="questionTextColumn_tableExam" fx:id="questionTextColumn_tableExam" prefWidth="313.5999984741211" text="Question Text" />
+            <TableColumn id="pointsColumn_tableExam" fx:id="pointsColumn_tableExam" prefWidth="86.40005493164062" text="Points" />
         </columns>
       </TableView>
       <Label layoutX="603.0" layoutY="27.0" text="Comments for lecturers:" />
       <Label layoutX="603.0" layoutY="254.0" text="Comments for students:" />
-      <TextField layoutX="541.0" layoutY="52.0" prefHeight="162.0" prefWidth="271.0" />
-      <TextField layoutX="541.0" layoutY="279.0" prefHeight="162.0" prefWidth="271.0" />
-      <TextField layoutX="628.0" layoutY="505.0" prefHeight="34.0" prefWidth="78.0" />
+      <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" layoutX="541.0" layoutY="52.0" prefHeight="162.0" prefWidth="271.0" />
+      <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" layoutX="541.0" layoutY="279.0" prefHeight="162.0" prefWidth="271.0" />
+      <TextField id="txtExamDuration" fx:id="txtExamDuration" layoutX="628.0" layoutY="505.0" prefHeight="34.0" prefWidth="78.0" />
       <Label layoutX="605.0" layoutY="471.0" text="Exam duration (in muntes):" />
-      <JFXButton layoutX="792.0" layoutY="14.0" text="Back" />
-      <JFXButton layoutX="739.0" layoutY="548.0" text="Show review" />
+      <JFXButton id="btnBack" layoutX="792.0" layoutY="14.0" onAction="#getBtnBack" text="Back" />
+      <JFXButton layoutX="739.0" layoutY="548.0" onAction="#getBtnShowReview" text="Show review" />
+      <Label id="lblMessage" fx:id="lblMessage" layoutX="557.0" layoutY="551.0" prefHeight="18.0" prefWidth="178.0" />
    </children>
 </AnchorPane>

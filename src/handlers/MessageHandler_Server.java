@@ -208,6 +208,14 @@ public class MessageHandler_Server {
 	                	client.sendToClient(questionArr);
 	                	break;
 	                	
+	                case "GetMaxExamIdFromCourse":
+	                	// 1 - Course ID
+	                	ArrayList<String> maxexamnumbercourse_arr = new ArrayList<>();
+	                	maxexamnumbercourse_arr.add("MaxExamNumberOfCourse");
+	                	maxexamnumbercourse_arr.add(DBController.getMaxExamIdFromCourse(arrayListStr.get(1)));
+	                	client.sendToClient(maxexamnumbercourse_arr);
+	                	
+	                	break;
 	            }
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block

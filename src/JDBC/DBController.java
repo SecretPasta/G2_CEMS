@@ -432,5 +432,27 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		return map;
 	}
+
+	public static String getMaxExamIdFromCourse(String courseID) {
+		String query = "SELECT course.MaxExamNumber "
+		        + "FROM course "
+		        + "WHERE CourseID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, courseID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if(rs.next()) {
+	                	return rs.getString(1);
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
 

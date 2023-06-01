@@ -503,7 +503,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param questions The ArrayList of questions to be loaded into the table view.
 	 */
 	public void loadArrayQuestionsToTable_CreateExam(ArrayList<Question> questions) {
-
+		for(Question question : questions) {
+			question.setSubject(getSubjectNameById(question.getsubjectID()));
+			question.setCourseName(getCourseNameById(question.getCourseID()));
+		}
+		
 	    // Add all questions from the ArrayList to the questionsToCreateExamObservableList
 	    questionsToCreateExamObservableList.addAll(questions);
 
@@ -537,7 +541,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: Missing fields"), Duration.millis(3000), null));
 	    } else {
-
 	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
 	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
@@ -605,6 +608,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		}
 		else {
 			questionInExamSelected = new QuestionInExam(questionSelected);
+
 			questionsToCreateExamObservableList2.add(questionInExamSelected);
 			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
 			
@@ -726,6 +730,17 @@ public class LecturerDashboardFrameController implements Initializable{
 			((Node) event.getSource()).getScene().getWindow().hide();
 			CreateExam_CommentsAndTimeFrameController.start(lecturer, questionsToCreateExamObservableList2);
 		}
+	}
+	
+	public void showDashboardFrom_CreateExam(/*ObservableList<QuestionInExam> questionsinexam*/) throws IOException {
+		
+	    // Show the current stage
+	    currStage.show();
+	    
+		//tableView_CreateExam2.setItems(questionsinexam);
+
+	    // Clear the selection in the questions table
+	    tableView_CreateExam2.getSelectionModel().clearSelection();
 	}
 
 	// -------------- CreateExam PANEL --------------

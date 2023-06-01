@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import Config.Question;
 import lecturer.AddQuestionFrameController;
+import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import ClientAndServerLogin.LoginFrameController;
 import student.StudentDashboardFrameController;
@@ -136,6 +137,11 @@ public class MessageHandler_Client {
 	                	// 1 - maximum question id for selected subject
 	                	AddQuestionFrameController.saveMaxIdOfQuestionInSelectedSubject(arrayListStr.get(1));
 	                	
+	                	break;
+	                	
+	                case "MaxExamNumberOfCourse":
+	                	// 1 - max exam number in the course
+	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
 	            }       
 	            
