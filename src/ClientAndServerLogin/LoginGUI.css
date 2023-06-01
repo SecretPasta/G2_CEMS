@@ -22,3 +22,31 @@
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;
 }
+
+#lblSignUp:hover, #lblForgotPassword:hover{
+	-fx-text-fill: #5DD299;
+	-fx-scale-x: 1.05;
+	-fx-scale-y: 1.05;
+}
+
+.jfx-layout-heading{
+	-fx-background-color: #66A7F2;
+    -fx-font-size: 20px;
+}
+
+.jfx-layout-body{
+    -fx-background-color: #FAF9F6; 
+    -fx-padding: 5;  
+}
+
+.jfx-layout-actions{
+	-fx-background-color: #FAF9F6;
+	-fx-alignment: center;
+}
+
+.jfx-layout-actions .button{
+	-fx-background-color: #66A7F2;
+	-fx-text-fill: #FAF9F6;
+	-fx-pref-width: 100;
+	-fx-font-weight: bold;
+}
