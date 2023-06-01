@@ -877,7 +877,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
 	        pnlCheckExams.toFront();
 	    }
-	    if (actionEvent.getSource() == btnManageQuestions) {
+	    if (actionEvent.getSource() == btnManageQuestions) { //Working screen
 	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unselect row in the questions table
 	    	handleAnimation(pnlManageQuestions, btnManageQuestions);
 	        pnlManageQuestions.toFront();    
@@ -891,7 +891,7 @@ public class LecturerDashboardFrameController implements Initializable{
 			handleAnimation(pnlCreateExam, btnCreateExam);
 	        pnlCreateExam.toFront();
 	    }
-	    if (actionEvent.getSource() == btnManageExams) {
+	    if (actionEvent.getSource() == btnManageExams) { //Working screen
 	    	handleAnimation(pnlManageExams, btnManageExams);
 	        pnlManageExams.toFront();
 	    }

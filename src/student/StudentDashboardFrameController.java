@@ -11,6 +11,8 @@ import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,12 +21,17 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class StudentDashboardFrameController implements Initializable{
 
     private static Student student;
 
     protected static Stage currentStage; // save current stage
+
+    private Pane currentPane;
+
+    private JFXButton currentSection;
 
     @FXML
     private JFXButton btnComputerizedExam;
@@ -133,6 +140,28 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
+
+    // method to transition between panes when clicking on buttons on the right side
+    public void handleAnimation(Pane newPane, JFXButton newSection) {
+        FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+        outgoingPane.setFromValue(1);
+        outgoingPane.setToValue(0);
+
+        FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
+        comingPane.setFromValue(0);
+        comingPane.setToValue(1);
+
+        SequentialTransition transition = new SequentialTransition();
+        transition.getChildren().addAll(outgoingPane, comingPane);
+        transition.play();
+
+        newSection.setStyle("-fx-border-color: #FAF9F6");
+        if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
+
+        currentPane = newPane;
+        currentSection = newSection;
+    }
+
 
 
 }
