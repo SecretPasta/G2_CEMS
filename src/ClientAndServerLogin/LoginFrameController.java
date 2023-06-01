@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
@@ -14,6 +16,7 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import client.ClientUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,24 +24,41 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class LoginFrameController implements Initializable{
 	
 	@FXML
-	private AnchorPane root;
+	private AnchorPane dialogRoot;
+	
+	@FXML
+	private AnchorPane snackbarRoot;
 
 	@FXML
 	private JFXSnackbar snackbarError;
 	
 	@FXML
 	private Button btnClose;
+		
+	@FXML
+	private StackPane dialogPane;
 	
-    @FXML
-    private Label lblMessage;
+	@FXML
+	private Label lblForgotPassword;
+	
+	@FXML
+	private Label lblSignUp;
+	
+	@FXML
+	private JFXDialog dialog;
 	
     @FXML
     private JFXButton loginBtn;
@@ -69,7 +89,6 @@ public class LoginFrameController implements Initializable{
 	    loginAs.getItems().add("Lecturer"); // Add "Lecturer" option to the loginAs dropdown menu
 	    loginAs.getItems().add("Student"); // Add "Student" option to the loginAs dropdown menu
 	    loginAs.getItems().add("Head Of Department"); // Add "Head Of Department" option to the loginAs dropdown menu
-	    lblMessage.setTextFill(Color.color(1, 0, 0)); // Set the text color of lblMessage to red
 	}
 	
 	/**
@@ -92,12 +111,11 @@ public class LoginFrameController implements Initializable{
 	 */
 	public void getLoginBtn(ActionEvent event) throws Exception {
 	    if (txtUsername.getText().equals("") || txtPassword.getText().equals("") || loginAs.getSelectionModel().getSelectedItem() == null) {
-	    	snackbarError = new JFXSnackbar(root);
+	    	snackbarError = new JFXSnackbar(snackbarRoot);
 			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
-			snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+			snackbarError.setPrefWidth(snackbarRoot.getPrefWidth() - 40);
 	        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	    } else {
-	        lblMessage.setText(""); // Clear the error message
 	        
 	        CurrEvent = event; // Save the current scene to hide
 	        
@@ -149,9 +167,9 @@ public class LoginFrameController implements Initializable{
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
-	        	snackbarError = new JFXSnackbar(root);
+	        	snackbarError = new JFXSnackbar(snackbarRoot);
 				JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(reason);
-				snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarError.setPrefWidth(snackbarRoot.getPrefWidth() - 40);
 		        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null)); // Sets the login screen's label with the reason for login failure
 	        }
 	    });
@@ -159,31 +177,39 @@ public class LoginFrameController implements Initializable{
 	
 	@FXML
     void adminError(MouseEvent event) {
-		snackbarError = new JFXSnackbar(root);
-		JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Contact your admin to perform this operation");
-		snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
-		
-		
-		/*
 		JFXDialogLayout dialogLayout = new JFXDialogLayout();
-		dialogLayout.setHeading(new Text("Contact your administrator"));
-		dialogLayout.setBody(new Text("hello world"));
-		dialogLayout.setPrefSize(stackPane.getPrefWidth(), stackPane.getPrefHeight());
-		JFXButton buttonOkay = new JFXButton("Okay");
-		dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.CENTER);
-		buttonOkay.setOnAction(new EventHandler<ActionEvent>() {			
+		Text titleText = new Text("Contact your administrator");
+		Text bodyText = new Text("""
+				  We apologize for any inconvenience caused during your "forgot password" 
+				  and "sign up" processes. To complete these actions successfully, please 
+				  contact our administrator.
+				 
+				  They are available to assist you promptly. Thank you for your understanding!
+				""");
+		titleText.setFont(Font.font("System", 24));
+		titleText.setStyle("-fx-font-weight: bold;");
+		titleText.setFill(Color.web("#FAF9F6"));
+		bodyText.setFont(Font.font("System", 12));
+		bodyText.setFill(Color.web("#1E1E1E"));
+		dialogLayout.setHeading(titleText);	
+		dialogLayout.setBody(bodyText);
+		dialogLayout.setPrefSize(dialogPane.getPrefWidth(), dialogPane.getPrefHeight());
+		JFXButton btnOkay = new JFXButton("Okay");
+		dialogLayout.getChildren().add(btnOkay);	
+		dialog = new JFXDialog(dialogPane, dialogLayout, JFXDialog.DialogTransition.TOP);
+		btnOkay.setOnAction(new EventHandler<ActionEvent>() {			
 			@Override
 			public void handle(ActionEvent arg0) {
 				dialog.close();
-				stackPane.toBack();
-				
+				snackbarRoot.setDisable(false);
+				dialogPane.toBack();
 			}
 		});
-		dialogLayout.setActions(buttonOkay);
-		stackPane.toFront();
+		dialogLayout.setActions(btnOkay);
 		dialog.show();
-		*/
+		dialogPane.toFront();
+		snackbarRoot.setDisable(true);
+		
     }
 
 }

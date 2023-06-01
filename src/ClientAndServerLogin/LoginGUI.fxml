@@ -9,27 +9,78 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="dialogRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1000.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@LoginGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.LoginFrameController">
 	<children>
-		<AnchorPane fx:id="root" layoutX="575.0" prefHeight="720.0" prefWidth="425.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+      <StackPane fx:id="dialogPane" layoutX="196.0" layoutY="178.0" prefHeight="254.0" prefWidth="638.0" />
+		<AnchorPane fx:id="snackbarRoot" layoutX="575.0" prefHeight="720.0" prefWidth="425.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
-            <Label fx:id="lblMessage" alignment="CENTER" layoutY="491.0" prefHeight="50.0" prefWidth="425.0" textFill="#fe774c">
+            <Label alignment="TOP_LEFT" layoutX="55.0" layoutY="55.0" prefHeight="44.0" prefWidth="277.0" text="Welcome Back to CEMS" textAlignment="CENTER" textFill="#242633" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="113.0">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+            <Label layoutX="74.0" layoutY="160.0" text="Sign in to continue to your account" textFill="#242633" AnchorPane.topAnchor="151.0">
+               <font>
+                  <Font name="System" size="14.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="loginAs" focusColor="#66a7f2" layoutX="54.0" layoutY="202.0" prefHeight="44.0" prefWidth="277.0" promptText="Choose Role" unFocusColor="#242633" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" />
             <Separator layoutY="288.0" opacity="0.5" prefHeight="3.0" prefWidth="425.0" style="-fx-background-color: #242633;" />
             <JFXSnackbar fx:id="snackbarError" layoutX="230.0" layoutY="694.0" />
+            <Label layoutX="68.0" layoutY="321.0" text="Login:" textFill="#242633" AnchorPane.leftAnchor="74.0">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtUsername" layoutX="62.0" layoutY="348.0" prefHeight="44.0" prefWidth="277.0" promptText="Israel.Israeli" style="-fx-background-radius: 10;" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0">
+               <font>
+                  <Font name="System" size="14.0" />
+               </font>
+            </TextField>
+            <PasswordField fx:id="txtPassword" layoutX="62.0" layoutY="437.0" prefHeight="44.0" prefWidth="277.0" promptText="******" style="-fx-background-radius: 10;" AnchorPane.leftAnchor="74.0">
+               <font>
+                  <Font name="System" size="14.0" />
+               </font>
+            </PasswordField>
+            <Label layoutX="62.0" layoutY="411.0" text="Password:" textFill="#242633" AnchorPane.leftAnchor="74.0">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblForgotPassword" layoutX="230.0" layoutY="485.0" onMouseClicked="#adminError" text="Forgot password?" textFill="#242633" AnchorPane.rightAnchor="74.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="loginBtn" layoutX="54.0" layoutY="531.0" onAction="#getLoginBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Sign In" textFill="WHITE" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <HBox layoutX="125.0" layoutY="585.0" prefHeight="17.0" prefWidth="152.0" spacing="4.0">
+               <children>
+                  <Label text="Not a member yet?" textFill="#242633">
+                     <font>
+                        <Font name="System" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblSignUp" onMouseClicked="#adminError" text="Sign Up" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <JFXButton fx:id="btnClose" layoutX="62.0" layoutY="612.0" onAction="#getCloseBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: FFC152; -fx-background-radius: 10;" text="Exit" textFill="#242633" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
          </children></AnchorPane>
-      <JFXButton fx:id="loginBtn" layoutX="642.0" layoutY="531.0" onAction="#getLoginBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Sign In" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </JFXButton>
-      <JFXComboBox fx:id="loginAs" focusColor="#66a7f2" layoutX="643.0" layoutY="202.0" prefHeight="44.0" prefWidth="277.0" promptText="Choose Role" unFocusColor="#242633" />
       <Label alignment="CENTER" layoutX="214.0" layoutY="329.0" prefHeight="44.0" prefWidth="277.0" text="CEMS" textAlignment="CENTER" textFill="#faf9f6">
          <font>
             <Font name="System Bold" size="66.0" />
@@ -37,59 +88,5 @@
       </Label>
       <Circle fill="#5dd299" layoutX="215.0" layoutY="377.0" radius="40.0" stroke="#5dd299" strokeType="INSIDE" />
       <Circle fill="#66a7f2" layoutX="175.0" layoutY="377.0" radius="40.0" stroke="#66a7f2" strokeType="INSIDE" />
-      <JFXButton fx:id="btnClose" layoutX="642.0" layoutY="612.0" onAction="#getCloseBtn" prefHeight="44.0" prefWidth="277.0" style="-fx-background-color: FFC152; -fx-background-radius: 10;" text="Exit" textFill="#242633">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </JFXButton>
-      <Label alignment="TOP_LEFT" layoutX="643.0" layoutY="113.0" prefHeight="44.0" prefWidth="277.0" text="Welcome Back to CEMS" textAlignment="CENTER" textFill="#242633">
-         <font>
-            <Font name="System Bold" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="643.0" layoutY="151.0" text="Sign in to continue to your account" textFill="#242633">
-         <font>
-            <Font name="System" size="14.0" />
-         </font>
-      </Label>
-      <HBox layoutX="705.0" layoutY="585.0" prefHeight="17.0" prefWidth="152.0" spacing="4.0">
-         <children>
-            <Label text="Not a member yet?" textFill="#242633">
-               <font>
-                  <Font name="System" size="12.0" />
-               </font>
-            </Label>
-            <Label onMouseClicked="#adminError" text="Sign Up" textFill="#242633">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <TextField fx:id="txtUsername" layoutX="642.0" layoutY="348.0" prefHeight="44.0" prefWidth="277.0" promptText="Israel.Israeli" style="-fx-background-radius: 10;">
-         <font>
-            <Font name="System" size="14.0" />
-         </font>
-      </TextField>
-      <PasswordField fx:id="txtPassword" layoutX="642.0" layoutY="437.0" prefHeight="44.0" prefWidth="277.0" promptText="******" style="-fx-background-radius: 10;">
-         <font>
-            <Font name="System" size="14.0" />
-         </font>
-      </PasswordField>
-      <Label layoutX="642.0" layoutY="321.0" text="Login:" textFill="#242633">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="642.0" layoutY="411.0" text="Password:" textFill="#242633">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label layoutX="824.0" layoutY="485.0" onMouseClicked="#adminError" text="Forgot password?" textFill="#242633">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
 	</children>
 </AnchorPane>
