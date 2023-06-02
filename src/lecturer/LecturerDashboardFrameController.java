@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.DoubleStringConverter;
 
 
 import com.jfoenix.controls.JFXButton;
@@ -38,7 +37,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -162,6 +160,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private static LecturerDashboardFrameController instance;
 	
+	private String subjectSelect_CreateExam;
+	private String courseSelect_CreateExam;
+	
 	public LecturerDashboardFrameController() {
 		instance = this;
 	}
@@ -185,7 +186,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Setting up cell value factories for lecturer's questions management table columns
 	    idColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    subjectColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
-	    courseNameColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("courseName"));
 	    questionTextColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
 	    authorColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 	      
@@ -310,10 +310,6 @@ public class LecturerDashboardFrameController implements Initializable{
 			question.setSubject(getSubjectNameById(question.getsubjectID()));
 		}
 		
-		for(Question question : questions) {
-			question.setCourseName(getCourseNameById(question.getCourseID()));
-		}
-		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
 	    questionsToEditObservableList.addAll(questions);
 
@@ -407,7 +403,7 @@ public class LecturerDashboardFrameController implements Initializable{
         } else {
             ObservableList<Question> filteredData = FXCollections.observableArrayList();
             for (Question question : questionsToEditObservableList) {
-                if (question.getCourseName().equals(selectedCourse)) {
+                if (question.getCourses().containsValue(selectedCourse)) {
                     filteredData.add(question);
                 }
             }
@@ -461,25 +457,21 @@ public class LecturerDashboardFrameController implements Initializable{
 	 *
 	 * @param newQuestion The newly added question to be displayed in the dashboard.
 	 */
-	public void showDashboardFrom_AddQuestion(ArrayList<Question> newQuestion) {
+	public void showDashboardFrom_AddQuestion(Question newQuestion) {
 		
 	    if (newQuestion != null) {
+	    	newQuestion.setSubject(getSubjectNameById(newQuestion.getsubjectID()));
 	    	
-	    	for(Question q : newQuestion) {
-	    		q.setSubject(getSubjectNameById(q.getsubjectID()));
-	    	}
-	    	
-	    	for(Question q : newQuestion) {
-	    		q.setCourseName(getCourseNameById(q.getCourseID()));
-	    	}
-	    	
-	        // Add the new question to the questionsToEditObservableList
-	        questionsToEditObservableList.addAll(newQuestion);
-	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	    	snackbarError.setPrefWidth(754);
-	    	JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
-	        snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
+		    // Add the new question to the questionsToEditObservableList
+		    questionsToEditObservableList.add(newQuestion);
+		    snackbarError = new JFXSnackbar(pnlManageQuestions);
+		    snackbarError.setPrefWidth(754);
+		    JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
+		    snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
 	    }
+	    	
+
+
 
 	    // Show the current stage
 	    currStage.show();
@@ -505,7 +497,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void loadArrayQuestionsToTable_CreateExam(ArrayList<Question> questions) {
 		for(Question question : questions) {
 			question.setSubject(getSubjectNameById(question.getsubjectID()));
-			question.setCourseName(getCourseNameById(question.getCourseID()));
 		}
 		
 	    // Add all questions from the ArrayList to the questionsToCreateExamObservableList
@@ -531,11 +522,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_CreateExam.getItems().clear();
 
 	    // Get the selected subject and course from the selection boxes
-	    String subjectSelect = subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem();
-	    String courseSelect = courseSelectBox_CreateExam.getSelectionModel().getSelectedItem();
+	    subjectSelect_CreateExam = subjectSelectBox_CreateExam.getSelectionModel().getSelectedItem();
+	    courseSelect_CreateExam = courseSelectBox_CreateExam.getSelectionModel().getSelectedItem();
 
 
-	    if (subjectSelect == null || courseSelect == null) {
+	    if (subjectSelect_CreateExam == null || courseSelect_CreateExam == null) {
 	        // Display an error message if any field is missing
 	    	snackbarError = new JFXSnackbar(pnlCreateExam);
 	    	snackbarError.setPrefWidth(754);
@@ -544,9 +535,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
 	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
-	        getQuestionsArr.add(getSubjectIdByName(subjectSelect));
-	        getQuestionsArr.add(getCourseIdByName(courseSelect));
+	        getQuestionsArr.add(getSubjectIdByName(subjectSelect_CreateExam));
+	        getQuestionsArr.add(getCourseIdByName(courseSelect_CreateExam));
 	        ClientUI.chat.accept(getQuestionsArr);
+	        
 	    }
 	}
 
@@ -728,7 +720,8 @@ public class LecturerDashboardFrameController implements Initializable{
 		}
 		else {
 			((Node) event.getSource()).getScene().getWindow().hide();
-			CreateExam_CommentsAndTimeFrameController.start(lecturer, questionsToCreateExamObservableList2);
+			CreateExam_CommentsAndTimeFrameController.start(lecturer, questionsToCreateExamObservableList2, getSubjectIdByName(subjectSelect_CreateExam),  
+					subjectSelect_CreateExam, getCourseIdByName(courseSelect_CreateExam), courseSelect_CreateExam);
 		}
 	}
 	

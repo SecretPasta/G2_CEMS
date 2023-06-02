@@ -1,32 +1,21 @@
 package lecturer;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Random;
 
@@ -60,27 +49,30 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	@FXML
 	private Label lblCommentsForStudent;
 	
-	static String maxExamIdInCourse;
+	private static String maxExamIdInCourse;
+	
+	private static Lecturer lecturer;
 
 
 	private ObservableList<RadioButton> checkBoxes;
 
 	private static Exam exam;
 
-    public static void start(Exam temp_exam, Lecturer lecturer) throws IOException {
+    public static void start(Exam temp_exam, Lecturer temp_lecturer) throws IOException {
     	exam = temp_exam;
+    	lecturer = temp_lecturer;
     	SceneManagment.createNewStage("/lecturer/CreateExam_ReviewGUI.fxml", null, "Create Exam").show();
 
     }
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@ scroll if too many questions @@@@@@@@@@@@@@@@@@@@@@@
+	public void initialize(URL location, ResourceBundle resources) {
 	
 		getMaxIdOfExamInCourse();
 		
 		lblStudentID.setText("12345678");
-		lblSubjectName.setText(exam.getQuestions().get(0).getSubject() + " (" + exam.getSubjectID() + ")");
-		lblCourseName.setText(exam.getQuestions().get(0).getCourseName() + " (" + exam.getCourseID() + ")");
+		lblSubjectName.setText(exam.getSubjectName() + " (" + exam.getSubjectID() + ")");
+		lblCourseName.setText(exam.getCourseName() + " (" + exam.getCourseID() + ")");
 		lblDate.setText(LocalDate.now().toString());
 		lblExamID.setText(maxExamIdInCourse);
 		lblAuthor.setText(exam.getAuthor());
@@ -92,8 +84,9 @@ public class CreateExam_ReviewFrameController implements Initializable {
 		
         checkBoxes = FXCollections.observableArrayList();
 
+        int i = 1;
         for (QuestionInExam question : exam.getQuestions()) {
-            Label questionLabel = new Label(question.getQuestionText() + "( " + question.getPoints() + " points )");
+            Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
             vbox.getChildren().add(questionLabel);
             
             ToggleGroup answers_group = new ToggleGroup();
@@ -116,6 +109,7 @@ public class CreateExam_ReviewFrameController implements Initializable {
             
             Label spaceLabel = new Label("\n\n");
             vbox.getChildren().add(spaceLabel);
+            i++;
         }
   
 

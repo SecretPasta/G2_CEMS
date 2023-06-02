@@ -1,6 +1,8 @@
 package lecturer;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
 import ClientAndServerLogin.SceneManagment;
-import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -107,7 +108,11 @@ public class AddQuestionFrameController implements Initializable {
 	    ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
 
 	    // Show the dashboard screen and update it with the new question
-	    LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(newQuestion);
+	    try {
+	    	LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(newQuestion.get(1));
+	    }catch (NullPointerException e) {
+	    	LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(null);
+	    }
 	}
 
 	
@@ -179,37 +184,25 @@ public class AddQuestionFrameController implements Initializable {
 		        answersArr.add(txtAnswerWrong3.getText());
 		        
 		        newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
+		        newQuestion.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
 		        
-		        String id = String.format("%03d", Integer.parseInt(maxIdOfQuestionInCurrentSubject)); // Retrieve the current maximum question ID
-		        
-		        //String id = "002"; //  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		        
-		        int i = 0;
-		        
-		        //String formattedID = String.format("%03d", id);
-		        
-		        ArrayList<Question> addQuestionToDBArr = new ArrayList<>();
-		        addQuestionToDBArr.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
-		        
-		        // Iterate over the selected courses and create a new Question object for each course
-		        for(String course : coursesSelect) {
-		        	
-		        	// Increment the question ID and format it
-		        	id = Integer.toString(Integer.parseInt(id) + 1);
-		        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id));
-		        	
-		        	// Create a new Question object with the input values
-			        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), LecturerDashboardFrameController.getCourseIdByName(course), 
-			        		textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));		        
-			        
-			        
-			        // Add the question to the addQuestionToDBArr
-			        addQuestionToDBArr.add(newQuestion.get(i));	        
-			        i++;
+		        Map<String, String> courses_id_name = new HashMap<>();   
+		        for(String course : coursesSelect) {	        	
+		        	courses_id_name.put(LecturerDashboardFrameController.getCourseIdByName(course), course);	
 		        }
 		        
+		        
+		        String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
+		        
+		        
+	        	// Increment the question ID and format it
+	        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id) + 1);
+	        	
+		        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses_id_name,
+		        		textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));
+
 	            // Send the addQuestionToDBArr to the server to add the questions to the database
-		        ClientUI.chat.accept(addQuestionToDBArr);
+		        ClientUI.chat.accept(newQuestion);
 		        
 		        
 		        

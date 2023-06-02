@@ -2,15 +2,18 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
    <children>
-      <VBox fx:id="vbox" layoutX="173.0" layoutY="340.0" prefHeight="342.0" prefWidth="573.0">
-         <children>
-         </children>
-      </VBox>
+      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="167.0" layoutY="334.0" prefHeight="319.0" prefWidth="575.0" VBox.vgrow="ALWAYS">
+         <VBox fx:id="vbox" layoutX="173.0" layoutY="340.0" prefHeight="392.0" prefWidth="467.0">
+            <children>
+            </children>
+         </VBox>
+      </ScrollPane>
       <Label layoutX="42.0" layoutY="116.0" prefHeight="37.0" prefWidth="54.0" text="Subject: " />
       <Label layoutX="36.0" layoutY="203.0" text="Course: " />
       <Label layoutX="38.0" layoutY="28.0" text="Student ID: " />
@@ -31,6 +34,5 @@
       <Label layoutX="396.0" layoutY="173.0" text="Comments for students:" />
       <Label id="lblCommentsForLecturer" fx:id="lblCommentsForLecturer" layoutX="381.0" layoutY="50.0" prefHeight="109.0" prefWidth="285.0" />
       <Label id="lblCommentsForStudent" fx:id="lblCommentsForStudent" layoutX="396.0" layoutY="202.0" prefHeight="109.0" prefWidth="285.0" />
-      
    </children>
 </AnchorPane>

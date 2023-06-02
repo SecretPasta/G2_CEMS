@@ -18,7 +18,7 @@
          </font></JFXButton>
       <AnchorPane layoutX="286.0" layoutY="126.0" prefHeight="470.0" prefWidth="550.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.rightAnchor="14.0">
          <children>
-            <TextField id="txtQuestionText" fx:id="txtQuestionText" alignment="TOP_LEFT" layoutX="15.0" layoutY="56.0" prefHeight="90.0" prefWidth="386.0" />
+            <TextField id="txtQuestionText" fx:id="txtQuestionText" alignment="TOP_LEFT" layoutX="15.0" layoutY="56.0" prefHeight="90.0" prefWidth="520.0" />
             <Label layoutX="16.0" layoutY="31.0" text="Question Text" textFill="#242633">
                <font>
                   <Font name="System Bold" size="14.0" />
@@ -70,7 +70,7 @@
                   <Label fx:id="txtSubject" alignment="TOP_LEFT" prefHeight="58.0" prefWidth="146.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox layoutX="22.0" layoutY="92.0" prefHeight="50.0" prefWidth="210.0" spacing="5.0">
+            <HBox layoutX="22.0" layoutY="68.0" prefHeight="50.0" prefWidth="210.0" spacing="5.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="97.0" text="QuestionID:" textFill="#242633">
                      <font>
@@ -80,17 +80,12 @@
                   <Label fx:id="txtQuestionID" alignment="TOP_LEFT" prefHeight="18.0" prefWidth="130.0" />
                </children>
             </HBox>
-            <HBox layoutX="22.0" layoutY="153.0" prefHeight="50.0" prefWidth="210.0" spacing="5.0">
+            <HBox layoutX="10.0" layoutY="128.0" prefHeight="251.0" prefWidth="222.0" spacing="5.0">
                <children>
-                  <Label prefHeight="20.0" prefWidth="108.0" text="Course Name:" textFill="#242633">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="txtCourseName" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="118.0" wrapText="true" />
+                  <Label fx:id="txtCourseName" alignment="TOP_LEFT" prefHeight="253.0" prefWidth="222.0" wrapText="true" />
                </children>
             </HBox>
-            <HBox layoutX="22.0" layoutY="214.0" prefHeight="50.0" prefWidth="210.0" spacing="5.0">
+            <HBox layoutX="16.0" layoutY="394.0" prefHeight="50.0" prefWidth="210.0" spacing="5.0">
                <children>
                   <Label prefHeight="20.0" prefWidth="60.0" text="Author:" textFill="#242633">
                      <font>
@@ -100,6 +95,11 @@
                   <Label fx:id="txtQuestionAuthor" alignment="TOP_LEFT" prefHeight="50.0" prefWidth="149.0" />
                </children>
             </HBox>
+            <Label layoutX="16.0" layoutY="108.0" prefHeight="20.0" prefWidth="105.0" text="Course Names:" textFill="#242633">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
       <JFXButton id="btnSave" fx:id="btnSave" layoutX="322.0" layoutY="626.0" onAction="#getSavebtn" prefHeight="40.0" prefWidth="206.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10; -fx-border-color: #242633; -fx-border-radius: 10;" text="Save" textFill="#242633">
          <font>

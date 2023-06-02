@@ -225,15 +225,26 @@ public class MessageHandler_Server {
     
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
         // Handle ArrayList<Question> messages
-    	
+    	// 1 - question to add
+    	System.out.println(questionList.get(1).getId());
     	String messageType = questionList.get(0).getId();
+
     	try {
+    		System.out.println("test1");
 	    	switch (messageType) {
+	    	
 	    		case "AddNewQuestionToDB":
+
 	    			// Handle AddNewQuestionToDB message
 	    			// 1 - newQuestion
-	    			questionList.remove(0);
-	    			DBController.addNewQuestion(questionList);
+	    			System.out.println("test2");
+	    			System.out.println(questionList);
+	    			System.out.println(questionList.get(1).getId());
+	    			System.out.println("test123");
+	    			System.out.println(questionList.get(1).getCourses());
+	    			System.out.println("test3");
+	    			DBController.addNewQuestion(questionList.get(1));
+	    			System.out.println("test5");
 	    			client.sendToClient("new question was added");
 	
 					break;

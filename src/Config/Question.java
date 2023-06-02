@@ -1,6 +1,8 @@
 package Config;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ArrayList;
 
 import javafx.scene.control.TableRow;
@@ -12,8 +14,8 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String subjectID;
-	private String courseID;
-	private String courseName;
+	private Map<String, String> courses_id_name = new HashMap<>();
+
 	private String questionText;
 	private String questionNumber;
 	private ArrayList<String> answers;
@@ -29,7 +31,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question number
 	 * @param question author
 	 */
-	public Question(String id, String subjectID, String courseID, String questionText, ArrayList<String> answers, String questionNumber,
+	public Question(String id, String subjectID, Map<String, String> courses_id_name, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
 		if(id == null) {
@@ -39,8 +41,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 			this.id = id;
 		}
 		this.subjectID = subjectID;
-		this.courseID = courseID;
-		this.courseName = "";
+		this.courses_id_name = courses_id_name;
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
 		this.setAnswers(answers);
@@ -73,12 +74,8 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		this.subjectID = subject; // Set the subject of the question
 	}
 
-	public String getCourseName() {
-		return courseName; // Retrieve the course name associated with the question
-	}
-
-	public void setCourseName(String courseName) {
-		this.courseName = courseName; // Set the course name associated with the question
+	public Map<String, String> getCourses() {
+		return courses_id_name; // Retrieve the course name associated with the question
 	}
 
 	public String getQuestionText() {
@@ -107,7 +104,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	// Return a formatted string representation of the Question object
 	public String toString() {
-		return String.format("%s %s %s %s %s\n", id, subject, courseName, questionText, lecturer);
+		return String.format("%s %s %s %s\n", id, subject, questionText, lecturer);
 	}
 
 	@Override
@@ -128,12 +125,8 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		return lecturerID;
 	}
 
-	public String getCourseID() {
-		return courseID;
-	}
-
-	public void setCourseID(String courseID) {
-		this.courseID = courseID;
+	public void setCourses(Map<String, String> courses_id_name) {
+		this.courses_id_name = courses_id_name;
 	}
 
 }

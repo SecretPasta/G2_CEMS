@@ -54,11 +54,20 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	
 	private static Lecturer lecturer;
 	private static ObservableList<QuestionInExam> questionsToCreateExamObservableList = FXCollections.observableArrayList();
+	private static String subjectID;
+	private static String courseID;
+	private static String subjectName;
+	private static String courseName;
 	
 	
-    public static void start(Lecturer temp_lecturer, ObservableList<QuestionInExam> temp_questionsToCreateExamObservableList) throws IOException {
+    public static void start(Lecturer temp_lecturer, ObservableList<QuestionInExam> temp_questionsToCreateExamObservableList, 
+    		String subjectID_temp, String subjectName_temp, String courseID_temp, String courseName_temp) throws IOException {
     	lecturer = temp_lecturer;
     	questionsToCreateExamObservableList = temp_questionsToCreateExamObservableList;
+    	subjectID = subjectID_temp;
+    	subjectName = subjectName_temp;
+    	courseID = courseID_temp;
+    	courseName = courseName_temp;
     	currStage = SceneManagment.createNewStage("/lecturer/CreateExam_CommentsAndTimeGUI.fxml", null, "Create Exam");
     	currStage.show();
     }
@@ -82,6 +91,10 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    	else {
 	    		int examDuration = Integer.parseInt(txtExamDuration.getText());
 	    		
+	    		if(examDuration <= 0) {
+	    			throw new NumberFormatException();
+	    		}
+	    		
 	    		ArrayList<QuestionInExam> questionsInExam_arr = new ArrayList<>();
 	    		questionsInExam_arr.addAll(questionsToCreateExamObservableList);
 	    		
@@ -90,7 +103,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    				String commentsForLecturer, String commentsForStudent, int duration, String author)
 	    		 */
 
-	    		Exam exam = new Exam(questionsInExam_arr.get(0).getsubjectID(), questionsInExam_arr.get(0).getCourseID(), 
+	    		Exam exam = new Exam(subjectID, subjectName, courseID, courseName,  
 	    				questionsInExam_arr, txtCommentsLecturer.getText(), txtCommentsStudent.getText(), 
 	    				examDuration, lecturer.getName());
 	    		

@@ -9,13 +9,17 @@ public class Exam {
 	private int duration;
 	private String author;
 	private String subjectID;
+	private String subjectName;
 	private String courseID;
+	private String courseName;
 	private String examID;
 	
-	public Exam(String subjectID,String courseID, ArrayList<QuestionInExam> questions, 
+	public Exam(String subjectID, String subjectName, String courseID, String courseName, ArrayList<QuestionInExam> questions, 
 			String commentsForLecturer, String commentsForStudent, int duration, String author) {
 		this.subjectID = subjectID;
+		this.subjectName = subjectName;
 		this.courseID = courseID;
+		this.courseName = courseName;
 		this.questions = questions;
 		this.commentsForLecturer = commentsForLecturer;
 		this.commentsForStudent = commentsForStudent;
@@ -86,6 +90,22 @@ public class Exam {
 
 	public void setCourseID(String courseID) {
 		this.courseID = courseID;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
 	}
 	
 
