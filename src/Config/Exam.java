@@ -1,8 +1,13 @@
 package Config;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Exam {
+public class Exam implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<QuestionInExam> questions = new ArrayList<>();
 	private String commentsForLecturer;
 	private String commentsForStudent;
@@ -13,9 +18,10 @@ public class Exam {
 	private String courseID;
 	private String courseName;
 	private String examID;
+	private String code;
 	
-	public Exam(String subjectID, String subjectName, String courseID, String courseName, ArrayList<QuestionInExam> questions, 
-			String commentsForLecturer, String commentsForStudent, int duration, String author) {
+	public Exam(String examID, String subjectID, String subjectName, String courseID, String courseName, ArrayList<QuestionInExam> questions, 
+			String commentsForLecturer, String commentsForStudent, int duration, String author, String code) {
 		this.subjectID = subjectID;
 		this.subjectName = subjectName;
 		this.courseID = courseID;
@@ -25,7 +31,13 @@ public class Exam {
 		this.commentsForStudent = commentsForStudent;
 		this.duration = duration;
 		this.author = author;
-		examID = "";
+		this.code = code;
+		if(examID == null) {
+			examID = "";
+		}
+		else {
+			this.examID = examID;
+		}
 	}
 
 	public String getExamID() {
@@ -33,7 +45,7 @@ public class Exam {
 	}
 
 	public void setExamID(String examID) {
-		this.examID = examID;
+		this.examID = subjectID + courseID + examID;
 	}
 
 	public ArrayList<QuestionInExam> getQuestions() {
@@ -106,6 +118,14 @@ public class Exam {
 
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 

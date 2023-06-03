@@ -69,7 +69,7 @@ public class EditQuestionFrameController implements Initializable {
 		
 	    // Set the text fields in the GUI with the properties of the question object
 	    txtQuestionID.setText(questionSelected.getId());
-	    txtSubject.setText(questionSelected.getSubject());
+	    txtSubject.setText(questionSelected.getSubjectName());
 	    String courses_str = "";
 	    int i = 1;
         for (String coursename : questionSelected.getCourses().values()) {

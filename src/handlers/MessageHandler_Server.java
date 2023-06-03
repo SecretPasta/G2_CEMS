@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import Config.Exam;
 import Config.Question;
+import Config.QuestionInExam;
 import JDBC.DBController;
 import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
@@ -28,6 +30,12 @@ public class MessageHandler_Server {
 	        case ARRAY_LIST_QUESTION:
 	            handleQuestionArrayListMessage((ArrayList<Question>) msg, client);
 	            break;
+	        case ARRAY_LIST_QUESTIONINEXAM:
+	            handleQuestionInExamArrayListMessage((ArrayList<QuestionInExam>) msg, client);
+	            break;
+	        case ARRAY_LIST_EXAM:
+	            handleExamArrayListMessage((ArrayList<Exam>) msg, client);
+	            break;
 	        case MAP_STRING_ARRAYLIST_STRING:
 	            handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg, client);
 	            break;
@@ -40,6 +48,7 @@ public class MessageHandler_Server {
 	    }
 	}
 
+
 	private static MessageType getMessageType(Object msg) {
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
@@ -49,8 +58,13 @@ public class MessageHandler_Server {
 	            Object firstElement = arrayList.get(0);
 	            if (firstElement instanceof String) {
 	                return MessageType.ARRAY_LIST_STRING;
+	            }
+	             else if (firstElement instanceof QuestionInExam) {
+		            return MessageType.ARRAY_LIST_QUESTIONINEXAM;
 	            } else if (firstElement instanceof Question) {
 	                return MessageType.ARRAY_LIST_QUESTION;
+	            } else if (firstElement instanceof Exam) {
+	            	return MessageType.ARRAY_LIST_EXAM;
 	            }
 	        }
 	    } else if (msg instanceof Map) {
@@ -208,7 +222,7 @@ public class MessageHandler_Server {
 	                	client.sendToClient(questionArr);
 	                	break;
 	                	
-	                case "GetMaxExamIdFromCourse":
+	                case "GetUpdateMaxExamIdFromCourse":
 	                	// 1 - Course ID
 	                	ArrayList<String> maxexamnumbercourse_arr = new ArrayList<>();
 	                	maxexamnumbercourse_arr.add("MaxExamNumberOfCourse");
@@ -216,6 +230,7 @@ public class MessageHandler_Server {
 	                	client.sendToClient(maxexamnumbercourse_arr);
 	                	
 	                	break;
+
 	            }
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -226,26 +241,64 @@ public class MessageHandler_Server {
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
         // Handle ArrayList<Question> messages
     	// 1 - question to add
-    	System.out.println(questionList.get(1).getId());
     	String messageType = questionList.get(0).getId();
 
     	try {
-    		System.out.println("test1");
 	    	switch (messageType) {
 	    	
 	    		case "AddNewQuestionToDB":
 
 	    			// Handle AddNewQuestionToDB message
 	    			// 1 - newQuestion
-	    			System.out.println("test2");
-	    			System.out.println(questionList);
-	    			System.out.println(questionList.get(1).getId());
-	    			System.out.println("test123");
-	    			System.out.println(questionList.get(1).getCourses());
-	    			System.out.println("test3");
 	    			DBController.addNewQuestion(questionList.get(1));
-	    			System.out.println("test5");
 	    			client.sendToClient("new question was added");
+	
+					break;
+	    	} 
+	    	
+        }catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+        }
+    	
+    }
+    
+	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList, ConnectionToClient client) {
+        // Handle ArrayList<QuestionInExam> messages
+
+    	String messageType = questionInExamList.get(0).getId();
+
+    	try {
+	    	switch (messageType) {
+	    	
+	    		case "SaveAllQuestionsInExam":
+	    			// in the question 0, the question text saved the exam id
+	    			// questionInExamList from 1 - all questions in exam to add
+	    			DBController.addNewQuestionsInExam(questionInExamList);
+	    			client.sendToClient("questions in exam added");
+	
+					break;
+	    	} 
+	    	
+        }catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+        }
+	}
+    
+	private static void handleExamArrayListMessage(ArrayList<Exam> examList, ConnectionToClient client) {
+        // Handle ArrayList<Exam> messages
+
+    	String messageType = examList.get(0).getExamID();
+
+    	try {
+	    	switch (messageType) {
+	    	
+	    		case "SaveExamInDB":
+	    			// Handle AddNewQuestionToDB message
+	    			// 1 - new exam
+	    			DBController.addNewExam(examList.get(1));
+	    			client.sendToClient("new exam was added");
 	
 					break;
 	    	} 

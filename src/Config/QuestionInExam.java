@@ -10,7 +10,7 @@ public class QuestionInExam extends Question{
 	private Double points;
 
 	public QuestionInExam(Question question) {
-		super(question.getId(), question.getsubjectID(), question.getCourses(), question.getQuestionText(), question.getAnswers(), 
+		super(question.getId(), question.getSubject(), question.getCourses(), question.getQuestionText(), question.getAnswers(), 
 				question.getQuestionNumber(), question.getLecturer(), question.getLecturerID());
 		this.points = 0.0;
 	}

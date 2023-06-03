@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
 import javafx.scene.control.cell.TextFieldTableCell;
 
 
@@ -17,6 +19,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXSnackbarLayout;
 
+import Config.Exam;
 import Config.Lecturer;
 import Config.Question;
 import Config.QuestionInExam;
@@ -306,10 +309,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void loadArrayQuestionsToTable_ManageQuestions(ArrayList<Question> questions) {
 		
-		for(Question question : questions) {
-			question.setSubject(getSubjectNameById(question.getsubjectID()));
-		}
-		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
 	    questionsToEditObservableList.addAll(questions);
 
@@ -460,7 +459,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void showDashboardFrom_AddQuestion(Question newQuestion) {
 		
 	    if (newQuestion != null) {
-	    	newQuestion.setSubject(getSubjectNameById(newQuestion.getsubjectID()));
 	    	
 		    // Add the new question to the questionsToEditObservableList
 		    questionsToEditObservableList.add(newQuestion);
@@ -483,6 +481,15 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	}
 	
+	public static void showDashboardFrom_Review(Exam exam) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	    // Show the current stage
+	    JOptionPane.showMessageDialog(null, "your exam has been created: Exam ID (" + exam.getExamID() + ")", "new exam", JOptionPane.INFORMATION_MESSAGE);
+
+	    currStage.show();
+
+
+	}
+	
 	// -------------- ManageQuestions PANEL --------------
 	
 
@@ -495,9 +502,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param questions The ArrayList of questions to be loaded into the table view.
 	 */
 	public void loadArrayQuestionsToTable_CreateExam(ArrayList<Question> questions) {
-		for(Question question : questions) {
-			question.setSubject(getSubjectNameById(question.getsubjectID()));
-		}
 		
 	    // Add all questions from the ArrayList to the questionsToCreateExamObservableList
 	    questionsToCreateExamObservableList.addAll(questions);

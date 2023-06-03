@@ -46,6 +46,8 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	private TextField txtCommentsStudent;
 	@FXML
 	private TextField txtExamDuration;
+	@FXML
+	private TextField txtExamCode;
 	
 	@FXML
 	private Label lblMessage;
@@ -85,10 +87,14 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	
     public void getBtnShowReview(ActionEvent event) throws Exception {
     	try {
-	    	if(txtExamDuration.getText().trim().equals("")) {
+	    	if(txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
 	    		lblMessage.setText("[Error] Missing fields.");
 	    	}
 	    	else {
+	    		if(txtExamCode.getText().length() != 4) {
+	    			lblMessage.setText("[Error] exam code has to be 4 digits.");
+	    			return;
+	    		}
 	    		int examDuration = Integer.parseInt(txtExamDuration.getText());
 	    		
 	    		if(examDuration <= 0) {
@@ -103,9 +109,9 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    				String commentsForLecturer, String commentsForStudent, int duration, String author)
 	    		 */
 
-	    		Exam exam = new Exam(subjectID, subjectName, courseID, courseName,  
+	    		Exam exam = new Exam(null, subjectID, subjectName, courseID, courseName,  
 	    				questionsInExam_arr, txtCommentsLecturer.getText(), txtCommentsStudent.getText(), 
-	    				examDuration, lecturer.getName());
+	    				examDuration, lecturer.getName(), txtExamCode.getText());
 	    		
 	    		((Node) event.getSource()).getScene().getWindow().hide();
 	    		CreateExam_ReviewFrameController.start(exam, lecturer);

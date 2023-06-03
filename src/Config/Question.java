@@ -21,7 +21,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private ArrayList<String> answers;
 	private String lecturer;
 	private String lecturerID;
-	private String subject;
+	private ArrayList<String> subject;
 
 	/**
 	 * @param question id
@@ -31,7 +31,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	 * @param question number
 	 * @param question author
 	 */
-	public Question(String id, String subjectID, Map<String, String> courses_id_name, String questionText, ArrayList<String> answers, String questionNumber,
+	public Question(String id, ArrayList<String> subject, Map<String, String> courses_id_name, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
 		if(id == null) {
@@ -40,21 +40,30 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		else {
 			this.id = id;
 		}
-		this.subjectID = subjectID;
 		this.courses_id_name = courses_id_name;
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
 		this.setAnswers(answers);
 		this.lecturer = lecturer;
 		this.lecturerID = lecturerID;
-		this.subject = "";
+		this.subject = subject;
 	}
 	
-	public String getSubject() {
+	
+	
+	public String getSubjectName() {
+		return subject.get(1); // Retrieve the subject Name of the question
+	}
+	
+	public String getSubjectId() {
+		return subject.get(0); // Retrieve the subject ID of the question
+	}
+	
+	public ArrayList<String> getSubject() {
 		return subject; // Retrieve the subject Name of the question
 	}
 
-	public void setSubject(String subject) {
+	public void setSubject(ArrayList<String> subject) {
 		this.subject = subject; // Set the subject Name of the question
 	}
 

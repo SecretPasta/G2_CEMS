@@ -20,10 +20,12 @@
       <Label layoutX="603.0" layoutY="254.0" text="Comments for students:" />
       <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" layoutX="541.0" layoutY="52.0" prefHeight="162.0" prefWidth="271.0" />
       <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" layoutX="541.0" layoutY="279.0" prefHeight="162.0" prefWidth="271.0" />
-      <TextField id="txtExamDuration" fx:id="txtExamDuration" layoutX="628.0" layoutY="505.0" prefHeight="34.0" prefWidth="78.0" />
-      <Label layoutX="605.0" layoutY="471.0" text="Exam duration (in minutes):" />
+      <TextField id="txtExamDuration" fx:id="txtExamDuration" layoutX="541.0" layoutY="503.0" prefHeight="34.0" prefWidth="78.0" />
+      <Label layoutX="541.0" layoutY="472.0" text="Exam duration (in minutes):" />
       <JFXButton id="btnBack" layoutX="792.0" layoutY="14.0" onAction="#getBtnBack" text="Back" />
       <JFXButton layoutX="739.0" layoutY="548.0" onAction="#getBtnShowReview" text="Show review" />
       <Label id="lblMessage" fx:id="lblMessage" layoutX="557.0" layoutY="551.0" prefHeight="18.0" prefWidth="178.0" />
+      <Label layoutX="735.0" layoutY="472.0" text="Exam code:" />
+      <TextField id="txtExamCode" fx:id="txtExamCode" layoutX="730.0" layoutY="503.0" prefHeight="26.0" prefWidth="93.0" />
    </children>
 </AnchorPane>

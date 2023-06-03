@@ -22,6 +22,7 @@ import java.util.Random;
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.Lecturer;
+import Config.Question;
 import Config.QuestionInExam;
 import client.ClientUI;
 
@@ -67,16 +68,14 @@ public class CreateExam_ReviewFrameController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
-		getMaxIdOfExamInCourse();
 		
 		lblStudentID.setText("12345678");
 		lblSubjectName.setText(exam.getSubjectName() + " (" + exam.getSubjectID() + ")");
 		lblCourseName.setText(exam.getCourseName() + " (" + exam.getCourseID() + ")");
 		lblDate.setText(LocalDate.now().toString());
-		lblExamID.setText(maxExamIdInCourse);
+		lblExamID.setText(exam.getSubjectID() + exam.getCourseID() + "**");
 		lblAuthor.setText(exam.getAuthor());
-		lblExamDuration.setText(Integer.toString(exam.getDuration()));
+		lblExamDuration.setText(Integer.toString(exam.getDuration()) + " minutes");
 		lblCommentsForLecturer.setText(exam.getCommentsForLecturer());
 		lblCommentsForStudent.setText(exam.getCommentsForStudent());
 
@@ -116,8 +115,35 @@ public class CreateExam_ReviewFrameController implements Initializable {
     }
 	
 	public void getBtnSaveExam(ActionEvent event) throws Exception {
-		// saveExam();
-		// saveAllQuestionsInExam();
+		
+		get_update_MaxExamIdByCourse();
+
+		String formattedExamNum = String.format("%02d", Integer.parseInt(maxExamIdInCourse) + 1);
+		
+		exam.setExamID(formattedExamNum);
+			
+		saveExam();
+		
+		saveQuestionInExam();
+				
+		((Node) event.getSource()).getScene().getWindow().hide();
+		LecturerDashboardFrameController.showDashboardFrom_Review(exam); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	}
+	
+	public void saveQuestionInExam() {
+		ArrayList<QuestionInExam> questionsToSave_arr = new ArrayList<>();
+		// saving the exam id in the first "question"
+		questionsToSave_arr.add(new QuestionInExam(new Question("SaveAllQuestionsInExam", null, null, exam.getExamID(), null, null, null, null)));
+		questionsToSave_arr.addAll(exam.getQuestions());
+		ClientUI.chat.accept(questionsToSave_arr);
+		
+	}
+
+	public void saveExam() {
+		ArrayList<Exam> examToSave_arr = new ArrayList<>();
+		examToSave_arr.add(new Exam("SaveExamInDB", null, null, null, null, null, null, null, 0, null, null));
+		examToSave_arr.add(exam);
+		ClientUI.chat.accept(examToSave_arr);
 	}
 	
 	public void getBtnBack(ActionEvent event) throws Exception {
@@ -125,15 +151,15 @@ public class CreateExam_ReviewFrameController implements Initializable {
 		CreateExam_CommentsAndTimeFrameController.showStageFrom_Review();
 	}
 	
-	public void getMaxIdOfExamInCourse(){
+	public void get_update_MaxExamIdByCourse(){
 		ArrayList<String> getmaxexamidfromcourse_arr = new ArrayList<>();
-		getmaxexamidfromcourse_arr.add("GetMaxExamIdFromCourse");
+		getmaxexamidfromcourse_arr.add("GetUpdateMaxExamIdFromCourse");
 		getmaxexamidfromcourse_arr.add(exam.getCourseID());
 		ClientUI.chat.accept(getmaxexamidfromcourse_arr);
 	}
 	
 	public static void saveIdOfExamInCourse(String maxExamIdInCourse_temp) {
-		maxExamIdInCourse = "" + exam.getSubjectID() + exam.getCourseID() + maxExamIdInCourse_temp;
+		maxExamIdInCourse = maxExamIdInCourse_temp;
 	}
 }
 

@@ -197,8 +197,10 @@ public class AddQuestionFrameController implements Initializable {
 		        
 	        	// Increment the question ID and format it
 	        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id) + 1);
-	        	
-		        newQuestion.add(new Question(null, LecturerDashboardFrameController.getSubjectIdByName(subjectSelect), courses_id_name,
+	        	ArrayList<String> subject = new ArrayList<>();
+	        	subject.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
+	        	subject.add(subjectSelect);
+		        newQuestion.add(new Question(null, subject, courses_id_name,
 		        		textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));
 
 	            // Send the addQuestionToDBArr to the server to add the questions to the database

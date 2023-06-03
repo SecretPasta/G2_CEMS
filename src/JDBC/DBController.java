@@ -5,9 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
+import Config.Exam;
 import Config.Question;
+import Config.QuestionInExam;
 
 public class DBController {
 	
@@ -20,30 +21,30 @@ public class DBController {
 	            if (mysqlConnection.getConnection() != null) {
 	                PreparedStatement ps = null;
 	                if (lecturerID == null && courseID == null && subjectID == null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID");
 	                } else if (lecturerID != null && courseID == null && subjectID == null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE q.lecturerID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE q.lecturerID = ?");
 	                    ps.setString(1, lecturerID);
 	                } else if (lecturerID == null && courseID != null && subjectID == null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE qc.courseID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE qc.courseID = ?");
 	                    ps.setString(1, courseID);
 	                } else if (lecturerID == null && courseID == null && subjectID != null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE q.subjectID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE q.subjectID = ?");
 	                    ps.setString(1, subjectID);
 	                } else if (lecturerID != null && courseID != null && subjectID == null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE q.lecturerID = ? AND qc.courseID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE q.lecturerID = ? AND qc.courseID = ?");
 	                    ps.setString(1, lecturerID);
 	                    ps.setString(2, courseID);
 	                } else if (lecturerID != null && courseID == null && subjectID != null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE q.lecturerID = ? AND q.subjectID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE q.lecturerID = ? AND q.subjectID = ?");
 	                    ps.setString(1, lecturerID);
 	                    ps.setString(2, subjectID);
 	                } else if (lecturerID == null && courseID != null && subjectID != null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE qc.courseID = ? AND q.subjectID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE qc.courseID = ? AND q.subjectID = ?");
 	                    ps.setString(1, courseID);
 	                    ps.setString(2, subjectID);
 	                } else if (lecturerID != null && courseID != null && subjectID != null) {
-	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name FROM question q LEFT JOIN questioncourse qc ON q.id = qc.questionID LEFT JOIN course c ON qc.courseID = c.courseID WHERE qc.lecturerID = ? AND qc.courseID = ? AND q.subjectID = ?");
+	                    ps = mysqlConnection.getConnection().prepareStatement("SELECT q.*, qc.courseID, c.Name, s.SubjectID, s.Name FROM question q JOIN questioncourse qc ON q.id = qc.questionID JOIN course c ON qc.courseID = c.courseID JOIN subjects s ON q.subjectID = s.SubjectID WHERE qc.lecturerID = ? AND qc.courseID = ? AND q.subjectID = ?");
 	                    ps.setString(1, lecturerID);
 	                    ps.setString(2, courseID);
 	                    ps.setString(3, subjectID);
@@ -90,7 +91,17 @@ public class DBController {
 	                            }
 	                        }
 	                        
-	                        Question question = new Question(questionId, rs.getString(2), courses, rs.getString(3), answers, rs.getString(4), rs.getString(9), rs.getString(10));
+	                        // Create an array to store the subjects for the question
+	                        ArrayList<String> subject = new ArrayList<>();
+	                        String subjectId = rs.getString("SubjectID");
+	                        String subjectName = rs.getString("Name");
+	                        if (subjectId != null && subjectName != null) {
+	                            subject.add(subjectId);
+	                            subject.add(subjectName);
+	                        }
+	                        
+	                        Question question = new Question(questionId, subject, courses, rs.getString(3), answers, rs.getString(4), rs.getString(9), rs.getString(10));
+
 
 	                        questions.add(question);
 	                    }
@@ -107,6 +118,7 @@ public class DBController {
 	    }
 	    return questions;
 	}
+
 
 
 
@@ -411,8 +423,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		String query = "UPDATE subjects "
 	             + "SET MaxQuestionNumber = ? "
 	             + "WHERE SubjectID = ?";
-		System.out.println(i);
-		System.out.println(subjectID);
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
@@ -487,16 +497,121 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(1, courseID);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                if(rs.next()) {
+	                	updateCourseMaxExamNumber(courseID, rs.getString(1), 1);
 	                	return rs.getString(1);
 	                }
 	            }
 			}
+			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static void updateCourseMaxExamNumber(String courseID, String maxExamNumber_temp, int i) {
+		
+		String maxExamNumber = maxExamNumber_temp;
+		
+		String query = "UPDATE course "
+	             + "SET MaxExamNumber = ? "
+	             + "WHERE CourseID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				
+				maxExamNumber = Integer.toString(Integer.parseInt(maxExamNumber_temp) + i);
+				maxExamNumber = String.format("%02d", Integer.parseInt(maxExamNumber));
+				
+				
+				ps.setString(1, maxExamNumber);
+				
+				ps.setString(2, courseID);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+	public static void addNewExam(Exam exam) {
+		
+		
+		/*
+		 * String examID, String subjectID, String subjectName, String courseID, String courseName, ArrayList<QuestionInExam> questions, 
+			String commentsForLecturer, String commentsForStudent, int duration, String author, String code)
+		 * 
+		 * 
+		 */
+		
+		String query = "INSERT INTO exams (ID, subjectID, courseID, commentsLecturer, commentsStudents, duration"
+				+ ", author, questionsInExam, code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    try {
+	    	
+	    	if (mysqlConnection.getConnection() != null) {
+	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	    		ps.setString(1, exam.getExamID());
+	    		ps.setString(2, exam.getSubjectID());
+	    		ps.setString(3, exam.getCourseID());
+	    		ps.setString(4, exam.getCommentsForLecturer());
+	    		ps.setString(5, exam.getCommentsForStudent());
+	    		ps.setInt(6, exam.getDuration());
+	    		ps.setString(7, exam.getAuthor());	
+	    		ArrayList<String> questionsID = new ArrayList<>();
+	    		for(int i = 0; i<exam.getQuestions().size(); i++) {
+	    			questionsID.add(exam.getQuestions().get(i).getId());
+	    		}		
+	    		ps.setString(8, String.join(",", questionsID));
+	    		ps.setString(9, exam.getCode());
+	    		ps.executeUpdate();
+	    		
+	    	}
+		
+	    } catch (SQLException | ClassNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+	}
+
+
+	public static void addNewQuestionsInExam(ArrayList<QuestionInExam> questionsList) {
+		String query = "INSERT INTO questionsexam (questionID, examID, questionText, answerCorrect, answerWrong1, answerWrong2"
+				+ ", answerWrong3, points) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	    try {
+	    	
+	    	String examID = questionsList.get(0).getQuestionText(); // the exam id is here
+	    	questionsList.remove(0);
+	    	if (mysqlConnection.getConnection() != null) {
+	    		
+	    		
+	    		for(QuestionInExam question : questionsList) {
+	    			PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	    			ps.setString(1, question.getId());
+	    			ps.setString(2, examID);
+	    			ps.setString(3, question.getQuestionText());
+	    			ps.setString(4, question.getAnswers().get(0));
+	    			ps.setString(5, question.getAnswers().get(1));
+	    			ps.setString(6, question.getAnswers().get(2));
+	    			ps.setString(7, question.getAnswers().get(3));
+	    			ps.setDouble(8, question.getPoints());
+	    			ps.executeUpdate();
+	    		}
+	    		
+	    	}
+		
+	    } catch (SQLException | ClassNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		
 	}
 }
 
