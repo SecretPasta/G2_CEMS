@@ -7,10 +7,12 @@ import java.util.ResourceBundle;
 
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
 import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 
+import com.sun.source.util.TaskListener;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
@@ -19,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -62,6 +66,32 @@ public class StudentDashboardFrameController implements Initializable{
 
     @FXML
     private Pane pnlViewExam;
+
+
+    // Manual Exam Stuff #####################################################
+    @FXML
+    private TableView<Exam> tableView_UpcomingManualExams = new TableView<>();
+
+    @FXML
+    private TableColumn<Exam,String> courseColumn_ManualExams;
+
+    @FXML
+    private TableColumn<Exam,String> subjectColumn_ManualExams;
+
+    @FXML
+    private TableColumn<Exam,String> descriptionColumn_ManualExams; //Comment for Students goes here
+
+    @FXML
+    private TableColumn<Exam, Integer> durationColumn_ManualExams;
+
+    @FXML
+    private TableColumn<Exam,String> lecturerColumn_ManualExams; //Author goes here
+
+    @FXML
+    private JFXButton btnStartManualExam;
+
+    // End of Manual Exam Stuff ###############################################
+
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
