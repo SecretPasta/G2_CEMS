@@ -138,15 +138,6 @@
       <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
             <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" />
-            <Pane fx:id="pnlMyGrades" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="262.0" layoutY="238.0" text="MyGrades" />
-               </children></Pane>
             <Pane fx:id="pnlViewExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -204,6 +195,28 @@
                   <JFXButton fx:id="btnStartComputerizedExam" layoutX="55.0" layoutY="479.0" onAction="#getStartComputerizedExamBtn" prefHeight="75.0" prefWidth="144.0" text="Start Exam" />
                </children>
             </Pane>
+            <Pane fx:id="pnlMyGrades" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="22.0" layoutY="47.0" text="MyGrades" />
+                  <VBox layoutX="20.0" layoutY="82.0" prefHeight="447.0" prefWidth="754.0">
+                     <children>
+                        <TableView fx:id="tableView_MyGrades" prefHeight="407.0" prefWidth="754.0">
+                           <columns>
+                              <TableColumn fx:id="courseExamID_MyGrades" prefWidth="75.0" text="ExamID" />
+                              <TableColumn fx:id="courseColumn_MyGrades" prefWidth="75.0" text="Course" />
+                              <TableColumn fx:id="subjectColumn_MyGrades" prefWidth="75.0" text="Subject" />
+                              <TableColumn fx:id="lecturerColumn_MyGrades" prefWidth="75.0" text="Lecturer" />
+                              <TableColumn fx:id="gradeColumn_MyGrades" prefWidth="75.0" text="Grade" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children></Pane>
          </children>
       </StackPane>
    </children>

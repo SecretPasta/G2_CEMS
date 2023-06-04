@@ -68,7 +68,7 @@ public class StudentDashboardFrameController implements Initializable{
     private Pane pnlViewExam;
 
 
-    // Manual Exam Stuff #####################################################
+    // Manual Exam Screen #####################################################
     @FXML
     private TableView<Exam> tableView_UpcomingManualExams = new TableView<>();
 
@@ -90,9 +90,9 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnStartManualExam;
 
-    // End of Manual Exam Stuff ###############################################
+    // End of Manual Exam Screen ###############################################
 
-    // Computerized  Exam Stuff #####################################################
+    // Computerized  Exam Screen #####################################################
     @FXML
     private TableView<Exam> tableView_UpcomingComputerizedExams = new TableView<>();
 
@@ -114,9 +114,33 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnStartComputerizedExam;
 
-    // End of Computerized  Exam Stuff ###############################################
+    // End of Computerized Exam Screen ###############################################
 
+    // My Grades Screen ##############################################################
+    @FXML
+    private TableView<Exam> tableView_MyGrades = new TableView<>();
 
+    @FXML
+    private TableColumn<Exam,String> courseExamID_MyGrades;
+    @FXML
+    private TableColumn<Exam,String> courseColumn_MyGrades;
+
+    @FXML
+    private TableColumn<Exam,String> subjectColumn_MyGrades;
+
+//    @FXML
+//    private TableColumn<Exam,String> descriptionColumn_MyGrades; //Comment for Students goes here
+
+//    @FXML
+//    private TableColumn<Exam, Integer> durationColumn_MyGrades;
+
+    @FXML
+    private TableColumn<Exam,String> lecturerColumn_MyGrades; //Author goes here
+
+    @FXML
+    private TableColumn<Exam,String> gradeColumn_MyGrades;
+
+    // End of My Grades Screen #######################################################
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
