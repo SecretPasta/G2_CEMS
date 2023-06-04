@@ -103,7 +103,7 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
     @FXML
-    void getLogoutBtn(ActionEvent event) throws Exception{
+    public void getLogoutBtn(ActionEvent event) throws Exception{
         // Hide the primary window
         ((Node) event.getSource()).getScene().getWindow().hide();
 
@@ -116,6 +116,10 @@ public class StudentDashboardFrameController implements Initializable{
 
         // Start the login screen after logout
         LoginFrameController.start();
+    }
+
+    public void getStartManualExamBtn(ActionEvent event) throws Exception{
+        // Code to open window for the appropriate exam
     }
 
     @FXML
