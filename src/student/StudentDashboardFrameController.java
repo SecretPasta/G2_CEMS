@@ -92,6 +92,31 @@ public class StudentDashboardFrameController implements Initializable{
 
     // End of Manual Exam Stuff ###############################################
 
+    // Computerized  Exam Stuff #####################################################
+    @FXML
+    private TableView<Exam> tableView_UpcomingComputerizedExams = new TableView<>();
+
+    @FXML
+    private TableColumn<Exam,String> courseColumn_ComputerizedExams;
+
+    @FXML
+    private TableColumn<Exam,String> subjectColumn_ComputerizedExams;
+
+    @FXML
+    private TableColumn<Exam,String> descriptionColumn_ComputerizedExams; //Comment for Students goes here
+
+    @FXML
+    private TableColumn<Exam, Integer> durationColumn_ComputerizedExams;
+
+    @FXML
+    private TableColumn<Exam,String> lecturerColumn_ComputerizedExams; //Author goes here
+
+    @FXML
+    private JFXButton btnStartComputerizedExam;
+
+    // End of Computerized  Exam Stuff ###############################################
+
+
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
@@ -118,7 +143,13 @@ public class StudentDashboardFrameController implements Initializable{
         LoginFrameController.start();
     }
 
+    public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
+        System.out.println("You have started the Computerized Exam!!!");
+        // Code to open window for the appropriate exam
+    }
+
     public void getStartManualExamBtn(ActionEvent event) throws Exception{
+        System.out.println("You have started the Manual Exam!!!");
         // Code to open window for the appropriate exam
     }
 

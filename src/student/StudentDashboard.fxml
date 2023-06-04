@@ -147,16 +147,6 @@
                   </JFXButton>
                   <Label layoutX="262.0" layoutY="238.0" text="MyGrades" />
                </children></Pane>
-            <Pane fx:id="pnlComputerizedExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="159.0" text="Computerized Exam" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlViewExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -188,6 +178,30 @@
                      </children>
                   </VBox>
                   <JFXButton fx:id="btnStartManualExam" layoutX="331.0" layoutY="487.0" onAction="#getStartManualExamBtn" prefHeight="75.0" prefWidth="144.0" text="Start Exam" />
+               </children>
+            </Pane>
+            <Pane fx:id="pnlComputerizedExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label layoutX="32.0" layoutY="22.0" prefHeight="36.0" prefWidth="190.0" text="Upcoming Computerized Exams" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <VBox layoutX="14.0" layoutY="68.0" prefHeight="404.0" prefWidth="754.0">
+                     <children>
+                        <TableView fx:id="tableView_UpcomingComputerizedExams" prefHeight="407.0" prefWidth="754.0">
+                           <columns>
+                              <TableColumn fx:id="courseColumn_ComputerizedExams" prefWidth="75.0" text="Course" />
+                              <TableColumn fx:id="subjectColumn_ComputerizedExams" prefWidth="75.0" text="Subject" />
+                              <TableColumn fx:id="descriptionColumn_ComputerizedExams" prefWidth="75.0" text="Description " />
+                              <TableColumn fx:id="durationColumn_ComputerizedExams" prefWidth="75.0" text="Duration" />
+                              <TableColumn fx:id="lecturerColumn_ComputerizedExams" prefWidth="75.0" text="Lecturer" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <JFXButton fx:id="btnStartComputerizedExam" layoutX="55.0" layoutY="479.0" onAction="#getStartComputerizedExamBtn" prefHeight="75.0" prefWidth="144.0" text="Start Exam" />
                </children>
             </Pane>
          </children>
