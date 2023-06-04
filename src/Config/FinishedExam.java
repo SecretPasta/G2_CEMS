@@ -4,12 +4,16 @@ public class FinishedExam{
 
     private String examID;
     private String studentID;
-    private String answers;
+    private int grade;
+    private int approved;
+    private boolean checkExam;
 
-    public void FinishedExam(String examID,String studentID, String grade){
+    public void FinishedExam(String examID,String studentID, int grade){
         this.examID = examID;
         this.studentID = studentID;
-        this.answers = grade;
+        this.grade = grade;
+        this.approved = 0;
+        this.checkExam = false;
     }
     public String getExamID() {
         return examID;
@@ -19,7 +23,14 @@ public class FinishedExam{
         return studentID;
     }
 
-    public String getAnswers() {
-        return answers;
+    public int getGrade() {
+        return grade;
+    }
+
+    public void approveGrade(){
+        this.grade = 1;
+    }
+    public void CheckExam(){
+        this.checkExam = true;
     }
 }
