@@ -61,7 +61,7 @@ public class MessageHandler_Server {
 	            }
 	             else if (firstElement instanceof QuestionInExam) {
 		            return MessageType.ARRAY_LIST_QUESTIONINEXAM;
-	            } else if (firstElement instanceof Question) {
+	            } else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
 	                return MessageType.ARRAY_LIST_QUESTION;
 	            } else if (firstElement instanceof Exam) {
 	            	return MessageType.ARRAY_LIST_EXAM;

@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import javafx.scene.control.cell.TextFieldTableCell;
 
 
@@ -61,9 +59,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	private JFXButton btnCreateExam;
 	@FXML
     private JFXButton btnCheckExams;
-	
+	@FXML
 	private JFXButton currentSection;
-	
 	@FXML
     private JFXButton btnSearch_CreateExam;
 	@FXML
@@ -97,7 +94,7 @@ public class LecturerDashboardFrameController implements Initializable{
     private Pane pnlCheckExams;
     @FXML
     private Pane pnlEmpty;
-    
+    @FXML
     private Pane currentPane;
 	
 	@FXML
@@ -155,9 +152,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	protected static Stage currStage; // save current stage
 
-	private static Question questionSelected; // question selected to edit or to delete
+	private static Question questionSelected; // question selected to edit or to delete or to add to exam
 	
-	private double total_points_CreateExam;
+	private double total_points_CreateExam; // total question points for new exam
 	
 	private QuestionInExam questionInExamSelected;
 	
@@ -209,7 +206,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    
 	    // -------------- ManageQuestions PANEL --------------
 	    
-	    // -------------- CreateExam --------------
+	    // -------------- CreateExam PANEL --------------
 	    
 	    // clear the selection in the create exam table
 	    tableView_CreateExam.getSelectionModel().clearSelection();
@@ -229,9 +226,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionText"));    
 	    authorColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("lecturer"));
 	    pointsColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, Double>("points")); 
-	    
-	    
-	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() {
+	    pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Double>() { // points column getting only double value
 	        @Override
 	        public String toString(Double value) {
 	        	try {
@@ -252,118 +247,80 @@ public class LecturerDashboardFrameController implements Initializable{
 	            }
 	        }
 	    }));    
-	    //pointsColumn_CreateExam2.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
-
+   
+	    tableView_CreateExam2.setEditable(true); // editable points
 	    
-	    tableView_CreateExam2.setEditable(true);
-	    
-	 // -------------- CreateExam --------------
+	 // -------------- CreateExam PANEL --------------
 	    
 
 	}
-	
-	
-	
-    public static void setSubjectsNameById(Map<String, String> subjects_map_id_name) { 	
-    	subjects_ID_Name = subjects_map_id_name;
-    }
-    
-    public String getSubjectNameById(String subjectID) { 	
-		return subjects_ID_Name.get(subjectID);
-    }
-    
-    public static String getSubjectIdByName(String subjectName) { 	
-    	for (Map.Entry<String, String> entry : subjects_ID_Name.entrySet()) {
-    		if (subjectName.equals(entry.getValue())) {
-    			return entry.getKey();
-    		}
-        }
-    	return null; // Value not found
-    }
-    
-    public static void setCoursesNameById(Map<String, String> courses_map_id_name) { 	
-    	courses_ID_Name = courses_map_id_name;
-    }
-    
-    public String getCourseNameById(String courseID) { 	
-		return courses_ID_Name.get(courseID);
-    }
-    
-    public static String getCourseIdByName(String courseName) { 	
-    	for (Map.Entry<String, String> entry : courses_ID_Name.entrySet()) {
-    		if (courseName.equals(entry.getValue())) {
-    			return entry.getKey();
-    		}
-        }
-    	return null; // Value not found
-    }
 	
 	
 
 	// -------------- ManageQuestions PANEL --------------
 	
 	/**
-	 * Loads an array of questions into the table view.
+	 * Loads an array of questions into the "Manage Questions" table view.
 	 *
-	 * @param questions The ArrayList of questions to be loaded
+	 * @param questions The ArrayList of questions to be loaded into the table.
 	 */
 	public void loadArrayQuestionsToTable_ManageQuestions(ArrayList<Question> questions) {
-		
 	    // Add all questions from the ArrayList to the questionsToEditObservableList
 	    questionsToEditObservableList.addAll(questions);
 
 	    // Set the items of the table view to the questionsToEditObservableList
 	    tableView_ManageQuestions.setItems(questionsToEditObservableList);
 	}
+
 	
 	
+
 	/**
-	 * Opens the dashboard screen from the EditQuestionFrameController without creating it again.
+	 * Shows the dashboard after editing a question in the EditQuestionFrameController.
 	 *
-	 * @param edited_QuestionID      The ID of the edited question
-	 * @param edited_QuestionText    The edited question text
-	 * @throws IOException If an I/O exception occurs during the execution
+	 * @param edited_QuestionID   The ID of the edited question.
+	 * @param edited_QuestionText The updated text of the edited question.
+	 * @throws IOException If an I/O error occurs while showing the dashboard.
 	 */
 	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText) throws IOException {
-		// Update the edited question in the table of the lecturer's questions
+	    // Update the edited question in the table of the lecturer questions
 	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
 	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
-	        	
 	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
 	        }
 	    }
-
+	
 	    // Show the current stage
 	    currStage.show();
-
+	
 	    // Refresh the table view to reflect the changes
 	    tableView_ManageQuestions.refresh();
-
+	
 	    // Clear the selection in the questions table
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	}
+
 	
 	
 	/**
-	 * Handles the action when the lecturer clicks on the edit button for a question in the Manage Questions screen.
+	 * Handles the event when the Edit button is clicked in the "Manage Questions" view.
 	 *
-	 * @param event The action event
-	 * @throws Exception If an exception occurs during the execution
+	 * @param event The action event triggered by clicking the Edit button.
+	 * @throws Exception If an exception occurs during the process.
 	 */
 	public void getEditBtn_ManageQuestions(ActionEvent event) throws Exception {
-		
 	    // Getting the selected question from the table view
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
 	    if (questionSelected == null) {
-	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
-	    	snackbarError.setPrefWidth(754);
+	        // Show an error message using a snackbar if no question is selected
+	        snackbarError = new JFXSnackbar(pnlManageQuestions);
+	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
 	    } else {
-
 	        // Hide the primary window
 	        ((Node) event.getSource()).getScene().getWindow().hide();
 
-	        // Create and show the EditQuestion screen window
+	        // Create and show the EditQuestion screen window with the selected question
 	        EditQuestionFrameController.start(questionSelected);
 	        questionSelected = null;
 	    }
@@ -371,71 +328,82 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	
 	/**
-	 * Event handler for when the lecturer clicks on the "Add" button in the "Manage Questions" screen.
-	 * Hides the primary window and navigates to the "Add Question" screen.
+	 * Handles the event when the Add button is clicked in the "Manage Questions" view.
 	 *
-	 * @param event The action event triggered by clicking the "Add" button.
-	 * @throws Exception If an exception occurs during navigation to the "Add Question" screen.
+	 * @param event The action event triggered by clicking the Add button.
+	 * @throws Exception If an exception occurs during the process.
 	 */
-	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {
-		
-	    // Hide the primary window
-	    ((Node) event.getSource()).getScene().getWindow().hide();
-
-	    // Navigate to the "Add Question" screen and pass the lecturer object
-	    AddQuestionFrameController.start(lecturer);
-	}
-	
-	public void getSearchBox_ManageQuestions(ActionEvent event) throws Exception {
-		
-		String courseName_toSort = boxSearchbyCourse_ManageQuestions.getSelectionModel().getSelectedItem();
-		
-		filterQuestions(courseName_toSort);
-		
-		tableView_ManageQuestions.getSelectionModel().clearSelection();
-		
+	public void getAddBtn_ManageQuestions(ActionEvent event) throws Exception {    
+	    ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+	    AddQuestionFrameController.start(lecturer); // Navigate to the "Add Question" screen and pass the lecturer object
 	}
 
-    public void filterQuestions(String selectedCourse) {
-        if (selectedCourse.equals("All")) {
-        	tableView_ManageQuestions.setItems(questionsToEditObservableList); // Show all questions
-        } else {
-            ObservableList<Question> filteredData = FXCollections.observableArrayList();
-            for (Question question : questionsToEditObservableList) {
-                if (question.getCourses().containsValue(selectedCourse)) {
-                    filteredData.add(question);
-                }
-            }
-            tableView_ManageQuestions.setItems(filteredData); // Show questions for the selected course
-        }
-    }
 	
 	/**
-	 * Handles the action when the lecturer clicks on the remove button for a question in the Manage Questions screen.
+	 * Handles the event when the Search box selection is changed in the "Manage Questions" view.
 	 *
-	 * @param event The action event
-	 * @throws Exception If an exception occurs during the execution
+	 * @param event The action event triggered by changing the Search box selection.
+	 * @throws Exception If an exception occurs during the process.
+	 */
+	public void getSearchBox_ManageQuestions(ActionEvent event) throws Exception {
+	    // Get the selected course name from the search box
+	    String courseName_toSort = boxSearchbyCourse_ManageQuestions.getSelectionModel().getSelectedItem();
+
+	    // Filter the questions based on the selected course name
+	    filterQuestions(courseName_toSort);
+
+	    // Clear the selection in the questions table view
+	    tableView_ManageQuestions.getSelectionModel().clearSelection();
+	}
+
+
+	/**
+	 * Filters the questions based on the selected course and updates the table view accordingly.
+	 *
+	 * @param selectedCourse The selected course name to filter the questions.
+	 */
+	public void filterQuestions(String selectedCourse) {
+	    if (selectedCourse.equals("All")) {
+	        tableView_ManageQuestions.setItems(questionsToEditObservableList); // Show all questions
+	    } else {
+	        // Filter questions based on the selected course
+	        ObservableList<Question> filteredData = FXCollections.observableArrayList();
+	        for (Question question : questionsToEditObservableList) {
+	            if (question.getCourses().containsValue(selectedCourse)) {
+	                filteredData.add(question);
+	            }
+	        }
+	        tableView_ManageQuestions.setItems(filteredData); // Show questions for the selected course
+	    }
+	}
+
+	
+	/**
+	 * Removes the selected question from the table view and database, and updates the table view.
+	 *
+	 * @param event The action event triggered by clicking the remove button.
+	 * @throws Exception If an error occurs during the question removal process.
 	 */
 	public void getRemoveBtn_ManageQuestions(ActionEvent event) throws Exception {
-		
 	    // Getting the selected question from the table view
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
-	    
+
 	    if (questionSelected == null) {
-	    	snackbarError = new JFXSnackbar(pnlManageQuestions);
-	    	snackbarError.setPrefWidth(754);
+	        // Display an error message if no question is selected
+	        snackbarError = new JFXSnackbar(pnlManageQuestions);
+	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
 	    } else {
-
 	        // Send a message to the server to remove the question from the database
 	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
 	        questionToRemoveArr.add("RemoveQuestionFromDB");
 	        questionToRemoveArr.add(questionSelected.getId());
 	        ClientUI.chat.accept(questionToRemoveArr);
-	        
+
+	        // Display a success message for the removed question
 	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	    	snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Question (ID:" + questionSelected.getId() + ") removed succesfully"), Duration.millis(3000), null));    
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Question (ID:" + questionSelected.getId() + ") removed successfully"), Duration.millis(3000), null));
 
 	        // Remove the question from the questionsToEditObservableList and refresh the table view
 	        for (int i = 0; i < questionsToEditObservableList.size(); i++) {
@@ -444,32 +412,30 @@ public class LecturerDashboardFrameController implements Initializable{
 	                break;
 	            }
 	        }
-	        
+
 	        tableView_ManageQuestions.refresh();
 	        questionSelected = null;
 	    }
 	}
-	
 
+	
 	/**
-	 * Displays the dashboard screen after adding a question from the "Add Question" screen or getting back.
+	 * Shows the dashboard after adding a new question in the AddQuestionFrameController.
+	 * Updates the table view after adding a new question and displays a success message.
 	 *
-	 * @param newQuestion The newly added question to be displayed in the dashboard.
+	 * @param newQuestion The new question object added to the table view.
 	 */
 	public void showDashboardFrom_AddQuestion(Question newQuestion) {
-		
 	    if (newQuestion != null) {
-	    	
-		    // Add the new question to the questionsToEditObservableList
-		    questionsToEditObservableList.add(newQuestion);
-		    snackbarError = new JFXSnackbar(pnlManageQuestions);
-		    snackbarError.setPrefWidth(754);
-		    JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
-		    snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
+	        // Add the new question to the questionsToEditObservableList
+	        questionsToEditObservableList.add(newQuestion);
+
+	        // Display a success message for the added question
+	        snackbarError = new JFXSnackbar(pnlManageQuestions);
+	        snackbarError.setPrefWidth(754);
+	        JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
+	        snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
 	    }
-	    	
-
-
 
 	    // Show the current stage
 	    currStage.show();
@@ -481,37 +447,51 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	}
 	
-	public static void showDashboardFrom_Review(Exam exam) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	    // Show the current stage
-	    JOptionPane.showMessageDialog(null, "your exam has been created: Exam ID (" + exam.getExamID() + ")", "new exam", JOptionPane.INFORMATION_MESSAGE);
-
-	    currStage.show();
-
-
-	}
 	
 	// -------------- ManageQuestions PANEL --------------
-	
 
 	
 	// -------------- CreateExam PANEL --------------
 	
+	
 	/**
-	 * Loads an ArrayList of questions into the table view for creating an exam.
+	 * Displays the dashboard after reviewing and saving a new exam and shows a success message with the exam ID.
 	 *
-	 * @param questions The ArrayList of questions to be loaded into the table view.
+	 * @param exam The exam object that was saved.
+	 * @throws Exception If an exception occurs while refreshing the create exam view.
+	 */
+	public void showDashboardFrom_Review(Exam exam) throws Exception {
+	    // Refresh the create exam view
+	    getRefreshBtn_CreateExam(null);
+
+	    // Show the current stage
+	    currStage.show();
+
+	    // Display a success message with the exam ID
+	    snackbarError = new JFXSnackbar(pnlCreateExam);
+	    snackbarError.setPrefWidth(754);
+	    JFXSnackbarLayout layout = new JFXSnackbarLayout("Your exam has been created: Exam ID (" + exam.getExamID() + ")");
+	    snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
+	}
+	
+	
+	/**
+	 * Loads an ArrayList of questions into the table view for creating an exam from DB.
+	 * All the questions from selected subject and course
+	 *
+	 * @param questions The ArrayList of questions to load into the table view.
 	 */
 	public void loadArrayQuestionsToTable_CreateExam(ArrayList<Question> questions) {
-		
 	    // Add all questions from the ArrayList to the questionsToCreateExamObservableList
 	    questionsToCreateExamObservableList.addAll(questions);
 
 	    // Set the items of the table view to the questionsToCreateExamObservableList
 	    tableView_CreateExam.setItems(questionsToCreateExamObservableList);
-	    
+
+	    // Clear the selection in the table view
 	    tableView_CreateExam.getSelectionModel().clearSelection();
 	}
-	
+
 	
 	/**
 	 * Event handler for when the lecturer clicks on the "Search" button in the "Create Exam" screen.
@@ -541,8 +521,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        getQuestionsArr.add("GetQuestionsForLecturerBySubjectAndCourseToCreateExamTable");
 	        getQuestionsArr.add(getSubjectIdByName(subjectSelect_CreateExam));
 	        getQuestionsArr.add(getCourseIdByName(courseSelect_CreateExam));
-	        ClientUI.chat.accept(getQuestionsArr);
-	        
+	        ClientUI.chat.accept(getQuestionsArr);   
 	    }
 	}
 
@@ -571,177 +550,299 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	}
 	
+	
+	/**
+	 * Event handler for the refresh button in the CreateExam panel.
+	 * Clears and resets the table views, selection boxes, and other components.
+	 *
+	 * @param event The action event triggered by clicking the refresh button.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getRefreshBtn_CreateExam(ActionEvent event) throws Exception {
-		questionsToCreateExamObservableList2.removeAll();
-		tableView_CreateExam2.getItems().clear();
-		tableView_CreateExam2.getSelectionModel().clearSelection();
-		questionsToCreateExamObservableList.removeAll();
-		tableView_CreateExam.getItems().clear();
-		tableView_CreateExam.getSelectionModel().clearSelection();
-		btnSearch_CreateExam.setDisable(false);
-		subjectSelectBox_CreateExam.setDisable(false);
-		courseSelectBox_CreateExam.setDisable(false);
-    	courseSelectBox_CreateExam.getItems().clear();
-    	subjectSelectBox_CreateExam.setValue(null);
-    	total_points_CreateExam = 0.0;
-    	lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
-    	btcContinue_CreateExam.setDisable(true);
+		
+	    // Clear the questions and table view in the first tab
+	    questionsToCreateExamObservableList.removeAll();
+	    tableView_CreateExam.getItems().clear();
+	    tableView_CreateExam.getSelectionModel().clearSelection();
+		
+	    // Clear the questions and table view in the second tab
+	    questionsToCreateExamObservableList2.removeAll();
+	    tableView_CreateExam2.getItems().clear();
+	    tableView_CreateExam2.getSelectionModel().clearSelection();
+
+	    // Enable the search button and selection boxes
+	    btnSearch_CreateExam.setDisable(false);
+	    subjectSelectBox_CreateExam.setDisable(false);
+	    courseSelectBox_CreateExam.setDisable(false);
+
+	    // Clear the items in the course selection box and reset the subject selection box
+	    courseSelectBox_CreateExam.getItems().clear();
+	    subjectSelectBox_CreateExam.setValue(null);
+
+	    // Reset the total points and disable the continue button
+	    total_points_CreateExam = 0.0;
+	    lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
+	    btcContinue_CreateExam.setDisable(true);
 	}
+
 	
+	/**
+	 * Event handler for the "Choose Question" button in the CreateExam panel.
+	 * Adds the selected question to the exam being created.
+	 *
+	 * @param event The action event triggered by clicking the "Choose Question" button.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getChooseQuestionBtn_CreateExam(ActionEvent event) throws Exception {
-		
-		questionSelected = tableView_CreateExam.getSelectionModel().getSelectedItem();
-	
-		if(questionsToCreateExamObservableList2.contains(questionSelected)) {
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
+	    // Getting the selected question from the table view
+	    questionSelected = tableView_CreateExam.getSelectionModel().getSelectedItem();
+
+	    if (questionsToCreateExamObservableList2.contains(questionSelected)) {
+	        // Display an error message if the question has already been added to the exam
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: This question already added"), Duration.millis(3000), null));
-		}
-		else if(questionSelected == null) {
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
+	    } else if (questionSelected == null) {
+	        // Display an error message if no question is selected
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
-		}
-		else {
-			questionInExamSelected = new QuestionInExam(questionSelected);
+	    } else {
+	        // Create a QuestionInExam object for the selected question and add it to the list
+	        questionInExamSelected = new QuestionInExam(questionSelected);
+	        questionsToCreateExamObservableList2.add(questionInExamSelected);
 
-			questionsToCreateExamObservableList2.add(questionInExamSelected);
-			tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
-			
-			questionsToCreateExamObservableList.remove(questionSelected);
-			tableView_CreateExam.getSelectionModel().clearSelection();
-			tableView_CreateExam.refresh();
-			
-			btnSearch_CreateExam.setDisable(true);
-			subjectSelectBox_CreateExam.setDisable(true);
-			courseSelectBox_CreateExam.setDisable(true);
-			
-			tableView_CreateExam2.getSelectionModel().clearSelection();
-			tableView_CreateExam.getSelectionModel().clearSelection();
-		}
+	        // Set the items of the second table view to the updated list
+	        tableView_CreateExam2.setItems(questionsToCreateExamObservableList2);
 
-	    
+	        // Remove the selected question from the first table view and refresh it
+	        questionsToCreateExamObservableList.remove(questionSelected);
+	        tableView_CreateExam.getSelectionModel().clearSelection();
+	        tableView_CreateExam.refresh();
 
-	    
-		
-		
-		questionSelected = null;
+	        // Disable the search button and selection boxes
+	        btnSearch_CreateExam.setDisable(true);
+	        subjectSelectBox_CreateExam.setDisable(true);
+	        courseSelectBox_CreateExam.setDisable(true);
+
+	        // Clear the selection in both table views
+	        tableView_CreateExam.getSelectionModel().clearSelection();
+	        tableView_CreateExam2.getSelectionModel().clearSelection();
+	    }
+
+	    questionSelected = null;
 	}
+
 	
 	
+	/**
+	 * Event handler for the "Remove Question" button in the CreateExam panel.
+	 * Removes the selected question from the exam being created.
+	 *
+	 * @param event The action event triggered by clicking the "Remove Question" button.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getRemoveQuestion_CreateExam(ActionEvent event) throws Exception {
-		
-		questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
-	
-		if(questionInExamSelected == null) {
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
+	    // Getting the selected question from the table view
+	    questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
+
+	    if (questionInExamSelected == null) {
+	        // Display an error message if no question is selected
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
-		}
-		else {
-			
-			total_points_CreateExam -= questionInExamSelected.getPoints();
-			
-			questionsToCreateExamObservableList.add((Question)questionInExamSelected);
-			tableView_CreateExam.setItems(questionsToCreateExamObservableList);
-			
-			questionsToCreateExamObservableList2.remove(questionInExamSelected);
-			tableView_CreateExam2.getSelectionModel().clearSelection();
-			tableView_CreateExam2.refresh();
-			
-			lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
-			
-			if(tableView_CreateExam2.getItems().isEmpty()) {
-				btnSearch_CreateExam.setDisable(false);
-				subjectSelectBox_CreateExam.setDisable(false);
-				courseSelectBox_CreateExam.setDisable(false);
-			}
-			
-			if(questionsToCreateExamObservableList2.isEmpty() || total_points_CreateExam != 100) {
-				btcContinue_CreateExam.setDisable(true);
-			}
-		}
-		
-		tableView_CreateExam2.getSelectionModel().clearSelection();
-		tableView_CreateExam.getSelectionModel().clearSelection();
-		questionInExamSelected = null;
-		questionSelected = null;
+	    } else {
+	        // Subtract the points of the selected question from the total points
+	        total_points_CreateExam -= questionInExamSelected.getPoints();
+
+	        // Add the selected question back to the first table view
+	        questionsToCreateExamObservableList.add((Question) questionInExamSelected);
+	        tableView_CreateExam.setItems(questionsToCreateExamObservableList);
+
+	        // Remove the selected question from the second table view and refresh it
+	        questionsToCreateExamObservableList2.remove(questionInExamSelected);
+	        tableView_CreateExam2.getSelectionModel().clearSelection();
+	        tableView_CreateExam2.refresh();
+
+	        // Update the displayed total points
+	        lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
+
+	        // Enable/disable buttons based on the current state
+	        if (tableView_CreateExam2.getItems().isEmpty()) {
+	            btnSearch_CreateExam.setDisable(false);
+	            subjectSelectBox_CreateExam.setDisable(false);
+	            courseSelectBox_CreateExam.setDisable(false);
+	        }
+
+	        if (questionsToCreateExamObservableList2.isEmpty() || total_points_CreateExam != 100) {
+	            btcContinue_CreateExam.setDisable(true);
+	        }
+	    }
+
+	    // Clear the selections in both table views
+	    tableView_CreateExam2.getSelectionModel().clearSelection();
+	    tableView_CreateExam.getSelectionModel().clearSelection();
+
+	    // Reset the variables
+	    questionInExamSelected = null;
+	    questionSelected = null;
 	}
 	
 	
-    public void getEditPoints(CellEditEvent<QuestionInExam, Double> event) {
-    	try {
-	    	questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
-	    	
-	    	Double newPoints = event.getNewValue();
-	    	
+	/**
+	 * Event handler for editing the points of a question in the CreateExam panel.
+	 *
+	 * @param event The cell edit event triggered by editing the points of a question.
+	 */
+	public void getEditPoints(CellEditEvent<QuestionInExam, Double> event) {
+	    try {
+	        // Getting the selected question from the table view
+	        questionInExamSelected = tableView_CreateExam2.getSelectionModel().getSelectedItem();
+
+	        // Get the old points value of the selected question
 	        Double oldPoints = questionInExamSelected.getPoints();
 	        
+	        // Get the new points value entered by the user
+	        Double newPoints = event.getNewValue();
+
+	        // Calculate the total points after updating the points of the selected question
 	        Double temp_total_points = total_points_CreateExam + newPoints - oldPoints;
-	        
-	        if(temp_total_points > 100) {	
-				snackbarError = new JFXSnackbar(pnlCreateExam);
-		    	snackbarError.setPrefWidth(754);
-		        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points will be over 100"), Duration.millis(3000), null));       	
-	        }
-	        else {
-	        	total_points_CreateExam = total_points_CreateExam - oldPoints + newPoints;
+
+	        if (temp_total_points > 100) {
+	            // Display an error message if the total points will exceed 100
+	            snackbarError = new JFXSnackbar(pnlCreateExam);
+	            snackbarError.setPrefWidth(754);
+	            snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points cannot be over 100"), Duration.millis(3000), null));
+	        } else {
+	            // Update the total points and the points of the selected question
+	            total_points_CreateExam = total_points_CreateExam - oldPoints + newPoints;
 	            questionInExamSelected.setPoints(newPoints);
-	
-	        	
 	        }
-	        
+
+	        // Refresh the table view and update the displayed total points
 	        tableView_CreateExam2.refresh();
 	        lblTotalQuestionSelectedPoints.setText(String.valueOf(total_points_CreateExam));
-	        
-			tableView_CreateExam2.getSelectionModel().clearSelection();
-			tableView_CreateExam.getSelectionModel().clearSelection();
-	        
-			if(total_points_CreateExam != 100) {
-				btcContinue_CreateExam.setDisable(true);
-			}
-			else if(total_points_CreateExam == 100) {
-				btcContinue_CreateExam.setDisable(false);
-			}
-        
-    	}catch (NumberFormatException | NullPointerException e) {
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points sholud be only numbers"), Duration.millis(3000), null));   
-    	}
-    }
-    
-	public void getBtnContinue_CreateExam(ActionEvent event) throws Exception {
-		if(questionsToCreateExamObservableList2.isEmpty()) {
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No questions in the test"), Duration.millis(3000), null)); 
-		}
-		else if(total_points_CreateExam != 100){
-			snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points have to be 100"), Duration.millis(3000), null)); 
-		}
-		else {
-			((Node) event.getSource()).getScene().getWindow().hide();
-			CreateExam_CommentsAndTimeFrameController.start(lecturer, questionsToCreateExamObservableList2, getSubjectIdByName(subjectSelect_CreateExam),  
-					subjectSelect_CreateExam, getCourseIdByName(courseSelect_CreateExam), courseSelect_CreateExam);
-		}
+
+	        // Clear the selections in both table views
+	        tableView_CreateExam2.getSelectionModel().clearSelection();
+	        tableView_CreateExam.getSelectionModel().clearSelection();
+
+	        // Enable/disable the "Continue" button based on the current total points
+	        if (total_points_CreateExam != 100) {
+	            btcContinue_CreateExam.setDisable(true);
+	        } else if (total_points_CreateExam == 100) {
+	            btcContinue_CreateExam.setDisable(false);
+	        }
+
+	    } catch (NumberFormatException | NullPointerException e) {
+	        // Display an error message if the entered points value is not a valid number
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points should be only numbers"), Duration.millis(3000), null));
+	    }
 	}
+
+    
+	/**
+	 * Event handler for the "Continue" button in the CreateExam panel.
+	 *
+	 * @param event The action event triggered by clicking the "Continue" button.
+	 */
+	public void getBtnContinue_CreateExam(ActionEvent event) throws Exception {
+	    if (questionsToCreateExamObservableList2.isEmpty()) {
+	        // Display an error message if there are no questions in the exam
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No questions in the test"), Duration.millis(3000), null));
+	    } else if (total_points_CreateExam != 100) {
+	        // Display an error message if the total points of the exam is not 100
+	        snackbarError = new JFXSnackbar(pnlCreateExam);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points have to be 100"), Duration.millis(3000), null));
+	    } else {
+	        // Hide the current window and start the CreateExam_CommentsAndTimeFrameController.
+	    	// sending to the next screen: the lecturer, the questions, the subject and the course
+	        ((Node) event.getSource()).getScene().getWindow().hide();
+	        CreateExam_CommentsAndTimeFrameController.start(
+	            lecturer, questionsToCreateExamObservableList2,
+	            getSubjectIdByName(subjectSelect_CreateExam), subjectSelect_CreateExam,
+	            getCourseIdByName(courseSelect_CreateExam), courseSelect_CreateExam
+	        );
+	    }
+	}
+
 	
-	public void showDashboardFrom_CreateExam(/*ObservableList<QuestionInExam> questionsinexam*/) throws IOException {
-		
+	/**
+	 * Shows the dashboard from the CreateExam Comments And Timer Frame screen.
+	 */
+	public void showDashboardFrom_CreateExam() throws IOException {
 	    // Show the current stage
 	    currStage.show();
-	    
-		//tableView_CreateExam2.setItems(questionsinexam);
 
 	    // Clear the selection in the questions table
 	    tableView_CreateExam2.getSelectionModel().clearSelection();
 	}
 
+
 	// -------------- CreateExam PANEL --------------
 
+	
+
+	/**
+	 * Retrieves the subject name based on the given subject ID.
+	 *
+	 * @param subjectID The ID of the subject.
+	 * @return The name of the subject corresponding to the given ID, or null if no matching subject is found.
+	 */
+	public String getSubjectNameById(String subjectID) { 	
+	    return subjects_ID_Name.get(subjectID);
+	}
+ 
+	
+	/**
+	 * Retrieves the subject ID based on the given subject name.
+	 *
+	 * @param subjectName The name of the subject.
+	 * @return The ID of the subject corresponding to the given name, or null if no matching subject is found.
+	 */
+	public static String getSubjectIdByName(String subjectName) { 	
+	    for (Map.Entry<String, String> entry : subjects_ID_Name.entrySet()) {
+	        if (subjectName.equals(entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
+	}
+
+
+    
+	/**
+	 * Retrieves the course name based on the given course ID.
+	 *
+	 * @param courseID The ID of the course.
+	 * @return The name of the course corresponding to the given ID, or null if no matching course is found.
+	 */
+	public String getCourseNameById(String courseID) { 	
+	    return courses_ID_Name.get(courseID);
+	}
+
+    
+	/**
+	 * Retrieves the course ID based on the given course name.
+	 *
+	 * @param courseName The name of the course.
+	 * @return The ID of the course corresponding to the given name, or null if no matching course is found.
+	 */
+	public static String getCourseIdByName(String courseName) { 	
+	    for (Map.Entry<String, String> entry : courses_ID_Name.entrySet()) {
+	        if (courseName.equals(entry.getValue())) {
+	            return entry.getKey();
+	        }
+	    }
+	    return null;
+	}
+	
+	
 	/**
 	 * Retrieves the subjects and courses of the given lecturer from the database.
 	 * Sends a request to the server to fetch the data and updates the lecturer object accordingly.
@@ -767,20 +868,34 @@ public class LecturerDashboardFrameController implements Initializable{
 	    lecturer.setLecturerSubjectsAndCourses(map);
 	}
 	
+	/**
+	 * Retrieves all subjects names and IDs from the database.
+	 */
 	public static void getAllSubjectsFromDB() {
 	    ClientUI.chat.accept("getAllSubjectsNamesAndIdsFromDB");
 	}
-	
+
+	/**
+	 * Loads all subjects from the database into a map.
+	 * @param map A map containing subject names and their corresponding IDs.
+	 */
 	public static void loadAllSubjectsFromDB(Map<String, String> map) {
-	    setSubjectsNameById(map);
+		subjects_ID_Name = map;
 	}
 	
+	/**
+	 * Retrieves all courses names and IDs from the database.
+	 */
 	public static void getAllCoursesFromDB() {
 	    ClientUI.chat.accept("getAllCoursesNamesAndIdsFromDB");
 	}
-	
+
+	/**
+	 * Loads all courses from the database into a map.
+	 * @param map A map containing course names and their corresponding IDs.
+	 */
 	public static void loadAllCoursesFromDB(Map<String, String> map) {
-	    setCoursesNameById(map);
+		courses_ID_Name = map;
 	}
 	
 	/**
@@ -794,7 +909,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Initialize the lecturer with the provided details
 	    lecturer = new Lecturer(lecturerDetails.get(2), lecturerDetails.get(3), lecturerDetails.get(4), lecturerDetails.get(5), lecturerDetails.get(6));
 
-	    // -- lecturerDetails --
+	    // -- ArrayList<String> lecturerDetails --
 	    // 1 - login As
 	    // 2 - user ID
 	    // 3 - userName
@@ -864,7 +979,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 */
 	public void handleClicks(ActionEvent actionEvent) {
 		
-		questionSelected = null;
+		questionSelected = null; // reset the selected question
 		
 	    if (actionEvent.getSource() == btnShowReport) {
 	    	handleAnimation(pnlShowReport, btnShowReport);
@@ -874,21 +989,21 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
 	        pnlCheckExams.toFront();
 	    }
-	    if (actionEvent.getSource() == btnManageQuestions) { //Working screen
-	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unselect row in the questions table
+	    if (actionEvent.getSource() == btnManageQuestions) { // Manage Questions panel
+	    	tableView_ManageQuestions.getSelectionModel().clearSelection(); // To unSelect row in the questions table
 	    	handleAnimation(pnlManageQuestions, btnManageQuestions);
 	        pnlManageQuestions.toFront();    
 	    }
-	    if (actionEvent.getSource() == btnCreateExam) {
+	    if (actionEvent.getSource() == btnCreateExam) { // Create Exam panel
 			try {
-				getRefreshBtn_CreateExam(actionEvent);
+				getRefreshBtn_CreateExam(actionEvent); // reset the tables and buttons in the create exam panel
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			handleAnimation(pnlCreateExam, btnCreateExam);
 	        pnlCreateExam.toFront();
 	    }
-	    if (actionEvent.getSource() == btnManageExams) { //Working screen
+	    if (actionEvent.getSource() == btnManageExams) { // Working screen
 	    	handleAnimation(pnlManageExams, btnManageExams);
 	        pnlManageExams.toFront();
 	    }

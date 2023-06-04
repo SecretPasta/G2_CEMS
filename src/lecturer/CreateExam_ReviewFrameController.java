@@ -127,7 +127,7 @@ public class CreateExam_ReviewFrameController implements Initializable {
 		saveQuestionInExam();
 				
 		((Node) event.getSource()).getScene().getWindow().hide();
-		LecturerDashboardFrameController.showDashboardFrom_Review(exam); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		LecturerDashboardFrameController.getInstance().showDashboardFrom_Review(exam); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	}
 	
 	public void saveQuestionInExam() {

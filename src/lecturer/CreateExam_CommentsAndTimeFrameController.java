@@ -118,8 +118,11 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    		
 	    		
 	    	}
-    	}catch (NumberFormatException | NullPointerException e) {
+    	}catch (NullPointerException e) {
     		lblMessage.setText("[Error] Missing fields.");
+    	}
+    	catch(NumberFormatException e) {
+    		lblMessage.setText("[Error] exam duration has to valid number.");
     	}
     }
     
@@ -129,7 +132,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	
     public void getBtnBack(ActionEvent event) throws Exception {
     	((Node) event.getSource()).getScene().getWindow().hide();
-    	LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam(/*questionsToCreateExamObservableList*/);
+    	LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam();
     }
 
 }
