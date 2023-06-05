@@ -162,14 +162,14 @@ public class AddQuestionFrameController implements Initializable {
 
 	    try {
 	    
-	    // Check if any required fields are empty
-	    if (areFieldsMissing(coursesSelect, subjectSelect)) {
-	        displaySnackbarError(); // Display error message in a snackbar
-	    } else {
-	        getMaxQuestionIdFromCurrentSubject(subjectSelect); // Retrieve the maximum question ID for the selected subject
-	        addQuestionToDatabase(subjectSelect, coursesSelect); // Add the question to the database
-	        getBackBtn(event); // Go back to the previous screen
-	    }
+		    // Check if any required fields are empty
+		    if (areFieldsMissing(coursesSelect, subjectSelect)) {
+		        displaySnackbarError(); // Display error message in a snackbar
+		    } else {
+		        getMaxQuestionIdFromCurrentSubject(subjectSelect); // Retrieve the maximum question ID for the selected subject
+		        addQuestionToDatabase(subjectSelect, coursesSelect); // Add the question to the database
+		        getBackBtn(event); // Go back to the previous screen
+		    }
 	    
 	    }catch (NullPointerException | IndexOutOfBoundsException e) {
 	    	displaySnackbarError(); // Display error message in a snackbar
