@@ -13,7 +13,6 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	private static final long serialVersionUID = 1L;
 	private String id;
-	private String subjectID;
 	private Map<String, String> courses_id_name = new HashMap<>();
 
 	private String questionText;
@@ -35,7 +34,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 			String lecturer, String lecturerID) {
 		super();
 		if(id == null) {
-			this.id = subjectID + "" + questionNumber;
+			this.id = subject.get(0) + "" + questionNumber;
 		}
 		else {
 			this.id = id;
@@ -73,14 +72,6 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 
 	public void setId(String id) {
 		this.id = id; // Set the ID of the question
-	}
-
-	public String getsubjectID() {
-		return subjectID; // Retrieve the subject of the question
-	}
-
-	public void setsubjectID(String subject) {
-		this.subjectID = subject; // Set the subject of the question
 	}
 
 	public Map<String, String> getCourses() {

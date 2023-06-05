@@ -66,7 +66,7 @@ public class DBController {
 	                    // If the question exists, update its courses
 	                    if (existingQuestion != null) {
 	                        String courseid = rs.getString("courseID");
-	                        String courseName = rs.getString("Name");
+	                        String courseName = rs.getString("c.Name");
 	                        if (courseid != null && courseName != null) {
 	                            String[] courseArray = courseid.split(",");
 	                            for (String course : courseArray) {
@@ -83,7 +83,7 @@ public class DBController {
 	                        // Create a map to store the courses for the question
 	                        Map<String, String> courses = new HashMap<>();
 	                        String courseid = rs.getString("courseID");
-	                        String courseName = rs.getString("Name");
+	                        String courseName = rs.getString("c.Name");
 	                        if (courseid != null && courseName != null) {
 	                            String[] courseArray = courseid.split(",");
 	                            for (String course : courseArray) {
@@ -94,7 +94,7 @@ public class DBController {
 	                        // Create an array to store the subjects for the question
 	                        ArrayList<String> subject = new ArrayList<>();
 	                        String subjectId = rs.getString("SubjectID");
-	                        String subjectName = rs.getString("Name");
+	                        String subjectName = rs.getString("s.Name");
 	                        if (subjectId != null && subjectName != null) {
 	                            subject.add(subjectId);
 	                            subject.add(subjectName);
@@ -387,7 +387,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    	if (mysqlConnection.getConnection() != null) {
 	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 	    		ps.setString(1, question.getId());
-	    		ps.setString(2, question.getsubjectID());
+	    		ps.setString(2, question.getSubjectId());
 	    		ps.setString(3, question.getQuestionText());
 	    		ps.setString(4, question.getQuestionNumber());
 	    		ps.setString(5, question.getAnswers().get(0));
@@ -407,7 +407,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    		
 	    	}
 
-	    	updateSubjectMaxQuestionNumber(question.getsubjectID(), 1);
+	    	updateSubjectMaxQuestionNumber(question.getSubjectId(), 1);
 		
 	    } catch (SQLException | ClassNotFoundException e) {
 	    	e.printStackTrace();
