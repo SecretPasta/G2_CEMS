@@ -67,9 +67,11 @@ public class AddQuestionFrameController implements Initializable {
     
     private static Lecturer lecturer; // current lecturer
     
-    private ArrayList<Question> newQuestion;
+    private ArrayList<Question> newQuestion; // the new question will be here in get(1). get(0) is the command to the server to add the new question
     
     private static String maxIdOfQuestionInCurrentSubject;
+    
+    
     
     /**
      * Starts the question add management tool by opening the "Add Question" screen.
@@ -83,7 +85,6 @@ public class AddQuestionFrameController implements Initializable {
     }
 
 	
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -92,10 +93,12 @@ public class AddQuestionFrameController implements Initializable {
 	    courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 	    // Add subjects to the subjectSelectBox
+	    // the subjects are the key in: lecturer.getLecturerSubjectsAndCourses()
 	    for (Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
 	        subjectSelectBox.getItems().add(entry.getKey());
 	    }
 	}
+	
 	
 	/**
 	 * Handles the action when the back button is clicked.
@@ -110,7 +113,7 @@ public class AddQuestionFrameController implements Initializable {
 	    // Show the dashboard screen and update it with the new question
 	    try {
 	    	LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(newQuestion.get(1));
-	    }catch (NullPointerException e) {
+	    }catch (NullPointerException e) { // if the question is null when no question was added
 	    	LecturerDashboardFrameController.getInstance().showDashboardFrom_AddQuestion(null);
 	    }
 	}
@@ -153,70 +156,102 @@ public class AddQuestionFrameController implements Initializable {
 	 * @throws Exception If an exception occurs during the handling of the "Add Question" action.
 	 */
 	public void getAddQuestionBtn(ActionEvent event) throws Exception {
-		
-		ObservableList<String> coursesSelect = courseSelectList.getSelectionModel().getSelectedItems();
-		String subjectSelect = subjectSelectBox.getSelectionModel().getSelectedItem();
-		try {
-		    if (subjectSelect == null || subjectSelect.isEmpty() || coursesSelect.get(0).equals("Please select a subject first") || 
-		    		coursesSelect.isEmpty() || textQuestionText.getText().trim().equals("") || 
-		    		txtAnswerCorrect.getText().trim().equals("") || 
-		    		txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") || 
-		    		txtAnswerWrong3.getText().trim().equals("")) {
 
-		    	snackbarError = new JFXSnackbar(root);
-				JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
-				snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-		        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
-		        
-		    } else {
-	    	
-	            // Request the maximum question ID for the selected subject from the server        
-		        ArrayList<String> getMaxQuestionIdFromCurrentSubjectArr = new ArrayList<>();
-		        getMaxQuestionIdFromCurrentSubjectArr.add("GetMaxQuestionIdFromProvidedSubject");
-		        getMaxQuestionIdFromCurrentSubjectArr.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
-		        ClientUI.chat.accept(getMaxQuestionIdFromCurrentSubjectArr);
-		        
-		        // Create an ArrayList of answers based on the input values
-		        ArrayList<String> answersArr = new ArrayList<>();
-		        answersArr.add(txtAnswerCorrect.getText());
-		        answersArr.add(txtAnswerWrong1.getText());
-		        answersArr.add(txtAnswerWrong2.getText());
-		        answersArr.add(txtAnswerWrong3.getText());
-		        
-		        newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
-		        newQuestion.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // to identifying
-		        
-		        Map<String, String> courses_id_name = new HashMap<>();   
-		        for(String course : coursesSelect) {	        	
-		        	courses_id_name.put(LecturerDashboardFrameController.getCourseIdByName(course), course);	
-		        }
-		        
-		        
-		        String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
-		        
-		        
-	        	// Increment the question ID and format it
-	        	String formattedQuestionNum = String.format("%03d", Integer.parseInt(id) + 1);
-	        	ArrayList<String> subject = new ArrayList<>();
-	        	subject.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
-	        	subject.add(subjectSelect);
-		        newQuestion.add(new Question(null, subject, courses_id_name,
-		        		textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));
+	    ObservableList<String> coursesSelect = courseSelectList.getSelectionModel().getSelectedItems();
+	    String subjectSelect = subjectSelectBox.getSelectionModel().getSelectedItem();
 
-	            // Send the addQuestionToDBArr to the server to add the questions to the database
-		        ClientUI.chat.accept(newQuestion);
-		        
-		        
-		        
-		        getBackBtn(event); // Go back to the previous screen
-		        
-		    }
-		}catch (NullPointerException | IndexOutOfBoundsException e) {
-			snackbarError = new JFXSnackbar(root);
-			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
-			snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-	        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
-
+	    try {
+	    
+	    // Check if any required fields are empty
+	    if (areFieldsMissing(coursesSelect, subjectSelect)) {
+	        displaySnackbarError(); // Display error message in a snackbar
+	    } else {
+	        getMaxQuestionIdFromCurrentSubject(subjectSelect); // Retrieve the maximum question ID for the selected subject
+	        addQuestionToDatabase(subjectSelect, coursesSelect); // Add the question to the database
+	        getBackBtn(event); // Go back to the previous screen
+	    }
+	    
+	    }catch (NullPointerException | IndexOutOfBoundsException e) {
+	    	displaySnackbarError(); // Display error message in a snackbar
 		}
 	}
+	
+
+	/**
+	 * Checks if all the required fields are filled.
+	 *
+	 * @param coursesSelect The selected courses for the question.
+	 * @param subjectSelect The selected subject for the question.
+	 * @return True if any of the required fields are empty, false otherwise.
+	 */
+	private boolean areFieldsMissing(ObservableList<String> coursesSelect, String subjectSelect) {
+	    return (subjectSelect == null || subjectSelect.isEmpty() || coursesSelect.get(0).equals("Please select a subject first") ||
+	            coursesSelect.isEmpty() || textQuestionText.getText().trim().equals("") ||
+	            txtAnswerCorrect.getText().trim().equals("") ||
+	            txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") ||
+	            txtAnswerWrong3.getText().trim().equals(""));
+	}
+	
+
+	/**
+	 * Displays an error message in a snackbar for missing fields.
+	 */
+	private void displaySnackbarError() {
+	    snackbarError = new JFXSnackbar(root);
+	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+	    snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
+	
+
+	/**
+	 * Retrieves the maximum question ID for the selected subject.
+	 *
+	 * @param subjectSelect The selected subject for the question.
+	 */
+	private void getMaxQuestionIdFromCurrentSubject(String subjectSelect) {
+	    ArrayList<String> getMaxQuestionIdFromCurrentSubjectArr = new ArrayList<>();
+	    getMaxQuestionIdFromCurrentSubjectArr.add("GetMaxQuestionIdFromProvidedSubject");
+	    getMaxQuestionIdFromCurrentSubjectArr.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
+	    ClientUI.chat.accept(getMaxQuestionIdFromCurrentSubjectArr);
+	}
+	
+
+	/**
+	 * Adds the question to the database.
+	 *
+	 * @param subjectSelect  The selected subject for the question.
+	 * @param coursesSelect  The selected courses for the question.
+	 */
+	private void addQuestionToDatabase(String subjectSelect, ObservableList<String> coursesSelect) {
+	    // Create an ArrayList of answers based on the input values
+	    ArrayList<String> answersArr = new ArrayList<>();
+	    answersArr.add(txtAnswerCorrect.getText());
+	    answersArr.add(txtAnswerWrong1.getText());
+	    answersArr.add(txtAnswerWrong2.getText());
+	    answersArr.add(txtAnswerWrong3.getText());
+
+	    newQuestion = new ArrayList<>(); // Initialize a newQuestion ArrayList
+	    newQuestion.add(new Question("AddNewQuestionToDB", null, null, null, null, null, null, null)); // To identify
+
+	    Map<String, String> courses_id_name = new HashMap<>();
+	    for (String course : coursesSelect) { // add to the question the related courses
+	        courses_id_name.put(LecturerDashboardFrameController.getCourseIdByName(course), course);
+	    }
+
+	    String id = maxIdOfQuestionInCurrentSubject; // Retrieve the current maximum question ID
+
+	    // Increment the question ID and format it
+	    String formattedQuestionNum = String.format("%03d", Integer.parseInt(id) + 1);
+	    
+	    ArrayList<String> subject = new ArrayList<>();
+	    subject.add(LecturerDashboardFrameController.getSubjectIdByName(subjectSelect));
+	    subject.add(subjectSelect);
+	    newQuestion.add(new Question(null, subject, courses_id_name,
+	            textQuestionText.getText(), answersArr, formattedQuestionNum, lecturer.getName(), lecturer.getId()));
+
+	    // Send the addQuestionToDBArr to the server to add the questions to the database
+	    ClientUI.chat.accept(newQuestion);
+	}
+
 }

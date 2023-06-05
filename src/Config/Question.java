@@ -42,7 +42,7 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 		this.courses_id_name = courses_id_name;
 		this.questionText = questionText;
 		this.questionNumber = questionNumber;
-		this.setAnswers(answers);
+		this.answers = answers;
 		this.lecturer = lecturer;
 		this.lecturerID = lecturerID;
 		this.subject = subject;
