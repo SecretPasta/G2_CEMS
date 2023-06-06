@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
+import Config.FinishedExam;
 import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
@@ -16,6 +17,8 @@ import com.sun.source.util.TaskListener;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -90,6 +93,8 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnStartManualExam;
 
+    private ObservableList<Exam> manualExamsObservableList = FXCollections.observableArrayList();
+
     // End of Manual Exam Screen ###############################################
 
     // Computerized  Exam Screen #####################################################
@@ -113,6 +118,8 @@ public class StudentDashboardFrameController implements Initializable{
 
     @FXML
     private JFXButton btnStartComputerizedExam;
+
+    private ObservableList<Exam> computerizedExamsObservableList = FXCollections.observableArrayList();
 
     // End of Computerized Exam Screen ###############################################
 
@@ -140,7 +147,12 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private TableColumn<Exam,String> gradeColumn_MyGrades;
 
+    private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
+
     // End of My Grades Screen #######################################################
+
+
+
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
