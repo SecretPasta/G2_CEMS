@@ -230,6 +230,11 @@ public class MessageHandler_Server {
 	                	client.sendToClient(maxexamnumbercourse_arr);
 	                	
 	                	break;
+					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
+						ArrayList<String> computerizedExams = new ArrayList<>();
+						computerizedExams.addAll(DBController.getComputerizedExams(arrayListStr.get(1)));
+						client.sendToClient(computerizedExams);
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {

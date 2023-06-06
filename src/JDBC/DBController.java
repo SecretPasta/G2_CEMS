@@ -613,5 +613,11 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 		
 	}
+
+	public static ArrayList<String> getComputerizedExams(String studentID){
+
+		return null;
+	}
+
 }
 
