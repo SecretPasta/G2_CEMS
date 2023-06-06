@@ -243,7 +243,7 @@ public class DBController {
 		  // 2 - user Password
 		  // 3 - user Name
 		  // 4 - user Email
-	    // 5 - isLogged
+		  // 5 - isLogged
 	    return userDetailsArr;
 	}
 	

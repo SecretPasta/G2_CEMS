@@ -196,6 +196,18 @@ public class StudentDashboardFrameController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
         lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
+
+        //--------------------- Computerized Exam -----------------------------------------------------------------
+
+
+        //Crate an ArrayList of all Available Exams
+        ArrayList<String> getExamArray = new ArrayList<>();
+        getExamArray.add("GetAllStudentExamsFromDB");
+        //getExamArray.add(student.get)
+
+
+        //--------------------- End of Computerized Exam ----------------------------------------------------------
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -206,7 +218,7 @@ public class StudentDashboardFrameController implements Initializable{
     public static void start(ArrayList<String> studentDetails) throws IOException {
 
         // Initialize the student with the provided details
-        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6));
+        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6),studentDetails.get(7));
         // -- studentDetails --
         // 1 - login As
         // 2 - user ID
@@ -214,6 +226,7 @@ public class StudentDashboardFrameController implements Initializable{
         // 4 - user Password
         // 5 - user Name
         // 6 - user Email
+        // 7 - Courses
 
         // Run the following code on the JavaFX Application Thread using Platform.runLater()
         Platform.runLater(new Runnable() {
