@@ -216,8 +216,8 @@ public class StudentDashboardFrameController implements Initializable{
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
-        ClientUI.chat.accept(getExamArray);
-		*/
+//        ClientUI.chat.accept(getExamArray);
+
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
 		// TODO Auto-generated method stub

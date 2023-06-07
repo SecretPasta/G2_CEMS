@@ -232,7 +232,7 @@ public class MessageHandler_Server {
 	                	
 	                	break;
 					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
-						ArrayList<String> computerizedExams = new ArrayList<>();
+						ArrayList<Exam> computerizedExams = new ArrayList<>();
 						computerizedExams.addAll(DBController.getComputerizedExams(arrayListStr.get(1)));
 						client.sendToClient(computerizedExams);
 						break;
