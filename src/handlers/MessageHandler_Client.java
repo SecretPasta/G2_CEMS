@@ -153,7 +153,7 @@ public class MessageHandler_Client {
         }
     
     
-    // must removing the first question (the question that identified)
+    // must remove the first question (the question that identified)
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList) {
         // Handle ArrayList<Question> messages
     	
