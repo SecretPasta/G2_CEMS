@@ -122,7 +122,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
     		lblMessage.setText("[Error] Missing fields.");
     	}
     	catch(NumberFormatException e) {
-    		lblMessage.setText("[Error] exam duration has to valid number.");
+    		lblMessage.setText("[Error] exam duration has to be a valid number.");
     	}
     }
     

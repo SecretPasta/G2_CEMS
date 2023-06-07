@@ -37,6 +37,8 @@ public class EditQuestionFrameController implements Initializable {
 	private Label txtSubject;
 	@FXML
 	private Label txtCourseName;
+	@FXML
+	private Label txtQuestionAuthor;
 	
 	@FXML
 	private TextField txtAnswerCorrect;
@@ -46,46 +48,53 @@ public class EditQuestionFrameController implements Initializable {
 	private TextField txtAnswerWrong2;
 	@FXML
 	private TextField txtAnswerWrong3;
-	
 	@FXML
 	private TextField txtQuestionText;
 	
-	@FXML
-	private Label txtQuestionAuthor;
 
 	@FXML
 	private Button btnBack = null;
 	@FXML
 	private Button btnSave = null;
 	
-	private static Question questionSelected;
+	private static Question questionSelected; // the question that selected for editing will be saved here
 
+	
 	/**
-	 * Loads a specific question into the GUI table.
-	 *
-	 * @param question The question object to be loaded
+	 * Loads the selected question into the GUI.
 	 */
 	public void loadSelectedQuestion() {
-		
 	    // Set the text fields in the GUI with the properties of the question object
+
 	    txtQuestionID.setText(questionSelected.getId());
 	    txtSubject.setText(questionSelected.getSubjectName());
+
+	    // Initialize an empty string to hold the course names
 	    String courses_str = "";
-	    int i = 1;
-        for (String coursename : questionSelected.getCourses().values()) {
-        	courses_str += i + ". " + coursename + "\n\n";
-        	i++;
-        }
-	    txtCourseName.setText(courses_str);
-	    txtQuestionText.setText(questionSelected.getQuestionText());
+	      
+	    int i = 1; // Initialize a counter variable for numbering the courses
 	    
+	    // Iterate through the course names and concatenate them with their respective numbers
+	    for (String coursename : questionSelected.getCourses().values()) {
+	        courses_str += i + ". " + coursename + "\n\n";
+	        i++;
+	    }
+
+	    // Set the concatenated course names in the text field
+	    txtCourseName.setText(courses_str);
+
+	    txtQuestionText.setText(questionSelected.getQuestionText());
+
 	    txtAnswerCorrect.setText(questionSelected.getAnswers().get(0));
 	    txtAnswerWrong1.setText(questionSelected.getAnswers().get(1));
 	    txtAnswerWrong2.setText(questionSelected.getAnswers().get(2));
 	    txtAnswerWrong3.setText(questionSelected.getAnswers().get(3));
-	    
+
 	    txtQuestionAuthor.setText(questionSelected.getLecturer());
 	}
+
+	
+	
 	/**
 	 * Handles the event when the back button is clicked.
 	 *
@@ -101,6 +110,7 @@ public class EditQuestionFrameController implements Initializable {
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
 	    		questionSelected.getId(), txtQuestionText.getText());
 	}
+	
 
 	/**
 	 * Handles the event when the save button is clicked.
