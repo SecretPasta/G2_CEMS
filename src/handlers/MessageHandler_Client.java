@@ -5,7 +5,9 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import Config.Exam;
 import Config.Question;
+import Config.QuestionInExam;
 import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
@@ -30,6 +32,12 @@ public class MessageHandler_Client {
 	        case ARRAY_LIST_QUESTION:
 	            handleQuestionArrayListMessage((ArrayList<Question>) msg);
 	            break;
+	        case ARRAY_LIST_QUESTIONINEXAM:
+	            handleQuestionInExamArrayListMessage((ArrayList<QuestionInExam>) msg);
+	            break;
+	        case ARRAY_LIST_EXAM:
+	            handleExamArrayListMessage((ArrayList<Exam>) msg);
+	            break;
 	        case MAP_STRING_ARRAYLIST_STRING:
 	            handleMapStringKeyArrayListStringValueMessage((Map<String, ArrayList<String>>) msg);
 	            break;
@@ -42,7 +50,7 @@ public class MessageHandler_Client {
 	    }
 	}
 
-	
+
 	private static MessageType getMessageType(Object msg) {
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
@@ -52,8 +60,13 @@ public class MessageHandler_Client {
 	            Object firstElement = arrayList.get(0);
 	            if (firstElement instanceof String) {
 	                return MessageType.ARRAY_LIST_STRING;
-	            } else if (firstElement instanceof Question) {
+	            }
+	             else if (firstElement instanceof QuestionInExam) {
+		            return MessageType.ARRAY_LIST_QUESTIONINEXAM;
+	            } else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
 	                return MessageType.ARRAY_LIST_QUESTION;
+	            } else if (firstElement instanceof Exam) {
+	            	return MessageType.ARRAY_LIST_EXAM;
 	            }
 	        }
 	    } else if (msg instanceof Map) {
@@ -71,7 +84,6 @@ public class MessageHandler_Client {
 	    }
 	    return null;
 	}
-
 
 	
     private static void handleStringMessage(String message) {
@@ -200,5 +212,47 @@ public class MessageHandler_Client {
     	}
     	
     }
+    
+	private static void handleExamArrayListMessage(ArrayList<Exam> examList) {
+		// Handle ArrayList<Exam> messages
+		
+    	String messageType = examList.get(0).getExamID();
+
+    	/*try {
+	    	switch (messageType) {
+	    	
+	    		case "":
+	
+					break;
+	    	}
+	    	
+        }catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+        }*/
+		
+	}
+
+
+	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList) {
+		// Handle ArrayList<QuestionInExam> messages
+		
+    	String messageType = questionInExamList.get(0).getId();
+
+    	/*try {
+	    	switch (messageType) {
+	    	
+	    		case "":
+
+	
+					break;
+	    	} 
+	    	
+        }catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+        }*/
+		
+	}
 
 }
