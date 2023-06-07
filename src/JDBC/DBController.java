@@ -243,7 +243,7 @@ public class DBController {
 		  // 2 - user Password
 		  // 3 - user Name
 		  // 4 - user Email
-	    // 5 - isLogged
+		  // 5 - isLogged
 	    return userDetailsArr;
 	}
 	
@@ -613,5 +613,11 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 		
 	}
+
+	public static ArrayList<String> getComputerizedExams(String studentID){
+
+		return null;
+	}
+
 }
 

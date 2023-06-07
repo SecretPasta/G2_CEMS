@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
+import Config.FinishedExam;
 import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
@@ -16,6 +17,8 @@ import com.sun.source.util.TaskListener;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -90,6 +93,8 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnStartManualExam;
 
+    private ObservableList<Exam> manualExamsObservableList = FXCollections.observableArrayList();
+
     // End of Manual Exam Screen ###############################################
 
     // Computerized  Exam Screen #####################################################
@@ -113,6 +118,8 @@ public class StudentDashboardFrameController implements Initializable{
 
     @FXML
     private JFXButton btnStartComputerizedExam;
+
+    private ObservableList<Exam> computerizedExamsObservableList = FXCollections.observableArrayList();
 
     // End of Computerized Exam Screen ###############################################
 
@@ -140,7 +147,12 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private TableColumn<Exam,String> gradeColumn_MyGrades;
 
+    private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
+
     // End of My Grades Screen #######################################################
+
+
+
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
@@ -196,6 +208,18 @@ public class StudentDashboardFrameController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
         lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
+
+        //--------------------- Computerized Exam -----------------------------------------------------------------
+
+
+        //Crate an ArrayList of all Available Exams
+        ArrayList<String> getExamArray = new ArrayList<>();
+        getExamArray.add("GetAllComputerizedExamsFromDB");
+        getExamArray.add((student.getId()));
+        ClientUI.chat.accept(getExamArray);
+
+        //--------------------- End of Computerized Exam ----------------------------------------------------------
+
 		// TODO Auto-generated method stub
 		
 	}
@@ -206,7 +230,7 @@ public class StudentDashboardFrameController implements Initializable{
     public static void start(ArrayList<String> studentDetails) throws IOException {
 
         // Initialize the student with the provided details
-        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6));
+        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6),studentDetails.get(7));
         // -- studentDetails --
         // 1 - login As
         // 2 - user ID
@@ -214,6 +238,7 @@ public class StudentDashboardFrameController implements Initializable{
         // 4 - user Password
         // 5 - user Name
         // 6 - user Email
+        // 7 - Courses
 
         // Run the following code on the JavaFX Application Thread using Platform.runLater()
         Platform.runLater(new Runnable() {

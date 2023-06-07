@@ -130,6 +130,7 @@ public class MessageHandler_Client {
 		  				// 4 - user Password
 		  				// 5 - user Name
 		  				// 6 - user Email
+						// 7 - courses
 						LoginFrameController.hideCurrentScene(); // hide login frame
 						if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
 							LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
