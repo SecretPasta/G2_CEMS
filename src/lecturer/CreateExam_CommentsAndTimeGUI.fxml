@@ -1,31 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" stylesheets="@CreateExam_CommentsAndTime.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
    <children>
-      <TableView id="tableExam" fx:id="tableExam" layoutX="14.0" layoutY="27.0" prefHeight="562.0" prefWidth="500.0">
-        <columns>
-          <TableColumn id="idColumn_tableExam" fx:id="idColumn_tableExam" prefWidth="99.20001411437988" text="ID" />
-          <TableColumn id="questionTextColumn_tableExam" fx:id="questionTextColumn_tableExam" prefWidth="313.5999984741211" text="Question Text" />
-            <TableColumn id="pointsColumn_tableExam" fx:id="pointsColumn_tableExam" prefWidth="86.40005493164062" text="Points" />
-        </columns>
-      </TableView>
-      <Label layoutX="603.0" layoutY="27.0" text="Comments for lecturers:" />
-      <Label layoutX="603.0" layoutY="254.0" text="Comments for students:" />
-      <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" layoutX="541.0" layoutY="52.0" prefHeight="162.0" prefWidth="271.0" />
-      <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" layoutX="541.0" layoutY="279.0" prefHeight="162.0" prefWidth="271.0" />
-      <TextField id="txtExamDuration" fx:id="txtExamDuration" layoutX="541.0" layoutY="503.0" prefHeight="34.0" prefWidth="78.0" />
-      <Label layoutX="541.0" layoutY="472.0" text="Exam duration (in minutes):" />
-      <JFXButton id="btnBack" layoutX="792.0" layoutY="14.0" onAction="#getBtnBack" text="Back" />
-      <JFXButton layoutX="739.0" layoutY="548.0" onAction="#getBtnShowReview" text="Show review" />
-      <Label id="lblMessage" fx:id="lblMessage" layoutX="557.0" layoutY="551.0" prefHeight="18.0" prefWidth="178.0" />
-      <Label layoutX="735.0" layoutY="472.0" text="Exam code:" />
-      <TextField id="txtExamCode" fx:id="txtExamCode" layoutX="730.0" layoutY="503.0" prefHeight="26.0" prefWidth="93.0" />
+      <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 60 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <TableView id="tableExam" fx:id="tableExam" layoutX="14.0" layoutY="14.0" prefHeight="429.0" prefWidth="500.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="15.0">
+              <columns>
+                <TableColumn id="idColumn_tableExam" fx:id="idColumn_tableExam" prefWidth="73.60000228881836" text="ID" />
+                <TableColumn id="questionTextColumn_tableExam" fx:id="questionTextColumn_tableExam" prefWidth="339.99998474121094" text="Question Text" />
+                  <TableColumn id="pointsColumn_tableExam" fx:id="pointsColumn_tableExam" prefWidth="86.40005493164062" text="Points" />
+              </columns>
+            </TableView>
+            <JFXButton layoutX="686.0" layoutY="445.0" onAction="#getBtnShowReview" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show review" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <VBox layoutX="539.0" layoutY="11.0" prefHeight="434.0" prefWidth="485.0" spacing="45.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="Comments for students:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" prefHeight="103.0" prefWidth="482.0" />
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Label text="Comments for lecturers:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" prefHeight="111.0" prefWidth="494.0" />
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="63.0" prefWidth="486.0" spacing="15.0">
+                     <children>
+                        <HBox prefHeight="98.0" prefWidth="394.0" spacing="5.0">
+                           <children>
+                              <Label text="Exam duration (in minutes):">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField id="txtExamDuration" fx:id="txtExamDuration" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="98.0" prefWidth="202.0" spacing="3.0">
+                           <children>
+                              <Label text="Exam code:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <TextField id="txtExamCode" fx:id="txtExamCode" maxHeight="25.0" maxWidth="70.0" minHeight="25.0" minWidth="70.0" prefHeight="25.0" prefWidth="70.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <JFXSnackbar fx:id="snackbarError" layoutX="588.0" layoutY="471.0" />
+         </children>
+      </AnchorPane>
+      <Circle fill="#5dd299" layoutX="54.0" layoutY="37.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="32.0" layoutY="37.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+      <Label layoutX="75.0" layoutY="20.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="967.0" layoutY="26.0" maxWidth="60.0" onAction="#getBtnBack" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Circle fill="#5dd299" layoutX="408.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="538.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#242633" layoutX="668.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="454.0" layoutY="32.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="584.0" layoutY="32.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Label layoutX="267.0" layoutY="22.0" text="Questions and Points" textFill="#faf9f6" />
+      <Label layoutX="481.0" layoutY="52.0" text="Comments and Time" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="694.0" layoutY="23.0" text="Review and Save" textFill="#faf9f6" />
    </children>
 </AnchorPane>

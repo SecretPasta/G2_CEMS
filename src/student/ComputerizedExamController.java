@@ -9,17 +9,22 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 
 import ClientAndServerLogin.SceneManagment;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class ComputerizedExamController implements Initializable{
@@ -32,26 +37,41 @@ public class ComputerizedExamController implements Initializable{
     private JFXButton next;
     @FXML
     private AnchorPane questionsPane;
-    
     @FXML
-    private HBox questionNumbers;
+    private JFXButton closeBtn;
+    @FXML
+    private HBox questionNumbers;   
+    @FXML
+    private JFXButton submitExamBtn;
+    @FXML
+    private Text timer;
     
     private int currentQuestion = 0;
     
-    List<Pane> listOfQuestions = new ArrayList<>();
-    
-    
+    private List<VBox> listOfQuestions;
+ 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Here we need to load all the questions text and answers from db to panes
+		Time time = new Time("0:2:0");
 		
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> 
+		{
+			time.oneSecondPassed();
+	        timer.setText(time.getCurrentTime());
+	    }));
+		timer.setText(time.getCurrentTime());
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+		listOfQuestions = new ArrayList<>();
 		questionNumbers.setAlignment(Pos.CENTER);
 		for(int i = 1;i < 21;i++) {
-			Pane questionPane = new Pane();
+			VBox questionPane = new VBox();
+			questionPane.setPadding(new Insets(20, 20, 20, 20));
 			questionPane.setPrefSize(970, 448);
 			questionPane.setStyle("-fx-background-color:#FAF9F6");
 			Label lbl = new Label(String.format("Question number %d", i));
-			questionPane.getChildren().add(lbl);		
+			questionPane.getChildren().add(lbl);
 			listOfQuestions.add(questionPane);
 			JFXButton btnQuestion = new JFXButton(Integer.toString(i));
 			btnQuestion.setOnAction(new EventHandler<ActionEvent>() {		
@@ -107,7 +127,10 @@ public class ComputerizedExamController implements Initializable{
     		for(int i = 1;i <= counter - btnText;i++) {
     			back(null);
     		}
-		}
-		
+		}	
+    }
+    @FXML
+    public void getCloseBtn(ActionEvent event) {
+
     }
 }

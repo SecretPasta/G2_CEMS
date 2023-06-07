@@ -8,7 +8,7 @@ public class FinishedExam{
     private int approved;
     private boolean checkExam;
 
-    public void FinishedExam(String examID,String studentID, int grade){
+    public FinishedExam(String examID,String studentID, int grade){
         this.examID = examID;
         this.studentID = studentID;
         this.grade = grade;

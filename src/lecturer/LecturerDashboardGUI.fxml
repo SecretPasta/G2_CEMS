@@ -227,7 +227,6 @@
                   </JFXButton>
                   <Label layoutX="208.0" layoutY="206.0" text="Manage Exams" />
                </children></Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" focusColor="#66a7f2" layoutX="54.0" layoutY="69.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" promptText="Select subject..." />
@@ -343,6 +342,7 @@
                   </ImageView>
                </children>
             </Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
          </children>
       </StackPane>
    </children>
