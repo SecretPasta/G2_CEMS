@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -614,10 +615,118 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 	}
 
-	public static ArrayList<String> getComputerizedExams(String studentID){
+	public static ArrayList<Exam> getComputerizedExams(String studentID) {
+		ArrayList<Exam> computerizedExams = new ArrayList<>();
 
-		return null;
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				// Retrieve the student's courses
+				String studentQuery = "SELECT courses FROM student WHERE ID = ?";
+				PreparedStatement studentPS = mysqlConnection.getConnection().prepareStatement(studentQuery);
+				studentPS.setString(1, studentID);
+				ResultSet studentRS = studentPS.executeQuery();
+
+				if (studentRS.next()) {
+					String courses = studentRS.getString("courses");
+
+					// Split the courses string
+					String[] courseIDs = courses.split(",");
+
+					// Retrieve exams based on courseIDs
+					String examQuery = "SELECT * FROM exams WHERE courseID IN (" + String.join(",", Collections.nCopies(courseIDs.length, "?")) + ")";
+					PreparedStatement examPS = mysqlConnection.getConnection().prepareStatement(examQuery);
+
+					// Set courseIDs as parameters
+					for (int i = 0; i < courseIDs.length; i++) {
+						examPS.setString(i + 1, courseIDs[i]);
+					}
+
+					ResultSet examRS = examPS.executeQuery();
+
+					while (examRS.next()) {
+						// Create an Exam object and populate its fields
+						String examID = examRS.getString("ID");
+						String subjectID = examRS.getString("subjectID");
+						String subjectName = ""; // Set the subjectName accordingly from the database
+						String courseID = examRS.getString("courseID");
+						String courseName = ""; // Set the courseName accordingly from the database
+						String commentsForLecturer = examRS.getString("commentsLecturer");
+						String commentsForStudent = examRS.getString("commentsStudents");
+						int duration = examRS.getInt("duration");
+						String author = examRS.getString("author");
+						String code = examRS.getString("code");
+
+						// Parse the questionsInExam field to retrieve the questions and set them in the exam object
+						String[] questionIDs = examRS.getString("questionsInExam").split(",");
+						ArrayList<QuestionInExam> questions = new ArrayList<>();
+						for (String questionID : questionIDs) {
+							// Retrieve the Question object based on the questionID from the database or any other source
+							Question question = retrieveQuestionById(questionID);
+
+							if (question != null) {
+								QuestionInExam questionInExam = new QuestionInExam(question);
+								questions.add(questionInExam);
+							}
+						}
+
+						Exam exam = new Exam(examID, subjectID, subjectName, courseID, courseName, questions, commentsForLecturer, commentsForStudent, duration, author, code);
+
+						computerizedExams.add(exam);
+					}
+				}
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return computerizedExams;
 	}
+
+	//A method to return the question by ID from the DB
+	private static Question retrieveQuestionById(String questionID) {
+		Question question = null;
+
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				String query = "SELECT * FROM question WHERE id = ?";
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				ps.setString(1, questionID);
+				ResultSet rs = ps.executeQuery();
+
+				if (rs.next()) {
+					String id = rs.getString("id");
+					String subjectID = rs.getString("subjectID");
+					String questionText = rs.getString("questionText");
+					String questionNumber = rs.getString("questionNumber");
+					String answerCorrect = rs.getString("answerCorrect");
+					String answerWrong1 = rs.getString("answerWrong1");
+					String answerWrong2 = rs.getString("answerWrong2");
+					String answerWrong3 = rs.getString("answerWrong3");
+					String lecturer = rs.getString("lecturer");
+					String lecturerID = rs.getString("LecturerID");
+
+					ArrayList<String> subject = new ArrayList<>();
+					subject.add(subjectID); // Set the subject ID
+
+					ArrayList<String> answers = new ArrayList<>();
+					answers.add(answerCorrect);
+					answers.add(answerWrong1);
+					answers.add(answerWrong2);
+					answers.add(answerWrong3);
+
+					question = new Question(id, subject,null ,questionText, answers, questionNumber, lecturer, lecturerID);
+				}
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return question;
+	}
+
+
+
+
 
 }
 
