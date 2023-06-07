@@ -99,6 +99,7 @@ public class MessageHandler_Server {
 			    	courses_name_id_map_arr.put("HashMapWithCourses_names_ids", "forchecking");
 			    	client.sendToClient(courses_name_id_map_arr);
 			    	break;
+			    default: break;
 	    	}
     	}catch (Exception e) {
 			// TODO Auto-generated catch block

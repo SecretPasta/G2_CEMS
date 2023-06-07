@@ -181,7 +181,7 @@ public class StudentDashboardFrameController implements Initializable{
 
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         System.out.println("You have started the Computerized Exam!!!");
-        // Code to open window for the appropriate exam
+        ComputerizedExamController.start();
     }
 
     public void getStartManualExamBtn(ActionEvent event) throws Exception{
@@ -211,13 +211,13 @@ public class StudentDashboardFrameController implements Initializable{
 
         //--------------------- Computerized Exam -----------------------------------------------------------------
 
-
+        /*
         //Crate an ArrayList of all Available Exams
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
-
+		*/
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
 		// TODO Auto-generated method stub
