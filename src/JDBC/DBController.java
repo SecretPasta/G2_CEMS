@@ -556,7 +556,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		 */
 		
 		String query = "INSERT INTO exams (ID, subjectID, courseID, commentsLecturer, commentsStudents, duration"
-				+ ", author, questionsInExam, code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ ", author, questionsInExam, code, isActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    try {
 	    	
 	    	if (mysqlConnection.getConnection() != null) {
@@ -574,6 +574,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    		}		
 	    		ps.setString(8, String.join(",", questionsID));
 	    		ps.setString(9, exam.getCode());
+	    		ps.setString(10, "0");
 	    		ps.executeUpdate();
 	    		
 	    	}
