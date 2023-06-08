@@ -21,7 +21,6 @@ import java.util.Random;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
-import Config.Lecturer;
 import Config.Question;
 import Config.QuestionInExam;
 import client.ClientUI;
@@ -30,7 +29,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	
 	@FXML
 	private VBox vbox;
-	
 	@FXML
 	private Label lblStudentID;
 	@FXML
@@ -51,24 +49,69 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	private Label lblCommentsForStudent;
 	
 	private static String maxExamIdInCourse;
-	
-	private static Lecturer lecturer;
-
 
 	private ObservableList<RadioButton> checkBoxes;
 
 	private static Exam exam;
 
-    public static void start(Exam temp_exam, Lecturer temp_lecturer) throws IOException {
-    	exam = temp_exam;
-    	lecturer = temp_lecturer;
-    	SceneManagment.createNewStage("/lecturer/CreateExam_ReviewGUI.fxml", null, "Create Exam").show();
+	
+	/**
+	 * Starts the Create Exam Review GUI.
+	 * @param temp_exam The exam object to be reviewed and edited.
+	 * @throws IOException If an error occurs during GUI creation.
+	 */
+	public static void start(Exam temp_exam) throws IOException {
+	    exam = temp_exam; // save the exam
+	    // Create a new stage for the Create Exam Review GUI
+	    SceneManagment.createNewStage("/lecturer/CreateExam_ReviewGUI.fxml", null, "Create Exam").show();
+	}
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        loadExamIntoGUI();
+
+        Random random = new Random();
+
+        checkBoxes = FXCollections.observableArrayList();
+
+        int i = 1; // numbering the questions
+        for (QuestionInExam question : exam.getQuestions()) {
+        	
+        	// place the question in the vbox
+            Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
+            vbox.getChildren().add(questionLabel);
+
+            ToggleGroup answers_group = new ToggleGroup();
+
+            // shuffling the answers
+            int correctAnswer_place = 0; // Index of the correct answer in the list
+            String tempAnswer_Correct = question.getAnswers().get(0); // Store the first answer as temporary correct answer
+            int wrongAnswer_place = random.nextInt(question.getAnswers().size() - 1) + 1; // Generate a random index for a wrong answer
+            question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place)); // Swap the correct answer with a randomly chosen wrong answer
+            question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct); // Set the wrong answer index with the original correct answer
+
+            // place the answers in the vbox
+            for (String answer : question.getAnswers()) {
+                RadioButton checkBox = new RadioButton(answer);
+                checkBoxes.add(checkBox);
+                vbox.getChildren().add(checkBox);
+                checkBox.setToggleGroup(answers_group);
+            }
+
+            Label spaceLabel = new Label("\n\n");
+            vbox.getChildren().add(spaceLabel);
+            i++;
+        }
 
     }
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
+	
+    /*
+     * load all the exam's details to the screen
+     */
+	private void loadExamIntoGUI() {
 		lblStudentID.setText("12345678");
 		lblSubjectName.setText(exam.getSubjectName() + " (" + exam.getSubjectID() + ")");
 		lblCourseName.setText(exam.getCourseName() + " (" + exam.getCourseID() + ")");
@@ -78,88 +121,109 @@ public class CreateExam_ReviewFrameController implements Initializable {
 		lblExamDuration.setText(Integer.toString(exam.getDuration()) + " minutes");
 		lblCommentsForLecturer.setText(exam.getCommentsForLecturer());
 		lblCommentsForStudent.setText(exam.getCommentsForStudent());
+	}
 
-		Random random = new Random();
-		
-        checkBoxes = FXCollections.observableArrayList();
-
-        int i = 1;
-        for (QuestionInExam question : exam.getQuestions()) {
-            Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
-            vbox.getChildren().add(questionLabel);
-            
-            ToggleGroup answers_group = new ToggleGroup();
-            
-            int correctAnswer_place = 0;
-            String tempAnswer_Correct = question.getAnswers().get(0);
-            
-            int wrongAnswer_place = random.nextInt(question.getAnswers().size()-1) + 1;       
-            
-            question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place));
-            
-            question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct);
-            
-            for (String answer : question.getAnswers()) {
-            	RadioButton checkBox = new RadioButton(answer);
-                checkBoxes.add(checkBox);
-                vbox.getChildren().add(checkBox);
-                checkBox.setToggleGroup(answers_group);
-            }
-            
-            Label spaceLabel = new Label("\n\n");
-            vbox.getChildren().add(spaceLabel);
-            i++;
-        }
-  
-
-    }
-	
+	/**
+	 * Saves the exam and its questions.
+	 *
+	 * @param event The action event triggered by the "Save" button.
+	 * @throws Exception If an error occurs during the save process.
+	 */
 	public void getBtnSaveExam(ActionEvent event) throws Exception {
-		
-		get_update_MaxExamIdByCourse();
+	    get_update_MaxExamIdByCourse(); // Update the maximum exam ID by course
 
-		String formattedExamNum = String.format("%02d", Integer.parseInt(maxExamIdInCourse) + 1);
-		
-		exam.setExamID(formattedExamNum);
-			
-		saveExam();
-		
-		saveQuestionInExam();
-				
-		((Node) event.getSource()).getScene().getWindow().hide();
-		LecturerDashboardFrameController.getInstance().showDashboardFrom_Review(exam); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	    String formattedExamNum = String.format("%02d", Integer.parseInt(maxExamIdInCourse) + 1); // Format the exam number with leading zeros
+
+	    exam.setExamID(formattedExamNum); // Set the formatted exam number as the exam ID
+
+	    saveExam(); // Save the exam in DB
+	    saveQuestionInExam(); // Save the questions in the exam in the DB
+
+	    ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the current window
+
+	    // Show the lecturer dashboard and pass the updated exam object
+	    LecturerDashboardFrameController.getInstance().showDashboardFrom_Review(exam);
 	}
+
 	
+	/**
+	 * Saves the questions in the exam in DB.
+	 */
 	public void saveQuestionInExam() {
-		ArrayList<QuestionInExam> questionsToSave_arr = new ArrayList<>();
-		// saving the exam id in the first "question"
-		questionsToSave_arr.add(new QuestionInExam(new Question("SaveAllQuestionsInExam", null, null, exam.getExamID(), null, null, null, null)));
-		questionsToSave_arr.addAll(exam.getQuestions());
-		ClientUI.chat.accept(questionsToSave_arr);
-		
+	    // Create a new ArrayList to store the questions to be saved
+	    ArrayList<QuestionInExam> questionsToSave_arr = new ArrayList<>();
+
+	    // Add a "SaveAllQuestionsInExam" placeholder question with the exam ID
+	    questionsToSave_arr.add(new QuestionInExam(new Question("SaveAllQuestionsInExam", null, null, exam.getExamID(), null, null, null, null)));
+
+	    // Add all the questions from the exam to the list
+	    questionsToSave_arr.addAll(exam.getQuestions());
+
+	    // Send the questions to be saved to the server
+	    ClientUI.chat.accept(questionsToSave_arr);
 	}
 
+
+
+	/**
+	 * Saves the exam in the database.
+	 */
 	public void saveExam() {
-		ArrayList<Exam> examToSave_arr = new ArrayList<>();
-		examToSave_arr.add(new Exam("SaveExamInDB", null, null, null, null, null, null, null, 0, null, null));
-		examToSave_arr.add(exam);
-		ClientUI.chat.accept(examToSave_arr);
+	    // Create a new ArrayList to store the exam to be saved
+	    ArrayList<Exam> examToSave_arr = new ArrayList<>();
+
+	    // Add a "SaveExamInDB" placeholder exam
+	    examToSave_arr.add(new Exam("SaveExamInDB", null, null, null, null, null, null, null, 0, null, null));
+
+	    // Add the current exam to the list
+	    examToSave_arr.add(exam);
+
+	    // Send the exam to be saved to the server
+	    ClientUI.chat.accept(examToSave_arr);
 	}
+
 	
+	/**
+	 * Handles the action when the "Back" button is clicked.
+	 *
+	 * @param event The action event triggered by the "Back" button.
+	 * @throws Exception If an error occurs during the process.
+	 */
 	public void getBtnBack(ActionEvent event) throws Exception {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		CreateExam_CommentsAndTimeFrameController.showStageFrom_Review();
+	    // Hide the current window
+	    ((Node) event.getSource()).getScene().getWindow().hide();
+
+	    // Show the CreateExam_CommentsAndTimeFrameController stage from the review
+	    CreateExam_CommentsAndTimeFrameController.showStageFrom_Review();
 	}
+
 	
-	public void get_update_MaxExamIdByCourse(){
-		ArrayList<String> getmaxexamidfromcourse_arr = new ArrayList<>();
-		getmaxexamidfromcourse_arr.add("GetUpdateMaxExamIdFromCourse");
-		getmaxexamidfromcourse_arr.add(exam.getCourseID());
-		ClientUI.chat.accept(getmaxexamidfromcourse_arr);
+	/**
+	 * Gets and updates the maximum exam ID for a specific course.
+	 */
+	public void get_update_MaxExamIdByCourse() {
+	    // Create a new ArrayList to send the request for the maximum exam ID
+	    ArrayList<String> getmaxexamidfromcourse_arr = new ArrayList<>();
+
+	    // Add the command to get and update the maximum exam ID
+	    getmaxexamidfromcourse_arr.add("GetUpdateMaxExamIdFromCourse");
+
+	    // Add the course ID to the list
+	    getmaxexamidfromcourse_arr.add(exam.getCourseID());
+
+	    // Send the request to the server to get and update the maximum exam ID for the course
+	    ClientUI.chat.accept(getmaxexamidfromcourse_arr);
 	}
+
 	
+	/**
+	 * Saves the maximum exam ID for a course ( received from the server ).
+	 *
+	 * @param maxExamIdInCourse_temp The maximum exam ID to be saved.
+	 */
 	public static void saveIdOfExamInCourse(String maxExamIdInCourse_temp) {
-		maxExamIdInCourse = maxExamIdInCourse_temp;
+	    maxExamIdInCourse = maxExamIdInCourse_temp;
 	}
+
 }
 

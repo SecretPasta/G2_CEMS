@@ -114,7 +114,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    				examDuration, lecturer.getName(), txtExamCode.getText());
 	    		
 	    		((Node) event.getSource()).getScene().getWindow().hide();
-	    		CreateExam_ReviewFrameController.start(exam, lecturer);
+	    		CreateExam_ReviewFrameController.start(exam);
 	    		
 	    		
 	    	}
