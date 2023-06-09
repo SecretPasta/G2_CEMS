@@ -609,7 +609,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
 	    } else {
 	        // Create a QuestionInExam object for the selected question and add it to the list
-	        questionInExamSelected = new QuestionInExam(questionSelected);
+	        questionInExamSelected = new QuestionInExam(questionSelected.getId(), questionSelected.getQuestionText(), questionSelected.getAnswers());
 	        questionsToCreateExamObservableList2.add(questionInExamSelected);
 
 	        // Set the items of the second table view to the updated list
