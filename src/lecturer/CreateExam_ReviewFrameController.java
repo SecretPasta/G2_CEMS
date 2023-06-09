@@ -154,7 +154,7 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	    ArrayList<QuestionInExam> questionsToSave_arr = new ArrayList<>();
 
 	    // Add a "SaveAllQuestionsInExam" placeholder question with the exam ID
-	    questionsToSave_arr.add(new QuestionInExam(new Question("SaveAllQuestionsInExam", null, null, exam.getExamID(), null, null, null, null)));
+	    questionsToSave_arr.add(new QuestionInExam("SaveAllQuestionsInExam", exam.getExamID(), null));
 
 	    // Add all the questions from the exam to the list
 	    questionsToSave_arr.addAll(exam.getQuestions());

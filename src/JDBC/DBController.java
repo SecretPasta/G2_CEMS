@@ -662,10 +662,9 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 						ArrayList<QuestionInExam> questions = new ArrayList<>();
 						for (String questionID : questionIDs) {
 							// Retrieve the Question object based on the questionID from the database or any other source
-							QuestionInExam question = retrieveQuestionsByExamId(questionID,examID);
+							QuestionInExam questionInExam = retrieveQuestionsByExamId(questionID,examID);
 
-							if (question != null) {
-								QuestionInExam questionInExam = new QuestionInExam(question);
+							if (questionInExam != null) {
 								questions.add(questionInExam);
 							}
 						}
@@ -685,7 +684,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	//A method to return the question by ID from the DB
 	private static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
-		QuestionInExam returnQuestions = new QuestionInExam(null);
+		QuestionInExam returnQuestions = new QuestionInExam(null, null, null);
 
 		try {
 			if (mysqlConnection.getConnection() != null) {
@@ -714,8 +713,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					answers.add(answerWrong2);
 					answers.add(answerWrong3);
 
-					Question question = new Question(id, subject, null, questionText, answers, null, null, null);
-					QuestionInExam questionInExam = new QuestionInExam(question);
+					QuestionInExam questionInExam = new QuestionInExam(id, questionText, answers);
 					questionInExam.setPoints((double) points);
 					returnQuestions = questionInExam;
 				}
