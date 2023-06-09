@@ -684,7 +684,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	//A method to return the question by ID from the DB
 	private static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
-		QuestionInExam returnQuestions = new QuestionInExam(null, null, null);
+		QuestionInExam returnQuestions = new QuestionInExam(null, null, null, null);
 
 		try {
 			if (mysqlConnection.getConnection() != null) {
@@ -713,7 +713,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					answers.add(answerWrong2);
 					answers.add(answerWrong3);
 
-					QuestionInExam questionInExam = new QuestionInExam(id, questionText, answers);
+					QuestionInExam questionInExam = new QuestionInExam(id, questionText, answers, null);
 					questionInExam.setPoints((double) points);
 					returnQuestions = questionInExam;
 				}
