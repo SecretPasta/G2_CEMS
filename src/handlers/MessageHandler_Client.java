@@ -220,18 +220,18 @@ public class MessageHandler_Client {
 		// You're supposed to call a function within the Controller class and pass the List to it to update the fields
     	String messageType = examList.get(0).getExamID();
 
-    	/*try {
 	    	switch (messageType) {
 	    	
-	    		case "":
-	
+	    		case "loadActiveExamsIntoLecturerTable":
+	    			examList.remove(0); // removing the identifying exam
+	    			LecturerDashboardFrameController.getInstance().loadAllActiveExamsToTable(examList);
+					break;
+					
+	    		case "loadInActiveExamsIntoLecturerTable":
+	    			examList.remove(0); // removing the identifying exam
+	    			LecturerDashboardFrameController.getInstance().loadAllInActiveExamsToTable(examList);
 					break;
 	    	}
-	    	
-        }catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-        }*/
 		
 	}
 

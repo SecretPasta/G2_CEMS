@@ -615,6 +615,31 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 		
 	}
+	
+	public static ArrayList<Exam> getExamsByActive(String active) {
+	    String query = "SELECT exams.*, course.Name AS courseName " +
+	                   "FROM exams " +
+	                   "JOIN course ON exams.courseID = course.CourseID " +
+	                   "WHERE exams.isActive = ?";
+	    ArrayList<Exam> examsArr = new ArrayList<>();
+	    try {
+	        if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, active);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null, rs.getString(3), rs.getString("courseName"), null, null, null, rs.getInt(6), rs.getString(7), rs.getString(9)));
+	                }
+	            }
+	        }
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return examsArr;
+	}
+
 
 	public static ArrayList<Exam> getComputerizedExams(String studentID) {
 		ArrayList<Exam> computerizedExams = new ArrayList<>();
@@ -723,6 +748,32 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 
 		return returnQuestions;
+	}
+
+
+
+
+
+	public static void changeExamActivenessByID(String examID, String activenessChangeTo) {
+
+		String query = "UPDATE exams "
+	             + "SET isActive = ? "
+	             + "WHERE ID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);		
+				ps.setString(1, activenessChangeTo);
+				ps.setString(2, examID);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 
