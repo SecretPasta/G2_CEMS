@@ -556,7 +556,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		 */
 		
 		String query = "INSERT INTO exams (ID, subjectID, courseID, commentsLecturer, commentsStudents, duration"
-				+ ", author, questionsInExam, code) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ ", author, questionsInExam, code, isActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    try {
 	    	
 	    	if (mysqlConnection.getConnection() != null) {
@@ -574,6 +574,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    		}		
 	    		ps.setString(8, String.join(",", questionsID));
 	    		ps.setString(9, exam.getCode());
+	    		ps.setString(10, "0");
 	    		ps.executeUpdate();
 	    		
 	    	}
@@ -661,7 +662,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 						ArrayList<QuestionInExam> questions = new ArrayList<>();
 						for (String questionID : questionIDs) {
 							// Retrieve the Question object based on the questionID from the database or any other source
-							Question question = retrieveQuestionById(questionID);
+							QuestionInExam question = retrieveQuestionsByExamId(questionID,examID);
 
 							if (question != null) {
 								QuestionInExam questionInExam = new QuestionInExam(question);
@@ -683,30 +684,29 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 	//A method to return the question by ID from the DB
-	private static Question retrieveQuestionById(String questionID) {
-		Question question = null;
+	private static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
+		QuestionInExam returnQuestions = new QuestionInExam(null);
 
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				String query = "SELECT * FROM question WHERE id = ?";
+				String query = "SELECT * FROM questionsexam WHERE questionID = ? AND examID = ?";
 				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
 				ps.setString(1, questionID);
+				ps.setString(2, examID);
 				ResultSet rs = ps.executeQuery();
 
-				if (rs.next()) {
-					String id = rs.getString("id");
-					String subjectID = rs.getString("subjectID");
+				while (rs.next()) {
+					String id = rs.getString("questionID");
+					String subjectID = rs.getString("examID");
 					String questionText = rs.getString("questionText");
-					String questionNumber = rs.getString("questionNumber");
 					String answerCorrect = rs.getString("answerCorrect");
 					String answerWrong1 = rs.getString("answerWrong1");
 					String answerWrong2 = rs.getString("answerWrong2");
 					String answerWrong3 = rs.getString("answerWrong3");
-					String lecturer = rs.getString("lecturer");
-					String lecturerID = rs.getString("LecturerID");
+					int points = rs.getInt("points");
 
 					ArrayList<String> subject = new ArrayList<>();
-					subject.add(subjectID); // Set the subject ID
+					subject.add(subjectID);
 
 					ArrayList<String> answers = new ArrayList<>();
 					answers.add(answerCorrect);
@@ -714,15 +714,19 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					answers.add(answerWrong2);
 					answers.add(answerWrong3);
 
-					question = new Question(id, subject,null ,questionText, answers, questionNumber, lecturer, lecturerID);
+					Question question = new Question(id, subject, null, questionText, answers, null, null, null);
+					QuestionInExam questionInExam = new QuestionInExam(question);
+					questionInExam.setPoints((double) points);
+					returnQuestions = questionInExam;
 				}
 			}
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		return question;
+		return returnQuestions;
 	}
+
 
 
 

@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cemsdatabase`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -36,7 +38,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('01','Advanced Java Programming','02'),('02','Data Structures and Algorithms with Java','01'),('03','Introduction to Python','00'),('04','Advanced English','00'),('05','C++ for Beginners','00'),('06','Discrete Math','00');
+INSERT INTO `course` VALUES ('01','Advanced Java Programming','02'),('02','Data Structures and Algorithms with Java','02'),('03','Introduction to Python','02'),('04','Advanced English','01'),('05','C++ for Beginners','00'),('06','Discrete Math','00');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,8 +135,9 @@ CREATE TABLE `exams` (
   `commentsStudents` varchar(45) DEFAULT NULL,
   `duration` varchar(45) DEFAULT NULL,
   `author` varchar(45) DEFAULT NULL,
-  `questionsInExam` varchar(45) DEFAULT NULL,
+  `questionsInExam` varchar(100) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
+  `isActive` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -145,7 +148,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010102','01','01','DVDVXFVFXV','zxcxzcxcccc','566','Omri Sharof','01003,01006,01008','j7gg'),('010201','01','02','comments_lecturers','comments_students','45','Omri Sharof','01004,01006,01008','g4E6');
+INSERT INTO `exams` VALUES ('010102','01','01','DVDVXFVFXV','zxcxzcxcccc','566','Omri Sharof','01003,01006,01008','j7gg','0'),('010201','01','02','comments_lecturers','comments_students','45','Omri Sharof','01004,01006,01008','g4E6','0'),('010301','01','03','dffdbgbg','btbtbttb','78','Omri Sharof','01010,01008,01006,01001,01002','123h','0'),('010302','01','03','qw','eqeq','12','Omri Sharof','01001,01006,01008,01002,01010','ffff','0'),('030401','03','04','qwe','asd','120','Omri Sharof','03001','fgsd','0');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,7 +347,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?q','001','a1q','a2q','a3q','a4q','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','b1','b2','b3','b4','Amanda Lee',''),('01003','01','What is the difference between a stack and a queue?','003',NULL,NULL,NULL,NULL,'John Smith',NULL),('01004','01','What is the time complexity of binary search?','004',NULL,NULL,NULL,NULL,'Mosa Darwish',NULL),('01005','01','What is the difference between pass by value and pass by reference?','005',NULL,NULL,NULL,NULL,'Emily Chen',NULL),('01006','01','testttttt','006','h1','h2','h3','h4','Omri Sharof','206391146'),('01008','01','sdasdasdasdsad','008','jkjk','lflflf','sdfgdfg','trtrter','Omri Sharof','206391146'),('02001','02','If a set B has n elements, then what is the total number of subsets of B. Justify your answer','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146'),('03001','03','Why is English so important?','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146');
+INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?q','001','a1q','a2q','a3q','a4q','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','b1','b2','b3','b4','Amanda Lee',''),('01003','01','What is the difference between a stack and a queue?','003',NULL,NULL,NULL,NULL,'John Smith',NULL),('01004','01','What is the time complexity of binary search?','004',NULL,NULL,NULL,NULL,'Mosa Darwish',NULL),('01005','01','What is the difference between pass by value and pass by reference?','005',NULL,NULL,NULL,NULL,'Emily Chen',NULL),('01006','01','testttttt','006','h1','h2','h3','h4','Omri Sharof','206391146'),('01008','01','sdasdasdasdsad','008','jkjk','lflflf','sdfgdfg','trtrter','Omri Sharof','206391146'),('01010','01','qr','010','g1','g2','g3','g4','Omri Sharof','206391146'),('02001','02','If a set B has n elements, then what is the total number of subsets of B. Justify your answer','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146'),('03001','03','Why is English so important?','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146');
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +371,7 @@ CREATE TABLE `questioncourse` (
 
 LOCK TABLES `questioncourse` WRITE;
 /*!40000 ALTER TABLE `questioncourse` DISABLE KEYS */;
-INSERT INTO `questioncourse` VALUES ('01001','03'),('01002','03'),('01003','01'),('01004','02'),('01005','05'),('01006','01'),('01006','02'),('01006','03'),('01008','01'),('01008','02'),('01008','03'),('01008','05'),('02001','06'),('03001','04');
+INSERT INTO `questioncourse` VALUES ('01001','03'),('01002','03'),('01003','01'),('01004','02'),('01005','05'),('01006','01'),('01006','02'),('01006','03'),('01008','01'),('01008','02'),('01008','03'),('01008','05'),('01010','01'),('01010','02'),('01010','03'),('01010','05'),('02001','06'),('03001','04');
 /*!40000 ALTER TABLE `questioncourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,7 +401,7 @@ CREATE TABLE `questionsexam` (
 
 LOCK TABLES `questionsexam` WRITE;
 /*!40000 ALTER TABLE `questionsexam` DISABLE KEYS */;
-INSERT INTO `questionsexam` VALUES ('01003','010102','What is the difference between a stack and a queue?',NULL,NULL,NULL,NULL,'50.0'),('01004','010201','What is the time complexity of binary search?',NULL,NULL,NULL,NULL,'40.0'),('01006','010102','testttttt','h1','h2','h3','h4','38.0'),('01006','010201','testttttt','h4','h1','h2','h3','50.0'),('01008','010102','sdasdasdasdsad','jkjk','lflflf','sdfgdfg','trtrter','12.0'),('01008','010201','sdasdasdasdsad','jkjk','sdfgdfg','lflflf','trtrter','10.0');
+INSERT INTO `questionsexam` VALUES ('01001','010301','What is the correct syntax for a loop in Python?q','a3q','a2q','a1q','a4q','40.0'),('01001','010302','What is the correct syntax for a loop in Python?q','a2q','a1q','a3q','a4q','100.0'),('01002','010301','What is the correct syntax for a pointer? ','b4','b2','b3','b1','30.0'),('01002','010302','What is the correct syntax for a pointer? ','b2','b1','b3','b4','0.0'),('01003','010102','What is the difference between a stack and a queue?',NULL,NULL,NULL,NULL,'50.0'),('01004','010201','What is the time complexity of binary search?',NULL,NULL,NULL,NULL,'40.0'),('01004','010202','What is the time complexity of binary search?',NULL,NULL,NULL,NULL,'10.0'),('01006','010102','testttttt','h1','h2','h3','h4','38.0'),('01006','010201','testttttt','h4','h1','h2','h3','50.0'),('01006','010202','testttttt','h3','h2','h1','h4','20.0'),('01006','010301','testttttt','h4','h2','h3','h1','10.0'),('01006','010302','testttttt','h3','h2','h1','h4','0.0'),('01008','010102','sdasdasdasdsad','jkjk','lflflf','sdfgdfg','trtrter','12.0'),('01008','010201','sdasdasdasdsad','jkjk','sdfgdfg','lflflf','trtrter','10.0'),('01008','010202','sdasdasdasdsad','trtrter','lflflf','sdfgdfg','jkjk','40.0'),('01008','010301','sdasdasdasdsad','lflflf','jkjk','sdfgdfg','trtrter','10.0'),('01008','010302','sdasdasdasdsad','trtrter','lflflf','sdfgdfg','jkjk','0.0'),('01010','010202','qr','g3','g2','g1','g4','30.0'),('01010','010301','qr','g4','g2','g3','g1','10.0'),('01010','010302','qr','g3','g2','g1','g4','0.0'),('03001','030401','Why is English so important?',NULL,NULL,NULL,NULL,'100.0');
 /*!40000 ALTER TABLE `questionsexam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -481,7 +484,7 @@ CREATE TABLE `subjects` (
 
 LOCK TABLES `subjects` WRITE;
 /*!40000 ALTER TABLE `subjects` DISABLE KEYS */;
-INSERT INTO `subjects` VALUES ('01','Coding','009'),('02','Math','001'),('03','Language','002');
+INSERT INTO `subjects` VALUES ('01','Coding','010'),('02','Math','001'),('03','Language','002');
 /*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -494,4 +497,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-06 21:06:02
+-- Dump completed on 2023-06-08 22:13:08

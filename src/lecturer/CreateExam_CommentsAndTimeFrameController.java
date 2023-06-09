@@ -57,7 +57,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	
 	
 	
-	protected static Stage currStage; // save current stage
+	private static Stage currStage; // save current stage
 	
 	private static Lecturer lecturer;
 	private static ObservableList<QuestionInExam> questionsToCreateExamObservableList = FXCollections.observableArrayList();
@@ -67,20 +67,35 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	private static String courseName;
 	
 	
-    public static void start(Lecturer temp_lecturer, ObservableList<QuestionInExam> temp_questionsToCreateExamObservableList, 
-    		String subjectID_temp, String subjectName_temp, String courseID_temp, String courseName_temp) throws IOException {
-    	lecturer = temp_lecturer;
-    	questionsToCreateExamObservableList = temp_questionsToCreateExamObservableList;
-    	subjectID = subjectID_temp;
-    	subjectName = subjectName_temp;
-    	courseID = courseID_temp;
-    	courseName = courseName_temp;
-    	currStage = SceneManagment.createNewStage("/lecturer/CreateExam_CommentsAndTimeGUI.fxml", null, "Create Exam");
-    	currStage.show();
-    }
+	/**
+	 * Starts the Create Exam process with the provided parameters.
+	 *
+	 * @param temp_lecturer                     The lecturer associated with the exam.
+	 * @param temp_questionsToCreateExamObservableList The list of questions to include in the exam.
+	 * @param subjectID_temp                    The ID of the subject associated with the exam.
+	 * @param subjectName_temp                  The name of the subject associated with the exam.
+	 * @param courseID_temp                     The ID of the course associated with the exam.
+	 * @param courseName_temp                   The name of the course associated with the exam.
+	 * @throws IOException                      If an error occurs during the process.
+	 */
+	public static void start(Lecturer temp_lecturer, ObservableList<QuestionInExam> temp_questionsToCreateExamObservableList,
+	                         String subjectID_temp, String subjectName_temp, String courseID_temp, String courseName_temp) throws IOException {
+	    lecturer = temp_lecturer;
+	    questionsToCreateExamObservableList = temp_questionsToCreateExamObservableList;
+	    subjectID = subjectID_temp;
+	    subjectName = subjectName_temp;
+	    courseID = courseID_temp;
+	    courseName = courseName_temp;
+	    currStage = SceneManagment.createNewStage("/lecturer/CreateExam_CommentsAndTimeGUI.fxml", null, "Create Exam");
+	    currStage.show();
+	}
+
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		lblMessage.setText(""); // error message
+		
+		//initialize the table of questions in the exam.
 		idColumn_tableExam.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("id"));
 		questionTextColumn_tableExam.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionText"));    
 		pointsColumn_tableExam.setCellValueFactory(new PropertyValueFactory<QuestionInExam, Double>("points")); 
@@ -89,61 +104,67 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 		
 	}
 	
-    public void getBtnShowReview(ActionEvent event) throws Exception {
-    	try {
-	    	if(txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
-	    		snackbarErrorMessage("Error: Missing fields");
-	    	}
-	    	else {
-	    		if(txtExamCode.getText().length() != 4) {
-	    			snackbarErrorMessage("Error: exam code has to be 4 digits.");
-	    			return;
-	    		}
-	    		int examDuration = Integer.parseInt(txtExamDuration.getText());
-	    		
-	    		if(examDuration <= 0) {
-	    			throw new NumberFormatException();
-	    		}
-	    		
-	    		ArrayList<QuestionInExam> questionsInExam_arr = new ArrayList<>();
-	    		questionsInExam_arr.addAll(questionsToCreateExamObservableList);
-	    		
-	    		/*
-	    		 * 	Exam(String subjectID,String courseID, ArrayList<QuestionInExam> questions, 
-	    				String commentsForLecturer, String commentsForStudent, int duration, String author)
-	    		 */
+	/**
+	 * Handles the action when the "Show Review" button is clicked.
+	 *
+	 * @param event The action event triggered by the "Show Review" button.
+	 * @throws Exception If an error occurs during the process.
+	 */
+	public void getBtnShowReview(ActionEvent event) throws Exception {
+	    try {
+	        if (txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
+	            lblMessage.setText("[Error] Missing fields.");
+	        } else {
+	            if (txtExamCode.getText().length() != 4) {
+	                lblMessage.setText("[Error] exam code has to be 4 digits.");
+	                return;
+	            }
+	            int examDuration = Integer.parseInt(txtExamDuration.getText());
 
-	    		Exam exam = new Exam(null, subjectID, subjectName, courseID, courseName,  
-	    				questionsInExam_arr, txtCommentsLecturer.getText(), txtCommentsStudent.getText(), 
-	    				examDuration, lecturer.getName(), txtExamCode.getText());
-	    		
-	    		((Node) event.getSource()).getScene().getWindow().hide();
-	    		CreateExam_ReviewFrameController.start(exam, lecturer);
-	    		
-	    		
-	    	}
-    	}catch (NullPointerException e) {
-    		snackbarErrorMessage("Error: Missing fields.");
-    	}
-    	catch(NumberFormatException e) {
-    		snackbarErrorMessage("Error: exam duration has to be a valid number.");
-    	}
-    }
+	            if (examDuration <= 0) {
+	                throw new NumberFormatException();
+	            }
+
+	            ArrayList<QuestionInExam> questionsInExam_arr = new ArrayList<>();
+	            questionsInExam_arr.addAll(questionsToCreateExamObservableList);
+
+	            // creating new exam with the parameters. id is null because still not saved by the lecturer.
+	            Exam exam = new Exam(null, subjectID, subjectName, courseID, courseName,
+	                    questionsInExam_arr, txtCommentsLecturer.getText(), txtCommentsStudent.getText(),
+	                    examDuration, lecturer.getName(), txtExamCode.getText());
+
+	            ((Node) event.getSource()).getScene().getWindow().hide();
+	            CreateExam_ReviewFrameController.start(exam); // starting the exam review screen.
+	        }
+
+	    } catch (NullPointerException e) {
+	        lblMessage.setText("[Error] Missing fields.");
+	    } catch (NumberFormatException e) {
+	        lblMessage.setText("[Error] exam duration has to be a valid number.");
+	    }
+	}
+
     
-    public static void showStageFrom_Review() throws IOException {
-    	currStage.show();
-    }
+	/**
+	 * Shows the stage from the review process.
+	 *
+	 * @throws IOException If an error occurs during the process.
+	 */
+	public static void showStageFrom_Review() throws IOException {
+	    currStage.show();
+	}
+
 	
-    public void getBtnBack(ActionEvent event) throws Exception {
-    	((Node) event.getSource()).getScene().getWindow().hide();
-    	LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam();
-    }
-    
-    private void snackbarErrorMessage(String message) {
-    	snackbarError = new JFXSnackbar(root);
-	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
-	    snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-	    snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
-    }
+	/**
+	 * Handles the action when the "Back" button is clicked.
+	 *
+	 * @param event The action event triggered by the "Back" button.
+	 * @throws Exception If an error occurs during the process.
+	 */
+	public void getBtnBack(ActionEvent event) throws Exception {
+	    ((Node) event.getSource()).getScene().getWindow().hide();
+	    LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam(); // Previous screen
+	}
+
 
 }
