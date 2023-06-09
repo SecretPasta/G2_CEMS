@@ -61,6 +61,11 @@
                   <TextField id="txtAnswerWrong3" fx:id="txtAnswerWrong3" prefHeight="30.0" prefWidth="486.0" />
                </children>
             </VBox>
+            <Label id="lblMessage" layoutX="18.0" layoutY="432.0" prefHeight="34.0" prefWidth="302.0" text="**in the Exam, all answer will be shown in random order" textFill="#242633" textOverrun="CLIP" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="25.0" layoutY="126.0" prefHeight="470.0" prefWidth="244.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.leftAnchor="25.0">
@@ -82,7 +87,7 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></JFXButton>
-      <Label id="lblMessage" fx:id="lblMessage" layoutX="25.0" layoutY="631.0" prefHeight="34.0" prefWidth="288.0" />
+      <Label id="lblMessage" fx:id="lblMessage" layoutX="536.0" layoutY="631.0" prefHeight="34.0" prefWidth="288.0" />
       <Pane layoutX="125.0" layoutY="2.0" prefHeight="96.0" prefWidth="600.0" style="-fx-background-color: #57C58F; -fx-background-radius: 0 0 30 30;" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="254.0" layoutY="26.0" text="Add Question" textFill="#242633">
@@ -127,6 +132,6 @@
             </Text>
          </children>
       </TextFlow>
-      <JFXSnackbar fx:id="snackbarError" layoutX="702.0" layoutY="679.0" stylesheets="@AddQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
+      <JFXSnackbar fx:id="snackbarError" layoutX="702.0" layoutY="679.0" stylesheets="@AddEditQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>

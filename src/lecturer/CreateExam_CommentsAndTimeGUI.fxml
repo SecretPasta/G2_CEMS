@@ -13,9 +13,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" stylesheets="@CreateExam_CommentsAndTime.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_CommentsAndTime.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
    <children>
-      <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 60 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
+      <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
             <TableView id="tableExam" fx:id="tableExam" layoutX="14.0" layoutY="14.0" prefHeight="429.0" prefWidth="500.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="15.0">
               <columns>
@@ -24,38 +24,41 @@
                   <TableColumn id="pointsColumn_tableExam" fx:id="pointsColumn_tableExam" prefWidth="86.40005493164062" text="Points" />
               </columns>
             </TableView>
-            <JFXButton layoutX="686.0" layoutY="445.0" onAction="#getBtnShowReview" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show review" textFill="#faf9f6">
+            <JFXButton layoutX="686.0" layoutY="445.0" onAction="#getBtnShowReview" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show review→" textFill="#faf9f6">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </JFXButton>
-            <VBox layoutX="539.0" layoutY="11.0" prefHeight="434.0" prefWidth="485.0" spacing="45.0">
+            <VBox layoutX="539.0" layoutY="24.0" prefHeight="434.0" prefWidth="485.0" spacing="35.0">
                <children>
-                  <VBox>
+                  <VBox spacing="5.0">
                      <children>
-                        <Label text="Comments for students:">
+                        <Label text="Comments for students:" textFill="#242633">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" prefHeight="103.0" prefWidth="482.0" />
+                        <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" alignment="TOP_LEFT" prefHeight="103.0" prefWidth="482.0" style="-fx-padding: 5;">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
                      </children>
                   </VBox>
-                  <VBox>
+                  <VBox spacing="5.0">
                      <children>
-                        <Label text="Comments for lecturers:">
+                        <Label text="Comments for lecturers:" textFill="#242633">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" prefHeight="111.0" prefWidth="494.0" />
+                        <TextField id="txtCommentsLecturer" fx:id="txtCommentsLecturer" alignment="TOP_LEFT" prefHeight="111.0" prefWidth="494.0" style="-fx-padding: 5;" />
                      </children>
                   </VBox>
                   <HBox prefHeight="63.0" prefWidth="486.0" spacing="15.0">
                      <children>
                         <HBox prefHeight="98.0" prefWidth="394.0" spacing="5.0">
                            <children>
-                              <Label text="Exam duration (in minutes):">
+                              <Label text="Exam duration (in minutes):" textFill="#242633">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -65,7 +68,7 @@
                         </HBox>
                         <HBox prefHeight="98.0" prefWidth="202.0" spacing="3.0">
                            <children>
-                              <Label text="Exam code:">
+                              <Label text="Exam code:" textFill="#242633">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -87,7 +90,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <JFXButton layoutX="967.0" layoutY="26.0" maxWidth="60.0" onAction="#getBtnBack" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back">
+      <JFXButton layoutX="952.0" layoutY="26.0" maxWidth="75.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

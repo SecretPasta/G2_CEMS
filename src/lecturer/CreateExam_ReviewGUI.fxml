@@ -1,38 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXScrollPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
    <children>
-      <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" layoutX="167.0" layoutY="334.0" prefHeight="319.0" prefWidth="575.0" VBox.vgrow="ALWAYS">
-         <VBox fx:id="vbox" layoutX="173.0" layoutY="340.0" prefHeight="392.0" prefWidth="467.0">
-            <children>
-            </children>
-         </VBox>
-      </ScrollPane>
-      <Label layoutX="42.0" layoutY="116.0" prefHeight="37.0" prefWidth="54.0" text="Subject: " />
-      <Label layoutX="36.0" layoutY="203.0" text="Course: " />
-      <Label layoutX="38.0" layoutY="28.0" text="Student ID: " />
-      <Label layoutX="728.0" layoutY="47.0" text="Date: " />
-      <Label layoutX="721.0" layoutY="96.0" text="Exam ID:" />
-      <JFXButton id="btnSaveExam" layoutX="774.0" layoutY="614.0" onAction="#getBtnSaveExam" text="Save exam" />
-      <JFXButton id="btnBack" layoutX="69.0" layoutY="614.0" onAction="#getBtnBack" text="Back" />
-      <Label id="lblStudentID" fx:id="lblStudentID" layoutX="112.0" layoutY="27.0" prefHeight="18.0" prefWidth="112.0" />
-      <Label id="lblSubjectName" fx:id="lblSubjectName" layoutX="89.0" layoutY="126.0" prefHeight="18.0" prefWidth="232.0" />
-      <Label id="lblCourseName" fx:id="lblCourseName" layoutX="100.0" layoutY="202.0" prefHeight="18.0" prefWidth="159.0" />
-      <Label id="lblDate" fx:id="lblDate" layoutX="774.0" layoutY="47.0" prefHeight="18.0" prefWidth="122.0" />
-      <Label id="lblExamID" fx:id="lblExamID" layoutX="785.0" layoutY="96.0" prefHeight="18.0" prefWidth="122.0" />
-      <Label layoutX="38.0" layoutY="65.0" text="Author:" />
-      <Label id="lblAuthor" fx:id="lblAuthor" layoutX="100.0" layoutY="66.0" prefHeight="18.0" prefWidth="159.0" />
-      <Label layoutX="704.0" layoutY="164.0" text="Exam duration:" />
-      <Label id="lblExamDuration" fx:id="lblExamDuration" layoutX="815.0" layoutY="164.0" prefHeight="18.0" prefWidth="62.0" />
-      <Label layoutX="388.0" layoutY="27.0" text="Comments for lecturer:" />
-      <Label layoutX="396.0" layoutY="173.0" text="Comments for students:" />
-      <Label id="lblCommentsForLecturer" fx:id="lblCommentsForLecturer" layoutX="381.0" layoutY="50.0" prefHeight="109.0" prefWidth="285.0" />
-      <Label id="lblCommentsForStudent" fx:id="lblCommentsForStudent" layoutX="396.0" layoutY="202.0" prefHeight="109.0" prefWidth="285.0" />
+      <AnchorPane layoutY="75.0" prefHeight="525.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;">
+         <children>
+            <JFXButton id="btnSaveExam" layoutX="725.0" layoutY="452.0" onAction="#getBtnSaveExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Save exam✓" textFill="#242633">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <VBox layoutX="620.0" layoutY="190.0" prefHeight="120.0" prefWidth="400.0" spacing="5.0">
+               <children>
+                  <Label text="Comments for lecturer:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label id="lblCommentsForLecturer" fx:id="lblCommentsForLecturer" alignment="TOP_LEFT" prefHeight="105.0" prefWidth="400.0" style="-fx-border-color: #808080; -fx-border-radius: 10; -fx-background-color: #FFFFFF; -fx-label-padding: 5;" text="Comments for lecturer Label" textFill="#242633" wrapText="true" />
+               </children>
+            </VBox>
+            <VBox layoutX="620.0" layoutY="40.0" prefHeight="120.0" prefWidth="400.0" spacing="5.0">
+               <children>
+                  <Label text="Comments for students:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label id="lblCommentsForStudent" fx:id="lblCommentsForStudent" alignment="TOP_LEFT" prefHeight="105.0" prefWidth="400.0" style="-fx-border-color: #808080; -fx-border-radius: 10; -fx-background-color: #FFFFFF; -fx-label-padding: 5;" text="Comments for students Label" textFill="#242633" wrapText="true">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></Label>
+               </children>
+            </VBox>
+            <HBox layoutX="715.0" layoutY="338.0" prefHeight="30.0" prefWidth="210.0" spacing="5.0">
+               <children>
+                  <Label prefHeight="20.0" prefWidth="116.0" text="Exam duration:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Label id="lblExamDuration" fx:id="lblExamDuration" prefHeight="20.0" prefWidth="140.0" text="Exam Duration Label" textFill="#242633" underline="true" />
+               </children>
+            </HBox>
+            <HBox layoutX="28.0" layoutY="445.0" prefHeight="50.0" prefWidth="575.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 10 0 0 10;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="48.0" prefWidth="55.0" text="Subject: " textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblSubjectName" fx:id="lblSubjectName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="130.0" text="Subject Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="50.0" text="Course: " textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblCourseName" fx:id="lblCourseName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Course Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 0 10 10 0;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="50.0" text="Author:" textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblAuthor" fx:id="lblAuthor" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Author Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <JFXScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="100.0" prefHeight="400.0" prefWidth="575.0" style="-fx-border-radius: 10;">
+         <children>
+            <VBox fx:id="vbox" prefHeight="400.0" prefWidth="575.0" style="-fx-border-radius: 10; -fx-padding: 5; -fx-border-color: #242633; -fx-background-color: #FFFFFF;" stylesheets="@CreateExam_ReviewGUI.css" />
+         </children>
+      </JFXScrollPane>
+      <JFXButton id="btnBack" layoutX="941.0" layoutY="24.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back" textFill="#383838">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></JFXButton>
+      <Circle fill="#5dd299" layoutX="64.0" layoutY="39.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="42.0" layoutY="39.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+      <Label layoutX="85.0" layoutY="22.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Circle fill="#5dd299" layoutX="418.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#5dd299" layoutX="548.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="678.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="464.0" layoutY="34.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="594.0" layoutY="34.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Label layoutX="277.0" layoutY="24.0" text="Questions and Points" textFill="#faf9f6" />
+      <Label layoutX="491.0" layoutY="54.0" text="Comments and Time" textFill="#faf9f6" />
+      <Label layoutX="704.0" layoutY="25.0" text="Review and Save" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

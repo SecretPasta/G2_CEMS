@@ -1,44 +1,33 @@
 package lecturer;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.ResourceBundle;
+
+import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
+import Config.QuestionInExam;
+import client.ClientUI;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Label;
-
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Random;
-
-import ClientAndServerLogin.SceneManagment;
-import Config.Exam;
-import Config.Question;
-import Config.QuestionInExam;
-import client.ClientUI;
 
 public class CreateExam_ReviewFrameController implements Initializable {
 	
 	@FXML
 	private VBox vbox;
 	@FXML
-	private Label lblStudentID;
-	@FXML
 	private Label lblSubjectName;
 	@FXML
 	private Label lblCourseName;
-	@FXML
-	private Label lblDate;
-	@FXML
-	private Label lblExamID;
 	@FXML
 	private Label lblAuthor;
 	@FXML
@@ -81,9 +70,12 @@ public class CreateExam_ReviewFrameController implements Initializable {
         	
         	// place the question in the vbox
             Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
+			questionLabel.setStyle("-fx-font-weight: bold");
             vbox.getChildren().add(questionLabel);
 
-            ToggleGroup answers_group = new ToggleGroup();
+			/*
+			 * ToggleGroup answers_group = new ToggleGroup();
+			 */
 
             // shuffling the answers
             int correctAnswer_place = 0; // Index of the correct answer in the list
@@ -92,12 +84,16 @@ public class CreateExam_ReviewFrameController implements Initializable {
             question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place)); // Swap the correct answer with a randomly chosen wrong answer
             question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct); // Set the wrong answer index with the original correct answer
 
+			char answerLetter = 'a';
             // place the answers in the vbox
             for (String answer : question.getAnswers()) {
-                RadioButton checkBox = new RadioButton(answer);
-                checkBoxes.add(checkBox);
-                vbox.getChildren().add(checkBox);
-                checkBox.setToggleGroup(answers_group);
+				/*
+				 * RadioButton checkBox = new RadioButton(answer); checkBoxes.add(checkBox);
+				 * vbox.getChildren().add(checkBox); checkBox.setToggleGroup(answers_group);
+				 */
+				Label answerLabel = new Label("  " + answerLetter + ") " + answer);
+				vbox.getChildren().add(answerLabel);
+				answerLetter++;
             }
 
             Label spaceLabel = new Label("\n\n");
@@ -112,11 +108,8 @@ public class CreateExam_ReviewFrameController implements Initializable {
      * load all the exam's details to the screen
      */
 	private void loadExamIntoGUI() {
-		lblStudentID.setText("12345678");
 		lblSubjectName.setText(exam.getSubjectName() + " (" + exam.getSubjectID() + ")");
 		lblCourseName.setText(exam.getCourseName() + " (" + exam.getCourseID() + ")");
-		lblDate.setText(LocalDate.now().toString());
-		lblExamID.setText(exam.getSubjectID() + exam.getCourseID() + "**");
 		lblAuthor.setText(exam.getAuthor());
 		lblExamDuration.setText(Integer.toString(exam.getDuration()) + " minutes");
 		lblCommentsForLecturer.setText(exam.getCommentsForLecturer());
