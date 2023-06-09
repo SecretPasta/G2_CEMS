@@ -19,6 +19,7 @@ public class MessageHandler_Server {
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
+		System.out.println("Reached the handleMessage Method");
 	    MessageType messageType = getMessageType(msg);
 	    if (messageType == null) {
 	        return;
@@ -130,7 +131,7 @@ public class MessageHandler_Server {
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
-    	
+		System.out.println("Reached the Server Handler");
             ArrayList<String> arrayListStr = (ArrayList<String>) arrayList;
             String messageType = arrayListStr.get(0);
             try {
@@ -252,7 +253,8 @@ public class MessageHandler_Server {
 	                	
 					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
 						ArrayList<Exam> computerizedExams = new ArrayList<>();
-						computerizedExams.addAll(DBController.getComputerizedExams(arrayListStr.get(1)));
+						computerizedExams.add(new Exam("computerizedExamsForStudentTable",null,null,null,null,null,null,null,0,null,null));
+						computerizedExams.addAll(DBController.getComputerizedExams());
 						client.sendToClient(computerizedExams);
 						break;
 						

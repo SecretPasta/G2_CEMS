@@ -32,6 +32,7 @@ import javafx.util.Duration;
 
 public class StudentDashboardFrameController implements Initializable{
 
+    private static StudentDashboardFrameController instance;
     private static Student student;
 
     protected static Stage currentStage; // save current stage
@@ -151,8 +152,17 @@ public class StudentDashboardFrameController implements Initializable{
 
     // End of My Grades Screen #######################################################
 
+    public StudentDashboardFrameController(){
+        instance = this;
+    }
 
+    public static StudentDashboardFrameController getInstance(){
+        return instance;
+    }
 
+    public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
+        System.out.println(examList);
+    }
 
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
@@ -216,7 +226,7 @@ public class StudentDashboardFrameController implements Initializable{
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
-        //ClientUI.chat.accept(getExamArray);
+//        ClientUI.chat.accept(getExamArray);
 
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
