@@ -152,9 +152,7 @@ public class MessageHandler_Server {
 							ArrayList<String> loginSucceedArr = new ArrayList<>();
 							loginSucceedArr.add("UserLoginSucceed");
 							loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
-							for(int i = 0; i < userDetails.size(); i++) { // to send the details of the user to the user
-								loginSucceedArr.add(userDetails.get(i));
-							}
+							loginSucceedArr.addAll(userDetails); // to send the details of the user to the user
 							client.sendToClient(loginSucceedArr);
 						}
 						else {
@@ -262,15 +260,17 @@ public class MessageHandler_Server {
 						// 1 - exam ID
 						// 2 - the activeness to change to: 1 / 0
 						DBController.changeExamActivenessByID(arrayListStr.get(1), arrayListStr.get(2));
-						
 						// check if the exam closed (activeness == 0) -> interrupt all the users
-						// send to all clients a message that an exam was closed
+						// send to all clients a message that an exam was closed with the examID
 						if(arrayListStr.get(2).equals("0")) {
 							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
 							examActivenessChanged_arr.add("exam activeness has been changed");
 							examActivenessChanged_arr.add(arrayListStr.get(1));
 							serverCommunication = ServerUI.getCommunication();
 							serverCommunication.sendToAllClients(examActivenessChanged_arr);
+						}
+						else {
+							client.sendToClient("exam is open");
 						}
 						break;
 						

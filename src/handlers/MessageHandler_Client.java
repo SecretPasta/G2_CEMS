@@ -12,9 +12,13 @@ import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import ClientAndServerLogin.LoginFrameController;
+import student.ComputerizedExamController;
 import student.StudentDashboardFrameController;
 
 public class MessageHandler_Client {
+	
+	private static String currUserRole = "User";
+	
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg) {
 	    MessageType messageType = getMessageType(msg);
@@ -130,18 +134,20 @@ public class MessageHandler_Client {
 		  				// 4 - user Password
 		  				// 5 - user Name
 		  				// 6 - user Email
-						// 7 - courses
 						LoginFrameController.hideCurrentScene(); // hide login frame
 						if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
 							LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
 						}
 						else if(arrayListStr.get(1).equals("Student")) { // login as student
+							// 7 - Department Name
+							// 8 - DepartmentID
 							System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
 						/*else if() { // login as head of department
 							  
 						}*/
+						currUserRole = arrayListStr.get(1); // save the current role of the user
 						System.out.println("logged in succesfully");
 						
 	                    break;
@@ -156,6 +162,19 @@ public class MessageHandler_Client {
 	                	// 1 - max exam number in the course
 	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
+	                	
+	                /*case "exam activeness has been changed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                	// 1 - examID
+	                	try {
+		                	if(currUserRole.equals("Student") && ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
+	
+		                		ComputerizedExamController.examClosed(); // close the exam for the student in the specific exam
+		                		
+		                		System.out.println("exam closed");
+		                	}
+	                	}catch (NullPointerException e){}
+	                	
+	                	break;*/
 	            }       
 	            
             }catch (Exception e) {
