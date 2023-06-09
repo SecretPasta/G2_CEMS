@@ -162,6 +162,7 @@ public class StudentDashboardFrameController implements Initializable{
 
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
         System.out.println(examList);
+        System.out.println("Can I have some cheese");
     }
 
     @FXML
@@ -226,7 +227,7 @@ public class StudentDashboardFrameController implements Initializable{
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
-//        ClientUI.chat.accept(getExamArray);
+        ClientUI.chat.accept(getExamArray);
 
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
