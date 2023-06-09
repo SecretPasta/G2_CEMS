@@ -250,7 +250,8 @@ public class MessageHandler_Server {
 	                	
 					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
 						ArrayList<Exam> computerizedExams = new ArrayList<>();
-						computerizedExams.addAll(DBController.getComputerizedExams(arrayListStr.get(1)));
+						computerizedExams.add(new Exam("computerizedExamsForStudentTable",null,null,null,null,null,null,null,0,null,null));
+						computerizedExams.addAll(DBController.getComputerizedExams());
 						client.sendToClient(computerizedExams);
 						break;
 						
