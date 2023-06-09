@@ -26,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -161,8 +162,12 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
+        computerizedExamsObservableList.setAll(examList);
+        tableView_UpcomingComputerizedExams.setItems(computerizedExamsObservableList);
+
+
+
         System.out.println(examList);
-        System.out.println("Can I have some cheese");
     }
 
     @FXML
@@ -221,13 +226,19 @@ public class StudentDashboardFrameController implements Initializable{
         lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
 
         //--------------------- Computerized Exam -----------------------------------------------------------------
-
-        
+        // Setting up the data for table
+        // PropertyValueFactory<This is the Class Name,Variable type inside the class>("variable name"))
+        courseColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("courseName"));
+        subjectColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("subjectName"));
+        descriptionColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("commentsForStudent"));
+        durationColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,Integer>("duration"));
+        lecturerColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("author"));
         //Crate an ArrayList of all Available Exams
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
+        tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
 
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
