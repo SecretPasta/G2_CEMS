@@ -110,6 +110,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableView<Question> tableView_CreateExam = new TableView<>();
 	@FXML
 	private TableView<QuestionInExam> tableView_CreateExam2 = new TableView<>();
+	@FXML
+	private TableView<Exam> tableView_inActiveExams = new TableView<>();
+	@FXML
+	private TableView<Exam> tableView_activeExams = new TableView<>();
 
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
@@ -138,6 +142,20 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableColumn<QuestionInExam, Double> pointsColumn_CreateExam2;
 	
+	@FXML
+	private TableColumn<Exam, String> examIdColumn_inActiveExams;
+	@FXML
+	private TableColumn<Exam, String> courseNameColumn_inActiveExams;
+	@FXML
+	private TableColumn<Exam, Integer> durationColumn_inActiveExams;
+	
+	@FXML
+	private TableColumn<Exam, String> examIdColumn_activeExams;
+	@FXML
+	private TableColumn<Exam, String> courseNameColumn_activeExams;
+	@FXML
+	private TableColumn<Exam, String> codeColumn_activeExams;
+	
 	private static Lecturer lecturer; // current lecturer
 	
 	private static Map<String, String> subjects_ID_Name = new HashMap<>();
@@ -150,6 +168,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private ObservableList<Question> questionsToEditObservableList = FXCollections.observableArrayList(); // list of questions to select to Edit in the table
 	
+	private ObservableList<Exam> inActiveExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
+
+	private ObservableList<Exam> activeExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
+
 	protected static Stage currStage; // save current stage
 
 	private static Question questionSelected; // question selected to edit or to delete or to add to exam
@@ -157,6 +179,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	private double total_points_CreateExam; // total question points for new exam
 	
 	private QuestionInExam questionInExamSelected;
+	
+	private Exam inActiveExamSelected;
+	private Exam activeExamSelected;
 	
 	private static LecturerDashboardFrameController instance;
 	
@@ -251,6 +276,23 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_CreateExam2.setEditable(true); // editable points
 	    
 	 // -------------- CreateExam PANEL --------------
+	    
+	    
+	 // -------------- ManageExam PANEL --------------
+	    
+		// Setting up cell value factories for lecturer's manage exam tables columns
+	    examIdColumn_inActiveExams.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+	    courseNameColumn_inActiveExams.setCellValueFactory(new PropertyValueFactory<Exam, String>("courseName"));    
+	    durationColumn_inActiveExams.setCellValueFactory(new PropertyValueFactory<Exam, Integer>("duration"));
+	    
+	    examIdColumn_activeExams.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+	    courseNameColumn_activeExams.setCellValueFactory(new PropertyValueFactory<Exam, String>("courseName"));    
+	    codeColumn_activeExams.setCellValueFactory(new PropertyValueFactory<Exam, String>("code"));
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    
+	 // -------------- ManageExam PANEL --------------
 	    
 
 	}
@@ -787,6 +829,123 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- CreateExam PANEL --------------
 
 	
+	// -------------- ManageExam PANEL --------------
+	
+	/**
+	 * Retrieves all active and inactive exams from the database.
+	 */
+	private void getAllActiveInActiveExams() {
+	    ClientUI.chat.accept("GetAllExamsFromDBtoManageExamsTables");
+	}
+
+	/**
+	 * Loads all active exams into the active exams table.
+	 *
+	 * @param activeExams The list of active exams to be displayed.
+	 */
+	public void loadAllActiveExamsToTable(ArrayList<Exam> activeExams) {
+	    activeExamsObservableList.setAll(activeExams);
+	    tableView_activeExams.setItems(activeExamsObservableList);
+	}
+
+	/**
+	 * Loads all inactive exams into the inactive exams table.
+	 *
+	 * @param inActiveExams The list of inactive exams to be displayed.
+	 */
+	public void loadAllInActiveExamsToTable(ArrayList<Exam> inActiveExams) {
+	    inActiveExamsObservableList.setAll(inActiveExams);
+	    tableView_inActiveExams.setItems(inActiveExamsObservableList);
+	}
+	
+	/**
+	 * Event handler for the "Open Exam" button in the Manage Exams UI.
+	 * Moves the selected inactive exam to the active exams table and updates its status in the database.
+	 *
+	 * @param event The action event triggered by clicking the "Open Exam" button.
+	 * @throws Exception If an exception occurs during the process.
+	 */
+	public void getBtnOpenExam_ManageExams(ActionEvent event) throws Exception {
+	    inActiveExamSelected = tableView_inActiveExams.getSelectionModel().getSelectedItem();
+
+	    try {
+	        if (inActiveExamSelected == null) {
+	            throw new NullPointerException();
+	        }
+
+	        activeExamsObservableList.add(inActiveExamSelected);
+	        inActiveExamsObservableList.remove(inActiveExamSelected);
+
+	        changeExamActivenessInDB(inActiveExamSelected.getExamID(), "1");
+
+	    } catch (NullPointerException e) {
+	        snackbarError = new JFXSnackbar(pnlManageExams);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
+	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
+
+	    inActiveExamSelected = null;
+	}
+	
+	/**
+	 * Event handler for the "Close Exam" button in the Manage Exams UI.
+	 * Moves the selected active exam to the inActive exams table and updates its status in the database.
+	 *
+	 * @param event The action event triggered by clicking the "Close Exam" button.
+	 * @throws Exception If an exception occurs during the process.
+	 */
+	public void getBtnCloseExam_ManageExams(ActionEvent event) throws Exception {
+	    activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
+
+	    try {
+	        if (activeExamSelected == null) {
+	            throw new NullPointerException();
+	        }
+	        
+	        activeExamsObservableList.remove(activeExamSelected);
+	        inActiveExamsObservableList.add(activeExamSelected);
+
+	        changeExamActivenessInDB(activeExamSelected.getExamID(), "0");
+
+	    } catch (NullPointerException e) {
+	        snackbarError = new JFXSnackbar(pnlManageExams);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
+	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
+
+	    activeExamSelected = null;
+	}
+
+	
+	/**
+	 * Updates the activeness of an exam in the database.
+	 *
+	 * @param examID     The ID of the exam to update.
+	 * @param activeness The new activeness status for the exam.
+	 */
+	private void changeExamActivenessInDB(String examID, String activeness) {
+	    ArrayList<String> exam_arr_active_change = new ArrayList<>();
+	    exam_arr_active_change.add("ChangeExamActiveness");
+	    exam_arr_active_change.add(examID);
+	    exam_arr_active_change.add(activeness);
+	    ClientUI.chat.accept(exam_arr_active_change);
+	}
+
+
+	
+	// -------------- ManageExam PANEL --------------
+	
+	
 
 	/**
 	 * Retrieves the subject name based on the given subject ID.
@@ -1005,10 +1164,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnManageExams) { // Working screen
 	    	handleAnimation(pnlManageExams, btnManageExams);
+	    	getAllActiveInActiveExams(); // send to the server a request to get all the exams (active and inactive)
+	    	tableView_inActiveExams.getSelectionModel().clearSelection();
+	    	tableView_activeExams.getSelectionModel().clearSelection();
 	        pnlManageExams.toFront();
 	    }
 	}
 	
+
 	public void handleAnimation(Pane newPane, JFXButton newSection) {
 		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
         outgoingPane.setFromValue(1);

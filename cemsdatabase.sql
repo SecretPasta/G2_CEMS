@@ -148,7 +148,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010102','01','01','DVDVXFVFXV','zxcxzcxcccc','566','Omri Sharof','01003,01006,01008','j7gg','0'),('010201','01','02','comments_lecturers','comments_students','45','Omri Sharof','01004,01006,01008','g4E6','0'),('010301','01','03','dffdbgbg','btbtbttb','78','Omri Sharof','01010,01008,01006,01001,01002','123h','0'),('010302','01','03','qw','eqeq','12','Omri Sharof','01001,01006,01008,01002,01010','ffff','0'),('030401','03','04','qwe','asd','120','Omri Sharof','03001','fgsd','0');
+INSERT INTO `exams` VALUES ('010102','01','01','DVDVXFVFXV','zxcxzcxcccc','566','Omri Sharof','01003,01006,01008','j7gg','1'),('010201','01','02','comments_lecturers','comments_students','45','Omri Sharof','01004,01006,01008','g4E6','1'),('010301','01','03','dffdbgbg','btbtbttb','78','Omri Sharof','01010,01008,01006,01001,01002','123h','1'),('010302','01','03','qw','eqeq','12','Omri Sharof','01001,01006,01008,01002,01010','ffff','0'),('030401','03','04','qwe','asd','120','Omri Sharof','03001','fgsd','0');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +219,6 @@ CREATE TABLE `lecturer` (
   `Name` varchar(50) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   `isLogged` int DEFAULT NULL,
-  `courses` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`LecturerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -230,7 +229,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0,'01,02,03'),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0,'01,02,03');
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -413,7 +412,7 @@ DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `ID` varchar(50) NOT NULL,
+  `StudentID` varchar(50) NOT NULL,
   `UserName` varchar(50) DEFAULT NULL,
   `Password` varchar(50) DEFAULT NULL,
   `Name` varchar(50) DEFAULT NULL,
@@ -421,8 +420,7 @@ CREATE TABLE `student` (
   `Department` varchar(50) DEFAULT NULL,
   `DepartmentID` varchar(50) DEFAULT NULL,
   `isLogged` int DEFAULT NULL,
-  `courses` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`StudentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -432,7 +430,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0,NULL),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',0,'01,02,03');
+INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',1);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,7 +447,7 @@ CREATE TABLE `studentcourse` (
   PRIMARY KEY (`StudentID`,`CourseID`),
   KEY `CourseID_idx` (`CourseID`),
   CONSTRAINT `CourseID` FOREIGN KEY (`CourseID`) REFERENCES `course` (`CourseID`),
-  CONSTRAINT `SID` FOREIGN KEY (`StudentID`) REFERENCES `student` (`ID`)
+  CONSTRAINT `SID` FOREIGN KEY (`StudentID`) REFERENCES `student` (`StudentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -497,4 +495,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-08 22:13:08
+-- Dump completed on 2023-06-09 21:34:29

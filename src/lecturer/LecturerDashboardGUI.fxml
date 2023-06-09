@@ -160,16 +160,6 @@
       </Pane>
       <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="85.0" text="Hello World" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -218,15 +208,6 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="208.0" layoutY="206.0" text="Manage Exams" />
-               </children></Pane>
             <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
@@ -341,6 +322,44 @@
                         <Image url="@../images/search.png" />
                      </image>
                   </ImageView>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="85.0" text="Hello World 1" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="84.0" layoutY="494.0" prefHeight="67.0" prefWidth="190.0" onAction="#getBtnOpenExam_ManageExams" text="Open exam for students" />
+                  <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="599.0" layoutY="500.0" prefHeight="56.0" prefWidth="144.0" onAction="#getBtnCloseExam_ManageExams" text="Close exam for students" />
+                  <JFXButton layoutX="416.0" layoutY="500.0" prefHeight="56.0" prefWidth="140.0" text="Give an extra time" />
+                  <TableView id="tableView_inActiveExams" fx:id="tableView_inActiveExams" layoutX="14.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
+                    <columns>
+                      <TableColumn id="examIdColumn_inActiveExams" fx:id="examIdColumn_inActiveExams" prefWidth="75.0" text="Exam ID" />
+                      <TableColumn id="courseNameColumn_inActiveExams" fx:id="courseNameColumn_inActiveExams" prefWidth="183.20004272460938" text="Course" />
+                        <TableColumn id="durationColumn_inActiveExams" fx:id="durationColumn_inActiveExams" prefWidth="112.79998779296875" text="Duration" />
+                    </columns>
+                  </TableView>
+                  <TableView id="tableView_activeExams" fx:id="tableView_activeExams" layoutX="404.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
+                     <columns>
+                        <TableColumn id="examIdColumn_activeExams" fx:id="examIdColumn_activeExams" prefWidth="75.0" text="Exam ID" />
+                        <TableColumn id="courseNameColumn_activeExams" fx:id="courseNameColumn_activeExams" prefWidth="212.800048828125" text="Course" />
+                        <TableColumn id="codeColumn_activeExams" fx:id="codeColumn_activeExams" prefWidth="84.7999267578125" text="Code" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="174.0" layoutY="25.0" text="Inactive exams" />
+                  <Label layoutX="530.0" layoutY="31.0" text="Active exams" />
                </children>
             </Pane>
          </children>

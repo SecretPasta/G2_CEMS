@@ -10,11 +10,16 @@ import Config.QuestionInExam;
 import JDBC.DBController;
 import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
+import server.EchoServer;
+import server.ServerUI;
 
 public class MessageHandler_Server {
+	
+	private static EchoServer serverCommunication;
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
+		System.out.println("Reached the handleMessage Method");
 	    MessageType messageType = getMessageType(msg);
 	    if (messageType == null) {
 	        return;
@@ -99,6 +104,22 @@ public class MessageHandler_Server {
 			    	courses_name_id_map_arr.put("HashMapWithCourses_names_ids", "forchecking");
 			    	client.sendToClient(courses_name_id_map_arr);
 			    	break;
+			    	
+			    case "GetAllExamsFromDBtoManageExamsTables":
+			    	ArrayList<Exam> activeExams_arr = new ArrayList<>();
+			    	activeExams_arr.add(0, new Exam("loadActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
+			    	activeExams_arr.addAll(DBController.getExamsByActiveness("1"));
+			    	
+			    	ArrayList<Exam> inActiveExams_arr = new ArrayList<>();
+			    	inActiveExams_arr.add(0, new Exam("loadInActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
+			    	inActiveExams_arr.addAll(DBController.getExamsByActiveness("0"));
+			    	
+			    	client.sendToClient(activeExams_arr);
+			    	client.sendToClient(inActiveExams_arr);
+			    	
+			    	
+			    	break;
+			    	
 			    default: break;
 	    	}
     	}catch (Exception e) {
@@ -110,7 +131,7 @@ public class MessageHandler_Server {
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
-    	
+		System.out.println("Reached the Server Handler");
             ArrayList<String> arrayListStr = (ArrayList<String>) arrayList;
             String messageType = arrayListStr.get(0);
             try {
@@ -132,9 +153,7 @@ public class MessageHandler_Server {
 							ArrayList<String> loginSucceedArr = new ArrayList<>();
 							loginSucceedArr.add("UserLoginSucceed");
 							loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
-							for(int i = 0; i < userDetails.size(); i++) { // to send the details of the user to the user
-								loginSucceedArr.add(userDetails.get(i));
-							}
+							loginSucceedArr.addAll(userDetails); // to send the details of the user to the user
 							client.sendToClient(loginSucceedArr);
 						}
 						else {
@@ -231,11 +250,32 @@ public class MessageHandler_Server {
 	                	client.sendToClient(maxexamnumbercourse_arr);
 	                	
 	                	break;
+	                	
 					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
 						ArrayList<Exam> computerizedExams = new ArrayList<>();
-						computerizedExams.addAll(DBController.getComputerizedExams(arrayListStr.get(1)));
+						computerizedExams.add(new Exam("computerizedExamsForStudentTable",null,null,null,null,null,null,null,0,null,null));
+						computerizedExams.addAll(DBController.getComputerizedExams());
 						client.sendToClient(computerizedExams);
 						break;
+						
+					case "ChangeExamActiveness":
+						// 1 - exam ID
+						// 2 - the activeness to change to: 1 / 0
+						DBController.changeExamActivenessByID(arrayListStr.get(1), arrayListStr.get(2));
+						// check if the exam closed (activeness == 0) -> interrupt all the users
+						// send to all clients a message that an exam was closed with the examID
+						if(arrayListStr.get(2).equals("0")) {
+							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
+							examActivenessChanged_arr.add("exam activeness has been changed");
+							examActivenessChanged_arr.add(arrayListStr.get(1));
+							serverCommunication = ServerUI.getCommunication();
+							serverCommunication.sendToAllClients(examActivenessChanged_arr);
+						}
+						else {
+							client.sendToClient("exam is open");
+						}
+						break;
+						
 
 	            }
             }catch (IOException | ClassNotFoundException e) {

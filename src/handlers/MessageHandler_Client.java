@@ -12,9 +12,13 @@ import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import ClientAndServerLogin.LoginFrameController;
+import student.ComputerizedExamController;
 import student.StudentDashboardFrameController;
 
 public class MessageHandler_Client {
+	
+	private static String currUserRole = "User";
+	
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg) {
 	    MessageType messageType = getMessageType(msg);
@@ -51,42 +55,58 @@ public class MessageHandler_Client {
 	}
 
 
+	// This method is used to determine the type of a message.
 	private static MessageType getMessageType(Object msg) {
-	    if (msg instanceof String) {
-	        return MessageType.STRING;
-	    } else if (msg instanceof ArrayList) {
-	        ArrayList<?> arrayList = (ArrayList<?>) msg;
-	        if (!arrayList.isEmpty()) {
-	            Object firstElement = arrayList.get(0);
-	            if (firstElement instanceof String) {
-	                return MessageType.ARRAY_LIST_STRING;
-	            }
-	             else if (firstElement instanceof QuestionInExam) {
-		            return MessageType.ARRAY_LIST_QUESTIONINEXAM;
-	            } else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
-	                return MessageType.ARRAY_LIST_QUESTION;
-	            } else if (firstElement instanceof Exam) {
-	            	return MessageType.ARRAY_LIST_EXAM;
-	            }
-	        }
-	    } else if (msg instanceof Map) {
-	        Map<?, ?> map = (Map<?, ?>) msg;
-	        if (!map.isEmpty()) {
-	            Object firstKey = map.keySet().iterator().next();
-	            Object firstValue = map.get(firstKey);
-	            if (firstKey instanceof String && firstValue instanceof ArrayList
-	                    && ((ArrayList<?>) firstValue).get(0) instanceof String) {
-	                return MessageType.MAP_STRING_ARRAYLIST_STRING;
-	            } else if (firstKey instanceof String && firstValue instanceof String) {
-	                return MessageType.MAP_STRING_STRING;
-	            }
-	        }
-	    }
-	    return null;
+		// Check if the message is a String.
+		if (msg instanceof String) {
+			// If it is, return the corresponding MessageType.
+			return MessageType.STRING;
+		}
+		// Check if the message is an ArrayList.
+		else if (msg instanceof ArrayList) {
+			// Cast the message to an ArrayList.
+			ArrayList<?> arrayList = (ArrayList<?>) msg;
+			// Check if the ArrayList is not empty.
+			if (!arrayList.isEmpty()) {
+				// Get the first element of the ArrayList.
+				Object firstElement = arrayList.get(0);
+				// Check the type of the first element and return the corresponding MessageType.
+				if (firstElement instanceof String) {
+					return MessageType.ARRAY_LIST_STRING;
+				} else if (firstElement instanceof QuestionInExam) {
+					return MessageType.ARRAY_LIST_QUESTIONINEXAM;
+				} else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
+					return MessageType.ARRAY_LIST_QUESTION;
+				} else if (firstElement instanceof Exam) {
+					return MessageType.ARRAY_LIST_EXAM;
+				}
+			}
+		}
+		// Check if the message is a Map.
+		else if (msg instanceof Map) {
+			// Cast the message to a Map.
+			Map<?, ?> map = (Map<?, ?>) msg;
+			// Check if the Map is not empty.
+			if (!map.isEmpty()) {
+				// Get the first key and value from the Map.
+				Object firstKey = map.keySet().iterator().next();
+				Object firstValue = map.get(firstKey);
+				// Check the types of the first key and value and return the corresponding MessageType.
+				if (firstKey instanceof String && firstValue instanceof ArrayList
+						&& ((ArrayList<?>) firstValue).get(0) instanceof String) {
+					return MessageType.MAP_STRING_ARRAYLIST_STRING;
+				} else if (firstKey instanceof String && firstValue instanceof String) {
+					return MessageType.MAP_STRING_STRING;
+				}
+			}
+		}
+		// If none of the above conditions are met, return null.
+		return null;
 	}
 
-	
-    private static void handleStringMessage(String message) {
+
+
+	private static void handleStringMessage(String message) {
         // Handle string messages
     	
     	try {
@@ -130,18 +150,20 @@ public class MessageHandler_Client {
 		  				// 4 - user Password
 		  				// 5 - user Name
 		  				// 6 - user Email
-						// 7 - courses
 						LoginFrameController.hideCurrentScene(); // hide login frame
 						if(arrayListStr.get(1).equals("Lecturer")) { // login as Lecturer
 							LecturerDashboardFrameController.start(arrayListStr); // to save the user details in the dashboard controller
 						}
 						else if(arrayListStr.get(1).equals("Student")) { // login as student
+							// 7 - Department Name
+							// 8 - DepartmentID
 							System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
 						/*else if() { // login as head of department
 							  
 						}*/
+						currUserRole = arrayListStr.get(1); // save the current role of the user
 						System.out.println("logged in succesfully");
 						
 	                    break;
@@ -156,6 +178,19 @@ public class MessageHandler_Client {
 	                	// 1 - max exam number in the course
 	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
+	                	
+	                /*case "exam activeness has been changed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                	// 1 - examID
+	                	try {
+		                	if(currUserRole.equals("Student") && ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
+	
+		                		ComputerizedExamController.examClosed(); // close the exam for the student in the specific exam
+		                		
+		                		System.out.println("exam closed");
+		                	}
+	                	}catch (NullPointerException e){}
+	                	
+	                	break;*/
 	            }       
 	            
             }catch (Exception e) {
@@ -220,18 +255,23 @@ public class MessageHandler_Client {
 		// You're supposed to call a function within the Controller class and pass the List to it to update the fields
     	String messageType = examList.get(0).getExamID();
 
-    	/*try {
 	    	switch (messageType) {
 	    	
-	    		case "":
-	
+	    		case "loadActiveExamsIntoLecturerTable":
+	    			examList.remove(0); // removing the identifying exam
+	    			LecturerDashboardFrameController.getInstance().loadAllActiveExamsToTable(examList);
+					break;
+					
+	    		case "loadInActiveExamsIntoLecturerTable":
+	    			examList.remove(0); // removing the identifying exam
+	    			LecturerDashboardFrameController.getInstance().loadAllInActiveExamsToTable(examList);
+					break;
+				case "computerizedExamsForStudentTable":
+					System.out.println("Reached the Client Handler");
+					examList.remove(0);
+					StudentDashboardFrameController.getInstance().loadComputerizedExamsIntoTable(examList);
 					break;
 	    	}
-	    	
-        }catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-        }*/
 		
 	}
 

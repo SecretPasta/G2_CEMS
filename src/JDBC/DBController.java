@@ -615,72 +615,80 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 		
 	}
+	
+	public static ArrayList<Exam> getExamsByActiveness(String active) {
+	    String query = "SELECT exams.*, course.Name AS courseName " +
+	                   "FROM exams " +
+	                   "JOIN course ON exams.courseID = course.CourseID " +
+	                   "WHERE exams.isActive = ?";
+	    ArrayList<Exam> examsArr = new ArrayList<>();
+	    try {
+	        if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, active);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null, rs.getString(3), rs.getString("courseName"), null, null, null, rs.getInt(6), rs.getString(7), rs.getString(9)));
+	                }
+	            }
+	        }
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return examsArr;
+	}
 
-	public static ArrayList<Exam> getComputerizedExams(String studentID) {
-		ArrayList<Exam> computerizedExams = new ArrayList<>();
 
+	public static ArrayList<Exam> getComputerizedExams() {
+		ArrayList<Exam> activeExams = new ArrayList<>();
+		System.out.println("Reached the DB Controller");
 		try {
 			if (mysqlConnection.getConnection() != null) {
-				// Retrieve the student's courses
-				String studentQuery = "SELECT courses FROM student WHERE ID = ?";
-				PreparedStatement studentPS = mysqlConnection.getConnection().prepareStatement(studentQuery);
-				studentPS.setString(1, studentID);
-				ResultSet studentRS = studentPS.executeQuery();
+				// Retrieve active exams
+				String examQuery = "SELECT * FROM exams WHERE isActive = 1";
+				PreparedStatement examPS = mysqlConnection.getConnection().prepareStatement(examQuery);
 
-				if (studentRS.next()) {
-					String courses = studentRS.getString("courses");
+				ResultSet examRS = examPS.executeQuery();
 
-					// Split the courses string
-					String[] courseIDs = courses.split(",");
+				while (examRS.next()) {
+					// Create an Exam object and populate its fields
+					String examID = examRS.getString("ID");
+					String subjectID = examRS.getString("subjectID");
+					String subjectName = ""; // Set the subjectName accordingly from the database
+					String courseID = examRS.getString("courseID");
+					String courseName = ""; // Set the courseName accordingly from the database
+					String commentsForLecturer = examRS.getString("commentsLecturer");
+					String commentsForStudent = examRS.getString("commentsStudents");
+					int duration = examRS.getInt("duration");
+					String author = examRS.getString("author");
+					String code = examRS.getString("code");
 
-					// Retrieve exams based on courseIDs
-					String examQuery = "SELECT * FROM exams WHERE courseID IN (" + String.join(",", Collections.nCopies(courseIDs.length, "?")) + ")";
-					PreparedStatement examPS = mysqlConnection.getConnection().prepareStatement(examQuery);
+					// Parse the questionsInExam field to retrieve the questions and set them in the exam object
+					String[] questionIDs = examRS.getString("questionsInExam").split(",");
+					ArrayList<QuestionInExam> questions = new ArrayList<>();
+					for (String questionID : questionIDs) {
+						// Retrieve the Question object based on the questionID from the database or any other source
+						QuestionInExam questionInExam = retrieveQuestionsByExamId(questionID,examID);
 
-					// Set courseIDs as parameters
-					for (int i = 0; i < courseIDs.length; i++) {
-						examPS.setString(i + 1, courseIDs[i]);
-					}
-
-					ResultSet examRS = examPS.executeQuery();
-
-					while (examRS.next()) {
-						// Create an Exam object and populate its fields
-						String examID = examRS.getString("ID");
-						String subjectID = examRS.getString("subjectID");
-						String subjectName = ""; // Set the subjectName accordingly from the database
-						String courseID = examRS.getString("courseID");
-						String courseName = ""; // Set the courseName accordingly from the database
-						String commentsForLecturer = examRS.getString("commentsLecturer");
-						String commentsForStudent = examRS.getString("commentsStudents");
-						int duration = examRS.getInt("duration");
-						String author = examRS.getString("author");
-						String code = examRS.getString("code");
-
-						// Parse the questionsInExam field to retrieve the questions and set them in the exam object
-						String[] questionIDs = examRS.getString("questionsInExam").split(",");
-						ArrayList<QuestionInExam> questions = new ArrayList<>();
-						for (String questionID : questionIDs) {
-							// Retrieve the Question object based on the questionID from the database or any other source
-							QuestionInExam questionInExam = retrieveQuestionsByExamId(questionID,examID);
-
-							if (questionInExam != null) {
-								questions.add(questionInExam);
-							}
+						if (questionInExam != null) {
+							questions.add(questionInExam);
 						}
-
-						Exam exam = new Exam(examID, subjectID, subjectName, courseID, courseName, questions, commentsForLecturer, commentsForStudent, duration, author, code);
-
-						computerizedExams.add(exam);
 					}
+
+					Exam exam = new Exam(examID, subjectID, subjectName, courseID, courseName, questions, commentsForLecturer, commentsForStudent, duration, author, code);
+
+					activeExams.add(exam);
 				}
 			}
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		return computerizedExams;
+		return activeExams;
 	}
+
 
 	//A method to return the question by ID from the DB
 	private static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
@@ -725,6 +733,31 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		return returnQuestions;
 	}
 
+
+
+
+
+	public static void changeExamActivenessByID(String examID, String activenessChangeTo) {
+
+		String query = "UPDATE exams "
+	             + "SET isActive = ? "
+	             + "WHERE ID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);		
+				ps.setString(1, activenessChangeTo);
+				ps.setString(2, examID);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 
 
