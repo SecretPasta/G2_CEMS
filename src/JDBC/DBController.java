@@ -616,7 +616,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 	}
 	
-	public static ArrayList<Exam> getExamsByActive(String active) {
+	public static ArrayList<Exam> getExamsByActiveness(String active) {
 	    String query = "SELECT exams.*, course.Name AS courseName " +
 	                   "FROM exams " +
 	                   "JOIN course ON exams.courseID = course.CourseID " +
@@ -775,7 +775,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		
 	}
-
 
 
 

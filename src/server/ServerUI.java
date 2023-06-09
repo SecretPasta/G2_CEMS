@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import ClientAndServerLogin.ServerPortFrameController;
 
 public class ServerUI extends Application {
+	
+	private static EchoServer echoServer = null;
 
 	public static void main(String args[]) throws Exception {	
 		try {
@@ -34,7 +36,7 @@ public class ServerUI extends Application {
 			System.out.println("ERROR - Connection Failed!\n" + t.getMessage());
 		}
 
-		EchoServer echoServer = new EchoServer(port);
+		echoServer = new EchoServer(port);
 
 		try {
 			echoServer.listen(); // Start listening for connections
@@ -44,5 +46,11 @@ public class ServerUI extends Application {
 		}
 		return echoServer;
 	}
+
+	public static EchoServer getCommunication() {
+		return echoServer;
+	}
+	
+	
 
 }
