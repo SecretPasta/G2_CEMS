@@ -1,6 +1,7 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -12,7 +13,6 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import Config.Exam;
 import ClientAndServerLogin.SceneManagment;
 import Config.Lecturer;
-import Config.Question;
 import Config.QuestionInExam;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -93,7 +92,6 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		lblMessage.setText(""); // error message
 		
 		//initialize the table of questions in the exam.
 		idColumn_tableExam.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("id"));
@@ -113,10 +111,10 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	public void getBtnShowReview(ActionEvent event) throws Exception {
 	    try {
 	        if (txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
-	            lblMessage.setText("[Error] Missing fields.");
+	            displaySnackbarError("Error: Missing fields.");
 	        } else {
 	            if (txtExamCode.getText().length() != 4) {
-	                lblMessage.setText("[Error] exam code has to be 4 digits.");
+	                displaySnackbarError("Error: Exam code has to be 4 digits.");
 	                return;
 	            }
 	            int examDuration = Integer.parseInt(txtExamDuration.getText());
@@ -138,9 +136,9 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	        }
 
 	    } catch (NullPointerException e) {
-	        lblMessage.setText("[Error] Missing fields.");
+	        displaySnackbarError("Error: Missing fields.");
 	    } catch (NumberFormatException e) {
-	        lblMessage.setText("[Error] exam duration has to be a valid number.");
+	        displaySnackbarError("Error: Exam duration has to be a valid number.");
 	    }
 	}
 
@@ -164,6 +162,16 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	public void getBtnBack(ActionEvent event) throws Exception {
 	    ((Node) event.getSource()).getScene().getWindow().hide();
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam(); // Previous screen
+	}
+	
+	/**
+	 * Displays an error message in a snackbar for missing fields.
+	 */
+	private void displaySnackbarError(String message) {
+	    snackbarError = new JFXSnackbar(root);
+	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
+	    snackbarError.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 
 

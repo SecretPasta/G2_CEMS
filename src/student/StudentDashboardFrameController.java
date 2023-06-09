@@ -211,12 +211,12 @@ public class StudentDashboardFrameController implements Initializable{
 
         //--------------------- Computerized Exam -----------------------------------------------------------------
 
-        /*
+        
         //Crate an ArrayList of all Available Exams
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
         getExamArray.add((student.getId()));
-//        ClientUI.chat.accept(getExamArray);
+        //ClientUI.chat.accept(getExamArray);
 
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
