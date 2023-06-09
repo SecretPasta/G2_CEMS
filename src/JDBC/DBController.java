@@ -643,7 +643,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	public static ArrayList<Exam> getComputerizedExams() {
 		ArrayList<Exam> activeExams = new ArrayList<>();
-
+		System.out.println("Reached the DB Controller");
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				// Retrieve active exams
