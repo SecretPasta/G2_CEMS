@@ -161,7 +161,8 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
-        System.out.println(examList);
+        //System.out.println(examList);
+        System.out.println("Can I have some cheese");
     }
 
     @FXML

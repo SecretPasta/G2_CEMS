@@ -55,6 +55,7 @@ public class MessageHandler_Server {
 
 
 	private static MessageType getMessageType(Object msg) {
+		System.out.println("Reached the getMessageType Method");
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
 	    } else if (msg instanceof ArrayList) {
@@ -90,6 +91,7 @@ public class MessageHandler_Server {
 	
 	
     private static void handleStringMessage(String message, ConnectionToClient client) {
+		System.out.println("Reached the handleStringMessage Method");
         // Handle string messages
     	try {
 	    	switch (message) {
@@ -131,8 +133,9 @@ public class MessageHandler_Server {
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
-		System.out.println("Reached the Server Handler");
+		System.out.println("Reached the handleStringArrayListMessage method");
             ArrayList<String> arrayListStr = (ArrayList<String>) arrayList;
+			System.out.println(arrayListStr);
             String messageType = arrayListStr.get(0);
             try {
 	            switch (messageType) {
@@ -285,6 +288,7 @@ public class MessageHandler_Server {
         }
     
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
+		System.out.println("Reached the handleQuestionArrayListMessage method");
         // Handle ArrayList<Question> messages
     	// 1 - question to add
     	String messageType = questionList.get(0).getId();
@@ -311,6 +315,7 @@ public class MessageHandler_Server {
     
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList, ConnectionToClient client) {
         // Handle ArrayList<QuestionInExam> messages
+		System.out.println("Reached the handleQuestionInExamArrayListMessage method");
 
     	String messageType = questionInExamList.get(0).getId();
 
@@ -334,6 +339,7 @@ public class MessageHandler_Server {
     
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList, ConnectionToClient client) {
         // Handle ArrayList<Exam> messages
+		System.out.println("Reached the handleExamArrayListMessage method");
 
     	String messageType = examList.get(0).getExamID();
 
