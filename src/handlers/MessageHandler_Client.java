@@ -251,6 +251,7 @@ public class MessageHandler_Client {
 
 	//This method is to get Computerized Exams to the client
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList) {
+		System.out.println("Reached the handleExamArrayListMessage | ClientHandler");
 		// Handle ArrayList<Exam> messages
 		// You're supposed to call a function within the Controller class and pass the List to it to update the fields
     	String messageType = examList.get(0).getExamID();
