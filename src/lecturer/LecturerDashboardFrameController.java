@@ -181,6 +181,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	private QuestionInExam questionInExamSelected;
 	
 	private Exam inActiveExamSelected;
+	private Exam activeExamSelected;
 	
 	private static LecturerDashboardFrameController instance;
 	
@@ -876,19 +877,53 @@ public class LecturerDashboardFrameController implements Initializable{
 	        inActiveExamsObservableList.remove(inActiveExamSelected);
 
 	        changeExamActivenessInDB(inActiveExamSelected.getExamID(), "1");
-	        
-		    tableView_inActiveExams.getSelectionModel().clearSelection();
-		    tableView_activeExams.getSelectionModel().clearSelection();
-		    tableView_activeExams.refresh();
-		    tableView_inActiveExams.refresh();
 
 	    } catch (NullPointerException e) {
 	        snackbarError = new JFXSnackbar(pnlManageExams);
 	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
 	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
 
 	    inActiveExamSelected = null;
+	}
+	
+	/**
+	 * Event handler for the "Close Exam" button in the Manage Exams UI.
+	 * Moves the selected active exam to the inActive exams table and updates its status in the database.
+	 *
+	 * @param event The action event triggered by clicking the "Close Exam" button.
+	 * @throws Exception If an exception occurs during the process.
+	 */
+	public void getBtnCloseExam_ManageExams(ActionEvent event) throws Exception {
+	    activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
+
+	    try {
+	        if (activeExamSelected == null) {
+	            throw new NullPointerException();
+	        }
+	        
+	        activeExamsObservableList.remove(activeExamSelected);
+	        inActiveExamsObservableList.add(activeExamSelected);
+
+	        changeExamActivenessInDB(activeExamSelected.getExamID(), "0");
+
+	    } catch (NullPointerException e) {
+	        snackbarError = new JFXSnackbar(pnlManageExams);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
+	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
+
+	    activeExamSelected = null;
 	}
 
 	

@@ -10,8 +10,12 @@ import Config.QuestionInExam;
 import JDBC.DBController;
 import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
+import server.EchoServer;
+import server.ServerUI;
 
 public class MessageHandler_Server {
+	
+	private static EchoServer serverCommunication;
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
@@ -103,11 +107,11 @@ public class MessageHandler_Server {
 			    case "GetAllExamsFromDBtoManageExamsTables":
 			    	ArrayList<Exam> activeExams_arr = new ArrayList<>();
 			    	activeExams_arr.add(0, new Exam("loadActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
-			    	activeExams_arr.addAll(DBController.getExamsByActive("1"));
+			    	activeExams_arr.addAll(DBController.getExamsByActiveness("1"));
 			    	
 			    	ArrayList<Exam> inActiveExams_arr = new ArrayList<>();
 			    	inActiveExams_arr.add(0, new Exam("loadInActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
-			    	inActiveExams_arr.addAll(DBController.getExamsByActive("0"));
+			    	inActiveExams_arr.addAll(DBController.getExamsByActiveness("0"));
 			    	
 			    	client.sendToClient(activeExams_arr);
 			    	client.sendToClient(inActiveExams_arr);
@@ -259,7 +263,16 @@ public class MessageHandler_Server {
 						// 1 - exam ID
 						// 2 - the activeness to change to: 1 / 0
 						DBController.changeExamActivenessByID(arrayListStr.get(1), arrayListStr.get(2));
-						client.sendToClient("exam activeness changed");
+						
+						// check if the exam closed (activeness == 0) -> interrupt all the users
+						// send to all clients a message that an exam was closed
+						if(arrayListStr.get(2).equals("0")) {
+							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
+							examActivenessChanged_arr.add("exam activeness has been changed");
+							examActivenessChanged_arr.add(arrayListStr.get(1));
+							serverCommunication = ServerUI.getCommunication();
+							serverCommunication.sendToAllClients(examActivenessChanged_arr);
+						}
 						break;
 						
 
