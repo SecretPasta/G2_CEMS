@@ -9,10 +9,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="student.ComputerizedExamController">
+<AnchorPane fx:id="root" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@ComputerizedExam.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="student.ComputerizedExamController">
    <children>
-      <AnchorPane fx:id="questionsPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6;" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="64.0" />
-      <Pane layoutX="100.0" layoutY="14.0" prefHeight="64.0" prefWidth="1050.0" style="-fx-background-color: #242633;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="questionsPane" layoutX="221.0" layoutY="179.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6;" stylesheets="@ComputerizedExam.css" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="64.0" />
+      <Pane layoutX="100.0" layoutY="14.0" prefHeight="64.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Circle fill="#5dd299" layoutX="80.0" layoutY="32.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
             <Circle fill="#66a7f2" layoutX="58.0" layoutY="32.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
@@ -21,37 +21,40 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="412.0" layoutY="16.0" text="Computerized Exam" textFill="#faf9f6">
+            <Label layoutX="412.0" layoutY="15.0" text="Computerized Exam" textFill="#faf9f6">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <JFXButton fx:id="closeBtn" layoutX="981.0" layoutY="17.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </JFXButton>
+            <HBox layoutX="805.0" layoutY="23.0" spacing="5.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="25.0" text="Remaining time:" textFill="#faf9f6">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="timer" fill="#fe774c" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" underline="true" wrappingWidth="102.13671875">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
          </children></Pane>
-      <JFXButton fx:id="back" layoutX="8.0" layoutY="64.0" onAction="#back" prefHeight="514.0" prefWidth="40.0" ripplerFill="#242633" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 0 0 0; -fx-border-color: #242633;" text="&lt;" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0">
+      <JFXButton fx:id="back" layoutX="8.0" layoutY="64.0" onAction="#back" prefHeight="514.0" prefWidth="40.0" ripplerFill="#66a7f2" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 0 0 0; -fx-border-color: #66A7F2;" text="&lt;" textFill="#66a7f2" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="64.0">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="next" layoutX="1009.0" layoutY="64.0" onAction="#next" prefWidth="40.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 0 0 0; -fx-border-color: #242633;" text="&gt;" AnchorPane.bottomAnchor="64.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+      <JFXButton fx:id="next" layoutX="1009.0" layoutY="64.0" onAction="#next" prefWidth="40.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 0 0 0; -fx-border-color: #66A7F2;" text="&gt;" textFill="#66a7f2" AnchorPane.bottomAnchor="64.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </JFXButton>
-      <HBox fx:id="questionNumbers" layoutY="496.0" prefHeight="64.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6;" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
       <JFXButton fx:id="submitExamBtn" layoutX="430.0" layoutY="526.0" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Submit" textFill="#faf9f6" AnchorPane.bottomAnchor="15.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </JFXButton>
-      <Text fx:id="timer" fill="#fe774c" layoutX="40.0" layoutY="548.0" strokeType="OUTSIDE" strokeWidth="0.0" text="hello" wrappingWidth="102.13671875" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="40.0">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Text>
    </children>
 </AnchorPane>
