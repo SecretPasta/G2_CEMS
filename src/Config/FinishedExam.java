@@ -4,14 +4,16 @@ public class FinishedExam{
 
     private String examID;
     private String studentID;
+    private String lecturerID;
     private int grade;
     private int approved;
     private int checkExam;
     private String answers;
 
-    public FinishedExam(String examID,String studentID, int grade,String answers){
+    public FinishedExam(String examID,String lecturerID ,String studentID, int grade,String answers){
         this.examID = examID;
         this.studentID = studentID;
+        this.lecturerID = lecturerID;
         this.grade = grade;
         this.answers = answers;
         this.approved = 0;
@@ -46,5 +48,9 @@ public class FinishedExam{
 
     public String getAnswers() {
         return answers;
+    }
+
+    public String getLecturerID() {
+        return lecturerID;
     }
 }
