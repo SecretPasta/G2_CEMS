@@ -58,8 +58,9 @@ public class ComputerizedExamController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Here we need to load all the questions text and answers from db to panes
+
+		// Timer for Exam ----------------------------------------------------------------------
 		Time time = new Time("0:2:0");
-		
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> 
 		{
 			time.oneSecondPassed();
@@ -68,14 +69,17 @@ public class ComputerizedExamController implements Initializable{
 		timer.setText(time.getCurrentTime());
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-        
+        // End of Timer for Exam ------------------------------------------------------------------
+
+
+
         //tabPane that contains all tabs (one tab per one question)
 		tabPane = new JFXTabPane();
 		tabPane.setPrefSize(970, 448);
 		tabPane.setTabMinWidth(977/20);
 		
 		//loop that creating all question panes -> need to provide relevant amount of questions
-		for(int i = 1;i < 21;i++) {
+		for(int i = 1;i < 21;i++) { // Creating the exam questions pane,  the second parameter is the number of questions
 			
 			//each question and its answers saved in vbox which saved in Tab which saved in JFXTabPane
 			VBox questionPane = new VBox();
@@ -85,7 +89,7 @@ public class ComputerizedExamController implements Initializable{
 			questionPane.setStyle("-fx-background-color:#FAF9F6");
 			
 			//the question shuold be here
-			Label questionLabel = new Label(String.format("Question number %d", i));
+			Label questionLabel = new Label(String.format("Question number %d", i)); // load the question itself here
 			questionLabel.setWrapText(true);
 			questionLabel.setStyle("-fx-font-weight: bold;");
 			questionLabel.setStyle("-fx-font-size: 18;");
@@ -95,7 +99,7 @@ public class ComputerizedExamController implements Initializable{
 			answers.setSpacing(15);
 			
 			//togglegroup for radiobuttons
-			ToggleGroup toggleGroup = new ToggleGroup();
+			ToggleGroup toggleGroup = new ToggleGroup(); // for each pane the toggles for the question select
 			
 			//the answers should be here
 			JFXRadioButton answer1 = new JFXRadioButton("Answer number one");
@@ -113,8 +117,7 @@ public class ComputerizedExamController implements Initializable{
 			answers.getChildren().addAll(answer1, answer2, answer3, answer4);
 			questionPane.getChildren().add(questionLabel);
 			questionPane.getChildren().add(answers);
-			Tab tab = new Tab(Integer.toString(i), questionPane);
-			
+			Tab tab = new Tab(Integer.toString(i), questionPane); // Creating the specific pane
 			//for changing answered question tab background
 			toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 		        @Override
