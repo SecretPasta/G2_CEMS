@@ -72,12 +72,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private JFXSnackbar snackbarError;
 	@FXML
-	private JFXSnackbar snackbarSuccess;
-	
-	@FXML
-	private Label lblMessage1;
-	@FXML
-	private Label lblMessage2;
 	@FXML
 	private Label lbluserNameAndID;
 	@FXML
@@ -899,7 +893,36 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	
 	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
+		activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
 		
+		try {
+	        if (activeExamSelected == null) {
+	            throw new NullPointerException();
+	        }
+	        ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+	        ManageExam_ChangeTimeFrameController.start(activeExamSelected, lecturer);
+
+	    } catch (NullPointerException e) {
+	        snackbarError = new JFXSnackbar(pnlManageExams);
+	        snackbarError.setPrefWidth(754);
+	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
+	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
+
+	    activeExamSelected = null;
+	}
+	
+	public void showDashboardFrom_ChangeTime() throws IOException {
+	    // Show the current stage
+	    currStage.show();
+
+	    // Clear the selection in the exam tables
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
 	}
 
 	

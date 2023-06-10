@@ -5,6 +5,7 @@ import java.net.URL;
 
 import java.util.ResourceBundle;
 
+import Config.Exam;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
@@ -134,7 +135,8 @@ public class ComputerizedExamController implements Initializable{
 		
 	}
 
-	public static void start() throws IOException {
+	public static void start(Exam exam) throws IOException {
+		System.out.println(exam);
 	    SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam").show(); // Creates and shows the login screen stage
 	}
 	
