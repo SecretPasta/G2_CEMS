@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXScrollPane?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_ReviewGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_ReviewFrameController">
    <children>
       <AnchorPane layoutY="75.0" prefHeight="525.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;">
          <children>
@@ -95,11 +95,15 @@
             </HBox>
          </children>
       </AnchorPane>
-      <JFXScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="100.0" prefHeight="400.0" prefWidth="575.0" style="-fx-border-radius: 10;">
-         <children>
-            <VBox fx:id="vbox" prefHeight="400.0" prefWidth="575.0" style="-fx-border-radius: 10; -fx-padding: 5; -fx-border-color: #242633; -fx-background-color: #FFFFFF;" stylesheets="@CreateExam_ReviewGUI.css" />
-         </children>
-      </JFXScrollPane>
+      <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="100.0" prefHeight="400.0" prefWidth="575.0" stylesheets="@CreateExam_ReviewGUI.css">
+        <content>
+          <AnchorPane style="-fx-background-radius: 10;">
+               <children>
+                  <VBox fx:id="vbox" style="-fx-background-radius: 10; -fx-padding: 5;" stylesheets="@CreateExam_ReviewGUI.css" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
       <JFXButton id="btnBack" layoutX="941.0" layoutY="24.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back" textFill="#383838">
          <font>
             <Font name="System Bold" size="14.0" />

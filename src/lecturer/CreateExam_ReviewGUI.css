@@ -1,8 +1,43 @@
-.jfx-scroll-pane .main-header{
-	-fx-background-color: #000000;
-}
 
 .button:hover{
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;
+}
+
+.scroll-pane {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: #383838;
+    -fx-border-radius: 10;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.scroll-pane > .corner {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10em;
 }

@@ -177,10 +177,9 @@ public class LoginFrameController implements Initializable{
     void adminError(MouseEvent event) {
 		JFXDialogLayout dialogLayout = new JFXDialogLayout();
 		Text titleText = new Text("Contact your administrator");
-		Text bodyText = new Text("""
-				  We apologize for any inconvenience caused during your "forgot password" and "sign up" processes. To complete these 
-				  actions successfully, please contact our administrator. They are available to assist you promptly. 
-				  Thank you for your understanding!""");
+		Text bodyText = new Text("\nWe apologize for any inconvenience caused during your 'forgot password' and 'sign up' processes. To complete these"+
+		"\nactions successfully, please contact our administrator. They are available to assist you promptly." +
+		"\nThank you for your understanding!");
 		titleText.setFont(Font.font("System", 24));
 		titleText.setStyle("-fx-font-weight: bold;");
 		titleText.setFill(Color.web("#FAF9F6"));
