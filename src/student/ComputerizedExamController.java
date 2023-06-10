@@ -60,8 +60,6 @@ public class ComputerizedExamController implements Initializable{
     
     private JFXTabPane tabPane;
 
-	private ArrayList<QuestionInExam> questionsInExam = new ArrayList<>();
-
 	private ObservableList<QuestionInExam> questionsInExamObservableList = FXCollections.observableArrayList();
     
     private int currentQuestion = 0;
@@ -94,13 +92,6 @@ public class ComputerizedExamController implements Initializable{
         timeline.play();
         // End of Timer for Exam ------------------------------------------------------------------
 
-
-		if(instance == null){
-			System.out.println("Is Null");
-		}else{
-			System.out.println("Not Null");
-		}
-
         //tabPane that contains all tabs (one tab per one question)
 		tabPane = new JFXTabPane();
 		tabPane.setPrefSize(970, 448);
@@ -110,9 +101,6 @@ public class ComputerizedExamController implements Initializable{
 		getQuestionArr.add("getQuestionsInExamById");
 		getQuestionArr.add(currentExam.getExamID());
 		ClientUI.chat.accept(getQuestionArr);
-
-
-		System.out.println("This is load exams thingy\n" + questionsInExam.toString());
 
 		//loop that creating all question panes -> need to provide relevant amount of questions
 		for(int i = 1;i < questionsInExamObservableList.size() + 1;i++) { // Creating the exam questions pane,  the second parameter is the number of questions
@@ -180,8 +168,6 @@ public class ComputerizedExamController implements Initializable{
 	}
 
 	public void loadExamQuestions(ArrayList<QuestionInExam> questions){
-		System.out.println(questions + " AAAAAAAAAAAAAAAAAAAAA");
-		questionsInExam.addAll(questions);
 		questionsInExamObservableList.addAll(questions);
 	}
 
