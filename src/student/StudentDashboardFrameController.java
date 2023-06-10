@@ -124,6 +124,11 @@ public class StudentDashboardFrameController implements Initializable{
 
     private ObservableList<Exam> computerizedExamsObservableList = FXCollections.observableArrayList();
 
+    private Exam selectedExam;
+
+    @FXML
+    private TextField txtExamCode;
+
     // End of Computerized Exam Screen ###############################################
 
     // My Grades Screen ##############################################################
@@ -152,8 +157,7 @@ public class StudentDashboardFrameController implements Initializable{
 
     private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
     
-    @FXML
-    private TextField txtExamCode;
+
     
     @FXML
     private JFXSnackbar snackbarError;
@@ -206,8 +210,19 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
-        System.out.println("You have started the Computerized Exam!!!");
-        ComputerizedExamController.start();
+        selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
+        if(selectedExam == null){
+            System.out.println("Error, no Exam has been Selected!");
+        } else if (!selectedExam.getCode().equals(txtExamCode.getText())) {
+            System.out.println("Error, Incorrect Code!");
+        } else{
+            //Hide primary Window
+            ((Node) event.getSource()).getScene().getWindow().hide();
+            System.out.println("You have started the Computerized Exam!!!");
+            ComputerizedExamController.start(selectedExam);
+            selectedExam = null;
+        }
+
     }
 
     public void getStartManualExamBtn(ActionEvent event) throws Exception{

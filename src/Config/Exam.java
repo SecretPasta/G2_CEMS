@@ -128,4 +128,20 @@ public class Exam implements Serializable{
 		this.code = code;
 	}
 
+	@Override
+	public String toString() {
+		return "Exam{" +
+				"questions=" + questions +
+				", commentsForLecturer='" + commentsForLecturer + '\'' +
+				", commentsForStudent='" + commentsForStudent + '\'' +
+				", duration=" + duration +
+				", author='" + author + '\'' +
+				", subjectID='" + subjectID + '\'' +
+				", subjectName='" + subjectName + '\'' +
+				", courseID='" + courseID + '\'' +
+				", courseName='" + courseName + '\'' +
+				", examID='" + examID + '\'' +
+				", code='" + code + '\'' +
+				'}';
+	}
 }
