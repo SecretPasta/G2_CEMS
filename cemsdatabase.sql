@@ -1,6 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `cemsdatabase`;
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
@@ -38,7 +36,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('01','Advanced Java Programming','02'),('02','Data Structures and Algorithms with Java','02'),('03','Introduction to Python','02'),('04','Advanced English','01'),('05','C++ for Beginners','00'),('06','Discrete Math','00');
+INSERT INTO `course` VALUES ('01','Advanced Java Programming','03'),('02','Data Structures and Algorithms with Java','02'),('03','Introduction to Python','03'),('04','Advanced English','03'),('05','C++ for Beginners','00'),('06','Discrete Math','00'),('07','Classical Physics ','00');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,8 +129,8 @@ CREATE TABLE `exams` (
   `ID` varchar(45) NOT NULL,
   `subjectID` varchar(45) DEFAULT NULL,
   `courseID` varchar(45) DEFAULT NULL,
-  `commentsLecturer` varchar(45) DEFAULT NULL,
-  `commentsStudents` varchar(45) DEFAULT NULL,
+  `commentsLecturer` varchar(1000) DEFAULT NULL,
+  `commentsStudents` varchar(1000) DEFAULT NULL,
   `duration` varchar(45) DEFAULT NULL,
   `author` varchar(45) DEFAULT NULL,
   `questionsInExam` varchar(100) DEFAULT NULL,
@@ -148,7 +146,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010102','01','01','DVDVXFVFXV','zxcxzcxcccc','566','Omri Sharof','01003,01006,01008','j7gg','1'),('010201','01','02','comments_lecturers','comments_students','45','Omri Sharof','01004,01006,01008','g4E6','1'),('010301','01','03','dffdbgbg','btbtbttb','78','Omri Sharof','01010,01008,01006,01001,01002','123h','1'),('010302','01','03','qw','eqeq','12','Omri Sharof','01001,01006,01008,01002,01010','ffff','0'),('030401','03','04','qwe','asd','120','Omri Sharof','03001','fgsd','0');
+INSERT INTO `exams` VALUES ('010103','01','01','Check','Check','180','Omri Sharof','01003','C001','0'),('010303','01','03','Check','Check','180','Omri Sharof','01001,01002','C003','0'),('030403','03','04','Check','Check','180','Omri Sharof','03001','E001','0');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,7 +227,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',1),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +255,7 @@ CREATE TABLE `lecturercourse` (
 
 LOCK TABLES `lecturercourse` WRITE;
 /*!40000 ALTER TABLE `lecturercourse` DISABLE KEYS */;
-INSERT INTO `lecturercourse` VALUES ('206391146','01'),('206391146','02'),('206391146','03'),('206391146','04'),('206391146','05'),('206391146','06');
+INSERT INTO `lecturercourse` VALUES ('206391146','01'),('206391146','02'),('206391146','03'),('206391146','04'),('206391146','05'),('206391146','06'),('333444555','01'),('333444555','02'),('333444555','03'),('333444555','07');
 /*!40000 ALTER TABLE `lecturercourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -284,7 +282,7 @@ CREATE TABLE `lecturerdepartment` (
 
 LOCK TABLES `lecturerdepartment` WRITE;
 /*!40000 ALTER TABLE `lecturerdepartment` DISABLE KEYS */;
-INSERT INTO `lecturerdepartment` VALUES ('206391146','1'),('206391146','2'),('333444555','6');
+INSERT INTO `lecturerdepartment` VALUES ('206391146','1'),('206391146','2'),('333444555','6'),('333444555','9');
 /*!40000 ALTER TABLE `lecturerdepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -311,7 +309,7 @@ CREATE TABLE `lecturersubject` (
 
 LOCK TABLES `lecturersubject` WRITE;
 /*!40000 ALTER TABLE `lecturersubject` DISABLE KEYS */;
-INSERT INTO `lecturersubject` VALUES ('206391146','01'),('206391146','02'),('206391146','03');
+INSERT INTO `lecturersubject` VALUES ('206391146','01'),('206391146','02'),('333444555','02'),('206391146','03'),('333444555','04');
 /*!40000 ALTER TABLE `lecturersubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,10 +325,10 @@ CREATE TABLE `question` (
   `subjectID` varchar(45) DEFAULT NULL,
   `questionText` varchar(1000) DEFAULT NULL,
   `questionNumber` varchar(45) DEFAULT NULL,
-  `answerCorrect` varchar(45) DEFAULT NULL,
-  `answerWrong1` varchar(45) DEFAULT NULL,
-  `answerWrong2` varchar(45) DEFAULT NULL,
-  `answerWrong3` varchar(45) DEFAULT NULL,
+  `answerCorrect` varchar(450) DEFAULT NULL,
+  `answerWrong1` varchar(450) DEFAULT NULL,
+  `answerWrong2` varchar(450) DEFAULT NULL,
+  `answerWrong3` varchar(450) DEFAULT NULL,
   `lecturer` varchar(45) DEFAULT NULL,
   `LecturerID` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -346,7 +344,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?q','001','a1q','a2q','a3q','a4q','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','b1','b2','b3','b4','Amanda Lee',''),('01003','01','What is the difference between a stack and a queue?','003',NULL,NULL,NULL,NULL,'John Smith',NULL),('01004','01','What is the time complexity of binary search?','004',NULL,NULL,NULL,NULL,'Mosa Darwish',NULL),('01005','01','What is the difference between pass by value and pass by reference?','005',NULL,NULL,NULL,NULL,'Emily Chen',NULL),('01006','01','testttttt','006','h1','h2','h3','h4','Omri Sharof','206391146'),('01008','01','sdasdasdasdsad','008','jkjk','lflflf','sdfgdfg','trtrter','Omri Sharof','206391146'),('01010','01','qr','010','g1','g2','g3','g4','Omri Sharof','206391146'),('02001','02','If a set B has n elements, then what is the total number of subsets of B. Justify your answer','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146'),('03001','03','Why is English so important?','001',NULL,NULL,NULL,NULL,'Omri Sharof','206391146');
+INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?','001','for i in range(10)','while(i != 1)','i++','if(i==1)','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','x = 10','x = *10','*x = 10','x = &10','Jason Smith','333444555'),('01003','01','What is the difference between a stack and a queue?','003','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.','A stack is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','A queue is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed.','A queue is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','Jason Smith','333444555'),('01004','01','What is the time complexity of binary search?','004','O(log n)','O(n)','O(n^2)','O(1)','Jason Smith','333444555'),('01005','01','What is the difference between pass by value and pass by reference?','005','Pass by value: Value copied, no modification affects original.','Pass by value: Memory address passed, modifications affect original.','Pass by reference: Value copied, modifications affect original.','Pass by reference: Memory address passed, no modification affects original.','Jason Smith','333444555'),('02001','02','If a set B has n elements, then what is the total number of subsets of B?','001','2^n','n!','n^2','n','Omri Sharof','206391146'),('03001','03','Why is English so important?','001','English facilitates global communication and understanding across diverse cultures.','English is challenging due to its irregular grammar rules and exceptions.','English has a rich literary tradition with influential works.','English\'s significance is tied to its status as the official language of the United States.','Omri Sharof','206391146');
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,10 +383,10 @@ CREATE TABLE `questionsexam` (
   `questionID` varchar(45) NOT NULL,
   `examID` varchar(45) NOT NULL,
   `questionText` varchar(256) DEFAULT NULL,
-  `answerCorrect` varchar(45) DEFAULT NULL,
-  `answerWrong1` varchar(45) DEFAULT NULL,
-  `answerWrong2` varchar(45) DEFAULT NULL,
-  `answerWrong3` varchar(45) DEFAULT NULL,
+  `answerCorrect` varchar(450) DEFAULT NULL,
+  `answerWrong1` varchar(450) DEFAULT NULL,
+  `answerWrong2` varchar(450) DEFAULT NULL,
+  `answerWrong3` varchar(450) DEFAULT NULL,
   `points` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`questionID`,`examID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -400,7 +398,7 @@ CREATE TABLE `questionsexam` (
 
 LOCK TABLES `questionsexam` WRITE;
 /*!40000 ALTER TABLE `questionsexam` DISABLE KEYS */;
-INSERT INTO `questionsexam` VALUES ('01001','010301','What is the correct syntax for a loop in Python?q','a3q','a2q','a1q','a4q','40.0'),('01001','010302','What is the correct syntax for a loop in Python?q','a2q','a1q','a3q','a4q','100.0'),('01002','010301','What is the correct syntax for a pointer? ','b4','b2','b3','b1','30.0'),('01002','010302','What is the correct syntax for a pointer? ','b2','b1','b3','b4','0.0'),('01003','010102','What is the difference between a stack and a queue?',NULL,NULL,NULL,NULL,'50.0'),('01004','010201','What is the time complexity of binary search?',NULL,NULL,NULL,NULL,'40.0'),('01004','010202','What is the time complexity of binary search?',NULL,NULL,NULL,NULL,'10.0'),('01006','010102','testttttt','h1','h2','h3','h4','38.0'),('01006','010201','testttttt','h4','h1','h2','h3','50.0'),('01006','010202','testttttt','h3','h2','h1','h4','20.0'),('01006','010301','testttttt','h4','h2','h3','h1','10.0'),('01006','010302','testttttt','h3','h2','h1','h4','0.0'),('01008','010102','sdasdasdasdsad','jkjk','lflflf','sdfgdfg','trtrter','12.0'),('01008','010201','sdasdasdasdsad','jkjk','sdfgdfg','lflflf','trtrter','10.0'),('01008','010202','sdasdasdasdsad','trtrter','lflflf','sdfgdfg','jkjk','40.0'),('01008','010301','sdasdasdasdsad','lflflf','jkjk','sdfgdfg','trtrter','10.0'),('01008','010302','sdasdasdasdsad','trtrter','lflflf','sdfgdfg','jkjk','0.0'),('01010','010202','qr','g3','g2','g1','g4','30.0'),('01010','010301','qr','g4','g2','g3','g1','10.0'),('01010','010302','qr','g3','g2','g1','g4','0.0'),('03001','030401','Why is English so important?',NULL,NULL,NULL,NULL,'100.0');
+INSERT INTO `questionsexam` VALUES ('01001','010303','What is the correct syntax for a loop in Python?','i++','while(i != 1)','for i in range(10)','if(i==1)','50.0'),('01002','010303','What is the correct syntax for a pointer? ','x = *10','x = 10','*x = 10','x = &10','50.0'),('01003','010103','What is the difference between a stack and a queue?','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.','A stack is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','A queue is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed.','A queue is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','100.0'),('03001','030403','Why is English so important?','English is challenging due to its irregular grammar rules and exceptions.','English facilitates global communication and understanding across diverse cultures.','English has a rich literary tradition with influential works.','English\'s significance is tied to its status as the official language of the United States.','100.0');
 /*!40000 ALTER TABLE `questionsexam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -430,7 +428,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',1);
+INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',0);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -482,7 +480,7 @@ CREATE TABLE `subjects` (
 
 LOCK TABLES `subjects` WRITE;
 /*!40000 ALTER TABLE `subjects` DISABLE KEYS */;
-INSERT INTO `subjects` VALUES ('01','Coding','010'),('02','Math','001'),('03','Language','002');
+INSERT INTO `subjects` VALUES ('01','Coding','010'),('02','Math','001'),('03','Language','002'),('04','Physics','000');
 /*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -495,4 +493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-09 21:34:29
+-- Dump completed on 2023-06-10 22:59:00
