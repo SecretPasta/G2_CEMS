@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.ResourceBundle;
 
 import Config.Exam;
+import Config.FinishedExam;
 import Config.QuestionInExam;
 import Config.Student;
 import client.ClientUI;
@@ -92,6 +93,15 @@ public class ComputerizedExamController implements Initializable{
 		timer.setText(time.getCurrentTime());
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
+		timeline.setOnFinished(event -> {
+			System.out.println("Time ran out, submitting exam!"); //We need some pop up for this
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			submitExam();
+		});
         // End of Timer for Exam ------------------------------------------------------------------
 
         //tabPane that contains all tabs (one tab per one question)
@@ -233,12 +243,24 @@ public class ComputerizedExamController implements Initializable{
 		}
 		return null;
 	}
-
-	@FXML
-	public void getSubmitExamBtn(ActionEvent event) {
+	public void submitExam() {
 		double grade;
 		System.out.println("You've Submitted the exam!");
 		grade = gradeComputerizedExam();
+		ArrayList<String> answers = new ArrayList<>();
+		answers.addAll(getChosenAnswers());
+		String answerString = "";
+		for(String ans : answers)
+			answerString += (ans + ",");
+
+		FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
+				participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
+		finishedExam.checkExam();
+	}
+
+	@FXML
+	public void getSubmitExamBtn(ActionEvent event) {
+		submitExam();
 	}
 
 	@FXML

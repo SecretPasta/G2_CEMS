@@ -5,12 +5,12 @@ public class FinishedExam{
     private String examID;
     private String studentID;
     private String lecturerID;
-    private int grade;
+    private double grade;
     private int approved;
     private int checkExam;
     private String answers;
 
-    public FinishedExam(String examID,String lecturerID ,String studentID, int grade,String answers){
+    public FinishedExam(String examID,String lecturerID ,String studentID, double grade,String answers){
         this.examID = examID;
         this.studentID = studentID;
         this.lecturerID = lecturerID;
@@ -27,14 +27,14 @@ public class FinishedExam{
         return studentID;
     }
 
-    public int getGrade() {
+    public double getGrade() {
         return grade;
     }
 
     public void approveGrade(){
         this.grade = 1;
     }
-    public void CheckExam(){
+    public void checkExam(){
         this.checkExam = 1;
     }
 
