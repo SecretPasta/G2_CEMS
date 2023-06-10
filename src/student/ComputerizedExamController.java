@@ -7,12 +7,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
 
-import ClientServerComm.ChatIF;
 import Config.Exam;
 import Config.QuestionInExam;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
@@ -24,7 +22,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -33,7 +30,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -182,7 +178,7 @@ public class ComputerizedExamController implements Initializable{
 		questionsInExamObservableList.addAll(questions);
 	}
 
-	private void checkComputerizedExam(){
+	private double gradeComputerizedExam(){
 		 double grade = 0;
 		 ArrayList<String> studentAnswers = new ArrayList<>();
 		 studentAnswers.addAll(getChosenAnswers());
@@ -193,6 +189,7 @@ public class ComputerizedExamController implements Initializable{
 		}
 		System.out.println(getChosenAnswers());
 		System.out.println(grade);
+		return grade;
 	}
 
 	//A method to get the chosen answers
@@ -235,8 +232,9 @@ public class ComputerizedExamController implements Initializable{
 
 	@FXML
 	public void getSubmitExamBtn(ActionEvent event) {
+		double grade;
 		System.out.println("You've Submitted the exam!");
-		checkComputerizedExam();
+		grade = gradeComputerizedExam();
 	}
 
 	@FXML
