@@ -343,7 +343,7 @@
                   </JFXButton>
                   <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="84.0" layoutY="494.0" prefHeight="67.0" prefWidth="190.0" onAction="#getBtnOpenExam_ManageExams" text="Open exam for students" />
                   <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="599.0" layoutY="500.0" prefHeight="56.0" prefWidth="144.0" onAction="#getBtnCloseExam_ManageExams" text="Close exam for students" />
-                  <JFXButton layoutX="416.0" layoutY="500.0" prefHeight="56.0" prefWidth="140.0" text="Give an extra time" />
+                  <JFXButton id="btnExtraTime_ManageExams" fx:id="btnExtraTime_ManageExams" layoutX="416.0" layoutY="500.0" prefHeight="56.0" prefWidth="140.0" onAction="#getBtnExtraTime_ManageExams" text="Give an extra time" />
                   <TableView id="tableView_inActiveExams" fx:id="tableView_inActiveExams" layoutX="14.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
                     <columns>
                       <TableColumn id="examIdColumn_inActiveExams" fx:id="examIdColumn_inActiveExams" prefWidth="75.0" text="Exam ID" />

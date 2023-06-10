@@ -269,7 +269,7 @@ public class MessageHandler_Server {
 						// send to all clients a message that an exam was closed with the examID
 						if(arrayListStr.get(2).equals("0")) {
 							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
-							examActivenessChanged_arr.add("exam activeness has been changed");
+							examActivenessChanged_arr.add("an exam has been closed");
 							examActivenessChanged_arr.add(arrayListStr.get(1));
 							serverCommunication = ServerUI.getCommunication();
 							serverCommunication.sendToAllClients(examActivenessChanged_arr);

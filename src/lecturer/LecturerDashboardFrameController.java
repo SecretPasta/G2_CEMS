@@ -925,6 +925,11 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    activeExamSelected = null;
 	}
+	
+	
+	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
+		
+	}
 
 	
 	/**

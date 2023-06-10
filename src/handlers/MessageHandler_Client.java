@@ -179,7 +179,7 @@ public class MessageHandler_Client {
 	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
 	                	
-	                /*case "exam activeness has been changed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                /*case "an exam has been closed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - examID
 	                	try {
 		                	if(currUserRole.equals("Student") && ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
