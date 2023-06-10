@@ -3,9 +3,14 @@ package student;
 import java.io.IOException;
 import java.net.URL;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
+import ClientServerComm.ChatIF;
 import Config.Exam;
+import Config.QuestionInExam;
+import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRadioButton;
@@ -16,6 +21,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -52,10 +59,25 @@ public class ComputerizedExamController implements Initializable{
     private Text timer;
     
     private JFXTabPane tabPane;
+
+	private ArrayList<QuestionInExam> questionsInExam = new ArrayList<>();
+
+	private ObservableList<QuestionInExam> questionsInExamObservableList = FXCollections.observableArrayList();
     
     private int currentQuestion = 0;
+
+	private static Exam currentExam;
+
+	private static ComputerizedExamController instance;
     
- 
+ 	public ComputerizedExamController(){
+		 instance = this;
+	}
+
+	public static ComputerizedExamController getInstance(){
+		 return instance;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Here we need to load all the questions text and answers from db to panes
@@ -73,14 +95,27 @@ public class ComputerizedExamController implements Initializable{
         // End of Timer for Exam ------------------------------------------------------------------
 
 
+		if(instance == null){
+			System.out.println("Is Null");
+		}else{
+			System.out.println("Not Null");
+		}
 
         //tabPane that contains all tabs (one tab per one question)
 		tabPane = new JFXTabPane();
 		tabPane.setPrefSize(970, 448);
 		tabPane.setTabMinWidth(977/20);
-		
+
+		ArrayList<String> getQuestionArr = new ArrayList<>();
+		getQuestionArr.add("getQuestionsInExamById");
+		getQuestionArr.add(currentExam.getExamID());
+		ClientUI.chat.accept(getQuestionArr);
+
+
+		System.out.println("This is load exams thingy\n" + questionsInExam.toString());
+
 		//loop that creating all question panes -> need to provide relevant amount of questions
-		for(int i = 1;i < 21;i++) { // Creating the exam questions pane,  the second parameter is the number of questions
+		for(int i = 1;i < questionsInExamObservableList.size() + 1;i++) { // Creating the exam questions pane,  the second parameter is the number of questions
 			
 			//each question and its answers saved in vbox which saved in Tab which saved in JFXTabPane
 			VBox questionPane = new VBox();
@@ -89,8 +124,8 @@ public class ComputerizedExamController implements Initializable{
 			questionPane.setPrefSize(970, 448);
 			questionPane.setStyle("-fx-background-color:#FAF9F6");
 			
-			//the question shuold be here
-			Label questionLabel = new Label(String.format("Question number %d", i)); // load the question itself here
+			//the question should be here
+			Label questionLabel = new Label(String.format(questionsInExamObservableList.get(i-1).getQuestionText())); // load the question itself here
 			questionLabel.setWrapText(true);
 			questionLabel.setStyle("-fx-font-weight: bold;");
 			questionLabel.setStyle("-fx-font-size: 18;");
@@ -101,18 +136,19 @@ public class ComputerizedExamController implements Initializable{
 			
 			//togglegroup for radiobuttons
 			ToggleGroup toggleGroup = new ToggleGroup(); // for each pane the toggles for the question select
-			
+			ArrayList<String> qAnswers = questionsInExamObservableList.get(0).getAnswers();
+			Collections.shuffle(qAnswers); //Randomizing Answers Order
 			//the answers should be here
-			JFXRadioButton answer1 = new JFXRadioButton("Answer number one");
+			JFXRadioButton answer1 = new JFXRadioButton(qAnswers.get(0));
 			answer1.setWrapText(true);
 			answer1.setToggleGroup(toggleGroup);
-			JFXRadioButton answer2 = new JFXRadioButton("Answer number two");
+			JFXRadioButton answer2 = new JFXRadioButton(qAnswers.get(1));
 			answer2.setWrapText(true);
 			answer2.setToggleGroup(toggleGroup);
-			JFXRadioButton answer3 = new JFXRadioButton("Answer number three");
+			JFXRadioButton answer3 = new JFXRadioButton(qAnswers.get(2));
 			answer3.setWrapText(true);
 			answer3.setToggleGroup(toggleGroup);
-			JFXRadioButton answer4 = new JFXRadioButton("Answer number four");
+			JFXRadioButton answer4 = new JFXRadioButton(qAnswers.get(3));
 			answer4.setWrapText(true);
 			answer4.setToggleGroup(toggleGroup);		
 			answers.getChildren().addAll(answer1, answer2, answer3, answer4);
@@ -136,10 +172,19 @@ public class ComputerizedExamController implements Initializable{
 	}
 
 	public static void start(Exam exam) throws IOException {
+		currentExam = exam;
 		System.out.println(exam);
+
 	    SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam").show(); // Creates and shows the login screen stage
+
 	}
-	
+
+	public void loadExamQuestions(ArrayList<QuestionInExam> questions){
+		System.out.println(questions + " AAAAAAAAAAAAAAAAAAAAA");
+		questionsInExam.addAll(questions);
+		questionsInExamObservableList.addAll(questions);
+	}
+
 	@FXML
     private void back(ActionEvent event) {
 		currentQuestion = tabPane.getTabs().indexOf(tabPane.getSelectionModel().getSelectedItem());

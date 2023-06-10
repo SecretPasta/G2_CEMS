@@ -212,13 +212,13 @@ public class StudentDashboardFrameController implements Initializable{
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){
-            System.out.println("Error, no Exam has been Selected!");
+            displayError("Error, no Exam has been Selected!");
         } else if (!selectedExam.getCode().equals(txtExamCode.getText())) {
-            System.out.println("Error, Incorrect Code!");
+            displayError("Error, Incorrect Code!");
         } else{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            System.out.println("You have started the Computerized Exam!!!");
+            displayError("You have started the Computerized Exam!!!");
             ComputerizedExamController.start(selectedExam);
             selectedExam = null;
         }

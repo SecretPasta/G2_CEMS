@@ -628,7 +628,10 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(1, active);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null, rs.getString(3), rs.getString("courseName"), null, null, null, rs.getInt(6), rs.getString(7), rs.getString(9)));
+	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null,
+								rs.getString(3), rs.getString("courseName"), null,
+								rs.getString("commentsLecturer"), rs.getString("commentsStudents"), rs.getInt(6),
+								rs.getString(7), rs.getString(9)));
 	                }
 	            }
 	        }
@@ -640,58 +643,68 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    return examsArr;
 	}
 
+	public static ArrayList<QuestionInExam> retrieveQuestionsInExamById(String examID){
+		ArrayList<QuestionInExam> questions = new ArrayList<>();
 
-	public static ArrayList<Exam> getComputerizedExams() {
-		ArrayList<Exam> activeExams = new ArrayList<>();
-		System.out.println("Reached the DB Controller");
 		try {
-			if (mysqlConnection.getConnection() != null) {
-				// Retrieve active exams
-				String examQuery = "SELECT * FROM exams WHERE isActive = 1";
-				PreparedStatement examPS = mysqlConnection.getConnection().prepareStatement(examQuery);
+			// Query to get the questionsInExam from the exams table
+			String query = "SELECT questionsInExam FROM exams WHERE ID=?";
+			PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+			ps.setString(1, examID);
+			ResultSet rs = ps.executeQuery();
 
-				ResultSet examRS = examPS.executeQuery();
+			// Retrieve the questionsInExam
+			String questionsInExam = "";
+			while (rs.next()) {
+				questionsInExam = rs.getString("questionsInExam");
+			}
 
-				while (examRS.next()) {
-					// Create an Exam object and populate its fields
-					String examID = examRS.getString("ID");
-					String subjectID = examRS.getString("subjectID");
-					String subjectName = ""; // Set the subjectName accordingly from the database
-					String courseID = examRS.getString("courseID");
-					String courseName = ""; // Set the courseName accordingly from the database
-					String commentsForLecturer = examRS.getString("commentsLecturer");
-					String commentsForStudent = examRS.getString("commentsStudents");
-					int duration = examRS.getInt("duration");
-					String author = examRS.getString("author");
-					String code = examRS.getString("code");
+			// Split the string by the comma to get question IDs
+			String[] questionIDs = questionsInExam.split(",");
 
-					// Parse the questionsInExam field to retrieve the questions and set them in the exam object
-					String[] questionIDs = examRS.getString("questionsInExam").split(",");
-					ArrayList<QuestionInExam> questions = new ArrayList<>();
-					for (String questionID : questionIDs) {
-						// Retrieve the Question object based on the questionID from the database or any other source
-						QuestionInExam questionInExam = retrieveQuestionsByExamId(questionID,examID);
+			// Iterate over the question IDs
+			for (String questionID : questionIDs) {
+				// Query to get the question details from the questionexams table
+				query = "SELECT * FROM questionsexam WHERE examID=? AND questionID=?";
+				ps = mysqlConnection.getConnection().prepareStatement(query);
+				ps.setString(1, examID);
+				ps.setString(2, questionID);
+				rs = ps.executeQuery();
 
-						if (questionInExam != null) {
-							questions.add(questionInExam);
-						}
-					}
+				// Retrieve the question details and add to the list
+				while (rs.next()) {
+					String questionText = rs.getString("questionText");
+					String answerCorrect = rs.getString("answerCorrect");
+					String answerWrong1 = rs.getString("answerWrong1");
+					String answerWrong2 = rs.getString("answerWrong2");
+					String answerWrong3 = rs.getString("answerWrong3");
+					Double points = rs.getDouble("points");
 
-					Exam exam = new Exam(examID, subjectID, subjectName, courseID, courseName, questions, commentsForLecturer, commentsForStudent, duration, author, code);
+					ArrayList<String> questionAnswers = new ArrayList<>();
+					questionAnswers.add(answerCorrect);
+					questionAnswers.add(answerWrong1);
+					questionAnswers.add(answerWrong2);
+					questionAnswers.add(answerWrong3);
 
-					activeExams.add(exam);
+					QuestionInExam question = new QuestionInExam(questionID, questionText, questionAnswers, null);
+					question.setPoints(points);
+					question.toString();
+					questions.add(question);
 				}
 			}
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
+			// Handle SQL errors
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
 		}
 
-		return activeExams;
+		return questions;
 	}
 
 
 	//A method to return the question by ID from the DB
-	private static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
+	public static QuestionInExam retrieveQuestionsByExamId(String questionID, String examID) {
 		QuestionInExam returnQuestions = new QuestionInExam(null, null, null, null);
 
 		try {

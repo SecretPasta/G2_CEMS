@@ -279,8 +279,10 @@ public class MessageHandler_Client {
 
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList) {
 		// Handle ArrayList<QuestionInExam> messages
-		
-    	String messageType = questionInExamList.get(0).getId();
+		System.out.println("Reached handleQuestionInExamArrayListMessage | ClientHandler");
+		System.out.println(questionInExamList + " Inside Handler!");
+    	//String messageType = questionInExamList.get(0).getId();
+		ComputerizedExamController.getInstance().loadExamQuestions(questionInExamList);
 
     	/*try {
 	    	switch (messageType) {

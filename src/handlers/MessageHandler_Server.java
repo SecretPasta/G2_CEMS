@@ -278,6 +278,12 @@ public class MessageHandler_Server {
 							client.sendToClient("exam is open");
 						}
 						break;
+					case "getQuestionsInExamById": //Get Questions for exam
+
+						ArrayList<QuestionInExam> questionInExamArray= new ArrayList<>();
+						questionInExamArray.addAll(DBController.retrieveQuestionsInExamById(arrayListStr.get(1)));
+						client.sendToClient(questionInExamArray);
+						break;
 						
 
 	            }
