@@ -12,8 +12,10 @@ import Config.FinishedExam;
 import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
-import com.sun.source.util.TaskListener;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
@@ -26,8 +28,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -68,9 +72,6 @@ public class StudentDashboardFrameController implements Initializable{
 
     @FXML
     private Pane pnlMyGrades;
-
-    @FXML
-    private Pane pnlViewExam;
 
 
     // Manual Exam Screen #####################################################
@@ -150,6 +151,15 @@ public class StudentDashboardFrameController implements Initializable{
     private TableColumn<Exam,String> gradeColumn_MyGrades;
 
     private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
+    
+    @FXML
+    private TextField txtExamCode;
+    
+    @FXML
+    private JFXSnackbar snackbarError;
+    
+    @FXML
+    private StackPane stackPane;
 
     // End of My Grades Screen #######################################################
 
@@ -205,22 +215,6 @@ public class StudentDashboardFrameController implements Initializable{
         // Code to open window for the appropriate exam
     }
 
-    @FXML
-    void handleClicks(ActionEvent actionEvent) {
-    	if (actionEvent.getSource() == btnComputerizedExam) {
-	        pnlComputerizedExam.toFront();
-	    }
-	    if (actionEvent.getSource() == btnManualExam) {
-	        pnlManualExam.toFront();
-	    }
-	    if (actionEvent.getSource() == btnMyGrades) {
-	        pnlMyGrades.toFront();    
-	    }
-	    if (actionEvent.getSource() == btnViewExam) {
-	        pnlViewExam.toFront();
-	    }
-    }
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
         lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
@@ -239,6 +233,8 @@ public class StudentDashboardFrameController implements Initializable{
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
+        currentPane = pnlGreeting;
+        pnlGreeting.toFront();
 
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
@@ -276,26 +272,52 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
+    
+    @FXML
+    void handleClicks(ActionEvent actionEvent) {
+    	if (actionEvent.getSource() == btnComputerizedExam) {
+    		handleAnimation(pnlComputerizedExam, btnComputerizedExam);
+	        pnlComputerizedExam.toFront();
+	    }
+	    if (actionEvent.getSource() == btnManualExam) {
+	    	handleAnimation(pnlManualExam, btnManualExam);
+	        pnlManualExam.toFront();
+	    }
+	    if (actionEvent.getSource() == btnMyGrades) {
+	    	handleAnimation(pnlMyGrades, btnMyGrades);
+	        pnlMyGrades.toFront();    
+	    }
+    }
 
     // method to transition between panes when clicking on buttons on the right side
     public void handleAnimation(Pane newPane, JFXButton newSection) {
-        FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
-        outgoingPane.setFromValue(1);
-        outgoingPane.setToValue(0);
+    	if(newSection != currentSection) {
+    		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+            outgoingPane.setFromValue(1);
+            outgoingPane.setToValue(0);
 
-        FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
-        comingPane.setFromValue(0);
-        comingPane.setToValue(1);
+            FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
+            comingPane.setFromValue(0);
+            comingPane.setToValue(1);
 
-        SequentialTransition transition = new SequentialTransition();
-        transition.getChildren().addAll(outgoingPane, comingPane);
-        transition.play();
+            SequentialTransition transition = new SequentialTransition();
+            transition.getChildren().addAll(outgoingPane, comingPane);
+            transition.play();
 
-        newSection.setStyle("-fx-border-color: #FAF9F6");
-        if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
+            newSection.setStyle("-fx-border-color: #FAF9F6");
+            if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
 
-        currentPane = newPane;
-        currentSection = newSection;
+            currentPane = newPane;
+            currentSection = newSection;
+    	}
+        
+    }
+    
+    //method to dispaly errors
+    private void displayError(String message) {
+    	snackbarError = new JFXSnackbar(stackPane);
+        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
+        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
     }
 
 
