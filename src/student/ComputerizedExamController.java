@@ -28,6 +28,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
@@ -63,6 +64,8 @@ public class ComputerizedExamController implements Initializable{
 	private ObservableList<QuestionInExam> questionsInExamObservableList = FXCollections.observableArrayList();
     
     private int currentQuestion = 0;
+
+	private ArrayList<String> correctAnswers;
 
 	private static Exam currentExam;
 
@@ -156,7 +159,7 @@ public class ComputerizedExamController implements Initializable{
 			
 		}
 		questionsPane.getChildren().add(tabPane);
-		
+
 	}
 
 	public static void start(Exam exam) throws IOException {
@@ -167,8 +170,73 @@ public class ComputerizedExamController implements Initializable{
 
 	}
 
+	private void saveCorrectAnswers(ArrayList<QuestionInExam> questions){
+		correctAnswers = new ArrayList<>();
+		for(QuestionInExam question : questions){
+			correctAnswers.add(question.getAnswers().get(0));
+		}
+	}
+
 	public void loadExamQuestions(ArrayList<QuestionInExam> questions){
+		saveCorrectAnswers(questions);
 		questionsInExamObservableList.addAll(questions);
+	}
+
+	private void checkComputerizedExam(){
+		 double grade = 0;
+		 ArrayList<String> studentAnswers = new ArrayList<>();
+		 studentAnswers.addAll(getChosenAnswers());
+		 for(int i = 0 ; i <correctAnswers.size(); i++){
+			 if(studentAnswers.get(i).equals(correctAnswers.get(i))){
+				 grade += questionsInExamObservableList.get(i).getPoints();
+			 }
+		}
+		System.out.println(getChosenAnswers());
+		System.out.println(grade);
+	}
+
+	//A method to get the chosen answers
+	private ArrayList<String> getChosenAnswers() {
+		ArrayList<String> selectedAnswers = new ArrayList<>();
+
+		for (Tab tab : tabPane.getTabs()) {
+			VBox questionPane = (VBox) tab.getContent();
+			ToggleGroup toggleGroup = getToggleGroup(questionPane);
+
+			if (toggleGroup != null) {
+				JFXRadioButton selectedRadioButton = (JFXRadioButton) toggleGroup.getSelectedToggle();
+				if (selectedRadioButton != null) {
+					String selectedAnswerText = selectedRadioButton.getText();
+					selectedAnswers.add(selectedAnswerText);
+				} else {
+					selectedAnswers.add(" "); // No answer selected for this question
+				}
+			}
+		}
+
+		return selectedAnswers;
+	}
+
+	//A method to get the Toggle Group
+	private ToggleGroup getToggleGroup(VBox questionPane) {
+		for (Node node : questionPane.getChildren()) {
+			if (node instanceof VBox) {
+				VBox answers = (VBox) node;
+				for (Node answerNode : answers.getChildren()) {
+					if (answerNode instanceof JFXRadioButton) {
+						JFXRadioButton radioButton = (JFXRadioButton) answerNode;
+						return radioButton.getToggleGroup();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	@FXML
+	public void getSubmitExamBtn(ActionEvent event) {
+		System.out.println("You've Submitted the exam!");
+		checkComputerizedExam();
 	}
 
 	@FXML
