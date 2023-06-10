@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -70,15 +71,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private JFXSnackbar snackbarError;
-	
 	@FXML
-	private Label lblMessage1;
-	@FXML
-	private Label lblMessage2;
 	@FXML
 	private Label lbluserNameAndID;
 	@FXML
 	private Label lblTotalQuestionSelectedPoints;
+	
+	@FXML
+	private StackPane stackPane;
 	
 	@FXML
 	private Pane pnlGreeting;
@@ -265,9 +265,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	            try {
 	                return Double.parseDouble(str);
 	            } catch (NumberFormatException e) {
-	                snackbarError = new JFXSnackbar(pnlCreateExam);
-	                snackbarError.setPrefWidth(754);
-	                snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points should be only numbers"), Duration.millis(3000), null));
+	            	displayMessage("Error: Points should be only numbers");
 	                return null; // Return null to indicate a conversion error
 	            }
 	        }
@@ -293,7 +291,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_activeExams.getSelectionModel().clearSelection();
 	    
 	 // -------------- ManageExam PANEL --------------
-	    
 
 	}
 	
@@ -355,9 +352,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    questionSelected = tableView_ManageQuestions.getSelectionModel().getSelectedItem();
 	    if (questionSelected == null) {
 	        // Show an error message using a snackbar if no question is selected
-	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
+	        displayMessage("Error: No question was selected.");
 	    } else {
 	        // Hide the primary window
 	        ((Node) event.getSource()).getScene().getWindow().hide();
@@ -432,9 +427,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (questionSelected == null) {
 	        // Display an error message if no question is selected
-	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("No question was selected."), Duration.millis(3000), null));
+	        displayMessage("Error: No question was selected.");
 	    } else {
 	        // Send a message to the server to remove the question from the database
 	        ArrayList<String> questionToRemoveArr = new ArrayList<>();
@@ -443,9 +436,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        ClientUI.chat.accept(questionToRemoveArr);
 
 	        // Display a success message for the removed question
-	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Question (ID:" + questionSelected.getId() + ") removed successfully"), Duration.millis(3000), null));
+	        displayMessage("Question (ID:" + questionSelected.getId() + ") removed successfully");
 
 	        // Remove the question from the questionsToEditObservableList and refresh the table view
 	        for (int i = 0; i < questionsToEditObservableList.size(); i++) {
@@ -473,10 +464,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        questionsToEditObservableList.add(newQuestion);
 
 	        // Display a success message for the added question
-	        snackbarError = new JFXSnackbar(pnlManageQuestions);
-	        snackbarError.setPrefWidth(754);
-	        JFXSnackbarLayout layout = new JFXSnackbarLayout("Question added successfully");
-	        snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
+	        displayMessage("Question added successfully!");
 	    }
 
 	    // Show the current stage
@@ -510,10 +498,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    currStage.show();
 
 	    // Display a success message with the exam ID
-	    snackbarError = new JFXSnackbar(pnlCreateExam);
-	    snackbarError.setPrefWidth(754);
-	    JFXSnackbarLayout layout = new JFXSnackbarLayout("Your exam has been created: Exam ID (" + exam.getExamID() + ")");
-	    snackbarError.fireEvent(new SnackbarEvent(layout, Duration.millis(3000), null));
+	    displayMessage("Your exam has been created: Exam ID (" + exam.getExamID() + ")");
 	}
 	
 	
@@ -554,9 +539,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (subjectSelect_CreateExam == null || courseSelect_CreateExam == null) {
 	        // Display an error message if any field is missing
-	    	snackbarError = new JFXSnackbar(pnlCreateExam);
-	    	snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: Missing fields"), Duration.millis(3000), null));
+	    	displayMessage("Error: Missing fields");
 	    } else {
 	        // Prepare and send a request to the server to retrieve questions for the selected subject and course
 	        ArrayList<String> getQuestionsArr = new ArrayList<>();
@@ -641,14 +624,10 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (questionsToCreateExamObservableList2.contains(questionSelected)) {
 	        // Display an error message if the question has already been added to the exam
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("Error: This question already added"), Duration.millis(3000), null));
+	        displayMessage("Error: This question already added");
 	    } else if (questionSelected == null) {
 	        // Display an error message if no question is selected
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
+	        displayMessage("Error: No question selected");
 	    } else {
 	        // Create a QuestionInExam object for the selected question and add it to the list
 	        questionInExamSelected = new QuestionInExam(questionSelected.getId(), questionSelected.getQuestionText(), questionSelected.getAnswers(), questionSelected.getLecturer());
@@ -690,9 +669,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    if (questionInExamSelected == null) {
 	        // Display an error message if no question is selected
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No question selected"), Duration.millis(3000), null));
+	        displayMessage("Error: No question selected");
 	    } else {
 	        // Subtract the points of the selected question from the total points
 	        total_points_CreateExam -= questionInExamSelected.getPoints();
@@ -752,9 +729,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	        if (temp_total_points > 100) {
 	            // Display an error message if the total points will exceed 100
-	            snackbarError = new JFXSnackbar(pnlCreateExam);
-	            snackbarError.setPrefWidth(754);
-	            snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points cannot be over 100"), Duration.millis(3000), null));
+	            displayMessage("Error: Total points cannot be over 100");
 	        } else {
 	            // Update the total points and the points of the selected question
 	            total_points_CreateExam = total_points_CreateExam - oldPoints + newPoints;
@@ -778,9 +753,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	    } catch (NumberFormatException | NullPointerException e) {
 	        // Display an error message if the entered points value is not a valid number
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Points should be only numbers"), Duration.millis(3000), null));
+	        displayMessage("Error: Points should be only numbers");
 	    }
 	}
 
@@ -793,14 +766,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void getBtnContinue_CreateExam(ActionEvent event) throws Exception {
 	    if (questionsToCreateExamObservableList2.isEmpty()) {
 	        // Display an error message if there are no questions in the exam
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] No questions in the test"), Duration.millis(3000), null));
+	        displayMessage("Error: No questions in the test");
 	    } else if (total_points_CreateExam != 100) {
 	        // Display an error message if the total points of the exam is not 100
-	        snackbarError = new JFXSnackbar(pnlCreateExam);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Total points have to be 100"), Duration.millis(3000), null));
+	        displayMessage("Error: Total points have to be 100");
 	    } else {
 	        // Hide the current window and start the CreateExam_CommentsAndTimeFrameController.
 	    	// sending to the next screen: the lecturer, the questions, the subject and the course
@@ -879,9 +848,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        changeExamActivenessInDB(inActiveExamSelected.getExamID(), "1");
 
 	    } catch (NullPointerException e) {
-	        snackbarError = new JFXSnackbar(pnlManageExams);
-	        snackbarError.setPrefWidth(754);
-	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
+	        displayMessage("Error: Exam not selected");
 	    }
 	    
 	    tableView_inActiveExams.getSelectionModel().clearSelection();
@@ -913,6 +880,29 @@ public class LecturerDashboardFrameController implements Initializable{
 	        changeExamActivenessInDB(activeExamSelected.getExamID(), "0");
 
 	    } catch (NullPointerException e) {
+	        displayMessage("Error: Exam not selected");
+	    }
+	    
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.refresh();
+	    tableView_inActiveExams.refresh();
+
+	    activeExamSelected = null;
+	}
+	
+	
+	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
+		activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
+		
+		try {
+	        if (activeExamSelected == null) {
+	            throw new NullPointerException();
+	        }
+	        ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+	        ManageExam_ChangeTimeFrameController.start(activeExamSelected, lecturer);
+
+	    } catch (NullPointerException e) {
 	        snackbarError = new JFXSnackbar(pnlManageExams);
 	        snackbarError.setPrefWidth(754);
 	        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout("[Error] Exam not selected"), Duration.millis(3000), null));
@@ -926,9 +916,13 @@ public class LecturerDashboardFrameController implements Initializable{
 	    activeExamSelected = null;
 	}
 	
-	
-	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
-		
+	public void showDashboardFrom_ChangeTime() throws IOException {
+	    // Show the current stage
+	    currStage.show();
+
+	    // Clear the selection in the exam tables
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
 	}
 
 	
@@ -1195,6 +1189,12 @@ public class LecturerDashboardFrameController implements Initializable{
         
         currentPane = newPane;
         currentSection = newSection;  
+	}
+	
+	private void displayMessage(String message) {
+		snackbarError = new JFXSnackbar(stackPane);
+        snackbarError.setPrefWidth(754);
+        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
 	}
 
 }

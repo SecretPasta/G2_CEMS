@@ -45,9 +45,6 @@ public class AddQuestionFrameController implements Initializable {
     
     @FXML
     private JFXSnackbar snackbarError;
-    
-    @FXML
-    private Label lblMessage;
 
 	@FXML
     private TextField textQuestionText;

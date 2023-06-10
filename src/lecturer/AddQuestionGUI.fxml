@@ -87,7 +87,6 @@
          <font>
             <Font name="System Bold" size="18.0" />
          </font></JFXButton>
-      <Label id="lblMessage" fx:id="lblMessage" layoutX="536.0" layoutY="631.0" prefHeight="34.0" prefWidth="288.0" />
       <Pane layoutX="125.0" layoutY="2.0" prefHeight="96.0" prefWidth="600.0" style="-fx-background-color: #57C58F; -fx-background-radius: 0 0 30 30;" AnchorPane.leftAnchor="125.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="254.0" layoutY="26.0" text="Add Question" textFill="#242633">

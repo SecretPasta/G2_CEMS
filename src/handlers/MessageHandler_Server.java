@@ -148,6 +148,7 @@ public class MessageHandler_Server {
 	                    break;
 	                case "UserLogin":
 	                    // Handle UserLogin message
+	                	serverCommunication = ServerUI.getCommunication();
 	                	
 	                	ArrayList<String> userDetails;
 						userDetails = DBController.userExist(arrayListStr); // getting from DB details about the user
@@ -271,12 +272,23 @@ public class MessageHandler_Server {
 							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
 							examActivenessChanged_arr.add("an exam has been closed");
 							examActivenessChanged_arr.add(arrayListStr.get(1));
-							serverCommunication = ServerUI.getCommunication();
 							serverCommunication.sendToAllClients(examActivenessChanged_arr);
 						}
 						else {
 							client.sendToClient("exam is open");
 						}
+						break;				
+						
+					case "RequestToChangeAnExamDurationFromLecturerToHOD": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+						// 1 - exam ID
+						// 2 - subject name
+						// 3 - course name
+						// 4 - lecturer id that sent the request
+						// 5 - lecturer name
+						// 6 - lecturer's explanation
+						// 7 - new exam duration
+						serverCommunication.sendToAllClients(serverCommunication);
+						
 						break;
 					case "getQuestionsInExamById": //Get Questions for exam
 
