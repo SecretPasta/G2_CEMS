@@ -221,7 +221,6 @@
                     </columns>
                   </TableView>
                   <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="455.0" layoutY="68.0" onAction="#getSearchBtn_CreateExam" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Search" />
-                  <Label id="lblMessage2" fx:id="lblMessage2" layoutX="325.0" layoutY="536.0" prefHeight="17.0" prefWidth="114.0" />
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -265,7 +264,6 @@
             </Pane>
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
-                  <Label id="lblMessage1" fx:id="lblMessage1" layoutX="69.0" layoutY="537.0" prefHeight="25.0" prefWidth="144.0" style="-fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" />
                   <Label layoutX="57.0" layoutY="25.0" text="Manage Questions" textFill="#242633">
                      <font>
                         <Font name="System Bold" size="24.0" />
