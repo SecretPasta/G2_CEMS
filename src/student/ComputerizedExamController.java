@@ -136,7 +136,7 @@ public class ComputerizedExamController implements Initializable{
 			
 			//togglegroup for radiobuttons
 			ToggleGroup toggleGroup = new ToggleGroup(); // for each pane the toggles for the question select
-			ArrayList<String> qAnswers = questionsInExamObservableList.get(0).getAnswers();
+			ArrayList<String> qAnswers = questionsInExamObservableList.get(i-1).getAnswers();
 			Collections.shuffle(qAnswers); //Randomizing Answers Order
 			//the answers should be here
 			JFXRadioButton answer1 = new JFXRadioButton(qAnswers.get(0));
