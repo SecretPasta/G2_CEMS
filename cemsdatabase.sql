@@ -90,7 +90,7 @@ CREATE TABLE `coursesubject` (
 
 LOCK TABLES `coursesubject` WRITE;
 /*!40000 ALTER TABLE `coursesubject` DISABLE KEYS */;
-INSERT INTO `coursesubject` VALUES ('01','01'),('02','01'),('03','01'),('05','01'),('06','02'),('04','03');
+INSERT INTO `coursesubject` VALUES ('01','01'),('02','01'),('03','01'),('05','01'),('06','02'),('04','03'),('07','04');
 /*!40000 ALTER TABLE `coursesubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +227,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',1),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -344,7 +344,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?','001','for i in range(10)','while(i != 1)','i++','if(i==1)','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','x = 10','x = *10','*x = 10','x = &10','Jason Smith','333444555'),('01003','01','What is the difference between a stack and a queue?','003','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.','A stack is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','A queue is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed.','A queue is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','Jason Smith','333444555'),('01004','01','What is the time complexity of binary search?','004','O(log n)','O(n)','O(n^2)','O(1)','Jason Smith','333444555'),('01005','01','What is the difference between pass by value and pass by reference?','005','Pass by value: Value copied, no modification affects original.','Pass by value: Memory address passed, modifications affect original.','Pass by reference: Value copied, modifications affect original.','Pass by reference: Memory address passed, no modification affects original.','Jason Smith','333444555'),('02001','02','If a set B has n elements, then what is the total number of subsets of B?','001','2^n','n!','n^2','n','Omri Sharof','206391146'),('03001','03','Why is English so important?','001','English facilitates global communication and understanding across diverse cultures.','English is challenging due to its irregular grammar rules and exceptions.','English has a rich literary tradition with influential works.','English\'s significance is tied to its status as the official language of the United States.','Omri Sharof','206391146');
+INSERT INTO `question` VALUES ('01001','01','What is the correct syntax for a loop in Python?','001','for i in range(10)','while(i != 1)','i++','if(i==1)','Omri Sharof','206391146'),('01002','01','What is the correct syntax for a pointer? ','002','x = 10','x = *10','*x = 10','x = &10','Jason Smith','333444555'),('01003','01','What is the difference between a stack and a queue?','003','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.','A stack is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','A queue is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed.','A queue is a data structure that follows the First-In-First-Out (FIFO) principle, where the first element added is the first one to be removed.','Jason Smith','333444555'),('01004','01','What is the time complexity of binary search?','004','O(log n)','O(n)','O(n^2)','O(1)','Jason Smith','333444555'),('01005','01','What is the difference between pass by value and pass by reference?','005','Pass by value: Value copied, no modification affects original.','Pass by value: Memory address passed, modifications affect original.','Pass by reference: Value copied, modifications affect original.','Pass by reference: Memory address passed, no modification affects original.','Jason Smith','333444555'),('02001','02','If a set B has n elements, then what is the total number of subsets of B?','001','2^n','n!','n^2','n','Omri Sharof','206391146'),('03001','03','Why is English so important?','001','English facilitates global communication and understanding across diverse cultures.','English is challenging due to its irregular grammar rules and exceptions.','English has a rich literary tradition with influential works.','English\'s significance is tied to its status as the official language of the United States.','Omri Sharof','206391146'),('04001','04','In the context of electric circuits, what is the role of a resistor?','001','Resistor decreases the current flowing through the circuit','Resistor stores electrical energy.','Resistor increases the voltage of the circuit','Resistor acts as a switch, turning the circuit on and off','Jason Smith','333444555');
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +368,7 @@ CREATE TABLE `questioncourse` (
 
 LOCK TABLES `questioncourse` WRITE;
 /*!40000 ALTER TABLE `questioncourse` DISABLE KEYS */;
-INSERT INTO `questioncourse` VALUES ('01001','03'),('01002','03'),('01003','01'),('01004','02'),('01005','05'),('01006','01'),('01006','02'),('01006','03'),('01008','01'),('01008','02'),('01008','03'),('01008','05'),('01010','01'),('01010','02'),('01010','03'),('01010','05'),('02001','06'),('03001','04');
+INSERT INTO `questioncourse` VALUES ('01001','03'),('01002','03'),('01003','01'),('01004','02'),('01005','05'),('01006','01'),('01006','02'),('01006','03'),('01008','01'),('01008','02'),('01008','03'),('01008','05'),('01010','01'),('01010','02'),('01010','03'),('01010','05'),('02001','06'),('03001','04'),('04001','07');
 /*!40000 ALTER TABLE `questioncourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,4 +493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-10 22:59:00
+-- Dump completed on 2023-06-10 23:14:52
