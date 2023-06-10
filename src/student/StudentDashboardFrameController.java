@@ -219,7 +219,7 @@ public class StudentDashboardFrameController implements Initializable{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
             displayError("You have started the Computerized Exam!!!");
-            ComputerizedExamController.start(selectedExam);
+            ComputerizedExamController.start(selectedExam,student);
             selectedExam = null;
         }
 

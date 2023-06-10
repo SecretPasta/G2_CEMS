@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import Config.Exam;
 import Config.QuestionInExam;
+import Config.Student;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -64,6 +65,8 @@ public class ComputerizedExamController implements Initializable{
 	private ArrayList<String> correctAnswers;
 
 	private static Exam currentExam;
+
+	private static Student participatingStudent;
 
 	private static ComputerizedExamController instance;
     
@@ -158,8 +161,9 @@ public class ComputerizedExamController implements Initializable{
 
 	}
 
-	public static void start(Exam exam) throws IOException {
+	public static void start(Exam exam, Student student) throws IOException {
 		currentExam = exam;
+		participatingStudent = student;
 		System.out.println(exam);
 
 	    SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam").show(); // Creates and shows the login screen stage
