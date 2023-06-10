@@ -72,7 +72,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private JFXSnackbar snackbarError;
 	@FXML
-	@FXML
 	private Label lbluserNameAndID;
 	@FXML
 	private Label lblTotalQuestionSelectedPoints;

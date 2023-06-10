@@ -23,5 +23,8 @@ public class QuestionInExam extends Question{
 		this.points = points;
 	}
 
-	
+	@Override
+	public String toString() {
+		return super.toString() + "points=" + points + '}';
+	}
 }
