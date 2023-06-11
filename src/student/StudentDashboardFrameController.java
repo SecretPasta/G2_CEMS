@@ -10,6 +10,7 @@ import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.FinishedExam;
 import Config.Student;
+import Config.StudentGrade;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
@@ -136,38 +137,33 @@ public class StudentDashboardFrameController implements Initializable{
 
     // My Grades Screen ##############################################################
     @FXML
-    private TableView<Exam> tableView_MyGrades = new TableView<>();
+    private TableView<StudentGrade> tableView_MyGrades = new TableView<>();
 
     @FXML
-    private TableColumn<Exam,String> courseExamID_MyGrades;
+    private TableColumn<StudentGrade, String> courseExamID_MyGrades;
     @FXML
-    private TableColumn<Exam,String> courseColumn_MyGrades;
-
-    @FXML
-    private TableColumn<Exam,String> subjectColumn_MyGrades;
-
-//    @FXML
-//    private TableColumn<Exam,String> descriptionColumn_MyGrades; //Comment for Students goes here
-
-//    @FXML
-//    private TableColumn<Exam, Integer> durationColumn_MyGrades;
+    private TableColumn<StudentGrade,String> courseColumn_MyGrades;
 
     @FXML
-    private TableColumn<Exam,String> lecturerColumn_MyGrades; //Author goes here
+    private TableColumn<StudentGrade,String> subjectColumn_MyGrades;
 
     @FXML
-    private TableColumn<Exam,String> gradeColumn_MyGrades;
+    private TableColumn<StudentGrade,String> lecturerColumn_MyGrades;
 
-    private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
-    
+    @FXML
+    private TableColumn<StudentGrade, Double> gradeColumn_MyGrades;
 
-    
+    private ObservableList<StudentGrade> myGradesObservableList = FXCollections.observableArrayList();
+
     @FXML
     private JFXSnackbar snackbar;
     private JFXSnackbarLayout snackbarLayout;
     
     @FXML
     private StackPane stackPane;
+
+    @FXML
+    private JFXButton refreshGradesBtn;
 
     // End of My Grades Screen #######################################################
 
@@ -182,10 +178,12 @@ public class StudentDashboardFrameController implements Initializable{
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
         computerizedExamsObservableList.setAll(examList);
         tableView_UpcomingComputerizedExams.setItems(computerizedExamsObservableList);
-
-
-
         System.out.println(examList);
+    }
+
+    public void loadStudentGradesIntoTable(ArrayList<StudentGrade> gradesList){
+        myGradesObservableList.setAll(gradesList);
+        tableView_MyGrades.setItems(myGradesObservableList);
     }
 
     @FXML
@@ -260,6 +258,16 @@ public class StudentDashboardFrameController implements Initializable{
         //--------------------- End of Manual Exam ----------------------------------------------------------------
 
         //--------------------- Grades Screen ---------------------------------------------------------------------
+        // Setting up the data for table
+        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("examID"));
+        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("course"));
+        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("subject"));
+        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("lecturer"));
+        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,Double>("grade"));
+        ArrayList<String> getGradesArr = new ArrayList<>();
+        getGradesArr.add("getStudentGradesById");
+        getGradesArr.add((student.getId()));
+        ClientUI.chat.accept(getGradesArr);
 
         //--------------------- End of Grades Screen --------------------------------------------------------------
 
@@ -275,6 +283,13 @@ public class StudentDashboardFrameController implements Initializable{
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
+    }
+
+    public void getBtnRefreshGrades(ActionEvent action){
+        ArrayList<String> getGradesArr = new ArrayList<>();
+        getGradesArr.add("getStudentGradesById");
+        getGradesArr.add((student.getId()));
+        ClientUI.chat.accept(getGradesArr);
     }
 
 

@@ -124,31 +124,6 @@
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
             <JFXSnackbar fx:id="snackbar" />
-            <Pane fx:id="pnlMyGrades" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="57.0" layoutY="25.0" text="MyGrades" textFill="#242633">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font></Label>
-                  <VBox layoutX="29.0" layoutY="78.0" prefHeight="450.0" prefWidth="735.0">
-                     <children>
-                        <TableView fx:id="tableView_MyGrades" prefHeight="450.0" prefWidth="735.0">
-                           <columns>
-                              <TableColumn fx:id="courseExamID_MyGrades" prefWidth="104.0" text="ExamID" />
-                              <TableColumn fx:id="courseColumn_MyGrades" prefWidth="135.20004272460938" text="Course" />
-                              <TableColumn fx:id="subjectColumn_MyGrades" prefWidth="180.0" text="Subject" />
-                              <TableColumn fx:id="lecturerColumn_MyGrades" prefWidth="197.60009765625" text="Lecturer" />
-                              <TableColumn fx:id="gradeColumn_MyGrades" minWidth="0.0" prefWidth="118.39990234375" text="Grade" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </VBox>
-               </children></Pane>
             <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Student Exam Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
@@ -274,6 +249,32 @@
                   <JFXButton fx:id="refreshComputerizedExams" layoutX="538.0" layoutY="28.0" onAction="#getBtnRefreshComputerizedExams" text="Refresh" />
                </children>
             </Pane>
+            <Pane fx:id="pnlMyGrades" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="57.0" layoutY="25.0" text="MyGrades" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font></Label>
+                  <VBox layoutX="29.0" layoutY="78.0" prefHeight="450.0" prefWidth="735.0">
+                     <children>
+                        <TableView fx:id="tableView_MyGrades" prefHeight="450.0" prefWidth="735.0">
+                           <columns>
+                              <TableColumn fx:id="courseExamID_MyGrades" prefWidth="104.0" text="ExamID" />
+                              <TableColumn fx:id="courseColumn_MyGrades" prefWidth="135.20004272460938" text="Course" />
+                              <TableColumn fx:id="subjectColumn_MyGrades" prefWidth="180.0" text="Subject" />
+                              <TableColumn fx:id="lecturerColumn_MyGrades" prefWidth="197.60009765625" text="Lecturer" />
+                              <TableColumn fx:id="gradeColumn_MyGrades" minWidth="0.0" prefWidth="118.39990234375" text="Grade" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <JFXButton fx:id="refreshGradesBtn" layoutX="548.0" layoutY="25.0" onAction="#getBtnRefreshGrades" text="Refresh" />
+               </children></Pane>
          </children>
       </StackPane>
    </children>

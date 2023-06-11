@@ -53,7 +53,7 @@ public class MessageHandler_Server {
 
 
 	private static MessageType getMessageType(Object msg) {
-		System.out.println("Reached the getMessageType Method");
+		System.out.println("Reached the getMessageType Method | Server Handler");
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
 	    } else if (msg instanceof ArrayList) {
@@ -334,6 +334,12 @@ public class MessageHandler_Server {
 				    	client.sendToClient(hod_arr);
 				    	
 				    	break;
+					case "getStudentGradesById":
+						ArrayList<StudentGrade> studentGrades = new ArrayList<>();
+						studentGrades.add(new StudentGrade("studentGradesForClient",null,null,null,0));
+						studentGrades.addAll(DBController.getAllStudentGradesById(arrayListStr.get(1)));
+						client.sendToClient(studentGrades);
+						break;
 						
 
 	            }
