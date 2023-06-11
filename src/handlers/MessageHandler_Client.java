@@ -206,7 +206,7 @@ public class MessageHandler_Client {
 	                case "SendToHeadOfDepartmentsThatRequestRecieved":
 	                	// 1 - Head of department ID
 	                	try {
-		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department
+		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
 		                		
 		                		System.out.println("you have new message"); // alert new request: function or something else
 		                	}
