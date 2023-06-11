@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import Config.Exam;
 import Config.FinishedExam;
@@ -37,7 +38,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import student.ExamTimer;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ComputerizedExamController implements Initializable{
 	
@@ -58,6 +60,7 @@ public class ComputerizedExamController implements Initializable{
     @FXML
     private Text timer;
 
+	private static Stage openStage;
 	private ExamTimer examTimer;
 	
     private JFXTabPane tabPane;
@@ -169,7 +172,8 @@ public class ComputerizedExamController implements Initializable{
 		participatingStudent = student;
 		System.out.println(exam);
 
-	    SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam").show(); // Creates and shows the login screen stage
+	    openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam"); // Creates and shows the login screen stage
+		openStage.show();
 
 	}
 
@@ -253,14 +257,20 @@ public class ComputerizedExamController implements Initializable{
 		finishedExam.checkExam();
 		finishedExamsList.add(finishedExam);
 		System.out.println(finishedExam);
+		openStage.hide();
+		StudentDashboardFrameController.getInstance().showDashboardWindow();
 		//Submitting Exam to the DB
 		ClientUI.chat.accept(finishedExamsList);
+
+
+
 	}
 
 	//Auto Submit when timer runs out
 	public void endOfTimerSubmit(){
 		 // Needs GUI elements to throw pop up about timer running out
 		 submitExam();
+
 	}
 
 	//Submitting by Pressing "Submit"
@@ -268,11 +278,20 @@ public class ComputerizedExamController implements Initializable{
 	public void getSubmitExamBtn(ActionEvent event) {
 		examTimer.stopTimer();
 		submitExam();
+		//Closing Window and returning to main Screen
+		//((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+
+
+
+
 	}
 
 	//method to update the exam duration after approval, approval is done in headofdepartment code
-	public void updateExamDuration(int minutes){
-		 examTimer.updateTimer(minutes);
+	public void updateExamDuration(String examID , int minutes){
+		 if(examID.equals(currentExam.getExamID())){
+			 examTimer.updateTimer(minutes);
+		 }
+
 	}
 
 	@FXML

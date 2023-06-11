@@ -289,7 +289,12 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
-    
+
+    //Show the main dashboard window
+    public void showDashboardWindow(){
+        currentStage.show();
+    }
+
     @FXML
     void handleClicks(ActionEvent actionEvent) {
     	if (actionEvent.getSource() == btnComputerizedExam) {
