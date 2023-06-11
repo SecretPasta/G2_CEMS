@@ -172,7 +172,7 @@ public class MessageHandler_Client {
 							System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
-						else if(arrayListStr.get(1).equals("headofdepartment")) { // login as head of department
+						else if(arrayListStr.get(1).equals("HeadOfDepartment")) { // login as head of department
 							HODDashboardFrameController.start(arrayListStr);
 						}
 						System.out.println("logged in succesfully");
@@ -207,12 +207,22 @@ public class MessageHandler_Client {
 	                	// 1 - Head of department ID
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
-		                		
 		                		System.out.println("you have new message"); // alert new request: function or something else
+		                		HODDashboardFrameController.getInstance().getAllrequests();
+		                		// send pop up message that extra time request recieved!!!!! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		                		
 		                	}
                 		}catch (NullPointerException e){}
 	                	
 	            
+	                	break;
+	                	
+	                case "LoadAllRequestsForHOD":
+	                	arrayListStr.remove(0);
+	                	System.out.println(3);
+	                	HODDashboardFrameController.getInstance().loadRequestsFromDB(arrayListStr);
+	                	System.out.println(2);
+	                	
 	                	break;
 	            }       
 	            

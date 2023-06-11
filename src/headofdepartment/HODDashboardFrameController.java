@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
@@ -18,6 +19,8 @@ import client.ClientUI;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,21 +36,24 @@ public class HODDashboardFrameController implements Initializable{
 
     @FXML
     private JFXButton btnApproveExtraTime;
-
     @FXML
     private JFXButton btnShowReport;
+    @FXML
+    private JFXButton currentSection;
+    @FXML
+    private JFXButton btnAcceptRequest;
 
     @FXML
     private Label lbluserNameAndID;
 
     @FXML
     private Pane pnlApproveExtraTime;
-
     @FXML
     private Pane pnlShowReport;
-    
     @FXML
     private Pane pnlGreeting;
+    @FXML
+    private Pane currentPane;
 
     @FXML
     private JFXSnackbar snackbarError;
@@ -55,8 +61,12 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     private StackPane stackPane;
     
-    private Pane currentPane;
-    private JFXButton currentSection;
+    @FXML
+    private JFXListView<String> listRequests;
+    
+    private ObservableList<String> requests_observablelist = FXCollections.observableArrayList();
+
+
     
     private static HODDashboardFrameController instance;
     private static HeadOfDepartment headofdepartment;
@@ -74,10 +84,30 @@ public class HODDashboardFrameController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	lbluserNameAndID.setText((headofdepartment.getName() + "\n(ID: " + headofdepartment.getId() + ")")); //Initializing the label
     	
+    	getAllrequests();
+    	
     	currentPane = pnlGreeting;
         pnlGreeting.toFront();
 		
 	}
+    
+    public void getAllrequests() {
+    	System.out.println(headofdepartment.getId());
+		ArrayList<String> getallrequest_arr = new ArrayList<>();
+		getallrequest_arr.add("GetAllRequestsOfHodFromDB");
+		getallrequest_arr.add(headofdepartment.getId());
+		ClientUI.chat.accept(getallrequest_arr);
+	}
+
+	public void loadRequestsFromDB(ArrayList<String> requests_arr) {
+    	requests_observablelist.setAll(requests_arr);	
+    	listRequests.setItems(requests_observablelist);
+    	listRequests.refresh();
+    	if(!listRequests.getItems().isEmpty()) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    		// send pop up message that extra time request recieved!!!!!
+    		System.out.println("new new new");
+    	}
+    }
     
     public static void start(ArrayList<String> hodDetails) throws IOException {
 
@@ -139,6 +169,7 @@ public class HODDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnApproveExtraTime) {
 	    	handleAnimation(pnlApproveExtraTime, btnApproveExtraTime);
+	    	getAllrequests();
 	        pnlApproveExtraTime.toFront();
 	    }
     }

@@ -278,7 +278,7 @@ public class MessageHandler_Server {
 						}
 						break;				
 						
-					case "RequestToChangeAnExamDurationFromLecturerToHOD": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+					case "RequestToChangeAnExamDurationFromLecturerToHOD":
 						// 1 - exam ID
 						// 2 - subject name
 						// 3 - course name
@@ -299,7 +299,7 @@ public class MessageHandler_Server {
 								connectedClients.get(i).getClient().sendToClient(requestrecieved_arr);
 							}
 						}
-						
+						client.sendToClient("request sent");
 						break;
 					case "getQuestionsInExamById": //Get Questions for exam
 
@@ -333,6 +333,14 @@ public class MessageHandler_Server {
 				    	hod_arr.addAll(DBController.getHeadOfDepartmentsByLecturer(arrayListStr.get(1)));
 				    	client.sendToClient(hod_arr);
 				    	
+				    	break;
+				    	
+				    case "GetAllRequestsOfHodFromDB":
+				    	// 1 - Head of department ID
+				    	ArrayList<String> requests_arr = new ArrayList<>();
+				    	requests_arr.add("LoadAllRequestsForHOD");
+				    	requests_arr.addAll(DBController.getRequestsForHod(arrayListStr.get(1)));
+				    	client.sendToClient(requests_arr);
 				    	break;
 						
 

@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -794,7 +795,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID. get only id and name
 	public static ArrayList<HeadOfDepartment> getHeadOfDepartmentsByLecturer(String lecturerID) {
 		ArrayList<HeadOfDepartment> arr = new ArrayList<>();
-		arr.add(new HeadOfDepartment("aaa1", null, null, "bbb1", null));
+		arr.add(new HeadOfDepartment("2233", null, null, "yossi ohayon", null));
 		arr.add(new HeadOfDepartment("aaa2", null, null, "bbb2", null));
 		arr.add(new HeadOfDepartment("aaa3", null, null, "bbb3", null));
 		arr.add(new HeadOfDepartment("aaa4", null, null, "bbb4", null));
@@ -817,7 +818,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		// 7 - add to exam duration
 		// 8 - head of department ID
 		
-		String query = "INSERT INTO headofdepartmentrequests (hodID, subject, course, lecturerID, examID, lecturerName"
+		String query = "INSERT INTO headofdepartmentrequests (HeadOfDepartmentID, subject, course, lecturerID, examID, lecturerName"
 				+ ", explanation, examDurationAdd) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	    try {
 	    	if (mysqlConnection.getConnection() != null) {
@@ -859,6 +860,34 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+
+
+
+	public static ArrayList<String> getRequestsForHod(String hodID) {
+
+		String query = "SELECT * FROM headofdepartmentrequests WHERE HeadOfDepartmentID = ?";
+		ArrayList<String> requests_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, hodID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	requests_arr.add(rs.getString(1) + "," + rs.getString(2) + "," + rs.getString(3) + "," + rs.getString(4)
+	                	 + "," + rs.getString(5) + "," + rs.getString(6) + "," + rs.getString(7) + "," + rs.getString(8));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return requests_arr;
+		
 	}
 
 

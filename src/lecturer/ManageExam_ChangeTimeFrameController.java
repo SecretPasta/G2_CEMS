@@ -72,7 +72,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 			ArrayList<String> infoOfRequest_Arr = new ArrayList<>();
 			infoOfRequest_Arr.add("RequestToChangeAnExamDurationFromLecturerToHOD");
 			infoOfRequest_Arr.add(exam.getExamID());
-			infoOfRequest_Arr.add(exam.getSubjectName()); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ problem in table @@@@@@@@@@@@@@@@@@@@@@@@@@@
+			infoOfRequest_Arr.add(exam.getSubjectName());
 			infoOfRequest_Arr.add(exam.getCourseName());
 			infoOfRequest_Arr.add(lecturer.getId());
 			infoOfRequest_Arr.add(lecturer.getName());
