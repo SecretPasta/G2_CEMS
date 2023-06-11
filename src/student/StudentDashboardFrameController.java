@@ -129,6 +129,9 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private TextField txtExamCode;
 
+    @FXML
+    private JFXButton refreshComputerizedExams;
+
     // End of Computerized Exam Screen ###############################################
 
     // My Grades Screen ##############################################################
@@ -258,7 +261,13 @@ public class StudentDashboardFrameController implements Initializable{
 		
 	}
 
-
+    public void getBtnRefreshComputerizedExams(ActionEvent action){
+        ArrayList<String> getExamArray = new ArrayList<>();
+        getExamArray.add("GetAllComputerizedExamsFromDB");
+        getExamArray.add((student.getId()));
+        ClientUI.chat.accept(getExamArray);
+        tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
+    }
 
 
     public static void start(ArrayList<String> studentDetails) throws IOException {
@@ -288,6 +297,8 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
+
+
 
     //Show the main dashboard window
     public void showDashboardWindow(){
