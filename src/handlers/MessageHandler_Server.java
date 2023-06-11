@@ -432,11 +432,17 @@ public class MessageHandler_Server {
 		//Handle ArrayList<FinishedExam> messages
 		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
 		String messageType = finishedExam.get(0).getExamID();
+		try{
 		switch (messageType){
 			case "saveFinishedExamToDB":
 				//finishedExam.remove(0);
 				DBController.saveFinishedExamToDB(finishedExam.get(1));
+				client.sendToClient("Exam was saved in the DB");
 				break;
+		}
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
     
