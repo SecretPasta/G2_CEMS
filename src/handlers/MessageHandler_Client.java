@@ -53,6 +53,9 @@ public class MessageHandler_Client {
 	        case MAP_STRING_STRING:
 	            handleMapStringStringValueMessage((Map<String, String>) msg);
 	            break;
+			case ARRAY_LIST_FINISHED_EXAM:
+				//Do something
+				break;
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;

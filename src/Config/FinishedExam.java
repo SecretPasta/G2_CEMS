@@ -1,6 +1,8 @@
 package Config;
 
-public class FinishedExam{
+import java.io.Serializable;
+
+public class FinishedExam implements Serializable {
 
     private String examID;
     private String studentID;
