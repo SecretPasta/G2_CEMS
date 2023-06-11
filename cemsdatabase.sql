@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cemsdatabase`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
@@ -136,6 +138,7 @@ CREATE TABLE `exams` (
   `questionsInExam` varchar(100) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
   `isActive` varchar(45) DEFAULT NULL,
+  `authorID` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -146,7 +149,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010103','01','01','Check','Check','180','Omri Sharof','01003','C001','0'),('010303','01','03','Check','Check','180','Omri Sharof','01001,01002','C003','0'),('030403','03','04','Check','Check','180','Omri Sharof','03001','E001','0');
+INSERT INTO `exams` VALUES ('010103','01','01','Check','Check','180','Omri Sharof','01003','C001','1','206391146'),('010303','01','03','Check','Check','180','Omri Sharof','01001,01002','C003','0','206391146'),('030403','03','04','Check','Check','180','Omri Sharof','03001','E001','0','206391146');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,14 +185,15 @@ DROP TABLE IF EXISTS `headofdepartment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `headofdepartment` (
-  `ID` varchar(50) NOT NULL,
+  `HodID` varchar(50) NOT NULL,
   `UserName` varchar(50) DEFAULT NULL,
   `Password` varchar(50) DEFAULT NULL,
   `Name` varchar(50) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   `Department` varchar(50) DEFAULT NULL,
+  `DeparmentID` varchar(45) DEFAULT NULL,
   `isLogged` int DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`HodID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -199,8 +203,37 @@ CREATE TABLE `headofdepartment` (
 
 LOCK TABLES `headofdepartment` WRITE;
 /*!40000 ALTER TABLE `headofdepartment` DISABLE KEYS */;
-INSERT INTO `headofdepartment` VALUES ('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering',0);
+INSERT INTO `headofdepartment` VALUES ('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',0);
 /*!40000 ALTER TABLE `headofdepartment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `headofdepartmentrequests`
+--
+
+DROP TABLE IF EXISTS `headofdepartmentrequests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `headofdepartmentrequests` (
+  `hodID` varchar(45) NOT NULL,
+  `subject` varchar(45) DEFAULT NULL,
+  `course` varchar(45) DEFAULT NULL,
+  `lecturerID` varchar(45) DEFAULT NULL,
+  `examID` varchar(45) DEFAULT NULL,
+  `lecturerName` varchar(45) DEFAULT NULL,
+  `explanation` varchar(45) DEFAULT NULL,
+  `examDurationAdd` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`hodID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `headofdepartmentrequests`
+--
+
+LOCK TABLES `headofdepartmentrequests` WRITE;
+/*!40000 ALTER TABLE `headofdepartmentrequests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `headofdepartmentrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -227,7 +260,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',1),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -493,4 +526,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-10 23:14:52
+-- Dump completed on 2023-06-11 16:01:51

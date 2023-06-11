@@ -19,9 +19,10 @@ public class Exam implements Serializable{
 	private String courseName;
 	private String examID;
 	private String code;
+	private String authorID;
 	
 	public Exam(String examID, String subjectID, String subjectName, String courseID, String courseName, ArrayList<QuestionInExam> questions, 
-			String commentsForLecturer, String commentsForStudent, int duration, String author, String code) {
+			String commentsForLecturer, String commentsForStudent, int duration, String author, String code, String authorID) {
 		this.subjectID = subjectID;
 		this.subjectName = subjectName;
 		this.courseID = courseID;
@@ -32,6 +33,7 @@ public class Exam implements Serializable{
 		this.duration = duration;
 		this.author = author;
 		this.code = code;
+		this.authorID = authorID;
 		if(examID == null) {
 			examID = "";
 		}
@@ -145,5 +147,13 @@ public class Exam implements Serializable{
 				", examID='" + examID + '\'' +
 				", code='" + code + '\'' +
 				'}';
+	}
+
+	public String getAuthorID() {
+		return authorID;
+	}
+
+	public void setAuthorID(String authorID) {
+		this.authorID = authorID;
 	}
 }

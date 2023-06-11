@@ -6,18 +6,20 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import Config.Exam;
+import Config.HeadOfDepartment;
 import Config.Question;
 import Config.QuestionInExam;
 import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
+import lecturer.ManageExam_ChangeTimeFrameController;
 import ClientAndServerLogin.LoginFrameController;
 import student.ComputerizedExamController;
 import student.StudentDashboardFrameController;
 
 public class MessageHandler_Client {
 	
-	private static String currUserRole = "User";
+	private static String userID = null;
 	
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg) {
@@ -39,6 +41,9 @@ public class MessageHandler_Client {
 	        case ARRAY_LIST_QUESTIONINEXAM:
 	            handleQuestionInExamArrayListMessage((ArrayList<QuestionInExam>) msg);
 	            break;
+	        case ARRAY_LIST_HOD:
+	            handleHodArrayListMessage((ArrayList<HeadOfDepartment>) msg);
+	            break;	
 	        case ARRAY_LIST_EXAM:
 	            handleExamArrayListMessage((ArrayList<Exam>) msg);
 	            break;
@@ -53,6 +58,7 @@ public class MessageHandler_Client {
 	            break;
 	    }
 	}
+
 
 
 	// This method is used to determine the type of a message.
@@ -79,6 +85,8 @@ public class MessageHandler_Client {
 					return MessageType.ARRAY_LIST_QUESTION;
 				} else if (firstElement instanceof Exam) {
 					return MessageType.ARRAY_LIST_EXAM;
+				} else if (firstElement instanceof HeadOfDepartment) {
+					return MessageType.ARRAY_LIST_HOD;
 				}
 			}
 		}
@@ -160,12 +168,11 @@ public class MessageHandler_Client {
 							System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
-						/*else if() { // login as head of department
-							  
-						}*/
-						currUserRole = arrayListStr.get(1); // save the current role of the user
+						else if(arrayListStr.get(1).equals("Hod")) { // login as head of department
+							//HodDashboardFrameController.start(arrayListStr);
+						}
 						System.out.println("logged in succesfully");
-						
+						userID = arrayListStr.get(2);
 	                    break;
 	                    
 	                case "MaximunQuestionIdForSelectedSubject":
@@ -179,18 +186,30 @@ public class MessageHandler_Client {
 	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
 	                	
-	                /*case "an exam has been closed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                case "an exam has been closed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	                	// 1 - examID
-	                	try {
-		                	if(currUserRole.equals("Student") && ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
+	                	/*try {
+		                	if(ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
 	
 		                		ComputerizedExamController.examClosed(); // close the exam for the student in the specific exam
 		                		
 		                		System.out.println("exam closed");
 		                	}
-	                	}catch (NullPointerException e){}
+	                	}catch (NullPointerException e){}*/
 	                	
-	                	break;*/
+	                	break;
+	                	
+	                case "SendToHeadOfDepartmentsThatRequestRecieved":
+	                	// 1 - Head of department ID
+	                	try {
+		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department
+		                		
+		                		System.out.println("you have new message"); // alert new request: function or something else
+		                	}
+                		}catch (NullPointerException e){}
+	                	
+	            
+	                	break;
 	            }       
 	            
             }catch (Exception e) {
@@ -297,6 +316,23 @@ public class MessageHandler_Client {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
         }*/
+		
+	}
+	
+	private static void handleHodArrayListMessage(ArrayList<HeadOfDepartment> hodList) {
+		System.out.println("Reached the handleHodArrayListMessage | ClientHandler");
+		// Handle ArrayList<HeadOfDepartment> messages
+
+    	String messageType = hodList.get(0).getId();
+
+	    	switch (messageType) {
+	    	
+	    		case "LoadRelevantHodForLecturer":
+	    			hodList.remove(0); // removing the identifying exam
+	    			ManageExam_ChangeTimeFrameController.getInstance().loadHODsForLecturer(hodList);
+					break;
+					
+	    	}
 		
 	}
 

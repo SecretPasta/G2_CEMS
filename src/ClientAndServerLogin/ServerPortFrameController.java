@@ -24,6 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ocsf.server.ConnectionToClient;
 import Config.ConnectedClient;
 import JDBC.DBController;
 import JDBC.mysqlConnection;
@@ -110,15 +111,19 @@ public class ServerPortFrameController implements Initializable {
 	 * @param userHostName The hostname of the connected client
 	 * @param userIP The IP address of the connected client
 	 */
-	public static void addConnectedClient(String userHostName, String userIP) {
+	public static void addConnectedClient(String userHostName, String userIP, ConnectionToClient client, String role) {
 	    try {
 	        // Create a new instance of ConnectedClient with the provided hostname and IP
-	        connectedClients.add(new ConnectedClient(userHostName, userIP));
+	        connectedClients.add(new ConnectedClient(userHostName, userIP, client, role));
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
 	}
 
+
+	public static ObservableList<ConnectedClient> getConnectedClients() {
+		return connectedClients;
+	}
 
 	/**
 	 * Removes a connected client from the list of connected clients.

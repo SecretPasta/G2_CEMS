@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Config.Exam;
+import Config.HeadOfDepartment;
 import Config.Question;
 import Config.QuestionInExam;
 
@@ -556,7 +557,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		 */
 		
 		String query = "INSERT INTO exams (ID, subjectID, courseID, commentsLecturer, commentsStudents, duration"
-				+ ", author, questionsInExam, code, isActive) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ ", author, questionsInExam, code, isActive, authorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	    try {
 	    	
 	    	if (mysqlConnection.getConnection() != null) {
@@ -575,6 +576,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    		ps.setString(8, String.join(",", questionsID));
 	    		ps.setString(9, exam.getCode());
 	    		ps.setString(10, "0");
+	    		ps.setString(11, exam.getAuthorID());
 	    		ps.executeUpdate();
 	    		
 	    	}
@@ -616,22 +618,37 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 	}
 	
-	public static ArrayList<Exam> getExamsByActiveness(String active) {
-	    String query = "SELECT exams.*, course.Name AS courseName " +
-	                   "FROM exams " +
-	                   "JOIN course ON exams.courseID = course.CourseID " +
-	                   "WHERE exams.isActive = ?";
-	    ArrayList<Exam> examsArr = new ArrayList<>();
+	public static ArrayList<Exam> getExamsByActiveness(String active, String authorID) {
+		String query;
+		ArrayList<Exam> examsArr = new ArrayList<>();
+		PreparedStatement ps = null;
 	    try {
 	        if (mysqlConnection.getConnection() != null) {
-	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	            ps.setString(1, active);
+	    		if(authorID == null) {
+	    		    query = "SELECT exams.*, course.Name AS courseName " +
+	    		                   "FROM exams " +
+	    		                   "JOIN course ON exams.courseID = course.CourseID " +
+	    		                   "WHERE exams.isActive = ?";
+	    		    
+		            ps = mysqlConnection.getConnection().prepareStatement(query);
+		            ps.setString(1, active);
+	    		}
+	    		else {
+	    		    query = "SELECT exams.*, course.Name AS courseName " +
+	    	                   "FROM exams " +
+	    	                   "JOIN course ON exams.courseID = course.CourseID " +
+	    	                   "WHERE exams.isActive = ? AND exams.authorID = ?";
+	    		    
+		            ps = mysqlConnection.getConnection().prepareStatement(query);
+		            ps.setString(1, active);
+		            ps.setString(2, authorID);
+	    		}
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
 	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null,
 								rs.getString(3), rs.getString("courseName"), null,
 								rs.getString("commentsLecturer"), rs.getString("commentsStudents"), rs.getInt(6),
-								rs.getString(7), rs.getString(9)));
+								rs.getString(7), rs.getString(9), rs.getString(11)));
 	                }
 	            }
 	        }
@@ -770,6 +787,36 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 			e.printStackTrace();
 		}
 		
+	}
+
+
+
+
+	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID
+	public static ArrayList<HeadOfDepartment> getHeadOfDepartmentsByLecturer(String lecturerID) {
+		ArrayList<HeadOfDepartment> arr = new ArrayList<>();
+		arr.add(new HeadOfDepartment("aaa1", null, null, "bbb1", null));
+		arr.add(new HeadOfDepartment("aaa2", null, null, "bbb2", null));
+		arr.add(new HeadOfDepartment("aaa3", null, null, "bbb3", null));
+		arr.add(new HeadOfDepartment("aaa4", null, null, "bbb4", null));
+		arr.add(new HeadOfDepartment("aaa5", null, null, "bbb5", null));
+		arr.add(new HeadOfDepartment("aaa6", null, null, "bbb6", null));
+		return arr;
+	}
+
+
+
+
+	// save the requests that he got from the lecturer in DB
+	public static void saveRequestForHodInDB(ArrayList<String> requestInfo_arr) {
+		// 1 - exam ID
+		// 2 - subject name
+		// 3 - course name
+		// 4 - lecturer id that sent the request
+		// 5 - lecturer name
+		// 6 - lecturer's explanation
+		// 7 - add to exam duration
+		// 8 - head of department ID
 	}
 
 
