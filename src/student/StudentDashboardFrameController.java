@@ -129,6 +129,9 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private TextField txtExamCode;
 
+    @FXML
+    private JFXButton refreshComputerizedExams;
+
     // End of Computerized Exam Screen ###############################################
 
     // My Grades Screen ##############################################################
@@ -160,7 +163,8 @@ public class StudentDashboardFrameController implements Initializable{
 
     
     @FXML
-    private JFXSnackbar snackbarError;
+    private JFXSnackbar snackbar;
+    private JFXSnackbarLayout snackbarLayout;
     
     @FXML
     private StackPane stackPane;
@@ -213,13 +217,13 @@ public class StudentDashboardFrameController implements Initializable{
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){
-            displayError("Error, no Exam has been Selected!");
+            displayErrorMessage("Error: no Exam has been Selected!");
         } else if (!selectedExam.getCode().equals(txtExamCode.getText())) {
-            displayError("Error, Incorrect Code!");
+            displayErrorMessage("Error: Incorrect Code!");
         } else{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            displayError("You have started the Computerized Exam!!!");
+            displaySuccessMessage("You have started the Computerized Exam!");
             ComputerizedExamController.start(selectedExam,student);
             selectedExam = null;
         }
@@ -258,7 +262,13 @@ public class StudentDashboardFrameController implements Initializable{
 		
 	}
 
-
+    public void getBtnRefreshComputerizedExams(ActionEvent action){
+        ArrayList<String> getExamArray = new ArrayList<>();
+        getExamArray.add("GetAllComputerizedExamsFromDB");
+        getExamArray.add((student.getId()));
+        ClientUI.chat.accept(getExamArray);
+        tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
+    }
 
 
     public static void start(ArrayList<String> studentDetails) throws IOException {
@@ -288,7 +298,14 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
-    
+
+
+
+    //Show the main dashboard window
+    public void showDashboardWindow(){
+        currentStage.show();
+    }
+
     @FXML
     void handleClicks(ActionEvent actionEvent) {
     	if (actionEvent.getSource() == btnComputerizedExam) {
@@ -329,12 +346,25 @@ public class StudentDashboardFrameController implements Initializable{
         
     }
     
-    //method to dispaly errors
-    private void displayError(String message) {
-    	snackbarError = new JFXSnackbar(stackPane);
-        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
-        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
-    }
+	private void displayErrorMessage(String message) {
+		snackbar = new JFXSnackbar(stackPane);
+		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+        snackbar.setPrefWidth(754);
+        snackbarLayout = new JFXSnackbarLayout(message);
+        snackbarLayout.getStylesheets().add(css);
+        snackbar.getStylesheets().add(css);
+        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
+	
+	private void displaySuccessMessage(String message) {
+		snackbar = new JFXSnackbar(stackPane);
+		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+        snackbar.setPrefWidth(754);
+        snackbarLayout = new JFXSnackbarLayout(message);
+        snackbarLayout.getStylesheets().add(css);
+        snackbar.getStylesheets().add(css);
+        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
 
 
 

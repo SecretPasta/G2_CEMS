@@ -18,6 +18,32 @@
 	-fx-background-radius: 10 10 0 0;
 }
 
+.list-view .scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.list-view .scroll-bar:vertical .thumb{
+    -fx-background-color:  #5DD299;
+    -fx-background-radius: 10em;
+}
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-background-color:  #5DD299;
+    -fx-background-radius: 10em;
+}
+.list-view > .corner {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10em;
+}
+
 .button:hover{
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;

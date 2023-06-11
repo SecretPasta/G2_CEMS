@@ -58,16 +58,6 @@
     -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
 }
 
-.jfx-snackbar-toast{
-	-fx-text-fill: #FE774C;
-	-fx-font-weight: bold;
-}
-
-.jfx-snackbar-content{
-	-fx-background-color: #383838;
-	-fx-background-radius: 10 10 0 0;
-}
-
 .button:hover{
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;

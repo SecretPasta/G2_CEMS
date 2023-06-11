@@ -9,6 +9,7 @@ import Config.Exam;
 import Config.HeadOfDepartment;
 import Config.Question;
 import Config.QuestionInExam;
+import headofdepartment.HODDashboardFrameController;
 import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
@@ -171,8 +172,8 @@ public class MessageHandler_Client {
 							System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
-						else if(arrayListStr.get(1).equals("Hod")) { // login as head of department
-							//HodDashboardFrameController.start(arrayListStr);
+						else if(arrayListStr.get(1).equals("headofdepartment")) { // login as head of department
+							HODDashboardFrameController.start(arrayListStr);
 						}
 						System.out.println("logged in succesfully");
 						userID = arrayListStr.get(2);
