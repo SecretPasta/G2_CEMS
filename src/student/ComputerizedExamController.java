@@ -245,12 +245,15 @@ public class ComputerizedExamController implements Initializable{
 		for(String ans : answers)
 			answerString += (ans + ",");
 
+		ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
+		finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
 		FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
 				participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
 		finishedExam.checkExam();
+		finishedExamsList.add(finishedExam);
 		System.out.println(finishedExam);
 		//Submitting Exam to the DB
-		//ClientUI.chat.accept(finishedExam);
+		ClientUI.chat.accept(finishedExamsList);
 	}
 
 	//Auto Submit when timer runs out

@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import Config.ConnectedClient;
-import Config.Exam;
-import Config.Question;
-import Config.QuestionInExam;
-import Config.HeadOfDepartment;
+import Config.*;
 import JDBC.DBController;
 import javafx.collections.ObservableList;
 import ClientAndServerLogin.ServerPortFrameController;
@@ -18,7 +14,7 @@ public class MessageHandler_Server {
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
-		System.out.println("Reached the handleMessage Method");
+		System.out.println("Reached the handleMessage Method | Server");
 	    MessageType messageType = getMessageType(msg);
 	    if (messageType == null) {
 	        return;
@@ -46,6 +42,9 @@ public class MessageHandler_Server {
 	        case MAP_STRING_STRING:
 	            handleMapStringStringValueMessage((Map<String, String>) msg, client);
 	            break;
+			case ARRAY_LIST_FINISHED_EXAM:
+				handleFinishedExamArrayListValueMessage((ArrayList<FinishedExam>) msg, client);
+				break;
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;
@@ -70,8 +69,10 @@ public class MessageHandler_Server {
 	                return MessageType.ARRAY_LIST_QUESTION;
 	            } else if (firstElement instanceof Exam) {
 	            	return MessageType.ARRAY_LIST_EXAM;
-	            }
-	        }
+	            } else if (firstElement instanceof FinishedExam) {
+					return MessageType.ARRAY_LIST_FINISHED_EXAM;
+				}
+			}
 	    } else if (msg instanceof Map) {
 	        Map<?, ?> map = (Map<?, ?>) msg;
 	        if (!map.isEmpty()) {
@@ -427,6 +428,16 @@ public class MessageHandler_Server {
 		// Handle Map<String, String> messages
 		
 	}
-    
+	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam, ConnectionToClient client){
+		//Handle ArrayList<FinishedExam> messages
+		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
+		String messageType = finishedExam.get(0).getExamID();
+		switch (messageType){
+			case "saveFinishedExamToDB":
+				//finishedExam.remove(0);
+				DBController.saveFinishedExamToDB(finishedExam.get(1));
+				break;
+		}
+	}
     
 }

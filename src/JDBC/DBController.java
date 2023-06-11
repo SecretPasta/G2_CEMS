@@ -7,10 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import Config.Exam;
-import Config.HeadOfDepartment;
-import Config.Question;
-import Config.QuestionInExam;
+import Config.*;
 
 public class DBController {
 	
@@ -820,6 +817,26 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 
+	public static void saveFinishedExamToDB(FinishedExam finishedExam) {
+		String query = "INSERT INTO finishedexam (examID, studentID, answers, lecturer, grade, approved, checkExam) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				ps.setString(1, finishedExam.getExamID());
+				ps.setString(2, finishedExam.getStudentID());
+				ps.setString(3, finishedExam.getAnswers());
+				ps.setString(4, finishedExam.getLecturer());
+				ps.setDouble(5, finishedExam.getGrade());
+				ps.setInt(6, finishedExam.getApproved());
+				ps.setInt(7, finishedExam.getCheckExam());
+
+				ps.executeUpdate();
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 
 
