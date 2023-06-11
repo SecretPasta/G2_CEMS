@@ -303,6 +303,7 @@ public class MessageHandler_Server {
 					case "getQuestionsInExamById": //Get Questions for exam
 
 						ArrayList<QuestionInExam> questionInExamArray= new ArrayList<>();
+						questionInExamArray.add(new QuestionInExam("questionsByExamIdForClient",null,null,null));
 						questionInExamArray.addAll(DBController.retrieveQuestionsInExamById(arrayListStr.get(1)));
 						client.sendToClient(questionInExamArray);
 						break;

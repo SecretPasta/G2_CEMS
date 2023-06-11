@@ -31,13 +31,6 @@ public class FinishedExam{
         return grade;
     }
 
-    public void approveGrade(){
-        this.grade = 1;
-    }
-    public void checkExam(){
-        this.checkExam = 1;
-    }
-
     public int getApproved() {
         return approved;
     }
@@ -54,6 +47,13 @@ public class FinishedExam{
         return lecturer;
     }
 
+    public void approveGrade(){
+        this.grade = 1;
+    }
+
+    public void checkExam(){
+        this.checkExam = 1;
+    }
     @Override
     public String toString() {
         return "FinishedExam{" +

@@ -247,6 +247,7 @@ public class ComputerizedExamController implements Initializable{
 
 		FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
 				participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
+		finishedExam.checkExam();
 		System.out.println(finishedExam);
 		//Submitting Exam to the DB
 		//ClientUI.chat.accept(finishedExam);
