@@ -269,8 +269,8 @@ public class ComputerizedExamController implements Initializable{
 
 	}
 
-	public String getStudentId(){
-		 return participatingStudent.getId();
+	public String getExamId(){
+		 return currentExam.getExamID();
 	}
 
 	//Auto Submit when timer runs out

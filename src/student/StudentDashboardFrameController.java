@@ -253,11 +253,18 @@ public class StudentDashboardFrameController implements Initializable{
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
-        currentPane = pnlGreeting;
-        pnlGreeting.toFront();
-
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
+        //--------------------- Manual Exam -----------------------------------------------------------------------
+
+        //--------------------- End of Manual Exam ----------------------------------------------------------------
+
+        //--------------------- Grades Screen ---------------------------------------------------------------------
+
+        //--------------------- End of Grades Screen --------------------------------------------------------------
+
+        currentPane = pnlGreeting;
+        pnlGreeting.toFront();
 		// TODO Auto-generated method stub
 		
 	}
