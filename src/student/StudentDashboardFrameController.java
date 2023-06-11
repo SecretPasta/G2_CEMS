@@ -10,6 +10,7 @@ import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.FinishedExam;
 import Config.Student;
+import Config.StudentGrade;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
@@ -129,41 +130,40 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private TextField txtExamCode;
 
+    @FXML
+    private JFXButton refreshComputerizedExams;
+
     // End of Computerized Exam Screen ###############################################
 
     // My Grades Screen ##############################################################
     @FXML
-    private TableView<Exam> tableView_MyGrades = new TableView<>();
+    private TableView<StudentGrade> tableView_MyGrades = new TableView<>();
 
     @FXML
-    private TableColumn<Exam,String> courseExamID_MyGrades;
+    private TableColumn<StudentGrade, String> courseExamID_MyGrades;
     @FXML
-    private TableColumn<Exam,String> courseColumn_MyGrades;
-
-    @FXML
-    private TableColumn<Exam,String> subjectColumn_MyGrades;
-
-//    @FXML
-//    private TableColumn<Exam,String> descriptionColumn_MyGrades; //Comment for Students goes here
-
-//    @FXML
-//    private TableColumn<Exam, Integer> durationColumn_MyGrades;
+    private TableColumn<StudentGrade,String> courseColumn_MyGrades;
 
     @FXML
-    private TableColumn<Exam,String> lecturerColumn_MyGrades; //Author goes here
+    private TableColumn<StudentGrade,String> subjectColumn_MyGrades;
 
     @FXML
-    private TableColumn<Exam,String> gradeColumn_MyGrades;
+    private TableColumn<StudentGrade,String> lecturerColumn_MyGrades;
 
-    private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
-    
-
-    
     @FXML
-    private JFXSnackbar snackbarError;
+    private TableColumn<StudentGrade, Double> gradeColumn_MyGrades;
+
+    private ObservableList<StudentGrade> myGradesObservableList = FXCollections.observableArrayList();
+
+    @FXML
+    private JFXSnackbar snackbar;
+    private JFXSnackbarLayout snackbarLayout;
     
     @FXML
     private StackPane stackPane;
+
+    @FXML
+    private JFXButton refreshGradesBtn;
 
     // End of My Grades Screen #######################################################
 
@@ -178,10 +178,12 @@ public class StudentDashboardFrameController implements Initializable{
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
         computerizedExamsObservableList.setAll(examList);
         tableView_UpcomingComputerizedExams.setItems(computerizedExamsObservableList);
-
-
-
         System.out.println(examList);
+    }
+
+    public void loadStudentGradesIntoTable(ArrayList<StudentGrade> gradesList){
+        myGradesObservableList.setAll(gradesList);
+        tableView_MyGrades.setItems(myGradesObservableList);
     }
 
     @FXML
@@ -213,13 +215,13 @@ public class StudentDashboardFrameController implements Initializable{
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){
-            displayError("Error, no Exam has been Selected!");
+            displayErrorMessage("Error: no Exam has been Selected!");
         } else if (!selectedExam.getCode().equals(txtExamCode.getText())) {
-            displayError("Error, Incorrect Code!");
+            displayErrorMessage("Error: Incorrect Code!");
         } else{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            displayError("You have started the Computerized Exam!!!");
+            displaySuccessMessage("You have started the Computerized Exam!");
             ComputerizedExamController.start(selectedExam,student);
             selectedExam = null;
         }
@@ -249,16 +251,46 @@ public class StudentDashboardFrameController implements Initializable{
         getExamArray.add((student.getId()));
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
-        currentPane = pnlGreeting;
-        pnlGreeting.toFront();
-
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
+        //--------------------- Manual Exam -----------------------------------------------------------------------
+
+        //--------------------- End of Manual Exam ----------------------------------------------------------------
+
+        //--------------------- Grades Screen ---------------------------------------------------------------------
+        // Setting up the data for table
+        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("examID"));
+        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("course"));
+        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("subject"));
+        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("lecturer"));
+        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,Double>("grade"));
+        ArrayList<String> getGradesArr = new ArrayList<>();
+        getGradesArr.add("getStudentGradesById");
+        getGradesArr.add((student.getId()));
+        ClientUI.chat.accept(getGradesArr);
+
+        //--------------------- End of Grades Screen --------------------------------------------------------------
+
+        currentPane = pnlGreeting;
+        pnlGreeting.toFront();
 		// TODO Auto-generated method stub
 		
 	}
 
+    public void getBtnRefreshComputerizedExams(ActionEvent action){
+        ArrayList<String> getExamArray = new ArrayList<>();
+        getExamArray.add("GetAllComputerizedExamsFromDB");
+        getExamArray.add((student.getId()));
+        ClientUI.chat.accept(getExamArray);
+        tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
+    }
 
+    public void getBtnRefreshGrades(ActionEvent action){
+        ArrayList<String> getGradesArr = new ArrayList<>();
+        getGradesArr.add("getStudentGradesById");
+        getGradesArr.add((student.getId()));
+        ClientUI.chat.accept(getGradesArr);
+    }
 
 
     public static void start(ArrayList<String> studentDetails) throws IOException {
@@ -288,7 +320,14 @@ public class StudentDashboardFrameController implements Initializable{
             }
         });
     }
-    
+
+
+
+    //Show the main dashboard window
+    public void showDashboardWindow(){
+        currentStage.show();
+    }
+
     @FXML
     void handleClicks(ActionEvent actionEvent) {
     	if (actionEvent.getSource() == btnComputerizedExam) {
@@ -329,12 +368,25 @@ public class StudentDashboardFrameController implements Initializable{
         
     }
     
-    //method to dispaly errors
-    private void displayError(String message) {
-    	snackbarError = new JFXSnackbar(stackPane);
-        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
-        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
-    }
+	private void displayErrorMessage(String message) {
+		snackbar = new JFXSnackbar(stackPane);
+		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+        snackbar.setPrefWidth(754);
+        snackbarLayout = new JFXSnackbarLayout(message);
+        snackbarLayout.getStylesheets().add(css);
+        snackbar.getStylesheets().add(css);
+        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
+	
+	private void displaySuccessMessage(String message) {
+		snackbar = new JFXSnackbar(stackPane);
+		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+        snackbar.setPrefWidth(754);
+        snackbarLayout = new JFXSnackbarLayout(message);
+        snackbarLayout.getStylesheets().add(css);
+        snackbar.getStylesheets().add(css);
+        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
 
 
 

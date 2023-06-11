@@ -2,19 +2,98 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.ManageExam_ChangeTimeFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="530.0" style="-fx-background-color: #66A7F2;" stylesheets="@AddEditQuestion.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.ManageExam_ChangeTimeFrameController">
    <children>
-      <TextField id="txtAddToExamDuration" fx:id="txtAddToExamDuration" layoutX="358.0" layoutY="112.0" prefHeight="26.0" prefWidth="117.0" />
-      <Label layoutX="137.0" layoutY="116.0" text="Write new exam duration (in Minutes):" />
-      <TextField id="txtExplanationExamDurationChange" fx:id="txtExplanationExamDurationChange" layoutX="137.0" layoutY="214.0" prefHeight="234.0" prefWidth="482.0" />
-      <Label layoutX="138.0" layoutY="180.0" text="Write explanation for changing the exam duration (will send to the head of department for aprooval):" />
-      <JFXButton id="btnBack" fx:id="btnBack" layoutX="273.0" layoutY="491.0" onAction="#getBtnBack" text="Back" />
-      <JFXButton id="btnSendRequest" fx:id="btnSendRequest" layoutX="485.0" layoutY="491.0" onAction="#getBtnSendRequest" text="Send the request to aprooval" />
-      <JFXComboBox id="hodSelectBox" fx:id="hodSelectBox" layoutX="570.0" layoutY="112.0" prefHeight="26.0" prefWidth="159.0" />
-      <Label layoutX="506.0" layoutY="63.0" text="Relevant head of deparmtnets to send the request" />
+      <JFXButton id="btnBack" fx:id="btnBack" layoutX="50.0" layoutY="617.0" onAction="#getBtnBack" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" textFill="#242633">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></JFXButton>
+      <JFXButton id="btnSendRequest" fx:id="btnSendRequest" layoutX="280.0" layoutY="612.0" onAction="#getBtnSendRequest" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10; -fx-border-color: #242633; -fx-border-radius: 10;" text="Send the request">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></JFXButton>
+      <Pane layoutX="50.0" prefHeight="80.0" prefWidth="430.0" style="-fx-background-color: #5B96D9; -fx-background-radius: 0 0 30 30;">
+         <children>
+            <Label layoutX="163.0" layoutY="18.0" text="Change Time" textFill="#242633">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Circle fill="#ffc152" layoutX="114.0" layoutY="40.0" radius="30.0" stroke="#ffc152" strokeType="INSIDE" />
+            <Label layoutX="99.0" layoutY="5.0" prefHeight="70.0" prefWidth="28.0" text="⏳" textFill="#242633">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <AnchorPane layoutX="50.0" layoutY="100.0" prefHeight="136.0" prefWidth="430.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 15;">
+         <children>
+            <VBox layoutX="23.0" layoutY="21.0" prefHeight="94.0" prefWidth="322.0" spacing="20.0">
+               <children>
+                  <HBox prefHeight="34.0" prefWidth="320.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="26.0" text="Your Head of Department:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <JFXComboBox id="hodSelectBox" fx:id="hodSelectBox" prefHeight="26.0" prefWidth="159.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="44.0" prefWidth="320.0" spacing="10.0">
+                     <children>
+                        <Label prefHeight="34.0" text="New exam duration:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField id="txtAddToExamDuration" fx:id="txtAddToExamDuration" prefHeight="34.0" prefWidth="120.0" style="-fx-background-radius: 5;" />
+                        <Label prefHeight="34.0" text="*in Minutes">
+                           <font>
+                              <Font name="System Italic" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="-5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="50.0" layoutY="256.0" prefHeight="335.0" prefWidth="430.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 15;">
+         <children>
+            <VBox layoutX="25.0" layoutY="20.0" prefHeight="295.0" prefWidth="380.0" spacing="10.0">
+               <children>
+                  <Label text="Explanation for changing the duration:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtExplanationExamDurationChange" fx:id="txtExplanationExamDurationChange" alignment="TOP_LEFT" prefHeight="234.0" prefWidth="398.0" style="-fx-background-radius: 5; -fx-padding: 10;" />
+                  <Label text="**will send to the Head of Department for approval">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="-5.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

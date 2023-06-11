@@ -5,10 +5,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import Config.Exam;
-import Config.HeadOfDepartment;
-import Config.Question;
-import Config.QuestionInExam;
+import Config.*;
 import headofdepartment.HODDashboardFrameController;
 import lecturer.AddQuestionFrameController;
 import lecturer.CreateExam_ReviewFrameController;
@@ -57,6 +54,9 @@ public class MessageHandler_Client {
 			case ARRAY_LIST_FINISHED_EXAM:
 				//Do something
 				break;
+			case ARRAY_LIST_STUDENT_GRADE:
+				handleStudentGradeArrayListValueMessage((ArrayList<StudentGrade>) msg);
+				break;
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;
@@ -91,6 +91,8 @@ public class MessageHandler_Client {
 					return MessageType.ARRAY_LIST_EXAM;
 				} else if (firstElement instanceof HeadOfDepartment) {
 					return MessageType.ARRAY_LIST_HOD;
+				} else if (firstElement instanceof StudentGrade) {
+					return MessageType.ARRAY_LIST_STUDENT_GRADE;
 				}
 			}
 		}
@@ -345,5 +347,18 @@ public class MessageHandler_Client {
 	    	}
 		
 	}
+
+	private static void handleStudentGradeArrayListValueMessage(ArrayList<StudentGrade> grades){
+		System.out.println("Reached the handleStudentGradeArrayListValueMessage | ClientHandler");
+		String messageType = grades.get(0).getExamID();
+		switch (messageType){
+			case "studentGradesForClient":
+				grades.remove(0);
+				StudentDashboardFrameController.getInstance().loadStudentGradesIntoTable(grades);
+				break;
+		}
+
+	}
+
 
 }

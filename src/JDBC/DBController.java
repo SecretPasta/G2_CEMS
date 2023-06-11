@@ -862,6 +862,40 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 	}
 
+	public static ArrayList<StudentGrade> getAllStudentGradesById(String studentID) {
+		ArrayList<StudentGrade> grades = new ArrayList<>();
+		String query = "SELECT exams.ID, course.Name AS courseName, subjects.Name AS subjectName, exams.author, finishedexam.grade " +
+				"FROM exams " +
+				"JOIN finishedexam ON exams.ID = finishedexam.examID " +
+				"JOIN course ON exams.courseID = course.CourseID " +
+				"JOIN subjects ON exams.subjectID = subjects.SubjectID " +
+				"WHERE finishedexam.studentID = ? " +
+				"AND finishedexam.approved = 1 " +
+				"AND finishedexam.checkExam = 1";
+
+
+		try  {
+			PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);;
+			ps.setString(1, studentID);
+			try (ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					String examID = rs.getString("ID");
+					String course = rs.getString("courseName");
+					String subject = rs.getString("subjectName");
+					String lecturer = rs.getString("author");
+					double grade = rs.getDouble("grade");
+					grades.add(new StudentGrade(examID, course, subject, lecturer, grade));
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(grades);
+		return grades;
+	}
+
 
 
 

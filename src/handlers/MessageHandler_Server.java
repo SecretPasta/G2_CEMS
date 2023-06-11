@@ -53,7 +53,7 @@ public class MessageHandler_Server {
 
 
 	private static MessageType getMessageType(Object msg) {
-		System.out.println("Reached the getMessageType Method");
+		System.out.println("Reached the getMessageType Method | Server Handler");
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
 	    } else if (msg instanceof ArrayList) {
@@ -342,6 +342,13 @@ public class MessageHandler_Server {
 				    	requests_arr.addAll(DBController.getRequestsForHod(arrayListStr.get(1)));
 				    	client.sendToClient(requests_arr);
 				    	break;
+				    	
+					case "getStudentGradesById":
+						ArrayList<StudentGrade> studentGrades = new ArrayList<>();
+						studentGrades.add(new StudentGrade("studentGradesForClient",null,null,null,0));
+						studentGrades.addAll(DBController.getAllStudentGradesById(arrayListStr.get(1)));
+						client.sendToClient(studentGrades);
+						break;
 						
 
 	            }
@@ -440,11 +447,17 @@ public class MessageHandler_Server {
 		//Handle ArrayList<FinishedExam> messages
 		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
 		String messageType = finishedExam.get(0).getExamID();
+		try{
 		switch (messageType){
 			case "saveFinishedExamToDB":
 				//finishedExam.remove(0);
 				DBController.saveFinishedExamToDB(finishedExam.get(1));
+				client.sendToClient("Exam was saved in the DB");
 				break;
+		}
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
     
