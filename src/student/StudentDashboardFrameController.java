@@ -209,6 +209,7 @@ public class StudentDashboardFrameController implements Initializable{
         LoginFrameController.start();
     }
 
+
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){

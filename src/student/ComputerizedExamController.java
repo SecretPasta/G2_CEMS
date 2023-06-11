@@ -11,6 +11,7 @@ import Config.Exam;
 import Config.FinishedExam;
 import Config.QuestionInExam;
 import Config.Student;
+import client.ChatClient;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
@@ -56,7 +57,8 @@ public class ComputerizedExamController implements Initializable{
     private JFXButton submitExamBtn;
     @FXML
     private Text timer;
-    
+
+	private ExamTimer examTimer;
     private JFXTabPane tabPane;
 
 	private ObservableList<QuestionInExam> questionsInExamObservableList = FXCollections.observableArrayList();
@@ -84,24 +86,8 @@ public class ComputerizedExamController implements Initializable{
 		//Here we need to load all the questions text and answers from db to panes
 
 		// Timer for Exam ----------------------------------------------------------------------
-		Time time = new Time("0:2:0");
-		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> 
-		{
-			time.oneSecondPassed();
-	        timer.setText(time.getCurrentTime());
-	    }));
-		timer.setText(time.getCurrentTime());
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-		timeline.setOnFinished(event -> {
-			System.out.println("Time ran out, submitting exam!"); //We need some pop up for this
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-			submitExam();
-		});
+		examTimer = new ExamTimer(currentExam.getDuration(), instance);
+		examTimer.start();
         // End of Timer for Exam ------------------------------------------------------------------
 
         //tabPane that contains all tabs (one tab per one question)
@@ -170,6 +156,12 @@ public class ComputerizedExamController implements Initializable{
 		questionsPane.getChildren().add(tabPane);
 
 	}
+
+	public void setUpdateExamTimer(String time){
+		timer.setText(time);
+	}
+
+
 
 	public static void start(Exam exam, Student student) throws IOException {
 		currentExam = exam;
@@ -255,11 +247,21 @@ public class ComputerizedExamController implements Initializable{
 
 		FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
 				participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
-		finishedExam.checkExam();
+		System.out.println(finishedExam);
+		//Submitting Exam to the DB
+		//ClientUI.chat.accept(finishedExam);
 	}
 
+	//Auto Submit when timer runs out
+	public void endOfTimerSubmit(){
+		 // Needs GUI elements to throw pop up about timer running out
+		 submitExam();
+	}
+
+	//Submitting by Pressing "Submit"
 	@FXML
 	public void getSubmitExamBtn(ActionEvent event) {
+		examTimer.stopTimer();
 		submitExam();
 	}
 

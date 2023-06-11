@@ -4,16 +4,16 @@ public class FinishedExam{
 
     private String examID;
     private String studentID;
-    private String lecturerID;
+    private String lecturer;
     private double grade;
     private int approved;
     private int checkExam;
     private String answers;
 
-    public FinishedExam(String examID,String lecturerID ,String studentID, double grade,String answers){
+    public FinishedExam(String examID,String lecturer ,String studentID, double grade,String answers){
         this.examID = examID;
         this.studentID = studentID;
-        this.lecturerID = lecturerID;
+        this.lecturer = lecturer;
         this.grade = grade;
         this.answers = answers;
         this.approved = 0;
@@ -50,7 +50,20 @@ public class FinishedExam{
         return answers;
     }
 
-    public String getLecturerID() {
-        return lecturerID;
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    @Override
+    public String toString() {
+        return "FinishedExam{" +
+                "examID='" + examID + '\'' +
+                ", studentID='" + studentID + '\'' +
+                ", lecturer='" + lecturer + '\'' +
+                ", grade=" + grade +
+                ", approved=" + approved +
+                ", checkExam=" + checkExam +
+                ", answers='" + answers + '\'' +
+                '}';
     }
 }
