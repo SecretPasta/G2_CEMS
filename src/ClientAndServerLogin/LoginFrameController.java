@@ -121,7 +121,7 @@ public class LoginFrameController implements Initializable{
 	        ArrayList<String> userInfo = new ArrayList<>();
 	        userInfo.add("UserLogin"); // Add the login action to the user info
 	        if(loginAs.getSelectionModel().getSelectedItem().equals("Head Of Department")) {
-	        	userInfo.add("Hod"); // Add the selected login role to the user info
+	        	userInfo.add("headofdepartment"); // Add the selected login role to the user info
 	        }
 	        else {
 	        	userInfo.add(loginAs.getSelectionModel().getSelectedItem()); // Add the selected login role to the user info

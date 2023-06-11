@@ -1,6 +1,7 @@
 package student;
 
 import java.io.IOException;
+
 import java.net.URL;
 
 import java.util.ArrayList;
@@ -11,15 +12,14 @@ import Config.Exam;
 import Config.FinishedExam;
 import Config.QuestionInExam;
 import Config.Student;
-import client.ChatClient;
+
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
 import ClientAndServerLogin.SceneManagment;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -37,7 +37,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
+import student.ExamTimer;
 
 public class ComputerizedExamController implements Initializable{
 	
@@ -59,6 +59,7 @@ public class ComputerizedExamController implements Initializable{
     private Text timer;
 
 	private ExamTimer examTimer;
+	
     private JFXTabPane tabPane;
 
 	private ObservableList<QuestionInExam> questionsInExamObservableList = FXCollections.observableArrayList();
@@ -290,10 +291,5 @@ public class ComputerizedExamController implements Initializable{
     		tabPane.getSelectionModel().select(++currentQuestion);
     	}
     		
-    }
-
-    @FXML
-    public void getCloseBtn(ActionEvent event) {
-
     }
 }
