@@ -129,7 +129,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	            // creating new exam with the parameters. id is null because still not saved by the lecturer.
 	            Exam exam = new Exam(null, subjectID, subjectName, courseID, courseName,
 	                    questionsInExam_arr, txtCommentsLecturer.getText(), txtCommentsStudent.getText(),
-	                    examDuration, lecturer.getName(), txtExamCode.getText());
+	                    examDuration, lecturer.getName(), txtExamCode.getText(), lecturer.getId());
 
 	            ((Node) event.getSource()).getScene().getWindow().hide();
 	            CreateExam_ReviewFrameController.start(exam); // starting the exam review screen.

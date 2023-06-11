@@ -1,8 +1,12 @@
 package Config;
 
+import ocsf.server.ConnectionToClient;
+
 public class ConnectedClient {
 	private String ip;
 	private String clientname;
+	private ConnectionToClient client;
+	private String role;
 
 	/**
 	 * Constructor for creating a ConnectedClient object with the specified IP and
@@ -11,9 +15,11 @@ public class ConnectedClient {
 	 * @param ip         The IP address of the connected client.
 	 * @param clientname The client name of the connected client.
 	 */
-	public ConnectedClient(String ip, String clientname) {
+	public ConnectedClient(String ip, String clientname, ConnectionToClient client, String role) {
 		this.ip = ip;
 		this.clientname = clientname;
+		this.client = client;
+		this.role = role;
 	}
 
 	/**
@@ -50,6 +56,22 @@ public class ConnectedClient {
 	 */
 	public void setClientname(String username) {
 		this.clientname = username;
+	}
+
+	public ConnectionToClient getClient() {
+		return client;
+	}
+
+	public void setClient(ConnectionToClient client) {
+		this.client = client;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 }

@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import Config.ConnectedClient;
 import Config.Exam;
 import Config.Question;
 import Config.QuestionInExam;
+import Config.HeadOfDepartment;
 import JDBC.DBController;
+import javafx.collections.ObservableList;
 import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
-import server.EchoServer;
-import server.ServerUI;
 
 public class MessageHandler_Server {
-	
-	private static EchoServer serverCommunication;
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
@@ -107,21 +106,6 @@ public class MessageHandler_Server {
 			    	client.sendToClient(courses_name_id_map_arr);
 			    	break;
 			    	
-			    case "GetAllExamsFromDBtoManageExamsTables":
-			    	ArrayList<Exam> activeExams_arr = new ArrayList<>();
-			    	activeExams_arr.add(0, new Exam("loadActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
-			    	activeExams_arr.addAll(DBController.getExamsByActiveness("1"));
-			    	
-			    	ArrayList<Exam> inActiveExams_arr = new ArrayList<>();
-			    	inActiveExams_arr.add(0, new Exam("loadInActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null));
-			    	inActiveExams_arr.addAll(DBController.getExamsByActiveness("0"));
-			    	
-			    	client.sendToClient(activeExams_arr);
-			    	client.sendToClient(inActiveExams_arr);
-			    	
-			    	
-			    	break;
-			    	
 			    default: break;
 	    	}
     	}catch (Exception e) {
@@ -142,18 +126,25 @@ public class MessageHandler_Server {
 	                case "ClientConnecting":
 	                    // Handle ClientConnecting message
 	                	
-						ServerPortFrameController.addConnectedClient(arrayListStr.get(1), arrayListStr.get(2));
+						ServerPortFrameController.addConnectedClient(arrayListStr.get(1), arrayListStr.get(2), client, "User");
 						client.sendToClient("client connected");
 						
 	                    break;
 	                case "UserLogin":
 	                    // Handle UserLogin message
-	                	serverCommunication = ServerUI.getCommunication();
 	                	
 	                	ArrayList<String> userDetails;
 						userDetails = DBController.userExist(arrayListStr); // getting from DB details about the user
 						// if the func return the details of the user -> succeed
 						if(!(userDetails.get(0)).equals("UserAlreadyLoggedIn") && !(userDetails.get(0)).equals("UserEnteredWrondPasswwordOrUsername")) {
+							ObservableList<ConnectedClient> connectedClients = ServerPortFrameController.getConnectedClients();
+							for(int i = 0; i<connectedClients.size(); i++) {
+								if(connectedClients.get(i).getIp().equals(arrayListStr.get(4)) && connectedClients.get(i).getRole().equals("User")) {
+									connectedClients.get(i).setRole(arrayListStr.get(1));
+								}
+							}
+							arrayListStr.remove(4); // remove the ip from info
+							
 							ArrayList<String> loginSucceedArr = new ArrayList<>();
 							loginSucceedArr.add("UserLoginSucceed");
 							loginSucceedArr.add(arrayListStr.get(1)); // send to client to know the correct dashboard to open
@@ -257,8 +248,8 @@ public class MessageHandler_Server {
 	                	
 					case "GetAllComputerizedExamsFromDB": // Getting all the computerized Exams from the DB
 						ArrayList<Exam> computerizedExams = new ArrayList<>();
-						computerizedExams.add(new Exam("computerizedExamsForStudentTable",null,null,null,null,null,null,null,0,null,null));
-						computerizedExams.addAll(DBController.getExamsByActiveness("1"));
+						computerizedExams.add(new Exam("computerizedExamsForStudentTable",null,null,null,null,null,null,null,0,null,null,null));
+						computerizedExams.addAll(DBController.getExamsByActiveness("1", null));
 						client.sendToClient(computerizedExams);
 						break;
 						
@@ -272,7 +263,14 @@ public class MessageHandler_Server {
 							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
 							examActivenessChanged_arr.add("an exam has been closed");
 							examActivenessChanged_arr.add(arrayListStr.get(1));
-							serverCommunication.sendToAllClients(examActivenessChanged_arr);
+							
+							ObservableList<ConnectedClient> connectedClients = ServerPortFrameController.getConnectedClients();
+							
+							for(int i = 0; i<connectedClients.size(); i++) {
+								if(connectedClients.get(i).getRole().equals("Student")) {
+									connectedClients.get(i).getClient().sendToClient(examActivenessChanged_arr);
+								}
+							}
 						}
 						else {
 							client.sendToClient("exam is open");
@@ -286,8 +284,20 @@ public class MessageHandler_Server {
 						// 4 - lecturer id that sent the request
 						// 5 - lecturer name
 						// 6 - lecturer's explanation
-						// 7 - new exam duration
-						serverCommunication.sendToAllClients(serverCommunication);
+						// 7 - add to exam duration
+						// 8 - head of department ID
+						
+						DBController.saveRequestForHodInDB(arrayListStr);
+						
+						ObservableList<ConnectedClient> connectedClients = ServerPortFrameController.getConnectedClients();
+						ArrayList<String> requestrecieved_arr = new ArrayList<>();
+						requestrecieved_arr.add("SendToHeadOfDepartmentsThatRequestRecieved");
+						requestrecieved_arr.add(arrayListStr.get(8)); // hod ID
+						for(int i = 0; i<connectedClients.size(); i++) {
+							if(connectedClients.get(i).getRole().equals("HeadOfDepartment")) {
+								connectedClients.get(i).getClient().sendToClient(requestrecieved_arr);
+							}
+						}
 						
 						break;
 					case "getQuestionsInExamById": //Get Questions for exam
@@ -296,6 +306,32 @@ public class MessageHandler_Server {
 						questionInExamArray.addAll(DBController.retrieveQuestionsInExamById(arrayListStr.get(1)));
 						client.sendToClient(questionInExamArray);
 						break;
+						
+				    case "GetAllExamsFromDBtoManageExamsTablesByLecturerID":
+				    	// 1 - lecturer ID
+				    	ArrayList<Exam> activeExams_arr = new ArrayList<>();
+				    	activeExams_arr.add(0, new Exam("loadActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null, null));
+				    	activeExams_arr.addAll(DBController.getExamsByActiveness("1", arrayListStr.get(1)));
+				    	
+				    	ArrayList<Exam> inActiveExams_arr = new ArrayList<>();
+				    	inActiveExams_arr.add(0, new Exam("loadInActiveExamsIntoLecturerTable", null, null, null, null, null, null, null, 0, null, null, null));
+				    	inActiveExams_arr.addAll(DBController.getExamsByActiveness("0", arrayListStr.get(1)));
+				    	
+				    	client.sendToClient(activeExams_arr);
+				    	client.sendToClient(inActiveExams_arr);
+				    	
+				    	
+				    	break;
+				    	
+				    case "GetRelevantHodForLecturer":
+				    	// 1 - lecturer ID
+				    	
+				    	ArrayList<HeadOfDepartment> hod_arr = new ArrayList<>();
+				    	hod_arr.add(0, new HeadOfDepartment("LoadRelevantHodForLecturer", null, null, null, null));
+				    	hod_arr.addAll(DBController.getHeadOfDepartmentsByLecturer(arrayListStr.get(1)));
+				    	client.sendToClient(hod_arr);
+				    	
+				    	break;
 						
 
 	            }

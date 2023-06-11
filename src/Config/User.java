@@ -1,7 +1,13 @@
 package Config;
 
-public class User {
-    private String id; // ID of the user
+import java.io.Serializable;
+
+public class User implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String id; // ID of the user
     private String username; // Username of the user
     private String password; // Password of the user
     private String name; // Name of the user

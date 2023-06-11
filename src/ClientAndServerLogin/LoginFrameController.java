@@ -1,6 +1,7 @@
 package ClientAndServerLogin;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -119,9 +120,15 @@ public class LoginFrameController implements Initializable{
 	        
 	        ArrayList<String> userInfo = new ArrayList<>();
 	        userInfo.add("UserLogin"); // Add the login action to the user info
-	        userInfo.add(loginAs.getSelectionModel().getSelectedItem()); // Add the selected login role to the user info
+	        if(loginAs.getSelectionModel().getSelectedItem().equals("Head Of Department")) {
+	        	userInfo.add("Hod"); // Add the selected login role to the user info
+	        }
+	        else {
+	        	userInfo.add(loginAs.getSelectionModel().getSelectedItem()); // Add the selected login role to the user info
+	        }
 	        userInfo.add(txtUsername.getText()); // Add the entered username to the user info
 	        userInfo.add(txtPassword.getText()); // Add the entered password to the user info
+	        userInfo.add(InetAddress.getLocalHost().getHostAddress()); // ip of the user
 	        
 	        ClientUI.chat.accept(userInfo); // Send the user info to the server to check the username and password and retrieve user details from the database
 	    }

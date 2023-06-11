@@ -166,7 +166,7 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	    ArrayList<Exam> examToSave_arr = new ArrayList<>();
 
 	    // Add a "SaveExamInDB" placeholder exam
-	    examToSave_arr.add(new Exam("SaveExamInDB", null, null, null, null, null, null, null, 0, null, null));
+	    examToSave_arr.add(new Exam("SaveExamInDB", null, null, null, null, null, null, null, 0, null, null, null));
 
 	    // Add the current exam to the list
 	    examToSave_arr.add(exam);

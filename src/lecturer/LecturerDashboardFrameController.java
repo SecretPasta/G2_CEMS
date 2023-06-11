@@ -803,7 +803,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * Retrieves all active and inactive exams from the database.
 	 */
 	private void getAllActiveInActiveExams() {
-	    ClientUI.chat.accept("GetAllExamsFromDBtoManageExamsTables");
+		ArrayList<String> lecturer_exams_arr_get = new ArrayList<>();
+		lecturer_exams_arr_get.add("GetAllExamsFromDBtoManageExamsTablesByLecturerID");
+		lecturer_exams_arr_get.add(lecturer.getId());
+	    ClientUI.chat.accept(lecturer_exams_arr_get);
 	}
 
 	/**
