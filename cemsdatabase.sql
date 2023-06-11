@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cemsdatabase`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -147,7 +149,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010103','01','01','Check','Check','180','Omri Sharof','01003','C001','1','206391146'),('010303','01','03','Check','Check','180','Omri Sharof','01001,01002','C003','0','206391146'),('030403','03','04','Check','Check','180','Omri Sharof','03001','E001','0','206391146');
+INSERT INTO `exams` VALUES ('010103','01','01','Check','Check','180','Omri Sharof','01003','C001','1','206391146'),('010303','01','03','Check','Check','180','Omri Sharof','01001,01002','C003','0','206391146'),('030403','03','04','Check','Check','180','Omri Sharof','03001','E001','1','206391146');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +189,7 @@ DROP TABLE IF EXISTS `headofdepartment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `headofdepartment` (
-  `HodID` varchar(50) NOT NULL,
+  `HeadOfDepartmentID` varchar(50) NOT NULL,
   `UserName` varchar(50) DEFAULT NULL,
   `Password` varchar(50) DEFAULT NULL,
   `Name` varchar(50) DEFAULT NULL,
@@ -195,7 +197,7 @@ CREATE TABLE `headofdepartment` (
   `Department` varchar(50) DEFAULT NULL,
   `DeparmentID` varchar(45) DEFAULT NULL,
   `isLogged` int DEFAULT NULL,
-  PRIMARY KEY (`HodID`)
+  PRIMARY KEY (`HeadOfDepartmentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -205,7 +207,7 @@ CREATE TABLE `headofdepartment` (
 
 LOCK TABLES `headofdepartment` WRITE;
 /*!40000 ALTER TABLE `headofdepartment` DISABLE KEYS */;
-INSERT INTO `headofdepartment` VALUES ('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',0);
+INSERT INTO `headofdepartment` VALUES ('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',1);
 /*!40000 ALTER TABLE `headofdepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -217,15 +219,14 @@ DROP TABLE IF EXISTS `headofdepartmentrequests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `headofdepartmentrequests` (
-  `hodID` varchar(45) NOT NULL,
+  `HeadOfDepartmentID` varchar(45) DEFAULT NULL,
   `subject` varchar(45) DEFAULT NULL,
   `course` varchar(45) DEFAULT NULL,
   `lecturerID` varchar(45) DEFAULT NULL,
   `examID` varchar(45) DEFAULT NULL,
   `lecturerName` varchar(45) DEFAULT NULL,
   `explanation` varchar(45) DEFAULT NULL,
-  `examDurationAdd` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`hodID`)
+  `examDurationAdd` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,6 +236,7 @@ CREATE TABLE `headofdepartmentrequests` (
 
 LOCK TABLES `headofdepartmentrequests` WRITE;
 /*!40000 ALTER TABLE `headofdepartmentrequests` DISABLE KEYS */;
+INSERT INTO `headofdepartmentrequests` VALUES ('aaa2','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','fds','23'),('aaa3','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('aaa3','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('aaa2','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('yossi ohayon','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','d','sd'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdsad','123'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','jkjkkjjkktest','123'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','opopopopoppo','123'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','opopopopoppo','123'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','ghgjhj','777'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','qwqwqw','43'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','fdfsdfdf','45'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','fdfdf','56'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','fdfdf','56'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','dsfsdfsdfdsfs','90'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','efefefefefefefe','6565665'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','aqqqqqqqqqqqqqqqqqq','434343'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','@','1'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','asd','###'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','#','43'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','9090','90'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','123333','45'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','1717','67'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','fdffddf1121','45'),('2233','Language','Advanced English','206391146','030403','Omri Sharof','666666666666666666','123'),('2233','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','5','56');
 /*!40000 ALTER TABLE `headofdepartmentrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +264,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',1),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -463,7 +465,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',1);
+INSERT INTO `student` VALUES ('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','GayClub','2',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','1',0);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -528,4 +530,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-11 17:43:39
+-- Dump completed on 2023-06-12  2:23:28
