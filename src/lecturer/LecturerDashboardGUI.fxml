@@ -359,8 +359,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <JFXSnackbar fx:id="snackbarError" StackPane.alignment="CENTER" />
-            <JFXSnackbar fx:id="snackbarSuccess" style="-fx-text-fill: #5DD299;" stylesheets="@SnackbarSuccess.css" />
+            <JFXSnackbar fx:id="snackbar" StackPane.alignment="CENTER" />
          </children>
       </StackPane>
    </children>
