@@ -619,36 +619,37 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 	
 	public static ArrayList<Exam> getExamsByActiveness(String active, String authorID) {
-		String query;
-		ArrayList<Exam> examsArr = new ArrayList<>();
-		PreparedStatement ps = null;
+	    String query;
+	    ArrayList<Exam> examsArr = new ArrayList<>();
+	    PreparedStatement ps = null;
 	    try {
 	        if (mysqlConnection.getConnection() != null) {
-	    		if(authorID == null) {
-	    		    query = "SELECT exams.*, course.Name AS courseName " +
-	    		                   "FROM exams " +
-	    		                   "JOIN course ON exams.courseID = course.CourseID " +
-	    		                   "WHERE exams.isActive = ?";
-	    		    
-		            ps = mysqlConnection.getConnection().prepareStatement(query);
-		            ps.setString(1, active);
-	    		}
-	    		else {
-	    		    query = "SELECT exams.*, course.Name AS courseName " +
-	    	                   "FROM exams " +
-	    	                   "JOIN course ON exams.courseID = course.CourseID " +
-	    	                   "WHERE exams.isActive = ? AND exams.authorID = ?";
-	    		    
-		            ps = mysqlConnection.getConnection().prepareStatement(query);
-		            ps.setString(1, active);
-		            ps.setString(2, authorID);
-	    		}
+	            if (authorID == null) {
+	                query = "SELECT exams.*, course.Name AS courseName, subjects.Name AS subjectName " +
+	                        "FROM exams " +
+	                        "JOIN course ON exams.courseID = course.CourseID " +
+	                        "JOIN subjects ON exams.subjectID = subjects.SubjectID " +
+	                        "WHERE exams.isActive = ?";
+
+	                ps = mysqlConnection.getConnection().prepareStatement(query);
+	                ps.setString(1, active);
+	            } else {
+	                query = "SELECT exams.*, course.Name AS courseName, subjects.Name AS subjectName " +
+	                        "FROM exams " +
+	                        "JOIN course ON exams.courseID = course.CourseID " +
+	                        "JOIN subjects ON exams.subjectID = subjects.SubjectID " +
+	                        "WHERE exams.isActive = ? AND exams.authorID = ?";
+
+	                ps = mysqlConnection.getConnection().prepareStatement(query);
+	                ps.setString(1, active);
+	                ps.setString(2, authorID);
+	            }
 	            try (ResultSet rs = ps.executeQuery()) {
-	                while(rs.next()) {
-	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), null,
-								rs.getString(3), rs.getString("courseName"), null,
-								rs.getString("commentsLecturer"), rs.getString("commentsStudents"), rs.getInt(6),
-								rs.getString(7), rs.getString(9), rs.getString(11)));
+	                while (rs.next()) {
+	                    examsArr.add(new Exam(rs.getString(1), rs.getString(2), rs.getString("subjectName"),
+	                            rs.getString(3), rs.getString("courseName"), null,
+	                            rs.getString("commentsLecturer"), rs.getString("commentsStudents"), rs.getInt(6),
+	                            rs.getString(7), rs.getString(9), rs.getString(11)));
 	                }
 	            }
 	        }
@@ -659,6 +660,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 	    return examsArr;
 	}
+
 
 	public static ArrayList<QuestionInExam> retrieveQuestionsInExamById(String examID){
 		ArrayList<QuestionInExam> questions = new ArrayList<>();
@@ -792,7 +794,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 
 
-	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID
+	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID. get only id and name
 	public static ArrayList<HeadOfDepartment> getHeadOfDepartmentsByLecturer(String lecturerID) {
 		ArrayList<HeadOfDepartment> arr = new ArrayList<>();
 		arr.add(new HeadOfDepartment("aaa1", null, null, "bbb1", null));
@@ -817,6 +819,27 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		// 6 - lecturer's explanation
 		// 7 - add to exam duration
 		// 8 - head of department ID
+		
+		String query = "INSERT INTO headofdepartmentrequests (hodID, subject, course, lecturerID, examID, lecturerName"
+				+ ", explanation, examDurationAdd) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	    try {
+	    	if (mysqlConnection.getConnection() != null) {
+	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	    		ps.setString(1, requestInfo_arr.get(8));
+	    		ps.setString(2, requestInfo_arr.get(2));
+	    		ps.setString(3, requestInfo_arr.get(3));
+	    		ps.setString(4, requestInfo_arr.get(4));
+	    		ps.setString(5, requestInfo_arr.get(1));
+	    		ps.setString(6, requestInfo_arr.get(5));
+	    		ps.setString(7, requestInfo_arr.get(6));
+	    		ps.setString(8, requestInfo_arr.get(7));
+	    		ps.executeUpdate();
+	    	}
+		
+	    } catch (SQLException | ClassNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		
 	}
 
 
