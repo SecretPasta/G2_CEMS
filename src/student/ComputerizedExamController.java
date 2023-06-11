@@ -265,6 +265,11 @@ public class ComputerizedExamController implements Initializable{
 		submitExam();
 	}
 
+	//method to update the exam duration after approval, approval is done in headofdepartment code
+	public void updateExamDuration(int minutes){
+		 examTimer.updateTimer(minutes);
+	}
+
 	@FXML
     private void back(ActionEvent event) {
 		currentQuestion = tabPane.getTabs().indexOf(tabPane.getSelectionModel().getSelectedItem());
