@@ -1,15 +1,11 @@
 package lecturer;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
-import javafx.scene.control.cell.TextFieldTableCell;
-
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -17,13 +13,13 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import com.jfoenix.controls.JFXSnackbarLayout;
 
+import ClientAndServerLogin.LoginFrameController;
+import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.Lecturer;
 import Config.Question;
 import Config.QuestionInExam;
 import client.ClientUI;
-import ClientAndServerLogin.LoginFrameController;
-import ClientAndServerLogin.SceneManagment;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
@@ -38,8 +34,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -748,8 +746,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	        // Enable/disable the "Continue" button based on the current total points
 	        if (total_points_CreateExam != 100) {
 	            btcContinue_CreateExam.setDisable(true);
+				lblTotalQuestionSelectedPoints.setTextFill(Color.rgb(254, 119, 76));
 	        } else if (total_points_CreateExam == 100) {
 	            btcContinue_CreateExam.setDisable(false);
+				lblTotalQuestionSelectedPoints.setTextFill(Color.rgb(93, 210, 153));
 	        }
 
 	    } catch (NumberFormatException | NullPointerException e) {

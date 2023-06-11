@@ -11,13 +11,15 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 0 0 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.LecturerDashboardFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.LecturerDashboardFrameController">
    <children>
       <Pane prefHeight="576.0" prefWidth="255.0" style="-fx-background-color: #242633; -fx-background-radius: 30 0 0 30;">
          <children>
@@ -160,6 +162,8 @@
       </Pane>
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
+            <JFXSnackbar fx:id="snackbarError" StackPane.alignment="CENTER" />
+            <JFXSnackbar fx:id="snackbarSuccess" style="-fx-text-fill: #5DD299;" stylesheets="@SnackbarSuccess.css" />
             <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -208,80 +212,25 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
-            <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
+            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" stylesheets="@LecturerDashboard.css">
                <children>
-                  <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" focusColor="#66a7f2" layoutX="54.0" layoutY="69.0" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="168.0" promptText="Select subject..." />
-                  <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" focusColor="#66a7f2" layoutX="263.0" layoutY="69.0" prefHeight="25.0" prefWidth="160.0" promptText="Select course..." />
-                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="32.0" layoutY="110.0" prefHeight="160.0" prefWidth="735.0">
-                    <columns>
-                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" text="ID" />
-                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="515.2000427246094" text="Question text" />
-                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="0.0" prefWidth="121.5999755859375" text="Lecturer" />
-                    </columns>
-                  </TableView>
-                  <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" layoutX="455.0" layoutY="68.0" onAction="#getSearchBtn_CreateExam" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Search" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                  <JFXButton layoutX="712.0" layoutY="17.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="301.0" layoutY="287.0" onAction="#getChooseQuestionBtn_CreateExam" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Choose question" textFill="#faf9f6">
+                  <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="105.0" layoutY="504.0" onAction="#getBtnOpenExam_ManageExams" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Open exam for students" textFill="#faf9f6">
                      <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="32.0" layoutY="340.0" prefHeight="160.0" prefWidth="735.0">
-                    <columns>
-                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="80.79998779296875" text="ID" />
-                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="462.4000549316406" text="Question text" />
-                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="91.2000732421875" text="Lecturer" />
-                        <TableColumn id="pointsColumn_CreateExam2" fx:id="pointsColumn_CreateExam2" onEditCommit="#getEditPoints" prefWidth="82.40008544921875" text="Points" />
-                    </columns>
-                  </TableView>
-                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="629.0" layoutY="289.0" onAction="#getRefreshBtn_CreateExam" text="Refresh" />
-                  <Label id="lblTotalQuestionSelectedPoints" fx:id="lblTotalQuestionSelectedPoints" layoutX="357.0" layoutY="527.0">
-                     <graphic>
-                        <Label prefHeight="17.0" prefWidth="85.0" text="Total points:" />
-                     </graphic>
-                  </Label>
-                  <JFXButton id="btnRemoveQuestion_CreateExam" layoutX="54.0" layoutY="518.0" onAction="#getRemoveQuestion_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Remove question" textFill="#faf9f6">
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
+                  <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="606.0" layoutY="504.0" onAction="#getBtnCloseExam_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Close exam for students" textFill="#faf9f6">
                      <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton id="btcContinue_CreateExam" fx:id="btcContinue_CreateExam" layoutX="562.0" layoutY="518.0" onAction="#getBtnContinue_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Continue" textFill="#faf9f6">
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
+                  <JFXButton id="btnExtraTime_ManageExams" fx:id="btnExtraTime_ManageExams" layoutX="414.0" layoutY="504.0" onAction="#getBtnExtraTime_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Give an extra time" textFill="#faf9f6">
                      <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="57.0" layoutY="25.0" text="Create Exam">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="85.0" text="Hello World 1" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="84.0" layoutY="494.0" onAction="#getBtnOpenExam_ManageExams" prefHeight="67.0" prefWidth="190.0" text="Open exam for students" />
-                  <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="599.0" layoutY="500.0" onAction="#getBtnCloseExam_ManageExams" prefHeight="56.0" prefWidth="144.0" text="Close exam for students" />
-                  <JFXButton id="btnExtraTime_ManageExams" fx:id="btnExtraTime_ManageExams" layoutX="416.0" layoutY="500.0" onAction="#getBtnExtraTime_ManageExams" prefHeight="56.0" prefWidth="140.0" text="Give an extra time" />
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
                   <TableView id="tableView_inActiveExams" fx:id="tableView_inActiveExams" layoutX="14.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
                     <columns>
                       <TableColumn id="examIdColumn_inActiveExams" fx:id="examIdColumn_inActiveExams" prefWidth="75.0" text="Exam ID" />
@@ -296,8 +245,19 @@
                         <TableColumn id="codeColumn_activeExams" fx:id="codeColumn_activeExams" prefWidth="84.7999267578125" text="Code" />
                      </columns>
                   </TableView>
-                  <Label layoutX="174.0" layoutY="25.0" text="Inactive exams" />
-                  <Label layoutX="530.0" layoutY="31.0" text="Active exams" />
+                  <Label layoutX="158.0" layoutY="43.0" text="Inactive exams" textFill="#242633">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="553.0" layoutY="43.0" text="Active exams" textFill="#242633">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="312.0" layoutY="14.0" text="Manage Exams" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
@@ -359,7 +319,94 @@
                   </ImageView>
                </children>
             </Pane>
-            <JFXSnackbar fx:id="snackbar" StackPane.alignment="CENTER" />
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="120.0" text="Show Report Screen" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
+            <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
+               <children>
+                  <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="32.0" layoutY="110.0" prefHeight="160.0" prefWidth="735.0">
+                    <columns>
+                      <TableColumn id="idColumn_CreateExam" fx:id="idColumn_CreateExam" text="ID" />
+                        <TableColumn id="questionTextColumn_CreateExam" fx:id="questionTextColumn_CreateExam" prefWidth="515.2000427246094" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam" fx:id="authorColumn_CreateExam" minWidth="0.0" prefWidth="121.5999755859375" text="Lecturer" />
+                    </columns>
+                  </TableView>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btnChooseQuestion_CreateExam" fx:id="btnChooseQuestion_CreateExam" layoutX="301.0" layoutY="287.0" onAction="#getChooseQuestionBtn_CreateExam" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Choose question" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <TableView id="tableView_CreateExam2" fx:id="tableView_CreateExam2" layoutX="32.0" layoutY="340.0" prefHeight="160.0" prefWidth="735.0">
+                    <columns>
+                      <TableColumn id="idColumn_CreateExam2" fx:id="idColumn_CreateExam2" prefWidth="80.79998779296875" text="ID" />
+                      <TableColumn id="questionTextColumn_CreateExam2" fx:id="questionTextColumn_CreateExam2" prefWidth="462.4000549316406" text="Question text" />
+                        <TableColumn id="authorColumn_CreateExam2" fx:id="authorColumn_CreateExam2" prefWidth="91.2000732421875" text="Lecturer" />
+                        <TableColumn id="pointsColumn_CreateExam2" fx:id="pointsColumn_CreateExam2" onEditCommit="#getEditPoints" prefWidth="82.40008544921875" text="Points" />
+                    </columns>
+                  </TableView>
+                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CreateExam" layoutX="54.0" layoutY="292.0" onAction="#getRefreshBtn_CreateExam" prefHeight="27.0" prefWidth="90.0" style="-fx-border-color: #242633; -fx-border-radius: 10;" text="Clear Tables" />
+                  <Label id="lblTotalQuestionSelectedPoints" fx:id="lblTotalQuestionSelectedPoints" layoutX="357.0" layoutY="527.0" textFill="#fe774c">
+                     <graphic>
+                        <Label prefHeight="17.0" prefWidth="85.0" text="Total points:" textFill="#242633" />
+                     </graphic>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Label>
+                  <JFXButton id="btnRemoveQuestion_CreateExam" layoutX="54.0" layoutY="518.0" onAction="#getRemoveQuestion_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Remove question" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btcContinue_CreateExam" fx:id="btcContinue_CreateExam" layoutX="562.0" layoutY="518.0" onAction="#getBtnContinue_CreateExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Comments and Time→" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="57.0" layoutY="25.0" text="Create Exam" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <HBox layoutX="54.0" layoutY="70.0" prefHeight="40.0" prefWidth="551.0" spacing="30.0">
+                     <children>
+                        <JFXComboBox id="subjectSelectBox_CreateExam" fx:id="subjectSelectBox_CreateExam" focusColor="#66a7f2" onAction="#getSubjectSelectBox_CreateExam" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." />
+                        <JFXComboBox id="courseSelectBox_CreateExam" fx:id="courseSelectBox_CreateExam" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." />
+                        <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_CreateExam" onAction="#getSearchBtn_CreateExam" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Search" textFill="#242633" />
+                     </children>
+                  </HBox>
+                  <Label layoutX="315.0" layoutY="272.0" prefHeight="17.0" prefWidth="168.0" text="*Press question and then Press button" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="10.0" />
+                     </font>
+                  </Label>
+                  <Circle fill="#66a7f2" layoutX="732.0" layoutY="83.0" radius="14.0" stroke="#faf9f6" strokeType="INSIDE" />
+                  <Line endX="60.0" endY="-1.0" layoutX="733.0" layoutY="84.0" startX="13.0" startY="-0.9999961853027344" stroke="#242633" />
+                  <Label layoutX="657.0" layoutY="65.0" prefHeight="37.0" prefWidth="61.0" text="Questions and Points" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="491.0" layoutY="325.0" prefHeight="18.0" prefWidth="285.0" text="**Double click on question points, Insert points and Press &quot;Enter&quot;" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </StackPane>
    </children>
