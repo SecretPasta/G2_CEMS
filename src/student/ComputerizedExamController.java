@@ -241,6 +241,9 @@ public class ComputerizedExamController implements Initializable{
 		return null;
 	}
 	public void submitExam() {
+		 if(examTimer!= null){
+			 examTimer.stopTimer();
+		 }
 		double grade;
 		System.out.println("You've Submitted the exam!");
 		grade = gradeComputerizedExam();
@@ -264,6 +267,10 @@ public class ComputerizedExamController implements Initializable{
 
 
 
+	}
+
+	public String getStudentId(){
+		 return participatingStudent.getId();
 	}
 
 	//Auto Submit when timer runs out
