@@ -287,8 +287,11 @@ public class ComputerizedExamController implements Initializable{
 	}
 
 	//method to update the exam duration after approval, approval is done in headofdepartment code
-	public void updateExamDuration(int minutes){
-		 examTimer.updateTimer(minutes);
+	public void updateExamDuration(String examID , int minutes){
+		 if(examID.equals(currentExam.getExamID())){
+			 examTimer.updateTimer(minutes);
+		 }
+
 	}
 
 	@FXML
