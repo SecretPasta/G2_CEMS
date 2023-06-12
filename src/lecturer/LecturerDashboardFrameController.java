@@ -125,8 +125,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableColumn<Question, String> subjectColumn_CheckExam;
 	@FXML
 	private TableColumn<Question, String> courseNameColumn_CheckExam;
-	@FXML
-	private TableColumn<Question, String> isActiveColumn_CheckExam;
+
 	@FXML
 	private JFXButton btnApproveGrades;
 	@FXML
@@ -908,7 +907,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        activeExamsObservableList.remove(activeExamSelected);
 	        inActiveExamsObservableList.add(activeExamSelected);
 
-	        changeExamActivenessInDB(activeExamSelected.getExamID(), "0");
+	        changeExamActivenessInDB(activeExamSelected.getExamID(), "2");
 
 	    } catch (NullPointerException e) {
 	        displayErrorMessage("Error: Exam not selected");
@@ -977,7 +976,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		CheckExam_ChooseStudentFrameController.start(); // starting the exam review screen.
+		CheckExam_ChooseStudentFrameController.start();
 	}
 
 	public void showDashboardFrom_CheckExam() {
@@ -1192,6 +1191,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
+	    	//getAllActiveExamsFromDB();
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) { // Manage Questions panel

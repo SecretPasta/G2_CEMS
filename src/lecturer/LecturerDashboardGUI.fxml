@@ -328,7 +328,6 @@
                         <TableColumn id="idColumn_ManageQuestions" fx:id="idColumn_CheckExam" prefWidth="75.99999690055847" text="id" />
                         <TableColumn id="subjectColumn_ManageQuestions" fx:id="subjectColumn_CheckExam" prefWidth="197.0" text="subject" />
                         <TableColumn id="questionTextColumn_ManageQuestions" fx:id="courseNameColumn_CheckExam" prefWidth="315.0" text="course" />
-                        <TableColumn id="authorColumn_ManageQuestions" fx:id="isActiveColumn_CheckExam" minWidth="0.0" prefWidth="138.40008544921875" text="isActive" />
                      </columns>
                   </TableView>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
