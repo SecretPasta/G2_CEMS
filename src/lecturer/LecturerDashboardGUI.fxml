@@ -4,6 +4,9 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -203,64 +206,6 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" stylesheets="@LecturerDashboard.css">
-               <children>
-                  <JFXButton layoutX="712.0" layoutY="17.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="105.0" layoutY="504.0" onAction="#getBtnOpenExam_ManageExams" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Open exam for students" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></JFXButton>
-                  <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="606.0" layoutY="504.0" onAction="#getBtnCloseExam_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Close exam for students" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></JFXButton>
-                  <JFXButton id="btnChangeTime_ManageExams" fx:id="btnChangeTime_ManageExams" layoutX="414.0" layoutY="504.0" onAction="#getBtnChangeTime_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Give an Change time" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></JFXButton>
-                  <TableView id="tableView_inActiveExams" fx:id="tableView_inActiveExams" layoutX="14.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
-                    <columns>
-                      <TableColumn id="examIdColumn_inActiveExams" fx:id="examIdColumn_inActiveExams" prefWidth="75.0" text="Exam ID" />
-                      <TableColumn id="courseNameColumn_inActiveExams" fx:id="courseNameColumn_inActiveExams" prefWidth="183.20004272460938" text="Course" />
-                        <TableColumn id="durationColumn_inActiveExams" fx:id="durationColumn_inActiveExams" prefWidth="112.79998779296875" text="Duration" />
-                    </columns>
-                  </TableView>
-                  <TableView id="tableView_activeExams" fx:id="tableView_activeExams" layoutX="404.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
-                     <columns>
-                        <TableColumn id="examIdColumn_activeExams" fx:id="examIdColumn_activeExams" prefWidth="75.0" text="Exam ID" />
-                        <TableColumn id="courseNameColumn_activeExams" fx:id="courseNameColumn_activeExams" prefWidth="212.800048828125" text="Course" />
-                        <TableColumn id="codeColumn_activeExams" fx:id="codeColumn_activeExams" prefWidth="84.7999267578125" text="Code" />
-                     </columns>
-                  </TableView>
-                  <Label layoutX="158.0" layoutY="43.0" text="Inactive exams" textFill="#242633">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Label>
-                  <Label layoutX="553.0" layoutY="43.0" text="Active exams" textFill="#242633">
-                     <font>
-                        <Font name="System Italic" size="12.0" />
-                     </font></Label>
-                  <Label layoutX="312.0" layoutY="14.0" text="Manage Exams" textFill="#242633">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="120.0" text="Show Report Screen" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
@@ -433,6 +378,104 @@
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlManageExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" stylesheets="@LecturerDashboard.css">
+               <children>
+                  <JFXButton layoutX="712.0" layoutY="17.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btnOpenExam_ManageExams" fx:id="btnOpenExam_ManageExams" layoutX="105.0" layoutY="504.0" onAction="#getBtnOpenExam_ManageExams" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Open exam for students" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
+                  <JFXButton id="btnCloseExam_ManageExams" fx:id="btnCloseExam_ManageExams" layoutX="606.0" layoutY="504.0" onAction="#getBtnCloseExam_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Close exam for students" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
+                  <JFXButton id="btnChangeTime_ManageExams" fx:id="btnChangeTime_ManageExams" layoutX="414.0" layoutY="504.0" onAction="#getBtnChangeTime_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Give an Change time" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></JFXButton>
+                  <TableView id="tableView_inActiveExams" fx:id="tableView_inActiveExams" layoutX="14.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
+                    <columns>
+                      <TableColumn id="examIdColumn_inActiveExams" fx:id="examIdColumn_inActiveExams" prefWidth="75.0" text="Exam ID" />
+                      <TableColumn id="courseNameColumn_inActiveExams" fx:id="courseNameColumn_inActiveExams" prefWidth="183.20004272460938" text="Course" />
+                        <TableColumn id="durationColumn_inActiveExams" fx:id="durationColumn_inActiveExams" prefWidth="112.79998779296875" text="Duration" />
+                    </columns>
+                  </TableView>
+                  <TableView id="tableView_activeExams" fx:id="tableView_activeExams" layoutX="404.0" layoutY="66.0" prefHeight="428.0" prefWidth="372.0">
+                     <columns>
+                        <TableColumn id="examIdColumn_activeExams" fx:id="examIdColumn_activeExams" prefWidth="75.0" text="Exam ID" />
+                        <TableColumn id="courseNameColumn_activeExams" fx:id="courseNameColumn_activeExams" prefWidth="212.800048828125" text="Course" />
+                        <TableColumn id="codeColumn_activeExams" fx:id="codeColumn_activeExams" prefWidth="84.7999267578125" text="Code" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="158.0" layoutY="43.0" text="Inactive exams" textFill="#242633">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="553.0" layoutY="43.0" text="Active exams" textFill="#242633">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font></Label>
+                  <Label layoutX="312.0" layoutY="14.0" text="Manage Exams" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <HBox layoutX="27.0" layoutY="65.0" prefHeight="40.0" prefWidth="744.0" spacing="30.0">
+                     <children>
+                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." unFocusColor="#242633" />
+                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." unFocusColor="#242633" />
+                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="examSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Select exam..." unFocusColor="#242633" />
+                        <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show" textFill="#242633" />
+                     </children>
+                  </HBox>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="27.0" layoutY="23.0" text="Show Report" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <BarChart fx:id="barChart_ShowReport" layoutX="13.0" layoutY="167.0" prefHeight="397.0" prefWidth="762.0">
+                    <xAxis>
+                      <CategoryAxis fx:id="showReport_CategoryAxis" endMargin="100.0" gapStartAndEnd="false" prefHeight="27.0" prefWidth="703.0" startMargin="0.0" tickLabelFill="#242633" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="showReport_NumberAxis" minorTickCount="4" side="LEFT" tickLabelFill="#242633" upperBound="90.0" />
+                    </yAxis>
+                  </BarChart>
+                  <VBox layoutX="47.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="100.0" text="Average Grade:" textFill="#242633" />
+                        <Label fx:id="lblAverage" prefHeight="20.0" prefWidth="100.0" text="Average Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="167.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="100.0" text="Median:" textFill="#242633" />
+                        <Label fx:id="lblMedian" prefHeight="20.0" prefWidth="100.0" text="Median Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </Pane>
          </children>
