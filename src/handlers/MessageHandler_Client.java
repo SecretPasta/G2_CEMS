@@ -207,7 +207,7 @@ public class MessageHandler_Client {
 	                	// 1 - Head of department ID
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
-		                		HODDashboardFrameController.getInstance().popUpMessageAlert("new exam time change request recieved");
+		                		HODDashboardFrameController.getInstance().displayError("new exam time change request recieved");
 		                		// send pop up message that Change time request recieved!!!!!
 		                		
 		                	}
@@ -219,7 +219,7 @@ public class MessageHandler_Client {
 	                case "LoadAllRequestsForHOD":
 	                	arrayListStr.remove(0);
 	                	HODDashboardFrameController.getInstance().loadRequestsFromDB(arrayListStr);
-	                	HODDashboardFrameController.getInstance().popUpMessageAlert("new exam time change request recieved");
+	                	HODDashboardFrameController.getInstance().displayError("new exam time change request recieved");
 	                	
 	                	break;
 	                	

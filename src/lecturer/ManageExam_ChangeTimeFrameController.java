@@ -64,8 +64,8 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 		hodSelected = hodSelectBox.getSelectionModel().getSelectedItem();
 		
 		if(txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
-				|| hodSelected == null) {
-			System.out.println("[Error] Missing fields.");
+				|| hodSelected == null || hodSelected.equals("Please select Head Of Department")) {
+			System.out.println("[Error] Missing fields."); // error
 		}
 		else {
 			
@@ -89,13 +89,17 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 				infoOfRequest_Arr.add(txtExamDuration.getText());
 				infoOfRequest_Arr.add(hod_name_id[1]);
 				ClientUI.chat.accept(infoOfRequest_Arr);
+				
+				System.out.println("Request gor changing the time of the exam sent succesfuly to the head of department!"); // succees
+				
+				getBtnBack(event);
+
 
 			} catch (NumberFormatException e) {
-				System.out.println("only positives minutes");
+				System.out.println("only positives minutes"); // error
 			}
 		}	
-		getBtnBack(event);
-
+		
 	}
 	
 	public void getBtnBack(ActionEvent event) throws Exception {
