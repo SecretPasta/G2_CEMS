@@ -795,9 +795,9 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID. get only id and name
 	public static ArrayList<HeadOfDepartment> getHeadOfDepartmentsByLecturer(String lecturerID) {
 		ArrayList<HeadOfDepartment> relevantHODForLecturer = new ArrayList<>();
-		String query = "SELECT HOD.HeadOfDepartmentID, HOD.Name" +
-				"FROM headofdepartment HOD" +
-				"JOIN lecturerdepartment LD ON HOD.DepartmentID = LD.DepartmentID" +
+		String query = "SELECT HOD.HeadOfDepartmentID, HOD.Name " +
+				"FROM HeadOfDepartment HOD " +
+				"JOIN lecturerdepartment LD ON HOD.DepartmentID = LD.DepartmentID " +
 				"WHERE LD.LecturerID = ? ";
 		
 		try {
@@ -808,7 +808,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					while(rs.next()) {
 						String HODdepartmentID = rs.getString("HeadOfDepartmentID");
 						String HODdepartmentName = rs.getNString("Name");
-						HeadOfDepartment hod = new HeadOfDepartment(HODdepartmentID,HODdepartmentName,null,null,null);
+						HeadOfDepartment hod = new HeadOfDepartment(HODdepartmentID,null,null,HODdepartmentName,null);
 						relevantHODForLecturer.add(hod);
 					}
 				}
@@ -947,6 +947,35 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		return requests_arr;
 		
+	}
+
+
+
+
+
+	public static void removeRequestForHodFromDB(String hodID, String lecturerID, String examID, String examDurrationToAdd) {
+		
+		// 1 - headofdepartment ID
+		// 2 - lecturer ID
+		// 3 - exam ID
+		// 4 - exam Duration to Add
+		
+	    String query = "DELETE FROM headofdepartmentrequests "
+	    			+ "WHERE HeadOfDepartmentID = ? AND lecturerID = ? AND examID = ? AND examDurationAdd = ?";
+	    try {
+	        if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, hodID);
+	            ps.setString(2,lecturerID);
+	            ps.setString(3, examID);
+	            ps.setString(4, examDurrationToAdd);
+	            ps.executeUpdate();
+	        }
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 

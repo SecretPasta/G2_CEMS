@@ -196,7 +196,7 @@ public class MessageHandler_Client {
 	                	// 1 - examID
 	                	try {
 		                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
-		                		ComputerizedExamController.getInstance().getSubmitExamBtn(null); // close the exam for the student in the specific exam
+		                		ComputerizedExamController.getInstance().submitExam(); // close the exam for the student in the specific exam
 		                		System.out.println("exam closed");
 		                	}
 	                	}catch (NullPointerException e){}
@@ -207,9 +207,8 @@ public class MessageHandler_Client {
 	                	// 1 - Head of department ID
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
-		                		System.out.println("you have new message"); // alert new request: function or something else
-		                		HODDashboardFrameController.getAllrequests(); // bug @@@@@@@@@@@@@@
-		                		// send pop up message that extra time request recieved!!!!! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		                		HODDashboardFrameController.getInstance().popUpMessageAlert("new exam time change request recieved");
+		                		// send pop up message that extra time request recieved!!!!!
 		                		
 		                	}
                 		}catch (NullPointerException e){}
@@ -219,9 +218,31 @@ public class MessageHandler_Client {
 	                	
 	                case "LoadAllRequestsForHOD":
 	                	arrayListStr.remove(0);
-	                	System.out.println(3);
 	                	HODDashboardFrameController.getInstance().loadRequestsFromDB(arrayListStr);
-	                	System.out.println(2);
+	                	HODDashboardFrameController.getInstance().popUpMessageAlert("new exam time change request recieved");
+	                	
+	                	break;
+	                	
+	                case "RequestForExtraTimeAcceptedByHodToLecturer":
+						// 1 - lecturer ID
+						// 2 - exam ID
+						// 3 - exam Duration to Add
+						// 4 - txt Message from hod to lecturer
+	                	
+	                	if(userID.equals(arrayListStr.get(1))) {
+	                		LecturerDashboardFrameController.getInstance().displaySuccessMessage("Your request for extra time of " + arrayListStr.get(3)
+	                		+ " minutes on exam (" + arrayListStr.get(2) + ") confirmed!\nHead Of Department's message: " + arrayListStr.get(4));
+	                	}
+	                	
+	                	break;
+	                	
+	                case "RequestForExtraTimeAcceptedByHodToStudent":
+	                	
+						// 1 - exam ID
+						// 2 - exam Duration to Add
+	                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
+	                		ComputerizedExamController.getInstance().updateExamDuration(arrayListStr.get(1), Integer.parseInt(arrayListStr.get(2)));
+	                	}
 	                	
 	                	break;
 	            }       
