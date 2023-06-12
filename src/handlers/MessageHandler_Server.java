@@ -432,6 +432,13 @@ public class MessageHandler_Server {
 						client.sendToClient(studentsexamstocheck_arr);	
 						break;
 						
+					case "GetQuestionsInExamToAproove":
+						// 1 - Exam ID
+						ArrayList<QuestionInExam> questionInExamarray = new ArrayList<>();
+						questionInExamarray.add(new QuestionInExam("questionsInExamForLecturerApproval",null,null,null));
+						questionInExamarray.addAll(DBController.retrieveQuestionsInExamById(arrayListStr.get(1)));
+						client.sendToClient(questionInExamarray);
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {

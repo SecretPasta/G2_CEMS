@@ -59,6 +59,8 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	private static Lecturer luecturer;
 	private static Exam examSelectedForChecking;
 	
+	private FinishedExam finishedExamSelected;
+	
 	private static CheckExam_ChooseStudentFrameController instance;
 	
 	public CheckExam_ChooseStudentFrameController() {
@@ -89,8 +91,37 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 	@FXML
 	void getBtnShowExam(ActionEvent event) throws IOException {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		CheckExam_ReviewAndApproveFrameController.start(); // starting the exam review screen.
+		
+		
+		
+		
+		try {
+			
+			finishedExamSelected = finishedExams_tableView.getSelectionModel().getSelectedItem();
+			
+			if (finishedExamSelected == null) {
+				throw new NullPointerException();
+			}
+			
+			finishedExamSelected.setSubjectName(examSelectedForChecking.getSubjectName());
+			finishedExamSelected.setCourseName(examSelectedForChecking.getCourseName());
+			finishedExamSelected.setSubjectID(examSelectedForChecking.getSubjectID());
+			finishedExamSelected.setCourseID(examSelectedForChecking.getCourseID());
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			CheckExam_ReviewAndApproveFrameController.start(luecturer, finishedExamSelected);
+			
+		} catch (NullPointerException e) {
+			//displayErrorMessage("Error: Student exam was not selected");
+			System.out.println("Error: Student exam was not selected");
+		}
+			    
+		finishedExams_tableView.getSelectionModel().clearSelection();
+
+		finishedExamSelected = null;
+		
+		
+
 
 	}
 
@@ -124,6 +155,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
                 finishedExams_observablelist.setAll(finishedExams);	
 				finishedExams_tableView.setItems(finishedExams_observablelist);
 				finishedExams_tableView.refresh();
+				finishedExams_tableView.getSelectionModel().clearSelection();
             	
             }
         });

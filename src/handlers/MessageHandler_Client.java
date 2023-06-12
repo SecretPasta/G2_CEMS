@@ -11,6 +11,7 @@ import JDBC.DBController;
 import headofdepartment.HODDashboardFrameController;
 import lecturer.AddQuestionFrameController;
 import lecturer.CheckExam_ChooseStudentFrameController;
+import lecturer.CheckExam_ReviewAndApproveFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import lecturer.ManageExam_ChangeTimeFrameController;
@@ -367,6 +368,10 @@ public class MessageHandler_Client {
 	    	
 	    		case "questionsByExamIdForClient":
 					ComputerizedExamController.getInstance().loadExamQuestions(questionInExamList);
+					break;
+					
+	    		case "questionsInExamForLecturerApproval":
+	    			CheckExam_ReviewAndApproveFrameController.saveQuestionsInExam(questionInExamList);
 					break;
 	    	} 
 	    	

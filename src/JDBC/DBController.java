@@ -972,7 +972,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	public static ArrayList<FinishedExam> getFinishedExamsByExamID(String examID) {
 		
-		String query = "SELECT * FROM finishedexam WHERE examID = ?";
+		String query = "SELECT * FROM finishedexam WHERE examID = ? AND approved = 0";
 		ArrayList<FinishedExam> finishedexams_arr = new ArrayList<>();
 		try {
 			if (mysqlConnection.getConnection() != null) {
