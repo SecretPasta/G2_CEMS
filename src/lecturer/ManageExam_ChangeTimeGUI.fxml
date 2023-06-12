@@ -58,7 +58,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField id="txtAddToExamDuration" fx:id="txtAddToExamDuration" prefHeight="34.0" prefWidth="120.0" style="-fx-background-radius: 5;" />
+                        <TextField id="txtExamDuration" fx:id="txtExamDuration" prefHeight="34.0" prefWidth="120.0" style="-fx-background-radius: 5;" />
                         <Label prefHeight="34.0" text="*in Minutes">
                            <font>
                               <Font name="System Italic" size="12.0" />

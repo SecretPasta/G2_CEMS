@@ -40,7 +40,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Extra Time:&#10;The Approve Extra Time section allows the head of the department to review and approve requests for extra time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
+                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Change Time:&#10;The Approve Change Time section allows the head of the department to review and approve requests for Change time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>
@@ -75,7 +75,7 @@
                   </JFXButton>
                </children>
             </Pane>
-            <Pane fx:id="pnlApproveExtraTime" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+            <Pane fx:id="pnlApproveTimeChange" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
@@ -152,7 +152,7 @@
                         <Insets left="50.0" />
                      </padding>
                   </JFXButton>
-                  <JFXButton fx:id="btnApproveExtraTime" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Extra Time" textFill="#faf9f6">
+                  <JFXButton fx:id="btnApproveTimeChange" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Change Time" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>

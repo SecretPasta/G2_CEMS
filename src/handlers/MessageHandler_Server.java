@@ -352,7 +352,7 @@ public class MessageHandler_Server {
 						client.sendToClient(studentGrades);
 						break;
 						
-					case "RequestForExtraTimeInExamAccepted":
+					case "RequestForChangeTimeInExamAccepted":
 						// 1 - headofdepartment ID
 						// 2 - lecturer ID
 						// 3 - exam ID
@@ -365,14 +365,14 @@ public class MessageHandler_Server {
 						ObservableList<ConnectedClient> connectedClients2 = ServerPortFrameController.getConnectedClients();
 
 						ArrayList<String> confirmation_to_lecturer_arr = new ArrayList<>();
-						confirmation_to_lecturer_arr.add("RequestForExtraTimeAcceptedByHodToLecturer");
+						confirmation_to_lecturer_arr.add("RequestForChangeTimeAcceptedByHodToLecturer");
 						confirmation_to_lecturer_arr.add(arrayListStr.get(2)); // lecturer ID
 						confirmation_to_lecturer_arr.add(arrayListStr.get(3)); // exam ID
 						confirmation_to_lecturer_arr.add(arrayListStr.get(4)); // exam Duration to Add
 						confirmation_to_lecturer_arr.add(arrayListStr.get(5)); // txt Message from hod to lecturer
 						
 						ArrayList<String> confirmation_to_student_arr = new ArrayList<>();
-						confirmation_to_student_arr.add("RequestForExtraTimeAcceptedByHodToStudent");
+						confirmation_to_student_arr.add("RequestForChangeTimeAcceptedByHodToStudent");
 						confirmation_to_student_arr.add(arrayListStr.get(3)); // exam ID
 						confirmation_to_student_arr.add(arrayListStr.get(4)); // exam Duration to Add
 						

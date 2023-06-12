@@ -36,7 +36,7 @@ import javafx.util.Duration;
 public class HODDashboardFrameController implements Initializable{
 
     @FXML
-    private JFXButton btnApproveExtraTime;
+    private JFXButton btnApproveTimeChange;
     @FXML
     private JFXButton btnShowReport;
     @FXML
@@ -51,7 +51,7 @@ public class HODDashboardFrameController implements Initializable{
     private Label lbluserNameAndID;
 
     @FXML
-    private Pane pnlApproveExtraTime;
+    private Pane pnlApproveTimeChange;
     @FXML
     private Pane pnlShowReport;
     @FXML
@@ -132,7 +132,7 @@ public class HODDashboardFrameController implements Initializable{
     	}
     	else {
     		requestAccepted();
-    		displayError("request for extra time to add cofirmed!");
+    		displayError("request for Change time to add cofirmed!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -149,7 +149,7 @@ public class HODDashboardFrameController implements Initializable{
         examDurationAdd = request_str[7];
     	
 		ArrayList<String> requestaccepted_arr = new ArrayList<>();
-		requestaccepted_arr.add("RequestForExtraTimeInExamAccepted");
+		requestaccepted_arr.add("RequestForChangeTimeInExamAccepted");
 		requestaccepted_arr.add(headofdepartment.getId());
 		requestaccepted_arr.add(lecturerID);
 		requestaccepted_arr.add(examID);
@@ -200,7 +200,7 @@ public class HODDashboardFrameController implements Initializable{
 				listRequests.setItems(requests_observablelist);
 				listRequests.refresh();
 				if(!listRequests.getItems().isEmpty()) {
-					// send pop up message that extra time request recieved!!!!!
+					// send pop up message that Change time request recieved!!!!!
 					popUpMessageAlert("new exam time change request recieved");
 				}
             }
@@ -265,10 +265,10 @@ public class HODDashboardFrameController implements Initializable{
     		handleAnimation(pnlShowReport, btnShowReport);
 	        pnlShowReport.toFront();
 	    }
-	    if (actionEvent.getSource() == btnApproveExtraTime) {
-	    	handleAnimation(pnlApproveExtraTime, btnApproveExtraTime);
+	    if (actionEvent.getSource() == btnApproveTimeChange) {
+	    	handleAnimation(pnlApproveTimeChange, btnApproveTimeChange);
 	    	getAllrequests();
-	        pnlApproveExtraTime.toFront();
+	        pnlApproveTimeChange.toFront();
 	    }
     }
     

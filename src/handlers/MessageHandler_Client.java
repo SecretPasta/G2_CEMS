@@ -208,7 +208,7 @@ public class MessageHandler_Client {
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
 		                		HODDashboardFrameController.getInstance().popUpMessageAlert("new exam time change request recieved");
-		                		// send pop up message that extra time request recieved!!!!!
+		                		// send pop up message that Change time request recieved!!!!!
 		                		
 		                	}
                 		}catch (NullPointerException e){}
@@ -223,20 +223,20 @@ public class MessageHandler_Client {
 	                	
 	                	break;
 	                	
-	                case "RequestForExtraTimeAcceptedByHodToLecturer":
+	                case "RequestForChangeTimeAcceptedByHodToLecturer":
 						// 1 - lecturer ID
 						// 2 - exam ID
 						// 3 - exam Duration to Add
 						// 4 - txt Message from hod to lecturer
 	                	
 	                	if(userID.equals(arrayListStr.get(1))) {
-	                		LecturerDashboardFrameController.getInstance().displaySuccessMessage("Your request for extra time of " + arrayListStr.get(3)
+	                		LecturerDashboardFrameController.getInstance().displaySuccessMessage("Your request for Change time of " + arrayListStr.get(3)
 	                		+ " minutes on exam (" + arrayListStr.get(2) + ") confirmed!\nHead Of Department's message: " + arrayListStr.get(4));
 	                	}
 	                	
 	                	break;
 	                	
-	                case "RequestForExtraTimeAcceptedByHodToStudent":
+	                case "RequestForChangeTimeAcceptedByHodToStudent":
 	                	
 						// 1 - exam ID
 						// 2 - exam Duration to Add

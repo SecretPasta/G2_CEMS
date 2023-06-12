@@ -896,7 +896,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
-	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
+	public void getBtnChangeTime_ManageExams(ActionEvent event) throws Exception {
 		activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
 		
 		try {

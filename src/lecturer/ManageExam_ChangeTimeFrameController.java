@@ -30,7 +30,7 @@ import javafx.scene.layout.VBox;
 public class ManageExam_ChangeTimeFrameController implements Initializable {
 	
 	@FXML
-	private TextField txtAddToExamDuration; // can be negative
+	private TextField txtExamDuration; // can be negative
 	@FXML
 	private TextField txtExplanationExamDurationChange;
 	
@@ -59,9 +59,11 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	
 	public void getBtnSendRequest(ActionEvent event) throws Exception {
 		
+		
+		
 		hodSelected = hodSelectBox.getSelectionModel().getSelectedItem();
 		
-		if(txtExplanationExamDurationChange.getText().trim().equals("") || txtAddToExamDuration.getText().trim().equals("")
+		if(txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
 				|| hodSelected == null) {
 			System.out.println("[Error] Missing fields.");
 		}
@@ -69,18 +71,31 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 			
 			String[] hod_name_id = hodSelected.split(" - ");
 			
-			ArrayList<String> infoOfRequest_Arr = new ArrayList<>();
-			infoOfRequest_Arr.add("RequestToChangeAnExamDurationFromLecturerToHOD");
-			infoOfRequest_Arr.add(exam.getExamID());
-			infoOfRequest_Arr.add(exam.getSubjectName());
-			infoOfRequest_Arr.add(exam.getCourseName());
-			infoOfRequest_Arr.add(lecturer.getId());
-			infoOfRequest_Arr.add(lecturer.getName());
-			infoOfRequest_Arr.add(txtExplanationExamDurationChange.getText());
-			infoOfRequest_Arr.add(txtAddToExamDuration.getText());
-			infoOfRequest_Arr.add(hod_name_id[1]);
-			ClientUI.chat.accept(infoOfRequest_Arr);
-		}
+			try {
+
+			    int number = Integer.parseInt(txtExamDuration.getText());
+			    if(number <= 0) {
+			    	throw new NumberFormatException();
+			    }
+			
+				ArrayList<String> infoOfRequest_Arr = new ArrayList<>();
+				infoOfRequest_Arr.add("RequestToChangeAnExamDurationFromLecturerToHOD");
+				infoOfRequest_Arr.add(exam.getExamID());
+				infoOfRequest_Arr.add(exam.getSubjectName());
+				infoOfRequest_Arr.add(exam.getCourseName());
+				infoOfRequest_Arr.add(lecturer.getId());
+				infoOfRequest_Arr.add(lecturer.getName());
+				infoOfRequest_Arr.add(txtExplanationExamDurationChange.getText());
+				infoOfRequest_Arr.add(txtExamDuration.getText());
+				infoOfRequest_Arr.add(hod_name_id[1]);
+				ClientUI.chat.accept(infoOfRequest_Arr);
+
+			} catch (NumberFormatException e) {
+				System.out.println("only positives minutes");
+			}
+		}	
+		getBtnBack(event);
+
 	}
 	
 	public void getBtnBack(ActionEvent event) throws Exception {
