@@ -162,8 +162,7 @@
       </Pane>
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
-            <JFXSnackbar fx:id="snackbarError" StackPane.alignment="CENTER" />
-            <JFXSnackbar fx:id="snackbarSuccess" style="-fx-text-fill: #5DD299;" stylesheets="@SnackbarSuccess.css" />
+            <JFXSnackbar fx:id="snackbar" StackPane.alignment="CENTER" />
             <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -319,16 +318,6 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="120.0" text="Show Report Screen" />
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
@@ -405,6 +394,16 @@
                         <Font name="System Italic" size="10.0" />
                      </font>
                   </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="120.0" text="Show Report Screen" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </Pane>
          </children>
