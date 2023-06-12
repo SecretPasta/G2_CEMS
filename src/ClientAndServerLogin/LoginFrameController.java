@@ -1,6 +1,7 @@
 package ClientAndServerLogin;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
+
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
@@ -17,26 +18,26 @@ import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 import client.ClientUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class LoginFrameController implements Initializable{
 	
 	@FXML
-	private AnchorPane dialogRoot;
+	private AnchorPane root;
 	
 	@FXML
 	private AnchorPane snackbarRoot;
@@ -45,10 +46,7 @@ public class LoginFrameController implements Initializable{
 	private JFXSnackbar snackbarError;
 	
 	@FXML
-	private Button btnClose;
-		
-	@FXML
-	private StackPane dialogPane;
+	private Button btnClose;		
 	
 	@FXML
 	private Label lblForgotPassword;
@@ -182,34 +180,23 @@ public class LoginFrameController implements Initializable{
 	
 	@FXML
     void adminError(MouseEvent event) {
-		JFXDialogLayout dialogLayout = new JFXDialogLayout();
-		Text titleText = new Text("Contact your administrator");
-		Text bodyText = new Text("\nWe apologize for any inconvenience caused during your 'forgot password' and 'sign up' processes. To complete these"+
-		"\nactions successfully, please contact our administrator. They are available to assist you promptly." +
-		"\nThank you for your understanding!");
-		titleText.setFont(Font.font("System", 24));
-		titleText.setStyle("-fx-font-weight: bold;");
-		titleText.setFill(Color.web("#FAF9F6"));
-		bodyText.setFont(Font.font("System", 12));
-		bodyText.setFill(Color.web("#1E1E1E"));
-		dialogLayout.setHeading(titleText);	
-		dialogLayout.setBody(bodyText);
-		dialogLayout.setPrefSize(dialogPane.getPrefWidth(), dialogPane.getPrefHeight());
-		JFXButton btnOkay = new JFXButton("Okay");
-		dialogLayout.getChildren().add(btnOkay);	
-		dialog = new JFXDialog(dialogPane, dialogLayout, JFXDialog.DialogTransition.TOP);
-		btnOkay.setOnAction(new EventHandler<ActionEvent>() {			
-			@Override
-			public void handle(ActionEvent arg0) {
-				dialog.close();
-				snackbarRoot.setDisable(false);
-				dialogPane.toBack();
-			}
-		});
-		dialogLayout.setActions(btnOkay);
-		dialog.show();
-		dialogPane.toFront();
-		snackbarRoot.setDisable(true);
+		root.setDisable(true);
+		Alert alert = new Alert(AlertType.INFORMATION);
+
+	    alert.initStyle(StageStyle.UTILITY);
+	    alert.setTitle("System message");
+		alert.setHeaderText("Contact your administrator");
+
+	    alert.setContentText("\nWe apologize for any inconvenience caused during your 'forgot password' and 'sign up' processes. "
+	    		            + "To complete these actions successfully, please contact our administrator. They are available to "
+	    		            + "assist you promptly." +
+			    		    "\nThank you for your understanding!");
+
+	    alert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+		alert.getDialogPane().setPrefSize(700, 250);
+		alert.showAndWait();
+		root.setDisable(false);
+
 		
     }
 

@@ -71,8 +71,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private JFXSnackbar snackbar;
-	
-	@FXML
 	private JFXSnackbarLayout snackbarLayout;
 	
 	@FXML

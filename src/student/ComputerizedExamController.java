@@ -50,6 +50,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class ComputerizedExamController implements Initializable{
@@ -301,6 +302,7 @@ public class ComputerizedExamController implements Initializable{
 				root.setDisable(true);
 				Alert alert = new Alert(AlertType.INFORMATION);
 			    //Setting the title
+				alert.initStyle(StageStyle.UTILITY);
 			    alert.setTitle("System message");
 			    alert.setHeaderText("Time's up");
 			    //Setting the content of the dialog
@@ -310,6 +312,7 @@ public class ComputerizedExamController implements Initializable{
 			    		+ "can be made.\n\n");
 			    //Adding buttons to the dialog pane
 			    alert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+			    alert.getDialogPane().setPrefSize(700, 250);
 			    alert.showAndWait();
 			    submitExam();
 			}
