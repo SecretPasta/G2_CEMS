@@ -455,14 +455,6 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <BarChart fx:id="barChart_ShowReport" layoutX="13.0" layoutY="167.0" prefHeight="397.0" prefWidth="762.0">
-                    <xAxis>
-                      <CategoryAxis fx:id="showReport_CategoryAxis" endMargin="100.0" gapStartAndEnd="false" prefHeight="27.0" prefWidth="703.0" startMargin="0.0" tickLabelFill="#242633" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis fx:id="showReport_NumberAxis" minorTickCount="4" side="LEFT" tickLabelFill="#242633" upperBound="90.0" />
-                    </yAxis>
-                  </BarChart>
                   <VBox layoutX="47.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
                      <children>
                         <Label prefHeight="20.0" prefWidth="100.0" text="Average Grade:" textFill="#242633" />
@@ -483,6 +475,14 @@
                         </Label>
                      </children>
                   </VBox>
+                  <BarChart fx:id="barChart_ShowReport" layoutX="32.0" layoutY="161.0" prefHeight="388.0" prefWidth="735.0" style="-fx-alternative-column-fill-visible: false; -fx-alternative-row-fill-visible: false; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 2; -fx-border-color: #242633; -fx-padding: 10 0 0 0;">
+                    <xAxis>
+                      <CategoryAxis prefHeight="25.0" prefWidth="671.0" side="BOTTOM" style="-fx-gap-start-and-end: true; -fx-tick-label-fill: #242633; -fx-tick-mark-visible: false;" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" style="-fx-tick-label-fill: #242633;" />
+                    </yAxis>
+                  </BarChart>
                </children>
             </Pane>
          </children>
