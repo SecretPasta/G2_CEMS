@@ -260,7 +260,7 @@ public class MessageHandler_Server {
 						DBController.changeExamActivenessByID(arrayListStr.get(1), arrayListStr.get(2));
 						// check if the exam closed (activeness == 0) -> interrupt all the users
 						// send to all clients a message that an exam was closed with the examID
-						if(arrayListStr.get(2).equals("0")) {
+						if(arrayListStr.get(2).equals("2")) {
 							ArrayList<String> examActivenessChanged_arr = new ArrayList<>();
 							examActivenessChanged_arr.add("an exam has been closed");
 							examActivenessChanged_arr.add(arrayListStr.get(1));
@@ -385,6 +385,15 @@ public class MessageHandler_Server {
 						}
 						client.sendToClient("confirmation has been sent to the lecturer and students");
 						
+						break;
+						
+					case "GetAllLecturerExamsForChecking":
+						// 1 - lecturer Id
+						// 2 - exam activeness change
+						ArrayList<Exam> examstocheck_arr = new ArrayList<>();
+						examstocheck_arr.add(new Exam("LoadAllExamsToCheckForLecturer", null, null, null, null, null, null, null, 0, null, null, null));
+						examstocheck_arr.addAll(DBController.getExamsByActiveness(arrayListStr.get(2), arrayListStr.get(1)));
+						client.sendToClient(examstocheck_arr);
 						break;
 						
 
