@@ -253,8 +253,7 @@ public class ComputerizedExamController implements Initializable{
 		return null;
 	}
 	public void submitExam() {
-		
-	
+
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
@@ -269,7 +268,7 @@ public class ComputerizedExamController implements Initializable{
 				answers.addAll(getChosenAnswers());
 				String answerString = "";
 				for(String ans : answers)
-					answerString += (ans + ",");
+					answerString += (ans + "|");
 		
 				ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
 				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
@@ -285,8 +284,6 @@ public class ComputerizedExamController implements Initializable{
 				
 		        }
     });
-
-
 
 	}
 
@@ -324,20 +321,13 @@ public class ComputerizedExamController implements Initializable{
 	@FXML
 	public void getSubmitExamBtn(ActionEvent event) {
 
-		
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
 	    		examTimer.stopTimer();
 	    		submitExam();
-	    		//Closing Window and returning to main Screen
-	    		//((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 	        }
 	    });
-
-
-
-
 	}
 
 	//method to update the exam duration after approval, approval is done in headofdepartment code
