@@ -29,6 +29,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -69,8 +71,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private JFXSnackbar snackbar;
-	
-	@FXML
 	private JFXSnackbarLayout snackbarLayout;
 	
 	@FXML
@@ -132,6 +132,29 @@ public class LecturerDashboardFrameController implements Initializable{
 	private JFXButton btnRefresh_CheckExam;
 
 	// -------------- END CheckExam PANEL --------------
+
+	// -------------- ShowReport PANEL --------------
+
+	@FXML
+	private JFXComboBox<String> subjectSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> courseSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> examSelectBox_ShowReport;
+	@FXML
+	private JFXButton btnSearch_ShowReport;
+	@FXML
+	private Label lblAverage;
+	@FXML
+	private Label lblMedian;
+	@FXML
+	private BarChart<String, Number> barChart_ShowReport;
+	@FXML
+	private Axis<String> showReport_CategoryAxis;
+	@FXML
+	private Axis<Number> showReport_NumberAxis;
+
+	// -------------- END ShowReport PANEL --------------
 
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
@@ -325,6 +348,11 @@ public class LecturerDashboardFrameController implements Initializable{
 		tableView_CheckExam.getSelectionModel().clearSelection();
 
 		// -------------- END CheckExam PANEL --------------
+
+		// -------------- ShowReport PANEL --------------
+
+
+		// -------------- END ShowReport PANEL --------------
 
 	}
 
@@ -1029,7 +1057,13 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	// -------------- END CheckExam PANEL --------------
 	
-	
+	// -------------- ShowReport PANEL --------------
+	@FXML
+	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
+
+	}
+
+	// -------------- END ShowReport PANEL --------------
 
 	/**
 	 * Retrieves the subject name based on the given subject ID.
