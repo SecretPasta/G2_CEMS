@@ -1,16 +1,20 @@
 package handlers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import Config.*;
+import JDBC.DBController;
 import headofdepartment.HODDashboardFrameController;
 import lecturer.AddQuestionFrameController;
+import lecturer.CheckExam_ChooseStudentFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import lecturer.ManageExam_ChangeTimeFrameController;
+import ocsf.server.ConnectionToClient;
 import ClientAndServerLogin.LoginFrameController;
 import student.ComputerizedExamController;
 import student.StudentDashboardFrameController;
@@ -52,7 +56,7 @@ public class MessageHandler_Client {
 	            handleMapStringStringValueMessage((Map<String, String>) msg);
 	            break;
 			case ARRAY_LIST_FINISHED_EXAM:
-				//Do something
+				handleFinishedExamArrayListValueMessage((ArrayList<FinishedExam>) msg);
 				break;
 			case ARRAY_LIST_STUDENT_GRADE:
 				handleStudentGradeArrayListValueMessage((ArrayList<StudentGrade>) msg);
@@ -87,12 +91,14 @@ public class MessageHandler_Client {
 					return MessageType.ARRAY_LIST_QUESTIONINEXAM;
 				} else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
 					return MessageType.ARRAY_LIST_QUESTION;
-				} else if (firstElement instanceof Exam) {
+				} else if (firstElement instanceof Exam && !(firstElement instanceof FinishedExam)) {
 					return MessageType.ARRAY_LIST_EXAM;
 				} else if (firstElement instanceof HeadOfDepartment) {
 					return MessageType.ARRAY_LIST_HOD;
 				} else if (firstElement instanceof StudentGrade) {
 					return MessageType.ARRAY_LIST_STUDENT_GRADE;
+				} else if (firstElement instanceof FinishedExam) {
+					return MessageType.ARRAY_LIST_FINISHED_EXAM;
 				}
 			}
 		}
@@ -218,9 +224,7 @@ public class MessageHandler_Client {
 	                	
 	                case "LoadAllRequestsForHOD":
 	                	arrayListStr.remove(0);
-	                	HODDashboardFrameController.getInstance().loadRequestsFromDB(arrayListStr);
-	                	HODDashboardFrameController.getInstance().displayError("new exam time change request recieved");
-	                	
+	                	HODDashboardFrameController.getInstance().loadRequestsFromDB(arrayListStr);          	
 	                	break;
 	                	
 	                case "RequestForChangeTimeAcceptedByHodToLecturer":
@@ -245,6 +249,21 @@ public class MessageHandler_Client {
 	                	}
 	                	
 	                	break;
+	                	
+	                case "RequestForChangeTimeDeniedByHodToLecturer":
+	                	
+						// 1 - lecturer ID
+						// 2 - exam ID
+						// 3 - exam Duration to Add
+						// 4 - txt Message from hod to lecturer
+	                	
+	                	if(userID.equals(arrayListStr.get(1))) {
+	                		LecturerDashboardFrameController.getInstance().displayErrorMessage("Your request for Change time of " + arrayListStr.get(3)
+	                		+ " minutes on exam (" + arrayListStr.get(2) + ") denied!\nHead Of Department's message: " + arrayListStr.get(4));
+	                	}
+	                	
+	                	break;
+	                	
 	            }       
 	            
             }catch (Exception e) {
@@ -382,6 +401,27 @@ public class MessageHandler_Client {
 				break;
 		}
 
+	}
+	
+	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam){
+		//Handle ArrayList<FinishedExam> messages
+		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
+		String messageType = finishedExam.get(0).getExamID();
+		try{
+			
+			switch (messageType){
+			
+				case "LoadAllStudentsFinishedExamsToCheckForLecturer":
+					// 1 - finished exams array list
+					finishedExam.remove(0);
+					CheckExam_ChooseStudentFrameController.getInstance().loadAllFinishedExamsOfSelectedExam(finishedExam);
+					break;
+			}
+			
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

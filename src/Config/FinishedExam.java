@@ -2,9 +2,12 @@ package Config;
 
 import java.io.Serializable;
 
-public class FinishedExam implements Serializable {
+public class FinishedExam extends Exam implements Serializable {
 
-    private String examID;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
     private String studentID;
     private String lecturer;
     private double grade;
@@ -12,17 +15,15 @@ public class FinishedExam implements Serializable {
     private int checkExam;
     private String answers;
 
-    public FinishedExam(String examID,String lecturer ,String studentID, double grade,String answers){
-        this.examID = examID;
+
+    
+    public FinishedExam(String examID,String lecturer ,String studentID, double grade, String answers){
+    	super(examID, null, null, null, null, null, null, null, 0, lecturer, null, null);
         this.studentID = studentID;
-        this.lecturer = lecturer;
         this.grade = grade;
         this.answers = answers;
         this.approved = 0;
         this.checkExam = 0;
-    }
-    public String getExamID() {
-        return examID;
     }
 
     public String getStudentID() {
@@ -59,7 +60,7 @@ public class FinishedExam implements Serializable {
     @Override
     public String toString() {
         return "FinishedExam{" +
-                "examID='" + examID + '\'' +
+                "examID='" + getExamID() + '\'' +
                 ", studentID='" + studentID + '\'' +
                 ", lecturer='" + lecturer + '\'' +
                 ", grade=" + grade +

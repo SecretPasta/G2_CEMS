@@ -108,11 +108,22 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     public void getBtnDenyRequest(ActionEvent event) throws Exception{
     	
-    	
+    	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
+    	if(chosenRequest == null) {
+    		displayError("[Error] please choose request first.");
+    	}
+    	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
+    		displayError("[Error] please write explanation");
+    	}
+    	else {
+    		requestDenied();
+    		displayError("request for Change time to add denied!");
+    		getAllrequests();
+    	}
     	chosenRequest = null;
     }
-    
-    @FXML
+
+	@FXML
     public void getBtnAcceptRequest(ActionEvent event) throws Exception{
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
     	if(chosenRequest == null) {
@@ -147,6 +158,27 @@ public class HODDashboardFrameController implements Initializable{
 		requestaccepted_arr.add(examDurationAdd);
 		requestaccepted_arr.add(txtMessageToWriteToLecturer.getText());
 		ClientUI.chat.accept(requestaccepted_arr);
+	}
+    
+    private void requestDenied() {
+    	
+    	int requestId = Integer.parseInt(chosenRequest.split("\\)")[0]) - 1;
+    	
+    	String[] request_str = allRequests.get(requestId).split(","); // get the request by id
+    	
+        lecturerID = request_str[3];
+        examID = request_str[4];
+        examDurationAdd = request_str[7];
+        
+		ArrayList<String> requestaccepted_arr = new ArrayList<>();
+		requestaccepted_arr.add("RequestForChangeTimeInExamDenied");
+		requestaccepted_arr.add(headofdepartment.getId());
+		requestaccepted_arr.add(lecturerID);
+		requestaccepted_arr.add(examID);
+		requestaccepted_arr.add(examDurationAdd);
+		requestaccepted_arr.add(txtMessageToWriteToLecturer.getText());
+		ClientUI.chat.accept(requestaccepted_arr);
+        
 	}
 
 	@FXML

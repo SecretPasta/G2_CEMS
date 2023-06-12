@@ -67,7 +67,7 @@ public class MessageHandler_Server {
 		            return MessageType.ARRAY_LIST_QUESTIONINEXAM;
 	            } else if (firstElement instanceof Question && !(firstElement instanceof QuestionInExam)) {
 	                return MessageType.ARRAY_LIST_QUESTION;
-	            } else if (firstElement instanceof Exam) {
+	            } else if (firstElement instanceof Exam && !(firstElement instanceof FinishedExam)) {
 	            	return MessageType.ARRAY_LIST_EXAM;
 	            } else if (firstElement instanceof FinishedExam) {
 					return MessageType.ARRAY_LIST_FINISHED_EXAM;
@@ -387,6 +387,34 @@ public class MessageHandler_Server {
 						
 						break;
 						
+					case "RequestForChangeTimeInExamDenied":
+						// 1 - headofdepartment ID
+						// 2 - lecturer ID
+						// 3 - exam ID
+						// 4 - exam Duration to Add
+						// 5 - txt Message from hod to lecturer
+						
+						DBController.removeRequestForHodFromDB(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3), 
+								arrayListStr.get(4));
+						
+						ObservableList<ConnectedClient> connectedClients3 = ServerPortFrameController.getConnectedClients();
+
+						ArrayList<String> deniy_to_lecturer_arr = new ArrayList<>();
+						deniy_to_lecturer_arr.add("RequestForChangeTimeDeniedByHodToLecturer");
+						deniy_to_lecturer_arr.add(arrayListStr.get(2)); // lecturer ID
+						deniy_to_lecturer_arr.add(arrayListStr.get(3)); // exam ID
+						deniy_to_lecturer_arr.add(arrayListStr.get(4)); // exam Duration to Add
+						deniy_to_lecturer_arr.add(arrayListStr.get(5)); // txt Message from hod to lecturer
+						
+						for(int i = 0; i<connectedClients3.size(); i++) {
+							if(connectedClients3.get(i).getRole().equals("Lecturer")) {
+								connectedClients3.get(i).getClient().sendToClient(deniy_to_lecturer_arr);
+							}
+						}
+						client.sendToClient("denied message has been sent to the lecturer");
+						
+						break;
+						
 					case "GetAllLecturerExamsForChecking":
 						// 1 - lecturer Id
 						// 2 - exam activeness change
@@ -394,6 +422,14 @@ public class MessageHandler_Server {
 						examstocheck_arr.add(new Exam("LoadAllExamsToCheckForLecturer", null, null, null, null, null, null, null, 0, null, null, null));
 						examstocheck_arr.addAll(DBController.getExamsByActiveness(arrayListStr.get(2), arrayListStr.get(1)));
 						client.sendToClient(examstocheck_arr);
+						break;
+						
+					case "GetAllExamsByExamIDForLecturerForChecking":
+						// 1 - Exam ID
+						ArrayList<FinishedExam> studentsexamstocheck_arr = new ArrayList<>();
+						studentsexamstocheck_arr.add(new FinishedExam("LoadAllStudentsFinishedExamsToCheckForLecturer", null, null, 0, null));
+						studentsexamstocheck_arr.addAll(DBController.getFinishedExamsByExamID(arrayListStr.get(1)));
+						client.sendToClient(studentsexamstocheck_arr);	
 						break;
 						
 

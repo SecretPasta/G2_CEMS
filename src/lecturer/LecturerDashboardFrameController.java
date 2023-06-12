@@ -1051,7 +1051,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
 		
-		examSelectedForChecking = tableView_activeExams.getSelectionModel().getSelectedItem();
+		examSelectedForChecking = tableView_CheckExam.getSelectionModel().getSelectedItem();
 		
 		try {
 			if (examSelectedForChecking == null) {
@@ -1093,6 +1093,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		checkExamObservableList.setAll(exams);
 		tableView_CheckExam.setItems(checkExamObservableList);
 		tableView_CheckExam.refresh();
+		tableView_CheckExam.getSelectionModel().clearSelection();
 	}
 
 	// -------------- END CheckExam PANEL --------------
@@ -1383,7 +1384,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
-	    	//getAllActiveExamsFromDB();
+	    	getAllExamsToCheck();
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) { // Manage Questions panel
@@ -1430,14 +1431,19 @@ public class LecturerDashboardFrameController implements Initializable{
         currentSection = newSection;  
 	}
 	
-	private void displayErrorMessage(String message) {
-		snackbar = new JFXSnackbar(stackPane);
-		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
-        snackbar.setPrefWidth(754);
-        snackbarLayout = new JFXSnackbarLayout(message);
-        snackbarLayout.getStylesheets().add(css);
-        snackbar.getStylesheets().add(css);
-        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	public void displayErrorMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+				snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+		        snackbar.setPrefWidth(754);
+		        snackbarLayout = new JFXSnackbarLayout(message);
+		        snackbarLayout.getStylesheets().add(css);
+		        snackbar.getStylesheets().add(css);
+		        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	        }
+	    });
 	}
 	
 	public void displaySuccessMessage(String message) {
