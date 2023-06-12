@@ -905,7 +905,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	        }
 	        
 	        activeExamsObservableList.remove(activeExamSelected);
-	        inActiveExamsObservableList.add(activeExamSelected);
 
 	        changeExamActivenessInDB(activeExamSelected.getExamID(), "2");
 
@@ -913,10 +912,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	        displayErrorMessage("Error: Exam not selected");
 	    }
 	    
-	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.refresh();
-	    tableView_inActiveExams.refresh();
 
 	    activeExamSelected = null;
 	}
