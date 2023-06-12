@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -23,14 +24,21 @@ import client.ClientUI;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -40,6 +48,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
@@ -149,10 +158,14 @@ public class LecturerDashboardFrameController implements Initializable{
 	private Label lblMedian;
 	@FXML
 	private BarChart<String, Number> barChart_ShowReport;
+	private XYChart.Series<String, Number> series1;
+	
+	/*
 	@FXML
 	private Axis<String> showReport_CategoryAxis;
 	@FXML
 	private Axis<Number> showReport_NumberAxis;
+	*/
 
 	// -------------- END ShowReport PANEL --------------
 
@@ -350,8 +363,36 @@ public class LecturerDashboardFrameController implements Initializable{
 		// -------------- END CheckExam PANEL --------------
 
 		// -------------- ShowReport PANEL --------------
-
-
+		series1 = new XYChart.Series<>();
+		addData("0-54.9", 0);
+		addData("55-64", 0);
+		addData("65-69", 0);
+		addData("70-74", 0);
+		addData("75-79", 0);
+		addData("80-84", 0);
+        addData("85-89", 0);		
+        addData("90-94", 0);
+        addData("95-100", 0);
+        barChart_ShowReport.getData().addAll(series1);
+        /*
+	    series1.getData().add(new XYChart.Data<>("55-64", 0));
+	    displayLabelForData(series1.getData().get(1));
+	    series1.getData().add(new XYChart.Data<>("65-69", 0));
+	    displayLabelForData(series1.getData().get(2));
+	    series1.getData().add(new XYChart.Data<>("70-74", 0));
+	    displayLabelForData(series1.getData().get(3));
+	    series1.getData().add(new XYChart.Data<>("75-79", 0));
+	    displayLabelForData(series1.getData().get(4));
+	    series1.getData().add(new XYChart.Data<>("80-84", 0));
+	    displayLabelForData(series1.getData().get(5));
+	    series1.getData().add(new XYChart.Data<>("85-89", 0));
+	    displayLabelForData(series1.getData().get(6));
+	    series1.getData().add(new XYChart.Data<>("90-94", 0));
+	    displayLabelForData(series1.getData().get(7));
+	    series1.getData().add(new XYChart.Data<>("95-100", 0));
+	    displayLabelForData(series1.getData().get(8));
+	    barChart_ShowReport.getData().addAll(series1);
+	    */
 		// -------------- END ShowReport PANEL --------------
 
 	}
@@ -1060,7 +1101,86 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- ShowReport PANEL --------------
 	@FXML
 	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
+		
+		for(int i = 0; i < series1.getData().size();i++) {
+			
+			Random random = new Random();
+			switch (i) {
+			case 0:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				displayLabelForData(series1.getData().get(i));
+				break;
+			case 1:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 2:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 3:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 4:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 5:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 6:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 7:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			case 8:
+				series1.getData().get(i).setYValue(random.nextInt(150));
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	private void displayLabelForData(Data<String, Number> data) {
+		  final Node node = data.getNode();
+		  final Text dataText = new Text(data.getYValue() + "");
+		  node.parentProperty().addListener(new ChangeListener<Parent>() {
+			  
+		    @Override 
+		    public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+		      Group parentGroup = (Group) parent;
+		      parentGroup.getChildren().add(dataText);
+		    }
+		  });
 
+		  node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+			  
+		    @Override 
+		    public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+		      dataText.setLayoutX(
+		        Math.round(
+		          bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+		        )
+		      );
+		      dataText.setLayoutY(
+		        Math.round(
+		          bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+		        )
+		      );
+		    }
+		  });
+		}
+	
+	private void addData(String range, int amount) {
+		final XYChart.Data<String, Number> data = new XYChart.Data<>(range, amount);
+	    data.nodeProperty().addListener(new ChangeListener<Node>() {
+	        @Override 
+	        public void changed(ObservableValue<? extends Node> ov, Node oldNode, final Node node) {
+	          if (node != null) {
+	            displayLabelForData(data);
+	          } 
+	        }
+	      });
+	    series1.getData().add(data);
 	}
 
 	// -------------- END ShowReport PANEL --------------

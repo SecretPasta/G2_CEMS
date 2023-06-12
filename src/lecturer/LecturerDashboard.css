@@ -70,10 +70,41 @@
     -fx-legend-visible: false;
 }
 
-.axis-label {
-    -fx-text-fill: #FAF9F6;
-}
-
 .chart-plot-background {
     -fx-background-color:transparent;
 }
+.chart-vertical-grid-lines {
+    -fx-stroke: #66A7F2;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #66A7F2;
+}
+
+.data0.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data1.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data2.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data3.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data4.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data5.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data6.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data7.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data8.chart-bar {
+    -fx-background-color: #5DD299;
+}
+
