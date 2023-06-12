@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_ReviewGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ReviewAndApproveFrameController">
+   <children>
+      <AnchorPane layoutY="75.0" prefHeight="525.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" stylesheets="@CreateExam_CommentsAndTime.css">
+         <children>
+            <JFXButton id="btnSaveExam" layoutX="725.0" layoutY="452.0" onAction="#getBtnApproveGrade" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Approve Grade✓" textFill="#242633">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <VBox layoutX="620.0" layoutY="304.0" prefHeight="120.0" prefWidth="400.0" spacing="5.0">
+               <children>
+                  <Label text="Comments why changing grade:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField id="txtCommentsStudent" fx:id="txtCommentForNewGrade" alignment="TOP_LEFT" prefHeight="103.0" prefWidth="482.0" style="-fx-padding: 5;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <VBox layoutX="620.0" layoutY="64.0" prefHeight="120.0" prefWidth="400.0" spacing="5.0">
+               <children>
+                  <Label text="Comments for student:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField id="txtCommentsStudent" fx:id="txtCommentsStudent" alignment="TOP_LEFT" prefHeight="103.0" prefWidth="482.0" style="-fx-padding: 5;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+            <HBox layoutX="28.0" layoutY="445.0" prefHeight="50.0" prefWidth="575.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 10 0 0 10;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="48.0" prefWidth="55.0" text="Subject: " textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblSubjectName" fx:id="lblSubjectName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="130.0" text="Subject Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="50.0" text="Course: " textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblCourseName" fx:id="lblCourseName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Course Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 0 10 10 0;">
+                     <children>
+                        <Label alignment="TOP_CENTER" prefHeight="48.0" prefWidth="60.0" text="Student:" textFill="#242633">
+                           <padding>
+                              <Insets left="3.0" />
+                           </padding>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label id="lblAuthor" fx:id="lblStudent" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Student Label" textFill="#242633" wrapText="true" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox layoutX="620.0" layoutY="14.0" prefHeight="50.0" prefWidth="240.0">
+               <children>
+                  <Label prefHeight="50.0" prefWidth="110.0" text="Automatic Grade:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAutoGrade" prefHeight="50.0" prefWidth="130.0" text="AutoGrade Label" textFill="#5dd299">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox layoutX="620.0" layoutY="264.0" prefHeight="30.0" prefWidth="240.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="80.0" text="New Grade:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField id="txtCommentsStudent" fx:id="txtNewGrade" alignment="TOP_LEFT" prefHeight="30.0" prefWidth="130.0" style="-fx-padding: 5;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <JFXButton id="btnSaveExam" layoutX="870.0" layoutY="261.0" onAction="#getBtnChangeGrade" prefHeight="36.0" prefWidth="150.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Change Grade" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Label layoutX="871.0" layoutY="297.0" text="*change if it's necessary">
+               <font>
+                  <Font name="System Italic" size="11.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ScrollPane fx:id="scrollPane" layoutX="25.0" layoutY="100.0" prefHeight="400.0" prefWidth="575.0" stylesheets="@CreateExam_ReviewGUI.css">
+        <content>
+          <AnchorPane style="-fx-background-radius: 10;">
+               <children>
+                  <VBox fx:id="vbox" style="-fx-background-radius: 10; -fx-padding: 5;" stylesheets="@CreateExam_ReviewGUI.css" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <JFXButton id="btnBack" layoutX="941.0" layoutY="24.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back" textFill="#383838">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></JFXButton>
+      <Circle fill="#5dd299" layoutX="64.0" layoutY="39.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="42.0" layoutY="39.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+      <Label layoutX="85.0" layoutY="22.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Circle fill="#5dd299" layoutX="418.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#5dd299" layoutX="548.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="678.0" layoutY="33.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="464.0" layoutY="34.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="594.0" layoutY="34.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Label layoutX="313.0" layoutY="24.0" text="Choose Exam" textFill="#faf9f6" />
+      <Label layoutX="506.0" layoutY="52.0" text="Choose Student" textFill="#faf9f6" />
+      <Label layoutX="704.0" layoutY="25.0" text="Review and Approve" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

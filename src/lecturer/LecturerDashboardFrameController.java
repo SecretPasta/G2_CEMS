@@ -114,6 +114,24 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableView<Exam> tableView_activeExams = new TableView<>();
 
+	// -------------- CheckExam PANEL --------------
+	@FXML
+	private TableView<Exam> tableView_CheckExam = new TableView<>();
+	@FXML
+	private TableColumn<Question, String> idColumn_CheckExam;
+	@FXML
+	private TableColumn<Question, String> subjectColumn_CheckExam;
+	@FXML
+	private TableColumn<Question, String> courseNameColumn_CheckExam;
+	@FXML
+	private TableColumn<Question, String> isActiveColumn_CheckExam;
+	@FXML
+	private JFXButton btnApproveGrades;
+	@FXML
+	private JFXButton btnRefresh_CheckExam;
+
+	// -------------- END CheckExam PANEL --------------
+
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
 	@FXML
@@ -228,7 +246,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // clear the selection in the questions management table
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	    
-	    // -------------- ManageQuestions PANEL --------------
+		// -------------- END ManageQuestions PANEL --------------
 	    
 	    // -------------- CreateExam PANEL --------------
 	    
@@ -272,7 +290,7 @@ public class LecturerDashboardFrameController implements Initializable{
    
 	    tableView_CreateExam2.setEditable(true); // editable points
 	    
-	 // -------------- CreateExam PANEL --------------
+		// -------------- END CreateExam PANEL --------------
 	    
 	    
 	 // -------------- ManageExam PANEL --------------
@@ -289,7 +307,13 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
 	    
-	 // -------------- ManageExam PANEL --------------
+		// -------------- END ManageExam PANEL --------------
+
+		// -------------- CheckExam PANEL --------------
+
+		// need to upload all Active Exams for relevant lecturer into table
+
+		// -------------- END CheckExam PANEL --------------
 
 	}
 	
@@ -297,6 +321,7 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	// -------------- ManageQuestions PANEL --------------
 	
+
 	/**
 	 * Loads an array of questions into the "Manage Questions" table view.
 	 *
@@ -477,7 +502,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
-	// -------------- ManageQuestions PANEL --------------
+	// -------------- END ManageQuestions PANEL --------------
 
 	
 	// -------------- CreateExam PANEL --------------
@@ -796,7 +821,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 
 
-	// -------------- CreateExam PANEL --------------
+	// -------------- END CreateExam PANEL --------------
 
 	
 	// -------------- ManageExam PANEL --------------
@@ -944,7 +969,25 @@ public class LecturerDashboardFrameController implements Initializable{
 
 
 	
-	// -------------- ManageExam PANEL --------------
+	// -------------- END ManageExam PANEL --------------
+
+	// -------------- CheckExam PANEL --------------
+
+	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
+		((Node) event.getSource()).getScene().getWindow().hide();
+		CheckExam_ChooseStudentFrameController.start(); // starting the exam review screen.
+	}
+
+	public void showDashboardFrom_CheckExam() {
+
+		// Show the current stage
+		currStage.show();
+	}
+
+	public void getRefreshBtn_CheckExam(ActionEvent event) throws Exception {
+	}
+
+	// -------------- END CheckExam PANEL --------------
 	
 	
 
