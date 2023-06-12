@@ -326,6 +326,7 @@ public class StudentDashboardFrameController implements Initializable{
     //Show the main dashboard window
     public void showDashboardWindow(){
         currentStage.show();
+        getBtnRefreshComputerizedExams(null);
     }
 
     @FXML

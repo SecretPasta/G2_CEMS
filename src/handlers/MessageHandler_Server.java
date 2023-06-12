@@ -272,6 +272,7 @@ public class MessageHandler_Server {
 									connectedClients.get(i).getClient().sendToClient(examActivenessChanged_arr);
 								}
 							}
+							client.sendToClient("exam is close");
 						}
 						else {
 							client.sendToClient("exam is open");
@@ -340,6 +341,7 @@ public class MessageHandler_Server {
 				    	ArrayList<String> requests_arr = new ArrayList<>();
 				    	requests_arr.add("LoadAllRequestsForHOD");
 				    	requests_arr.addAll(DBController.getRequestsForHod(arrayListStr.get(1)));
+				    	System.out.println("teststest123");
 				    	client.sendToClient(requests_arr);
 				    	break;
 				    	

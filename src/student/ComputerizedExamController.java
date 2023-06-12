@@ -20,7 +20,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
 import ClientAndServerLogin.SceneManagment;
-
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -241,35 +241,44 @@ public class ComputerizedExamController implements Initializable{
 		return null;
 	}
 	public void submitExam() {
-		 if(examTimer!= null){
-			 examTimer.stopTimer();
-		 }
-		double grade;
-		System.out.println("You've Submitted the exam!");
-		grade = gradeComputerizedExam();
-		ArrayList<String> answers = new ArrayList<>();
-		answers.addAll(getChosenAnswers());
-		String answerString = "";
-		for(String ans : answers)
-			answerString += (ans + ",");
-
-		ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
-		finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
-		FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
-				participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
-		finishedExam.checkExam();
-		finishedExamsList.add(finishedExam);
-		System.out.println(finishedExam);
-		openStage.hide();
-		StudentDashboardFrameController.getInstance().showDashboardWindow();
-		//Submitting Exam to the DB
-		ClientUI.chat.accept(finishedExamsList);
+		
+	
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	        	  
+				 if(examTimer!= null){
+					 examTimer.stopTimer();
+				 }
+				double grade;
+				System.out.println("You've Submitted the exam!");
+				grade = gradeComputerizedExam();
+				ArrayList<String> answers = new ArrayList<>();
+				answers.addAll(getChosenAnswers());
+				String answerString = "";
+				for(String ans : answers)
+					answerString += (ans + ",");
+		
+				ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
+				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
+				FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
+						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
+				finishedExam.checkExam();
+				finishedExamsList.add(finishedExam);
+				System.out.println(finishedExam);
+				openStage.hide();
+				StudentDashboardFrameController.getInstance().showDashboardWindow();
+				//Submitting Exam to the DB
+				ClientUI.chat.accept(finishedExamsList);
+				
+		        }
+    });
 
 
 
 	}
 
-	public String getExamId(){
+	public static String getExamId(){
 		 return currentExam.getExamID();
 	}
 
@@ -283,10 +292,17 @@ public class ComputerizedExamController implements Initializable{
 	//Submitting by Pressing "Submit"
 	@FXML
 	public void getSubmitExamBtn(ActionEvent event) {
-		examTimer.stopTimer();
-		submitExam();
-		//Closing Window and returning to main Screen
-		//((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+
+		
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	    		examTimer.stopTimer();
+	    		submitExam();
+	    		//Closing Window and returning to main Screen
+	    		//((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+	        }
+	    });
 
 
 

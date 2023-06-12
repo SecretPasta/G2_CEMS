@@ -91,7 +91,7 @@ public class HODDashboardFrameController implements Initializable{
 		
 	}
     
-    public void getAllrequests() {
+    public static void getAllrequests() {
     	System.out.println(headofdepartment.getId());
 		ArrayList<String> getallrequest_arr = new ArrayList<>();
 		getallrequest_arr.add("GetAllRequestsOfHodFromDB");
@@ -100,6 +100,7 @@ public class HODDashboardFrameController implements Initializable{
 	}
 
 	public void loadRequestsFromDB(ArrayList<String> requests_arr) {
+		System.out.println("test");
     	requests_observablelist.setAll(requests_arr);	
     	listRequests.setItems(requests_observablelist);
     	listRequests.refresh();

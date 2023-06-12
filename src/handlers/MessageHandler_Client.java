@@ -192,16 +192,14 @@ public class MessageHandler_Client {
 	                	CreateExam_ReviewFrameController.saveIdOfExamInCourse(arrayListStr.get(1));
 	                	break;
 	                	
-	                case "an exam has been closed": // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	                case "an exam has been closed":
 	                	// 1 - examID
-	                	/*try {
-		                	if(ComputerizedExamController.getCurrExamID().equals(arrayListStr.get(1))) { // if in the specific exam
-	
-		                		ComputerizedExamController.examClosed(); // close the exam for the student in the specific exam
-		                		
+	                	try {
+		                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
+		                		ComputerizedExamController.getInstance().getSubmitExamBtn(null); // close the exam for the student in the specific exam
 		                		System.out.println("exam closed");
 		                	}
-	                	}catch (NullPointerException e){}*/
+	                	}catch (NullPointerException e){}
 	                	
 	                	break;
 	                	
@@ -210,7 +208,7 @@ public class MessageHandler_Client {
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
 		                		System.out.println("you have new message"); // alert new request: function or something else
-		                		HODDashboardFrameController.getInstance().getAllrequests();
+		                		HODDashboardFrameController.getAllrequests(); // bug @@@@@@@@@@@@@@
 		                		// send pop up message that extra time request recieved!!!!! @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		                		
 		                	}
