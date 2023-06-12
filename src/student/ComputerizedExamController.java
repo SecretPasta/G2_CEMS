@@ -16,6 +16,8 @@ import Config.Student;
 
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
@@ -26,17 +28,26 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -59,6 +70,7 @@ public class ComputerizedExamController implements Initializable{
     private JFXButton submitExamBtn;
     @FXML
     private Text timer;
+    @FXML
 
 	private static Stage openStage;
 	private ExamTimer examTimer;
@@ -284,8 +296,27 @@ public class ComputerizedExamController implements Initializable{
 
 	//Auto Submit when timer runs out
 	public void endOfTimerSubmit(){
-		 // Needs GUI elements to throw pop up about timer running out
-		 submitExam();
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				//Creating a dialog
+				root.setDisable(true);
+				Alert alert = new Alert(AlertType.INFORMATION);
+			    //Setting the title
+			    alert.setTitle("System message");
+			    alert.setHeaderText("Time's up");
+			    //Setting the content of the dialog
+			    alert.setContentText("Dear Student,\r\n"
+			    		+ "\r\n"
+			    		+ "The allotted time for your exam has come to an end. Your exam has been automatically submitted. \nNo further changes or submissions " 
+			    		+ "can be made.\n\n");
+			    //Adding buttons to the dialog pane
+			    alert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+			    alert.showAndWait();
+			    submitExam();
+			}
+		});
 
 	}
 
