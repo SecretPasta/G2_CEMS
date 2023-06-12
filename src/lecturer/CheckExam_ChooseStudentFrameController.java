@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXSnackbar;
 
 import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
+import Config.Lecturer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,8 +49,13 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	private TableView<?> tableExam;
 
 	private static Stage currStage; // save current stage
+	
+	private static Lecturer luecturer;
+	private static Exam examSelectedForChecking;
 
-	public static void start() throws IOException {
+	public static void start(Exam examSelectedForChecking_temp, Lecturer lecturer_temp) throws IOException {
+		luecturer = lecturer_temp;
+		examSelectedForChecking = examSelectedForChecking_temp;
 		currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ChooseStudent.fxml", null, "Check Exam");
 		currStage.show();
 	}

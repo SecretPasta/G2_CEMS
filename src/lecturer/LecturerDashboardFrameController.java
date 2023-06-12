@@ -120,11 +120,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableView<Exam> tableView_CheckExam = new TableView<>();
 	@FXML
-	private TableColumn<Question, String> idColumn_CheckExam;
+	private TableColumn<Exam, String> idColumn_CheckExam;
 	@FXML
-	private TableColumn<Question, String> subjectColumn_CheckExam;
+	private TableColumn<Exam, String> subjectColumn_CheckExam;
 	@FXML
-	private TableColumn<Question, String> courseNameColumn_CheckExam;
+	private TableColumn<Exam, String> courseNameColumn_CheckExam;
 
 	@FXML
 	private JFXButton btnApproveGrades;
@@ -189,6 +189,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	private ObservableList<Exam> inActiveExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
 
 	private ObservableList<Exam> activeExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
+	
+	private ObservableList<Exam> checkExamObservableList = FXCollections.observableArrayList(); // exams to select in the table
+	
 
 	protected static Stage currStage; // save current stage
 
@@ -200,6 +203,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private Exam inActiveExamSelected;
 	private Exam activeExamSelected;
+	
+	private Exam examSelectedForChecking;
 	
 	private static LecturerDashboardFrameController instance;
 	
@@ -220,6 +225,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
 		getAllCoursesFromDB();
+		getAllExamsToCheck();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    currentPane = pnlGreeting;
 	    pnlGreeting.toFront();
@@ -311,14 +317,17 @@ public class LecturerDashboardFrameController implements Initializable{
 		// -------------- END ManageExam PANEL --------------
 
 		// -------------- CheckExam PANEL --------------
-
-		// need to upload all Active Exams for relevant lecturer into table
+		
+		idColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+		subjectColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("subjectName"));    
+		courseNameColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("courseName"));
+		
+		tableView_CheckExam.getSelectionModel().clearSelection();
 
 		// -------------- END CheckExam PANEL --------------
 
 	}
-	
-	
+
 
 	// -------------- ManageQuestions PANEL --------------
 	
@@ -972,8 +981,25 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- CheckExam PANEL --------------
 
 	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		CheckExam_ChooseStudentFrameController.start();
+		
+		examSelectedForChecking = tableView_activeExams.getSelectionModel().getSelectedItem();
+		
+		try {
+			if (examSelectedForChecking == null) {
+				throw new NullPointerException();
+			}
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			CheckExam_ChooseStudentFrameController.start(examSelectedForChecking, lecturer);
+			
+		} catch (NullPointerException e) {
+			displayErrorMessage("Error: Exam not selected");
+		}
+			    
+		tableView_activeExams.getSelectionModel().clearSelection();
+
+		examSelectedForChecking = null;
+		
 	}
 
 	public void showDashboardFrom_CheckExam() {
@@ -983,6 +1009,21 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 
 	public void getRefreshBtn_CheckExam(ActionEvent event) throws Exception {
+		getAllExamsToCheck();
+	}
+	
+	private void getAllExamsToCheck() {
+		ArrayList<String> examstocheck_arr = new ArrayList<>();
+		examstocheck_arr.add("GetAllLecturerExamsForChecking");
+		examstocheck_arr.add(lecturer.getId());
+		examstocheck_arr.add("2"); // finished exams
+		ClientUI.chat.accept(examstocheck_arr);
+	}
+	
+	public void loadAllExamsToCheckInTable(ArrayList<Exam> exams) {
+		checkExamObservableList.setAll(exams);
+		tableView_CheckExam.setItems(checkExamObservableList);
+		tableView_CheckExam.refresh();
 	}
 
 	// -------------- END CheckExam PANEL --------------

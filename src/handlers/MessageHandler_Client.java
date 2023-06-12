@@ -309,7 +309,7 @@ public class MessageHandler_Client {
 		// Handle ArrayList<Exam> messages
 		// You're supposed to call a function within the Controller class and pass the List to it to update the fields
     	String messageType = examList.get(0).getExamID();
-
+    	try {
 	    	switch (messageType) {
 	    	
 	    		case "loadActiveExamsIntoLecturerTable":
@@ -326,7 +326,12 @@ public class MessageHandler_Client {
 					examList.remove(0);
 					StudentDashboardFrameController.getInstance().loadComputerizedExamsIntoTable(examList);
 					break;
+				case "LoadAllExamsToCheckForLecturer":
+					examList.remove(0);
+					LecturerDashboardFrameController.getInstance().loadAllExamsToCheckInTable(examList);
+					break;
 	    	}
+    	} catch (IndexOutOfBoundsException e) {}
 		
 	}
 

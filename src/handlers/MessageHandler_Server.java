@@ -387,6 +387,15 @@ public class MessageHandler_Server {
 						
 						break;
 						
+					case "GetAllLecturerExamsForChecking":
+						// 1 - lecturer Id
+						// 2 - exam activeness change
+						ArrayList<Exam> examstocheck_arr = new ArrayList<>();
+						examstocheck_arr.add(new Exam("LoadAllExamsToCheckForLecturer", null, null, null, null, null, null, null, 0, null, null, null));
+						examstocheck_arr.addAll(DBController.getExamsByActiveness(arrayListStr.get(2), arrayListStr.get(1)));
+						client.sendToClient(examstocheck_arr);
+						break;
+						
 
 	            }
             }catch (IOException | ClassNotFoundException e) {
