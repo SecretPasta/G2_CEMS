@@ -218,7 +218,7 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></JFXButton>
-                  <JFXButton id="btnExtraTime_ManageExams" fx:id="btnExtraTime_ManageExams" layoutX="414.0" layoutY="504.0" onAction="#getBtnExtraTime_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Give an extra time" textFill="#faf9f6">
+                  <JFXButton id="btnChangeTime_ManageExams" fx:id="btnChangeTime_ManageExams" layoutX="414.0" layoutY="504.0" onAction="#getBtnChangeTime_ManageExams" prefHeight="36.0" prefWidth="160.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 10;" text="Give an Change time" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></JFXButton>

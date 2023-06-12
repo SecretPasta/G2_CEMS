@@ -33,7 +33,7 @@ public class ExamTimer extends Thread {
 
             totalSeconds--;
         }
-        if(totalSeconds == 0){
+        if(totalSeconds <= 0){
             timesUp();
         }
 

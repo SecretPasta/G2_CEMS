@@ -26,6 +26,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -35,19 +36,22 @@ import javafx.util.Duration;
 public class HODDashboardFrameController implements Initializable{
 
     @FXML
-    private JFXButton btnApproveExtraTime;
+    private JFXButton btnApproveTimeChange;
     @FXML
     private JFXButton btnShowReport;
     @FXML
     private JFXButton currentSection;
     @FXML
     private JFXButton btnAcceptRequest;
+    
+    @FXML
+    private TextField txtMessageToWriteToLecturer;
 
     @FXML
     private Label lbluserNameAndID;
 
     @FXML
-    private Pane pnlApproveExtraTime;
+    private Pane pnlApproveTimeChange;
     @FXML
     private Pane pnlShowReport;
     @FXML
@@ -66,7 +70,17 @@ public class HODDashboardFrameController implements Initializable{
     
     private ObservableList<String> requests_observablelist = FXCollections.observableArrayList();
 
-
+    private String chosenRequest;
+    
+    private String subjectName;
+    private String courseName;
+    private String lecturerID;
+    private String examID;
+    private String lecturerName;
+    private String explanation;
+    private String examDurationAdd;
+    
+    ArrayList<String> allRequests = new ArrayList<>();
     
     private static HODDashboardFrameController instance;
     private static HeadOfDepartment headofdepartment;
@@ -91,8 +105,56 @@ public class HODDashboardFrameController implements Initializable{
 		
 	}
     
+    @FXML
+    public void getBtnDenyRequest(ActionEvent event) throws Exception{
+    	
+    	
+    	chosenRequest = null;
+    }
+    
+    @FXML
+    public void getBtnAcceptRequest(ActionEvent event) throws Exception{
+    	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
+    	if(chosenRequest == null) {
+    		displayError("[Error] please choose request first.");
+    	}
+    	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
+    		displayError("[Error] please write explanation");
+    	}
+    	else {
+    		requestAccepted();
+    		displayError("request for Change time to add cofirmed!");
+    		getAllrequests();
+    	}
+    	chosenRequest = null;
+    }
+    
+    private void requestAccepted() {
+    	
+    	int requestId = Integer.parseInt(chosenRequest.split("\\)")[0]) - 1;
+    	
+    	String[] request_str = allRequests.get(requestId).split(","); // get the request by id
+    	
+        lecturerID = request_str[3];
+        examID = request_str[4];
+        examDurationAdd = request_str[7];
+    	
+		ArrayList<String> requestaccepted_arr = new ArrayList<>();
+		requestaccepted_arr.add("RequestForChangeTimeInExamAccepted");
+		requestaccepted_arr.add(headofdepartment.getId());
+		requestaccepted_arr.add(lecturerID);
+		requestaccepted_arr.add(examID);
+		requestaccepted_arr.add(examDurationAdd);
+		requestaccepted_arr.add(txtMessageToWriteToLecturer.getText());
+		ClientUI.chat.accept(requestaccepted_arr);
+	}
+
+	@FXML
+    public void getBtnRefresh(ActionEvent event) throws Exception{
+    	getAllrequests();
+    }
+    
     public static void getAllrequests() {
-    	System.out.println(headofdepartment.getId());
 		ArrayList<String> getallrequest_arr = new ArrayList<>();
 		getallrequest_arr.add("GetAllRequestsOfHodFromDB");
 		getallrequest_arr.add(headofdepartment.getId());
@@ -100,14 +162,40 @@ public class HODDashboardFrameController implements Initializable{
 	}
 
 	public void loadRequestsFromDB(ArrayList<String> requests_arr) {
-		System.out.println("test");
-    	requests_observablelist.setAll(requests_arr);	
-    	listRequests.setItems(requests_observablelist);
-    	listRequests.refresh();
-    	if(!listRequests.getItems().isEmpty()) { // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    		// send pop up message that extra time request recieved!!!!!
-    		System.out.println("new new new");
-    	}
+		allRequests = requests_arr;
+		
+		ArrayList<String> modifiedRequests = new ArrayList<>();
+		int i = 1;
+		for(String request : requests_arr) {
+			
+	    	String[] request_str = request.split(",");
+	    	subjectName = request_str[1];
+	        courseName = request_str[2];
+	        lecturerID = request_str[3];
+	        examID = request_str[4];
+	        lecturerName = request_str[5];
+	        explanation = request_str[6];
+	        examDurationAdd = request_str[7];
+	        
+	        String modifiedRequest  = i + ") [ (" + subjectName + " - " + courseName + ") from " + lecturerName + " (" + lecturerID + ") on exam: " 
+	        + examID + " ] " + "\nreason: "
+	        + explanation + ", Minutes to add to the exam: " + examDurationAdd; 	
+	        
+	        modifiedRequests.add(modifiedRequest);
+	        i++;
+		}
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                requests_observablelist.setAll(modifiedRequests);	
+				listRequests.setItems(requests_observablelist);
+				listRequests.refresh();
+				if(!listRequests.getItems().isEmpty()) {
+					// send pop up message that Change time request recieved!!!!!
+					displayError("new exam time change request recieved");
+				}
+            }
+        });
     }
     
     public static void start(ArrayList<String> hodDetails) throws IOException {
@@ -168,10 +256,10 @@ public class HODDashboardFrameController implements Initializable{
     		handleAnimation(pnlShowReport, btnShowReport);
 	        pnlShowReport.toFront();
 	    }
-	    if (actionEvent.getSource() == btnApproveExtraTime) {
-	    	handleAnimation(pnlApproveExtraTime, btnApproveExtraTime);
+	    if (actionEvent.getSource() == btnApproveTimeChange) {
+	    	handleAnimation(pnlApproveTimeChange, btnApproveTimeChange);
 	    	getAllrequests();
-	        pnlApproveExtraTime.toFront();
+	        pnlApproveTimeChange.toFront();
 	    }
     }
     
@@ -201,10 +289,15 @@ public class HODDashboardFrameController implements Initializable{
     }
     
     //method to dispaly errors
-    private void displayError(String message) {
-    	snackbarError = new JFXSnackbar(stackPane);
-        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
-        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
+    public void displayError(String message) {
+    	Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+		    	snackbarError = new JFXSnackbar(stackPane);
+		        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
+		        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
+            }
+        });
     }
 
 	

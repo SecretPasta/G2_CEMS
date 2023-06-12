@@ -341,7 +341,6 @@ public class MessageHandler_Server {
 				    	ArrayList<String> requests_arr = new ArrayList<>();
 				    	requests_arr.add("LoadAllRequestsForHOD");
 				    	requests_arr.addAll(DBController.getRequestsForHod(arrayListStr.get(1)));
-				    	System.out.println("teststest123");
 				    	client.sendToClient(requests_arr);
 				    	break;
 				    	
@@ -350,6 +349,42 @@ public class MessageHandler_Server {
 						studentGrades.add(new StudentGrade("studentGradesForClient",null,null,null,0));
 						studentGrades.addAll(DBController.getAllStudentGradesById(arrayListStr.get(1)));
 						client.sendToClient(studentGrades);
+						break;
+						
+					case "RequestForChangeTimeInExamAccepted":
+						// 1 - headofdepartment ID
+						// 2 - lecturer ID
+						// 3 - exam ID
+						// 4 - exam Duration to Add
+						// 5 - txt Message from hod to lecturer
+						
+						DBController.removeRequestForHodFromDB(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3), 
+								arrayListStr.get(4));
+						
+						ObservableList<ConnectedClient> connectedClients2 = ServerPortFrameController.getConnectedClients();
+
+						ArrayList<String> confirmation_to_lecturer_arr = new ArrayList<>();
+						confirmation_to_lecturer_arr.add("RequestForChangeTimeAcceptedByHodToLecturer");
+						confirmation_to_lecturer_arr.add(arrayListStr.get(2)); // lecturer ID
+						confirmation_to_lecturer_arr.add(arrayListStr.get(3)); // exam ID
+						confirmation_to_lecturer_arr.add(arrayListStr.get(4)); // exam Duration to Add
+						confirmation_to_lecturer_arr.add(arrayListStr.get(5)); // txt Message from hod to lecturer
+						
+						ArrayList<String> confirmation_to_student_arr = new ArrayList<>();
+						confirmation_to_student_arr.add("RequestForChangeTimeAcceptedByHodToStudent");
+						confirmation_to_student_arr.add(arrayListStr.get(3)); // exam ID
+						confirmation_to_student_arr.add(arrayListStr.get(4)); // exam Duration to Add
+						
+						for(int i = 0; i<connectedClients2.size(); i++) {
+							if(connectedClients2.get(i).getRole().equals("Lecturer")) {
+								connectedClients2.get(i).getClient().sendToClient(confirmation_to_lecturer_arr);
+							}
+							if(connectedClients2.get(i).getRole().equals("Student")) {
+								connectedClients2.get(i).getClient().sendToClient(confirmation_to_student_arr);
+							}
+						}
+						client.sendToClient("confirmation has been sent to the lecturer and students");
+						
 						break;
 						
 

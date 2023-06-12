@@ -69,7 +69,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	@FXML
 	private JFXSnackbar snackbar;
-	JFXSnackbarLayout snackbarLayout;
+	
+	@FXML
+	private JFXSnackbarLayout snackbarLayout;
 	
 	@FXML
 	private Label lbluserNameAndID;
@@ -921,7 +923,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
-	public void getBtnExtraTime_ManageExams(ActionEvent event) throws Exception {
+	public void getBtnChangeTime_ManageExams(ActionEvent event) throws Exception {
 		activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
 		
 		try {
@@ -1246,14 +1248,19 @@ public class LecturerDashboardFrameController implements Initializable{
         snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 	
-	private void displaySuccessMessage(String message) {
-		snackbar = new JFXSnackbar(stackPane);
-		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
-        snackbar.setPrefWidth(754);
-        snackbarLayout = new JFXSnackbarLayout(message);
-        snackbarLayout.getStylesheets().add(css);
-        snackbar.getStylesheets().add(css);
-        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	public void displaySuccessMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				snackbar.setPrefWidth(754);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	        }
+	    });
 	}
 
 }

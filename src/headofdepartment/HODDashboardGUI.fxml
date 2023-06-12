@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -18,6 +19,79 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" stylesheets="@../student/StudentDashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headofdepartment.HODDashboardFrameController">
    <children>
+      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+         <children>
+            <JFXSnackbar fx:id="snackbarError" />
+            <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Head of Department Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Text layoutX="42.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Report:&#10;The Show Report section provides comprehensive statistics and data on the department's exams and assessments. It offers valuable insights into student performance, including average scores, success rates, and grade distribution. This section helps the head of the department make data-driven decisions and evaluate the effectiveness of teaching methods.&#10;" wrappingWidth="524.4054565429688">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Change Time:&#10;The Approve Change Time section allows the head of the department to review and approve requests for Change time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="606.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../Downloads/report.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="42.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../Downloads/clock.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlApproveTimeChange" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="43.0" layoutY="55.0" prefHeight="255.0" prefWidth="674.0" />
+                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="431.0" layoutY="510.0" onAction="#getBtnAcceptRequest" text="Accept request" />
+                  <JFXButton id="btnRefresh" fx:id="btnRefresh" layoutX="114.0" layoutY="406.0" onAction="#getBtnRefresh" text="Refresh" />
+                  <JFXButton id="btnDenyRequest" layoutX="200.0" layoutY="510.0" onAction="#getBtnDenyRequest" text="Deny request" />
+                  <TextField id="txtMessageToWriteToLecturer" fx:id="txtMessageToWriteToLecturer" layoutX="217.0" layoutY="350.0" prefHeight="112.0" prefWidth="360.0" />
+                  <Label layoutX="340.0" layoutY="323.0" prefHeight="17.0" prefWidth="95.0" text="Write something:" />
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
       <Pane prefHeight="576.0" prefWidth="255.0" style="-fx-background-color: #242633;">
          <children>
             <Circle fill="#5dd299" layoutX="108.0" layoutY="60.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
@@ -78,7 +152,7 @@
                         <Insets left="50.0" />
                      </padding>
                   </JFXButton>
-                  <JFXButton fx:id="btnApproveExtraTime" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Extra Time" textFill="#faf9f6">
+                  <JFXButton fx:id="btnApproveTimeChange" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Change Time" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -100,75 +174,6 @@
             </VBox>
          </children>
       </Pane>
-      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-         <children>
-            <JFXSnackbar fx:id="snackbarError" />
-            <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Head of Department Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
-                  <Text layoutX="42.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Report:&#10;The Show Report section provides comprehensive statistics and data on the department's exams and assessments. It offers valuable insights into student performance, including average scores, success rates, and grade distribution. This section helps the head of the department make data-driven decisions and evaluate the effectiveness of teaching methods.&#10;" wrappingWidth="524.4054565429688">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Extra Time:&#10;The Approve Extra Time section allows the head of the department to review and approve requests for extra time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="606.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../Downloads/report.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="42.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../Downloads/clock.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlApproveExtraTime" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="43.0" layoutY="70.0" prefHeight="313.0" prefWidth="674.0" />
-                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="354.0" layoutY="472.0" text="Accept request" />
-               </children>
-            </Pane>
-         </children>
-      </StackPane>
    </children>
    <effect>
       <DropShadow color="#1b1eeb" />

@@ -2,7 +2,12 @@ package Config;
 
 public class HeadOfDepartment extends User {
 	
-    public HeadOfDepartment(String id, String username, String password, String name, String email) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public HeadOfDepartment(String id, String username, String password, String name, String email) {
 		super(id, username, password, name, email);
 	}
     
