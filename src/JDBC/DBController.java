@@ -794,16 +794,41 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	// return ArrayList<HeadOfDepartment> that relevant to the lecturer ID. get only id and name
 	public static ArrayList<HeadOfDepartment> getHeadOfDepartmentsByLecturer(String lecturerID) {
-		ArrayList<HeadOfDepartment> arr = new ArrayList<>();
-		arr.add(new HeadOfDepartment("2233", null, null, "yossi ohayon", null));
-		arr.add(new HeadOfDepartment("aaa2", null, null, "bbb2", null));
-		arr.add(new HeadOfDepartment("aaa3", null, null, "bbb3", null));
-		arr.add(new HeadOfDepartment("aaa4", null, null, "bbb4", null));
-		arr.add(new HeadOfDepartment("aaa5", null, null, "bbb5", null));
-		arr.add(new HeadOfDepartment("aaa6", null, null, "bbb6", null));
-		return arr;
+		ArrayList<HeadOfDepartment> relevantHODForLecturer = new ArrayList<>();
+		String query = "SELECT HOD.HeadOfDepartmentID, HOD.Name" +
+				"FROM headofdepartment HOD" +
+				"JOIN lecturerdepartment LD ON HOD.DepartmentID = LD.DepartmentID" +
+				"WHERE LD.LecturerID = ? ";
+		
+		try {
+			if(mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				ps.setString(1,lecturerID);
+				try(ResultSet rs = ps.executeQuery()) {
+					while(rs.next()) {
+						String HODdepartmentID = rs.getString("HeadOfDepartmentID");
+						String HODdepartmentName = rs.getNString("Name");
+						HeadOfDepartment hod = new HeadOfDepartment(HODdepartmentID,HODdepartmentName,null,null,null);
+						relevantHODForLecturer.add(hod);
+					}
+				}
+			}
+		} catch(ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return relevantHODForLecturer;
 	}
+	
+	
 
+
+	  
+
+	 
 
 
 
