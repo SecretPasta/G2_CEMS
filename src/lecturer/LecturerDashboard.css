@@ -62,3 +62,18 @@
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;
 }
+
+.chart{
+    -fx-background-color:  #FAF9F6;
+    -fx-font-size: 14;
+    -fx-text-fill: #242633;
+    -fx-legend-visible: false;
+}
+
+.axis-label {
+    -fx-text-fill: #FAF9F6;
+}
+
+.chart-plot-background {
+    -fx-background-color:transparent;
+}

@@ -29,6 +29,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.chart.Axis;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -118,19 +120,41 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private TableView<Exam> tableView_CheckExam = new TableView<>();
 	@FXML
-	private TableColumn<Question, String> idColumn_CheckExam;
+	private TableColumn<Exam, String> idColumn_CheckExam;
 	@FXML
-	private TableColumn<Question, String> subjectColumn_CheckExam;
+	private TableColumn<Exam, String> subjectColumn_CheckExam;
 	@FXML
-	private TableColumn<Question, String> courseNameColumn_CheckExam;
-	@FXML
-	private TableColumn<Question, String> isActiveColumn_CheckExam;
+	private TableColumn<Exam, String> courseNameColumn_CheckExam;
+
 	@FXML
 	private JFXButton btnApproveGrades;
 	@FXML
 	private JFXButton btnRefresh_CheckExam;
 
 	// -------------- END CheckExam PANEL --------------
+
+	// -------------- ShowReport PANEL --------------
+
+	@FXML
+	private JFXComboBox<String> subjectSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> courseSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> examSelectBox_ShowReport;
+	@FXML
+	private JFXButton btnSearch_ShowReport;
+	@FXML
+	private Label lblAverage;
+	@FXML
+	private Label lblMedian;
+	@FXML
+	private BarChart<String, Number> barChart_ShowReport;
+	@FXML
+	private Axis<String> showReport_CategoryAxis;
+	@FXML
+	private Axis<Number> showReport_NumberAxis;
+
+	// -------------- END ShowReport PANEL --------------
 
 	@FXML
 	private TableColumn<Question, String> idColumn_ManageQuestions;
@@ -188,6 +212,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	private ObservableList<Exam> inActiveExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
 
 	private ObservableList<Exam> activeExamsObservableList = FXCollections.observableArrayList(); // exams to select in the table
+	
+	private ObservableList<Exam> checkExamObservableList = FXCollections.observableArrayList(); // exams to select in the table
+	
 
 	protected static Stage currStage; // save current stage
 
@@ -199,6 +226,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	private Exam inActiveExamSelected;
 	private Exam activeExamSelected;
+	
+	private Exam examSelectedForChecking;
 	
 	private static LecturerDashboardFrameController instance;
 	
@@ -219,6 +248,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
 		getAllCoursesFromDB();
+		getAllExamsToCheck();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    currentPane = pnlGreeting;
 	    pnlGreeting.toFront();
@@ -310,14 +340,22 @@ public class LecturerDashboardFrameController implements Initializable{
 		// -------------- END ManageExam PANEL --------------
 
 		// -------------- CheckExam PANEL --------------
-
-		// need to upload all Active Exams for relevant lecturer into table
+		
+		idColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("examID"));
+		subjectColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("subjectName"));    
+		courseNameColumn_CheckExam.setCellValueFactory(new PropertyValueFactory<Exam, String>("courseName"));
+		
+		tableView_CheckExam.getSelectionModel().clearSelection();
 
 		// -------------- END CheckExam PANEL --------------
 
+		// -------------- ShowReport PANEL --------------
+
+
+		// -------------- END ShowReport PANEL --------------
+
 	}
-	
-	
+
 
 	// -------------- ManageQuestions PANEL --------------
 	
@@ -904,18 +942,15 @@ public class LecturerDashboardFrameController implements Initializable{
 	        }
 	        
 	        activeExamsObservableList.remove(activeExamSelected);
-	        inActiveExamsObservableList.add(activeExamSelected);
 
-	        changeExamActivenessInDB(activeExamSelected.getExamID(), "0");
+	        changeExamActivenessInDB(activeExamSelected.getExamID(), "2");
 
 	    } catch (NullPointerException e) {
 	        displayErrorMessage("Error: Exam not selected");
 	    }
 	    
-	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.refresh();
-	    tableView_inActiveExams.refresh();
 
 	    activeExamSelected = null;
 	}
@@ -974,8 +1009,25 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- CheckExam PANEL --------------
 
 	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		CheckExam_ChooseStudentFrameController.start(); // starting the exam review screen.
+		
+		examSelectedForChecking = tableView_activeExams.getSelectionModel().getSelectedItem();
+		
+		try {
+			if (examSelectedForChecking == null) {
+				throw new NullPointerException();
+			}
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			CheckExam_ChooseStudentFrameController.start(examSelectedForChecking, lecturer);
+			
+		} catch (NullPointerException e) {
+			displayErrorMessage("Error: Exam not selected");
+		}
+			    
+		tableView_activeExams.getSelectionModel().clearSelection();
+
+		examSelectedForChecking = null;
+		
 	}
 
 	public void showDashboardFrom_CheckExam() {
@@ -985,11 +1037,32 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 
 	public void getRefreshBtn_CheckExam(ActionEvent event) throws Exception {
+		getAllExamsToCheck();
+	}
+	
+	private void getAllExamsToCheck() {
+		ArrayList<String> examstocheck_arr = new ArrayList<>();
+		examstocheck_arr.add("GetAllLecturerExamsForChecking");
+		examstocheck_arr.add(lecturer.getId());
+		examstocheck_arr.add("2"); // finished exams
+		ClientUI.chat.accept(examstocheck_arr);
+	}
+	
+	public void loadAllExamsToCheckInTable(ArrayList<Exam> exams) {
+		checkExamObservableList.setAll(exams);
+		tableView_CheckExam.setItems(checkExamObservableList);
+		tableView_CheckExam.refresh();
 	}
 
 	// -------------- END CheckExam PANEL --------------
 	
-	
+	// -------------- ShowReport PANEL --------------
+	@FXML
+	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
+
+	}
+
+	// -------------- END ShowReport PANEL --------------
 
 	/**
 	 * Retrieves the subject name based on the given subject ID.
@@ -1190,6 +1263,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
+	    	//getAllActiveExamsFromDB();
 	        pnlCheckExams.toFront();
 	    }
 	    if (actionEvent.getSource() == btnManageQuestions) { // Manage Questions panel
