@@ -259,6 +259,17 @@
                   </Label>
                </children>
             </Pane>
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label layoutX="204.0" layoutY="199.0" prefHeight="36.0" prefWidth="120.0" text="Show Report Screen" />
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <Label layoutX="57.0" layoutY="25.0" text="Manage Questions" textFill="#242633">
@@ -318,7 +329,43 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
+            <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <TableView id="tableView_ManageQuestions" fx:id="tableView_CheckExam" layoutX="29.0" layoutY="108.0" prefHeight="395.0" prefWidth="735.0" stylesheets="@LecturerDashboard.css">
+                     <columns>
+                        <TableColumn id="idColumn_ManageQuestions" fx:id="idColumn_CheckExam" prefWidth="75.99999690055847" text="id" />
+                        <TableColumn id="subjectColumn_ManageQuestions" fx:id="subjectColumn_CheckExam" prefWidth="197.0" text="subject" />
+                        <TableColumn id="questionTextColumn_ManageQuestions" fx:id="courseNameColumn_CheckExam" prefWidth="315.0" text="course" />
+                        <TableColumn id="authorColumn_ManageQuestions" fx:id="isActiveColumn_CheckExam" minWidth="0.0" prefWidth="138.40008544921875" text="isActive" />
+                     </columns>
+                  </TableView>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="54.0" layoutY="38.0" text="Check Exam" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="btnApproveGrades" alignment="CENTER" layoutX="302.0" layoutY="514.0" onAction="#getApproveGradesBtn_CheckExam" prefHeight="36.0" prefWidth="190.0" ripplerFill="#faf9f6" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" stylesheets="@LecturerDashboard.css" text="Start Approve Grades" textFill="#faf9f6">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Circle fill="#66a7f2" layoutX="733.0" layoutY="83.0" radius="14.0" stroke="#faf9f6" strokeType="INSIDE" />
+                  <Line endX="60.0" endY="-1.0" layoutX="734.0" layoutY="84.0" startX="13.0" startY="-0.9999961853027344" stroke="#242633" />
+                  <Label layoutX="643.0" layoutY="63.0" prefHeight="37.0" prefWidth="73.0" text="Choose Exam to Approve" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <JFXButton id="btnRefresh_CreateExam" fx:id="btnRefresh_CheckExam" layoutX="492.0" layoutY="70.0" onAction="#getRefreshBtn_CheckExam" prefHeight="27.0" prefWidth="90.0" style="-fx-border-color: #242633; -fx-border-radius: 10;" text="Refresh Table" />
+               </children></Pane>
             <Pane fx:id="pnlCreateExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <TableView id="tableView_CreateExam" fx:id="tableView_CreateExam" layoutX="32.0" layoutY="110.0" prefHeight="160.0" prefWidth="735.0">

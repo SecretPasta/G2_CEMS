@@ -105,15 +105,6 @@ public class HODDashboardFrameController implements Initializable{
 		
 	}
     
-    public void popUpMessageAlert(String message) {
-    	Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                displayError(message);
-            }
-        });
-    }
-    
     @FXML
     public void getBtnDenyRequest(ActionEvent event) throws Exception{
     	
@@ -201,7 +192,7 @@ public class HODDashboardFrameController implements Initializable{
 				listRequests.refresh();
 				if(!listRequests.getItems().isEmpty()) {
 					// send pop up message that Change time request recieved!!!!!
-					popUpMessageAlert("new exam time change request recieved");
+					displayError("new exam time change request recieved");
 				}
             }
         });
@@ -298,7 +289,7 @@ public class HODDashboardFrameController implements Initializable{
     }
     
     //method to dispaly errors
-    private void displayError(String message) {
+    public void displayError(String message) {
     	Platform.runLater(new Runnable() {
             @Override
             public void run() {

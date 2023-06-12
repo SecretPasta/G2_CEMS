@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_CommentsAndTime.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ChooseStudentFrameController">
+   <children>
+      <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
+         <children>
+            <TableView id="tableExam" fx:id="tableExam" layoutX="25.0" layoutY="54.0" prefHeight="375.0" prefWidth="1000.0" AnchorPane.bottomAnchor="72.0" AnchorPane.topAnchor="54.0">
+              <columns>
+                <TableColumn id="idColumn_tableExam" fx:id="studentIdColumn_tableExam" prefWidth="73.60000228881836" text="studentID" />
+                <TableColumn id="questionTextColumn_tableExam" fx:id="studentNameColumn_tableExam" prefWidth="311.0" text="Student Name" />
+                  <TableColumn id="pointsColumn_tableExam" fx:id="answers_tableExam" prefWidth="612.0" text="Answers" />
+              </columns>
+            </TableView>
+            <JFXButton layoutX="430.0" layoutY="444.0" onAction="#getBtnShowExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show Exam→" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXSnackbar fx:id="snackbarError" layoutX="588.0" layoutY="471.0" />
+            <Label layoutX="630.0" layoutY="442.0" prefHeight="40.0" prefWidth="113.0" text="*choose Student and then Press button" textFill="#242633" wrapText="true">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <HBox layoutX="240.0" layoutY="10.0" prefHeight="40.0" prefWidth="570.0">
+               <children>
+                  <Label fx:id="lblExamId" prefHeight="40.0" prefWidth="190.0" text="ExamId Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblSubject" prefHeight="40.0" prefWidth="190.0" text="Subject Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblCourse" prefHeight="40.0" prefWidth="190.0" text="Course Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+      <Circle fill="#5dd299" layoutX="54.0" layoutY="37.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="32.0" layoutY="37.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+      <Label layoutX="75.0" layoutY="20.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="952.0" layoutY="26.0" maxWidth="75.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Circle fill="#5dd299" layoutX="408.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#66a7f2" layoutX="538.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Circle fill="#242633" layoutX="668.0" layoutY="31.0" radius="20.0" stroke="#faf9f6" strokeType="INSIDE" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="454.0" layoutY="32.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Line endX="63.0" endY="-0.9999961853027344" layoutX="584.0" layoutY="32.0" startX="-25.0" startY="-0.9999961853027344" stroke="#faf9f6" />
+      <Label layoutX="310.0" layoutY="22.0" text="Choose Exam" textFill="#faf9f6" />
+      <Label layoutX="493.0" layoutY="52.0" text="Choose Student" textFill="#faf9f6">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="694.0" layoutY="23.0" text="Review and Approve" textFill="#faf9f6" />
+   </children>
+</AnchorPane>
