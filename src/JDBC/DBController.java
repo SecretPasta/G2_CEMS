@@ -3,8 +3,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -922,9 +920,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 
-
-
-
 	public static ArrayList<String> getRequestsForHod(String hodID) {
 
 		String query = "SELECT * FROM headofdepartmentrequests WHERE HeadOfDepartmentID = ?";
@@ -948,9 +943,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		return requests_arr;
 		
 	}
-
-
-
 
 
 	public static void removeRequestForHodFromDB(String hodID, String lecturerID, String examID, String examDurrationToAdd) {
@@ -978,7 +970,28 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 	}
 
-
+	public static ArrayList<FinishedExam> getFinishedExamsByExamID(String examID) {
+		
+		String query = "SELECT * FROM finishedexam WHERE examID = ?";
+		ArrayList<FinishedExam> finishedexams_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, examID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	FinishedExam finishedExam = new FinishedExam(examID, rs.getString(4), rs.getString(2), rs.getDouble(5), rs.getString(3));
+	                	finishedexams_arr.add(finishedExam);
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return finishedexams_arr;
+	}
 
 }
 

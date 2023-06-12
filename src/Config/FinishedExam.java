@@ -4,7 +4,11 @@ import java.io.Serializable;
 
 public class FinishedExam implements Serializable {
 
-    private String examID;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String examID;
     private String studentID;
     private String lecturer;
     private double grade;
@@ -12,7 +16,7 @@ public class FinishedExam implements Serializable {
     private int checkExam;
     private String answers;
 
-    public FinishedExam(String examID,String lecturer ,String studentID, double grade,String answers){
+    public FinishedExam(String examID,String lecturer ,String studentID, double grade, String answers){
         this.examID = examID;
         this.studentID = studentID;
         this.lecturer = lecturer;

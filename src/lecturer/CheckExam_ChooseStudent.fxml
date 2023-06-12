@@ -15,11 +15,10 @@
    <children>
       <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
-            <TableView id="tableExam" fx:id="tableExam" layoutX="25.0" layoutY="54.0" prefHeight="375.0" prefWidth="1000.0" AnchorPane.bottomAnchor="72.0" AnchorPane.topAnchor="54.0">
+            <TableView id="finishedExams_tableView" fx:id="finishedExams_tableView" layoutX="25.0" layoutY="54.0" prefHeight="375.0" prefWidth="1000.0" AnchorPane.bottomAnchor="72.0" AnchorPane.topAnchor="54.0">
               <columns>
-                <TableColumn id="idColumn_tableExam" fx:id="studentIdColumn_tableExam" prefWidth="73.60000228881836" text="studentID" />
-                <TableColumn id="questionTextColumn_tableExam" fx:id="studentNameColumn_tableExam" prefWidth="311.0" text="Student Name" />
-                  <TableColumn id="pointsColumn_tableExam" fx:id="answers_tableExam" prefWidth="612.0" text="Answers" />
+                <TableColumn id="studentIdColumn_tableExam" fx:id="studentIdColumn_tableExam" prefWidth="73.60000228881836" text="studentID" />
+                <TableColumn id="studentgradeColumn_tableExam" fx:id="studentgradeColumn_tableExam" prefWidth="311.0" text="Student Grade" />
               </columns>
             </TableView>
             <JFXButton layoutX="430.0" layoutY="444.0" onAction="#getBtnShowExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show Exam→" textFill="#faf9f6">
