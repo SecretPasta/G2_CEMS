@@ -383,14 +383,20 @@ public class StudentDashboardFrameController implements Initializable{
         snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 	
-	private void displaySuccessMessage(String message) {
-		snackbar = new JFXSnackbar(stackPane);
-		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
-        snackbar.setPrefWidth(754);
-        snackbarLayout = new JFXSnackbarLayout(message);
-        snackbarLayout.getStylesheets().add(css);
-        snackbar.getStylesheets().add(css);
-        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	public void displaySuccessMessage(String message) {
+		
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				snackbar.setPrefWidth(754);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+            }
+        });
 	}
 
 

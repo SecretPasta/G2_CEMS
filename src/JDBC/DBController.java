@@ -947,11 +947,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	public static void removeRequestForHodFromDB(String hodID, String lecturerID, String examID, String examDurrationToAdd) {
 		
-		// 1 - headofdepartment ID
-		// 2 - lecturer ID
-		// 3 - exam ID
-		// 4 - exam Duration to Add
-		
 	    String query = "DELETE FROM headofdepartmentrequests "
 	    			+ "WHERE HeadOfDepartmentID = ? AND lecturerID = ? AND examID = ? AND examDurationAdd = ?";
 	    try {
@@ -991,6 +986,30 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 			e.printStackTrace();
 		}
 		return finishedexams_arr;
+	}
+
+
+	public static void setFinishedExamApproved(String examID, String studentID, String grade) {
+		
+		String query = "UPDATE finishedexam "
+	             + "SET approved = 1, grade = ? "
+	             + "WHERE examID = ? AND studentID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);		
+				ps.setDouble(1, Double.parseDouble(grade));
+				ps.setString(2, examID);
+				ps.setString(3, studentID);
+		 		ps.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

@@ -265,6 +265,32 @@ public class MessageHandler_Client {
 	                	
 	                	break;
 	                	
+	                case "NewGradeIsAvailableForStudent":
+	                	
+						// 1 - Student ID
+						// 2 - Grade
+						// 3 - Course Name
+	                	// 4 - lecturer Name
+	                	// 5 - Comments for Student
+	                	// 6 - Comment For New Grade
+	                	
+	                	
+	                	String status = "";
+	                	if(Double.parseDouble(arrayListStr.get(2)) >= 55){
+	                		status = "passed";
+	                	}
+	                	else {
+	                		status = "failed";
+	                	}
+	                	
+	                	if(userID.equals(arrayListStr.get(1))) {
+	                		StudentDashboardFrameController.getInstance().displaySuccessMessage("A new grade has been recieved:\n"
+	                				+ "Lecturer " + arrayListStr.get(4) + " entered a new grade (" + arrayListStr.get(2) + " - " + status + ") "
+	                				+ "for the exam in the course: " + arrayListStr.get(3) + "\n" + arrayListStr.get(5) + "\n" + arrayListStr.get(6));
+	                	}
+	                	
+	                	break;
+	                	
 	            }       
 	            
             }catch (Exception e) {

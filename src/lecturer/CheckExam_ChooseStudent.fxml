@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -15,10 +16,10 @@
    <children>
       <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
-            <TableView id="finishedExams_tableView" fx:id="finishedExams_tableView" layoutX="25.0" layoutY="54.0" prefHeight="375.0" prefWidth="1000.0" AnchorPane.bottomAnchor="72.0" AnchorPane.topAnchor="54.0">
+            <TableView id="finishedExams_tableView" fx:id="finishedExams_tableView" layoutX="101.0" layoutY="50.0" prefHeight="375.0" prefWidth="306.0" AnchorPane.bottomAnchor="76.0" AnchorPane.topAnchor="50.0">
               <columns>
                 <TableColumn id="studentIdColumn_tableExam" fx:id="studentIdColumn_tableExam" prefWidth="73.60000228881836" text="studentID" />
-                <TableColumn id="studentgradeColumn_tableExam" fx:id="studentgradeColumn_tableExam" prefWidth="311.0" text="Student Grade" />
+                <TableColumn id="studentgradeColumn_tableExam" fx:id="studentgradeColumn_tableExam" prefWidth="226.40000915527344" text="Student Grade" />
               </columns>
             </TableView>
             <JFXButton layoutX="430.0" layoutY="444.0" onAction="#getBtnShowExam" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10 10 10 10;" text="Show Exam→" textFill="#faf9f6">
@@ -51,6 +52,7 @@
                   </Label>
                </children>
             </HBox>
+            <JFXListView id="examsCheating_listView" fx:id="examsCheating_listView" layoutX="565.0" layoutY="51.0" prefHeight="381.0" prefWidth="386.0" />
          </children>
       </AnchorPane>
       <Circle fill="#5dd299" layoutX="54.0" layoutY="37.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />

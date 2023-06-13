@@ -57,7 +57,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 
 	private static Stage currStage; // save current stage
 	
-	private static Lecturer luecturer;
+	private static Lecturer lecturer;
 	private static FinishedExam finishedExamSelected;
 	private String[] studentAnswers;
 
@@ -70,10 +70,12 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		else {
 			
 			// database stuff
+			
 			// change approved to 1
 			// change the grade: finishedExamSelected.getGrade();
-			// message to lectutrt for succeed
-			// message for student with studentID for new grade available
+			approve_SetGrade_FinishedExam();
+			
+			
 			
 			
 			((Node) event.getSource()).getScene().getWindow().hide();
@@ -85,6 +87,20 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		
 
 
+	}
+
+	private void approve_SetGrade_FinishedExam() {
+		ArrayList<String> approveexam_arr = new ArrayList<>();
+		approveexam_arr.add("ApproveAndSetGradeForFinishedExamByLecturer");
+		approveexam_arr.add(finishedExamSelected.getExamID());
+		approveexam_arr.add(finishedExamSelected.getStudentID());
+		approveexam_arr.add(Double.toString(finishedExamSelected.getGrade()));
+		approveexam_arr.add(finishedExamSelected.getCourseName());
+		approveexam_arr.add(lecturer.getName());
+		approveexam_arr.add(txtCommentsStudent.getText());
+		approveexam_arr.add(txtCommentForNewGrade.getText());
+		ClientUI.chat.accept(approveexam_arr);
+		
 	}
 
 	@FXML
@@ -119,7 +135,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 
 	public static void start(Lecturer luecturer_temp, FinishedExam finishedWxamSelected_temp) throws IOException {
 		
-		luecturer = luecturer_temp;
+		lecturer = luecturer_temp;
 		finishedExamSelected = finishedWxamSelected_temp;
 		
 		currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ReviewAndApprove.fxml", null, "Check Exam");
@@ -150,43 +166,47 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 
 
 	private void loadQuestionsInExamToVBox() {
-		
-		studentAnswers = finishedExamSelected.getAnswers().split("\\|");
-
-		int i = 0; // numbering the questions
-        for (QuestionInExam question : questionsInExam) {
-        	// place the question in the vbox
-            Label questionLabel = new Label((i+1) + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
-			questionLabel.setStyle("-fx-font-weight: bold");
-            vbox.getChildren().add(questionLabel);
-
-			char answerLetter = 'a';
-            // place the answers in the vbox
-			Label answerLabel;
-            for (int j = 0; j < question.getAnswers().size(); j++) {
-            	
-				answerLabel = new Label("  " + answerLetter + ") " + question.getAnswers().get(j));
-				
-				if(j == 0) { // correct answer
-					answerLabel.setStyle("-fx-background-color: green; -fx-font-weight: bold;");
-				}
-				else {
-					if(studentAnswers[i] != null && studentAnswers[i].equals(question.getAnswers().get(j))) {
-						answerLabel.setStyle("-fx-background-color: red; -fx-font-weight: bold;");
+		try {
+			studentAnswers = finishedExamSelected.getAnswers().split("\\|");
+	
+			int i = 0; // numbering the questions
+	        for (QuestionInExam question : questionsInExam) {
+	        	// place the question in the vbox
+	            Label questionLabel = new Label((i+1) + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
+				questionLabel.setStyle("-fx-font-weight: bold");
+	            vbox.getChildren().add(questionLabel);
+	
+				char answerLetter = 'a';
+	            // place the answers in the vbox
+				Label answerLabel;
+	            for (int j = 0; j < question.getAnswers().size(); j++) {
+	            	
+					answerLabel = new Label("  " + answerLetter + ") " + question.getAnswers().get(j));
+					
+					if(j == 0) { // correct answer
+						answerLabel.setStyle("-fx-background-color: green; -fx-font-weight: bold;");
 					}
-				}
-				
-
-				
-				vbox.getChildren().add(answerLabel);
-				answerLetter++;
-            }
-
-            Label spaceLabel = new Label("\n\n");
-            vbox.getChildren().add(spaceLabel);
-            i++;
-        }
-
+					else {
+						if(studentAnswers[i] != null && studentAnswers[i].equals(question.getAnswers().get(j))) {
+							answerLabel.setStyle("-fx-background-color: red; -fx-font-weight: bold;");
+						}
+						if(studentAnswers[i] == null || studentAnswers[i].trim().equals("")) {
+							questionLabel.setStyle("-fx-background-color: red; -fx-font-weight: bold;");
+							System.out.println(1);
+						}
+					}
+					
+	
+					
+					vbox.getChildren().add(answerLabel);
+					answerLetter++;
+	            }
+	
+	            Label spaceLabel = new Label("\n\n");
+	            vbox.getChildren().add(spaceLabel);
+	            i++;
+	        }
+		}catch (ArrayIndexOutOfBoundsException e) {}
 		
 	}
 

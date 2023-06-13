@@ -1,10 +1,14 @@
 package lecturer;
 
 import java.io.IOException;
+import java.util.HashMap;
+
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
 
 import ClientAndServerLogin.SceneManagment;
@@ -45,12 +49,16 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 	@FXML
 	private TableColumn<FinishedExam, String> studentIdColumn_tableExam;
-
 	@FXML
 	private TableColumn<FinishedExam, String> studentgradeColumn_tableExam;
 
 	@FXML
 	private TableView<FinishedExam> finishedExams_tableView;
+	
+    @FXML
+    private JFXListView<String> examsCheating_listView;
+    
+    private ObservableList<String> examsCheating_observablelist = FXCollections.observableArrayList();
 	
 	private ObservableList<FinishedExam> finishedExams_observablelist = FXCollections.observableArrayList();
 
@@ -87,6 +95,10 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 	public void showStageFrom_StudentList(FinishedExam finishedExamSelected_temp) throws IOException {
 		try {
+			if(finishedExamSelected_temp != null) {
+				// message to lecturer for succeed
+				System.out.println("Exam approved!");
+			}
 	        // Remove the student exam from the finishedExams_observablelist and refresh the table view
 	        for (int i = 0; i < finishedExams_observablelist.size(); i++) {
 	            if (finishedExams_observablelist.get(i).getExamID().equals(finishedExamSelected_temp.getExamID()) &&
@@ -95,7 +107,8 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	                break;
 	            }
 	        }
-
+	        examsCheating_listView.setMouseTransparent(true);
+	        examsCheating_listView.setFocusTraversable(false);
 	        finishedExams_tableView.refresh();
 			
 			
@@ -104,10 +117,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	}
 
 	@FXML
-	void getBtnShowExam(ActionEvent event) throws IOException {
-		
-		
-		
+	void getBtnShowExam(ActionEvent event) throws IOException {	
 		
 		try {
 			
@@ -134,10 +144,66 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 		finishedExamSelected = null;
 		
-		
-
-
 	}
+	
+	
+	public void getSuspectExamsForCheating() {
+		
+		Map<FinishedExam, ArrayList<FinishedExam>> examsWithSameAnswers = new HashMap<>();
+
+        for (int i = 0; i < finishedExams_observablelist.size(); i++) {
+            FinishedExam exam1 = finishedExams_observablelist.get(i);
+
+            for (int j = i + 1; j < finishedExams_observablelist.size(); j++) {
+                FinishedExam exam2 = finishedExams_observablelist.get(j);
+
+                if (exam1.getAnswers().equals(exam2.getAnswers())) {
+
+                	ArrayList<FinishedExam> exams1 = examsWithSameAnswers.get(exam1);
+                    if (exams1 == null) {
+                        exams1 = new ArrayList<>();
+                        examsWithSameAnswers.put(exam1, exams1);
+                    }
+                    exams1.add(exam2);
+
+                    ArrayList<FinishedExam> exams2 = examsWithSameAnswers.get(exam2);
+                    if (exams2 == null) {
+                        exams2 = new ArrayList<>();
+                        examsWithSameAnswers.put(exam2, exams2);
+                    }
+                    exams2.add(exam1);
+                }
+            }
+        }
+
+        ArrayList<String> cheaters_list = new ArrayList<>();
+
+        for (Map.Entry<FinishedExam, ArrayList<FinishedExam>> entry : examsWithSameAnswers.entrySet()) {
+        	
+        	StringBuilder modified_cheater = new StringBuilder();
+        	
+            FinishedExam exam = entry.getKey();
+            ArrayList<FinishedExam> exams = entry.getValue();
+            modified_cheater.append("Student ID: " + exam.getStudentID());
+            modified_cheater.append(" same answers as Students ID: \n");
+            for(FinishedExam examcpy : exams) {
+            	modified_cheater.append("                              ");
+            	modified_cheater.append(examcpy.getStudentID());
+            }
+            cheaters_list.add(modified_cheater.toString());
+
+        }	
+        
+        examsCheating_observablelist.setAll(cheaters_list);	
+        examsCheating_listView.setItems(examsCheating_observablelist);
+        examsCheating_listView.refresh();
+        
+        examsCheating_listView.setMouseTransparent(true);
+        examsCheating_listView.setFocusTraversable(false);
+		
+	}
+	
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -151,6 +217,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 		studentgradeColumn_tableExam.setCellValueFactory(new PropertyValueFactory<FinishedExam, String>("grade"));    
 		finishedExams_tableView.getSelectionModel().clearSelection();
 
+		//getSuspectExamsForCheating();
 	}
 
 	private void getAllFinishedExamsOfSelectedExam() {
@@ -170,6 +237,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 				finishedExams_tableView.setItems(finishedExams_observablelist);
 				finishedExams_tableView.refresh();
 				finishedExams_tableView.getSelectionModel().clearSelection();
+				getSuspectExamsForCheating();
             	
             }
         });

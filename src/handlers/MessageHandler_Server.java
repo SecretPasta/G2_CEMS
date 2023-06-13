@@ -439,6 +439,40 @@ public class MessageHandler_Server {
 						questionInExamarray.addAll(DBController.retrieveQuestionsInExamById(arrayListStr.get(1)));
 						client.sendToClient(questionInExamarray);
 						break;
+						
+					case "ApproveAndSetGradeForFinishedExamByLecturer":
+						// 1 - Exam ID
+						// 2 - Student ID
+						// 3 - Grade
+						// 4 - Course Name
+						// 5 - lecturer Name
+						// 6 - Comments for Student
+						// 7 - Comment For New Grade
+						
+						DBController.setFinishedExamApproved(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3));
+						
+						
+						ObservableList<ConnectedClient> connectedClients4 = ServerPortFrameController.getConnectedClients();
+
+						ArrayList<String> newgrademessage_arr = new ArrayList<>();
+						newgrademessage_arr.add("NewGradeIsAvailableForStudent");
+						newgrademessage_arr.add(arrayListStr.get(2)); // Student ID
+						newgrademessage_arr.add(arrayListStr.get(3)); // Grade
+						newgrademessage_arr.add(arrayListStr.get(4)); // Course Name
+						newgrademessage_arr.add(arrayListStr.get(5));// lecturer Name
+						newgrademessage_arr.add(arrayListStr.get(6));// Comments for Student
+						newgrademessage_arr.add(arrayListStr.get(7));// Comment For New Grade
+						
+						for(int i = 0; i<connectedClients4.size(); i++) {
+							if(connectedClients4.get(i).getRole().equals("Student")) {
+								connectedClients4.get(i).getClient().sendToClient(newgrademessage_arr);
+							}
+						}
+						client.sendToClient("exam approved and a message has been sent to the student");
+						
+						
+						// send message to student with lecturer name and exam id and course name of exam
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {
