@@ -104,7 +104,6 @@ public class ServerPortFrameController implements Initializable {
 	    return instance;
 	}
 
-
 	/**
 	 * Adds a connected client to the list of connected clients using their hostname and IP.
 	 *

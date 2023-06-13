@@ -30,8 +30,17 @@ public class EchoServer extends AbstractServer
    * @param port The port number to connect on.
    */
   public static String serverIP;
-  
-  public EchoServer(int port) 
+
+  private static EchoServer instance = null;
+
+  public static synchronized EchoServer getInstance(int port) {
+    if (instance == null) {
+      instance = new EchoServer(port);
+    }
+    return instance;
+  }
+
+  private EchoServer(int port)
   {
     super(port);
   }
