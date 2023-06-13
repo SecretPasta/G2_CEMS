@@ -36,7 +36,7 @@ public class ServerUI extends Application {
 			System.out.println("ERROR - Connection Failed!\n" + t.getMessage());
 		}
 
-		echoServer = new EchoServer(port);
+		echoServer = EchoServer.getInstance(port);
 
 		try {
 			echoServer.listen(); // Start listening for connections

@@ -98,6 +98,7 @@ public class ComputerizedExamController implements Initializable{
 		 return instance;
 	}
 
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		//Here we need to load all the questions text and answers from db to panes
@@ -185,8 +186,13 @@ public class ComputerizedExamController implements Initializable{
 		participatingStudent = student;
 		System.out.println(exam);
 
-	    openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam"); // Creates and shows the login screen stage
-		openStage.show();
+		try {
+			openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam");
+			openStage.show();
+		} catch (IOException e) {
+			// Handle the exception (e.g., display an error message)
+			//e.printStackTrace();
+		}
 
 	}
 

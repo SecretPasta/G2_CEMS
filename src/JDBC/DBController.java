@@ -9,8 +9,7 @@ import java.util.Map;
 import Config.*;
 
 public class DBController {
-	
-	
+
 	// func to get all questions from DB that created by specific lecturer and/or specific courseName and/or subjectID.
 	public static ArrayList<Question> getAllQuestions(String lecturerID, String courseID, String subjectID) {
 	    ArrayList<Question> questions = new ArrayList<Question>();
