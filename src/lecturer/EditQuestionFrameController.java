@@ -58,6 +58,8 @@ public class EditQuestionFrameController implements Initializable {
 	private Button btnSave = null;
 	
 	private static Question questionSelected; // the question that selected for editing will be saved here
+	
+	private static String questionText;
 
 	
 	/**
@@ -108,7 +110,7 @@ public class EditQuestionFrameController implements Initializable {
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-	    		questionSelected.getId(), txtQuestionText.getText());
+	    		questionSelected.getId(), questionText);
 	}
 	
 
@@ -141,6 +143,11 @@ public class EditQuestionFrameController implements Initializable {
 		        updateQuestionArr.add(txtAnswerWrong2.getText());
 		        updateQuestionArr.add(txtAnswerWrong3.getText());
 		        ClientUI.chat.accept(updateQuestionArr);
+		        
+		        questionText = txtQuestionText.getText();
+		        
+		        getBackbtn(event);
+		        
 			}
 	    
 		}catch (NullPointerException e) {
@@ -159,6 +166,7 @@ public class EditQuestionFrameController implements Initializable {
 	 */
 	public static void start(Question questionSelected_temp) throws Exception {
 	    questionSelected = questionSelected_temp;
+	    questionText = questionSelected.getQuestionText();
 	    SceneManagment.createNewStage("/lecturer/EditQuestionGUI.fxml", null, "Question Edit Management Tool").show();
 	}
 

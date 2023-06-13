@@ -100,7 +100,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		
 		lblSubjectName.setText(finishedExamSelected.getSubjectName() + " (" + finishedExamSelected.getSubjectID() + ")");
 		lblCourseName.setText(finishedExamSelected.getCourseName() + " (" + finishedExamSelected.getCourseID() + ")");
-		lblStudent.setText("Student ID: " + finishedExamSelected.getStudentID());
+		lblStudent.setText(finishedExamSelected.getStudentID());
 		
 	}
 

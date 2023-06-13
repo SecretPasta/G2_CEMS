@@ -90,7 +90,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 				infoOfRequest_Arr.add(hod_name_id[1]);
 				ClientUI.chat.accept(infoOfRequest_Arr);
 				
-				System.out.println("Request gor changing the time of the exam sent succesfuly to the head of department!"); // succees
+				System.out.println("Request for changing the time of the exam sent succesfuly to the head of department!"); // succees
 				
 				getBtnBack(event);
 
