@@ -59,7 +59,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	private static Lecturer luecturer;
 	private static Exam examSelectedForChecking;
 	
-	private FinishedExam finishedExamSelected;
+	private static FinishedExam finishedExamSelected;
 	
 	private static CheckExam_ChooseStudentFrameController instance;
 	
@@ -85,7 +85,21 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 	}
 
-	public static void showStageFrom_StudentList() throws IOException {
+	public void showStageFrom_StudentList(FinishedExam finishedExamSelected_temp) throws IOException {
+		try {
+	        // Remove the student exam from the finishedExams_observablelist and refresh the table view
+	        for (int i = 0; i < finishedExams_observablelist.size(); i++) {
+	            if (finishedExams_observablelist.get(i).getExamID().equals(finishedExamSelected_temp.getExamID()) &&
+	            		finishedExams_observablelist.get(i).getStudentID().equals(finishedExamSelected_temp.getStudentID())) {
+	            	finishedExams_observablelist.remove(i);
+	                break;
+	            }
+	        }
+
+	        finishedExams_tableView.refresh();
+			
+			
+		} catch (NullPointerException e) {}
 		currStage.show();
 	}
 

@@ -970,7 +970,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	    }
 	}
 
-	public static ArrayList<FinishedExam> getFinishedExamsByExamID(String examID) {
+	public static ArrayList<FinishedExam> getFinishedExamsByExamID(String examID) { // not approved yet
 		
 		String query = "SELECT * FROM finishedexam WHERE examID = ? AND approved = 0";
 		ArrayList<FinishedExam> finishedexams_arr = new ArrayList<>();

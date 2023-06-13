@@ -63,9 +63,27 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 
 	@FXML
 	void getBtnApproveGrade(ActionEvent event) throws IOException {
-		((Node) event.getSource()).getScene().getWindow().hide();
+		
+		if(!(txtNewGrade.getText().trim().equals("")) && txtCommentForNewGrade.getText().trim().equals("")) {
+			System.out.println("[Error] You must write comments to student for changing the grade");
+		}
+		else {
+			
+			// database stuff
+			// change approved to 1
+			// change the grade: finishedExamSelected.getGrade();
+			// message to lectutrt for succeed
+			// message for student with studentID for new grade available
+			
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			CheckExam_ChooseStudentFrameController.getInstance().showStageFrom_StudentList(finishedExamSelected); // to update the table in the previous screen
+			
+		}
+		
+		
+		
 
-		CheckExam_ChooseStudentFrameController.showStageFrom_StudentList();
 
 	}
 
@@ -73,13 +91,29 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	void getBtnBack(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 
-		CheckExam_ChooseStudentFrameController.showStageFrom_StudentList();
+		CheckExam_ChooseStudentFrameController.getInstance().showStageFrom_StudentList(null);
 
 	}
 
 	@FXML
 	void getBtnChangeGrade(ActionEvent event) {
-
+		
+		try {
+			if(txtNewGrade.getText().trim().equals("") || txtNewGrade == null) {
+				System.out.println("[Error] New grade field is empty");
+			}
+			else if(Double.parseDouble(txtNewGrade.getText()) < 0){
+				throw new NumberFormatException();
+			}
+			else {
+				finishedExamSelected.setGrade(Double.parseDouble(txtNewGrade.getText()));
+				System.out.println("exam grade changed to: " + finishedExamSelected.getGrade());
+			}
+		
+		}catch (NumberFormatException e) {
+			System.out.println("[Error] New grade must be valid numver >=0");
+			txtNewGrade.clear();
+		}
 
 	}
 
@@ -101,6 +135,16 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		lblSubjectName.setText(finishedExamSelected.getSubjectName() + " (" + finishedExamSelected.getSubjectID() + ")");
 		lblCourseName.setText(finishedExamSelected.getCourseName() + " (" + finishedExamSelected.getCourseID() + ")");
 		lblStudent.setText(finishedExamSelected.getStudentID());
+		
+		if(finishedExamSelected.getGrade() >= 55.0) {
+			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Passed)");
+			//lblAutoGrade.setStyle("-fx-color: green; -fx-font-weight: bold;");
+		}
+		else {
+			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Failed)");
+			//lblAutoGrade.setStyle("-fx-color: red; -fx-font-weight: bold;");
+		}
+		
 		
 	}
 

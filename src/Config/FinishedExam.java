@@ -33,6 +33,10 @@ public class FinishedExam extends Exam implements Serializable {
     public double getGrade() {
         return grade;
     }
+    
+    public void setGrade(double grade) {
+        this.grade = grade;;
+    }
 
     public int getApproved() {
         return approved;
