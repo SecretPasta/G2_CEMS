@@ -37,6 +37,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Label;
@@ -373,26 +374,7 @@ public class LecturerDashboardFrameController implements Initializable{
         addData("85-89", 0);		
         addData("90-94", 0);
         addData("95-100", 0);
-        barChart_ShowReport.getData().addAll(series1);
-        /*
-	    series1.getData().add(new XYChart.Data<>("55-64", 0));
-	    displayLabelForData(series1.getData().get(1));
-	    series1.getData().add(new XYChart.Data<>("65-69", 0));
-	    displayLabelForData(series1.getData().get(2));
-	    series1.getData().add(new XYChart.Data<>("70-74", 0));
-	    displayLabelForData(series1.getData().get(3));
-	    series1.getData().add(new XYChart.Data<>("75-79", 0));
-	    displayLabelForData(series1.getData().get(4));
-	    series1.getData().add(new XYChart.Data<>("80-84", 0));
-	    displayLabelForData(series1.getData().get(5));
-	    series1.getData().add(new XYChart.Data<>("85-89", 0));
-	    displayLabelForData(series1.getData().get(6));
-	    series1.getData().add(new XYChart.Data<>("90-94", 0));
-	    displayLabelForData(series1.getData().get(7));
-	    series1.getData().add(new XYChart.Data<>("95-100", 0));
-	    displayLabelForData(series1.getData().get(8));
-	    barChart_ShowReport.getData().addAll(series1);
-	    */
+        barChart_ShowReport.getData().add(series1);
 		// -------------- END ShowReport PANEL --------------
 
 	}
@@ -1109,74 +1091,96 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- ShowReport PANEL --------------
 	@FXML
 	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
-		
-		for(int i = 0; i < series1.getData().size();i++) {
-			
-			Random random = new Random();
+		int maxBarValue = 0;
+		int barValue = 0;	//barValue - amount of students in the specified range
+		Random random = new Random();
+		for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
 			switch (i) {
 			case 0:
-				series1.getData().get(i).setYValue(random.nextInt(150));
-				displayLabelForData(series1.getData().get(i));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//0-54.9
 				break;
 			case 1:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//55-64
 				break;
 			case 2:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//65-69
 				break;
 			case 3:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//70-74
 				break;
 			case 4:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//75-79
 				break;
 			case 5:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//80-84
 				break;
 			case 6:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//85-89
 				break;
 			case 7:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//90-94
 				break;
 			case 8:
-				series1.getData().get(i).setYValue(random.nextInt(150));
+				barValue = random.nextInt(150);
+				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+				series1.getData().get(i).setYValue(barValue);					//95-100
 				break;
 			default:
 				break;
 			}
 		}
+        
+        // Set the upper bound of the Y-axis
+		ValueAxis<Number> yAxis = (ValueAxis<Number>) barChart_ShowReport.getYAxis();
+		int upperBound =  (int) (maxBarValue * 1.1);
+		yAxis.setUpperBound(upperBound);
 	}
 	
+	
 	private void displayLabelForData(Data<String, Number> data) {
-		  final Node node = data.getNode();
-		  final Text dataText = new Text(data.getYValue() + "");
-		  node.parentProperty().addListener(new ChangeListener<Parent>() {
-			  
-		    @Override 
-		    public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
-		      Group parentGroup = (Group) parent;
-		      parentGroup.getChildren().add(dataText);
-		    }
-		  });
+	    final Node node = data.getNode();
+	    final Text dataText = new Text(data.getYValue().toString());
+	    
+	    node.parentProperty().addListener(new ChangeListener<Parent>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+	            Group parentGroup = (Group) parent;
+	            parentGroup.getChildren().add(dataText);
+	        }
+	    });
 
-		  node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
-			  
-		    @Override 
-		    public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
-		      dataText.setLayoutX(
-		        Math.round(
-		          bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
-		        )
-		      );
-		      dataText.setLayoutY(
-		        Math.round(
-		          bounds.getMinY() - dataText.prefHeight(-1) * 0.5
-		        )
-		      );
-		    }
-		  });
-		}
+	    node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+	            dataText.setLayoutX(Math.round(bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
+	            dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
+	        }
+	    });
+
+	    // Add a listener to the data property
+	    data.YValueProperty().addListener(new ChangeListener<Number>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+	            dataText.setText(newValue.toString()); // Update the text when the data changes
+	        }
+	    });
+	}
 	
 	private void addData(String range, int amount) {
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(range, amount);

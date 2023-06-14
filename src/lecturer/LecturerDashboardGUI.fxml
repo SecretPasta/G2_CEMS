@@ -214,7 +214,6 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
             <Pane fx:id="pnlManageQuestions" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@LecturerDashboard.css">
                <children>
                   <Label layoutX="57.0" layoutY="25.0" text="Manage Questions" textFill="#242633">
@@ -480,11 +479,12 @@
                       <CategoryAxis prefHeight="25.0" prefWidth="671.0" side="BOTTOM" style="-fx-gap-start-and-end: true; -fx-tick-label-fill: #242633; -fx-tick-mark-visible: false;" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="LEFT" style="-fx-tick-label-fill: #242633;" />
+                      <NumberAxis autoRanging="false" minorTickCount="0" side="LEFT" style="-fx-tick-label-fill: #242633; -fx-minor-tick-visible: false;" tickLabelGap="5.0" tickUnit="10.0" />
                     </yAxis>
                   </BarChart>
                </children>
             </Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
          </children>
       </StackPane>
    </children>
