@@ -473,6 +473,15 @@ public class MessageHandler_Server {
 						
 						// send message to student with lecturer name and exam id and course name of exam
 						break;
+						
+					case "GetAllInfoOfFinishedExamForLecturer":
+						// 1 - lecturer ID
+						
+						ArrayList<StudentGrade> finishedexams_grades_forlecturer = new ArrayList<>();
+						finishedexams_grades_forlecturer.add(new StudentGrade("Load all finished exams grades and info for lecturer", null, null, null, 0));
+						finishedexams_grades_forlecturer.addAll(DBController.getFinishedExamsInfoByAuthorID(arrayListStr.get(1)));
+						client.sendToClient(finishedexams_grades_forlecturer);
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {

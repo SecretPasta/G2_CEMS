@@ -438,9 +438,9 @@
                <children>
                   <HBox layoutX="27.0" layoutY="65.0" prefHeight="40.0" prefWidth="744.0" spacing="30.0">
                      <children>
-                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." unFocusColor="#242633" />
-                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." unFocusColor="#242633" />
-                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="examSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Select exam..." unFocusColor="#242633" />
+                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" onAction="#getBtnSubjectSelect" promptText="Select subject..." unFocusColor="#242633" />
+                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" onAction="#getBtnCourseSelect" promptText="Select course..." unFocusColor="#242633" />
+                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="examSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Select exam..." unFocusColor="#242633" />
                         <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show" textFill="#242633" />
                      </children>
                   </HBox>

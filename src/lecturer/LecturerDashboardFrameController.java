@@ -3,6 +3,8 @@ package lecturer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -20,6 +22,7 @@ import Config.Exam;
 import Config.Lecturer;
 import Config.Question;
 import Config.QuestionInExam;
+import Config.StudentGrade;
 import client.ClientUI;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
@@ -364,6 +367,12 @@ public class LecturerDashboardFrameController implements Initializable{
 		// -------------- END CheckExam PANEL --------------
 
 		// -------------- ShowReport PANEL --------------
+			
+		
+		for(Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
+			subjectSelectBox_ShowReport.getItems().add(entry.getKey());
+		}
+		
 		series1 = new XYChart.Series<>();
 		addData("0-54.9", 0);
 		addData("55-64", 0);
@@ -1089,67 +1098,173 @@ public class LecturerDashboardFrameController implements Initializable{
 	// -------------- END CheckExam PANEL --------------
 	
 	// -------------- ShowReport PANEL --------------
+	
 	@FXML
-	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
-		int maxBarValue = 0;
-		int barValue = 0;	//barValue - amount of students in the specified range
-		Random random = new Random();
-		for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
-			switch (i) {
-			case 0:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//0-54.9
-				break;
-			case 1:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//55-64
-				break;
-			case 2:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//65-69
-				break;
-			case 3:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//70-74
-				break;
-			case 4:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//75-79
-				break;
-			case 5:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//80-84
-				break;
-			case 6:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//85-89
-				break;
-			case 7:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//90-94
-				break;
-			case 8:
-				barValue = random.nextInt(150);
-				maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-				series1.getData().get(i).setYValue(barValue);					//95-100
-				break;
-			default:
-				break;
+	public void getBtnSubjectSelect(ActionEvent event) throws Exception {
+		courseSelectBox_ShowReport.getItems().clear();
+
+	    // Retrieve the selected subject from the subject selection box
+	    String selectedSubject = subjectSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+
+	    // Iterate through the subjects and courses map of the lecturer
+	    for (Map.Entry<String, ArrayList<String>> entry : lecturer.getLecturerSubjectsAndCourses().entrySet()) {
+	        if (selectedSubject != null && selectedSubject.equals(entry.getKey())) {
+	            // Add the courses corresponding to the selected subject to the course selection box
+	            courseSelectBox_ShowReport.getItems().setAll(entry.getValue());
+	            examSelectBox_ShowReport.getItems().clear();
+	            break;
+	        }
+	    }    
+
+	}
+	
+	@FXML
+	public void getBtnCourseSelect(ActionEvent event) throws Exception {
+
+	    // Retrieve the selected subject from the subject selection box
+	    String selectedSubject = subjectSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+	    String selectedCourse = courseSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+	    examSelectBox_ShowReport.getItems().clear();
+	    
+	    for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
+	    	if(selectedSubject != null && selectedCourse != null && studentGrade.getCourse().equals(getCourseIdByName(selectedCourse))
+	    			&& studentGrade.getSubject().equals(getSubjectIdByName(selectedSubject))) {
+	    		if(!examSelectBox_ShowReport.getItems().contains(studentGrade.getExamID()))
+	    			examSelectBox_ShowReport.getItems().add(studentGrade.getExamID());
+	    	
+	    	}
+	    }
+
+	}
+	
+	public void getStudentsGradesOfLecturer() {
+		ArrayList<String> getstudentsgrades_arr = new ArrayList<>();
+		getstudentsgrades_arr.add("GetAllInfoOfFinishedExamForLecturer");
+		getstudentsgrades_arr.add(lecturer.getId());
+		ClientUI.chat.accept(getstudentsgrades_arr);
+	}
+	
+	public static void loadStudentsGradesOfLecturer(ArrayList<StudentGrade> studentGrade) {
+		lecturer.setStudentsGrades(studentGrade);
+	}
+	
+	public int getAmountStudentsGradesByRange(double min, double max) {
+		int examCounter = 0;
+		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+		for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
+			if(studentGrade.getExamID().equals(selectedExamID) && studentGrade.getGrade() >= min && studentGrade.getGrade() <= max) {
+				examCounter ++;
 			}
 		}
-        
-        // Set the upper bound of the Y-axis
-		ValueAxis<Number> yAxis = (ValueAxis<Number>) barChart_ShowReport.getYAxis();
-		int upperBound =  (int) (maxBarValue * 1.1);
-		yAxis.setUpperBound(upperBound);
+		return examCounter;
+	}
+	
+	@SuppressWarnings("null")
+	public void set_Average_Median_ByExamID(String examID){
+
+		ArrayList<Double> grades = new ArrayList<>();
+		int examCounter = 0;
+		double sumGrades = 0;
+		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+		for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
+			if(studentGrade.getExamID().equals(selectedExamID)) {
+				examCounter ++;
+				sumGrades += studentGrade.getGrade();
+				grades.add(studentGrade.getGrade());
+			}
+		}
+		
+		lblAverage.setText(Double.toString(sumGrades / examCounter));
+		
+		Collections.sort(grades);
+
+		int n = grades.size();
+		
+        if (n % 2 == 1) {  // odd number of grades
+        	lblMedian.setText(Double.toString(grades.get(n / 2)));
+        } else {  // even number of grades
+            int middleRight = n / 2;
+            int middleLeft = middleRight - 1;
+            lblMedian.setText(Double.toString((grades.get(middleLeft) + grades.get(middleRight)) / 2.0));
+        }
+		
+	}
+	
+	
+	@FXML
+	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
+		try {
+			String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+			set_Average_Median_ByExamID(selectedExamID);
+			if(selectedExamID == null || selectedExamID.equals("")) {
+				displayErrorMessage("[Error] you have to choose an exam first");
+			}
+			
+			else {
+				int maxBarValue = 0;
+				int barValue = 0;	//barValue - amount of students in the specified range
+		
+				for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
+					switch (i) {
+					case 0:
+						barValue = getAmountStudentsGradesByRange(0.0, 54.9);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//0-54.9
+						break;
+					case 1:
+						barValue = getAmountStudentsGradesByRange(55.0, 64.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//55-64
+						break;
+					case 2:
+						barValue = getAmountStudentsGradesByRange(65.0, 69.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//65-69
+						break;
+					case 3:
+						barValue = getAmountStudentsGradesByRange(70.0, 74.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//70-74
+						break;
+					case 4:
+						barValue = getAmountStudentsGradesByRange(75.0, 79.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//75-79
+						break;
+					case 5:
+						barValue = getAmountStudentsGradesByRange(80.0, 84.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//80-84
+						break;
+					case 6:
+						barValue = getAmountStudentsGradesByRange(85.0, 89.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//85-89
+						break;
+					case 7:
+						barValue = getAmountStudentsGradesByRange(90.0, 94.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//90-94
+						break;
+					case 8:
+						barValue = getAmountStudentsGradesByRange(95.0, 100.0);
+						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+						series1.getData().get(i).setYValue(barValue);					//95-100
+						break;
+					default:
+						break;
+					}
+				}
+	
+	        
+		        // Set the upper bound of the Y-axis
+				ValueAxis<Number> yAxis = (ValueAxis<Number>) barChart_ShowReport.getYAxis();
+				int upperBound =  (int) (maxBarValue * 1.1);
+				yAxis.setUpperBound(upperBound);
+			}
+		}catch (Exception e) {
+			displayErrorMessage("[Error] you have to choose exam before searching");
+		}
 	}
 	
 	
@@ -1392,6 +1507,9 @@ public class LecturerDashboardFrameController implements Initializable{
 		
 	    if (actionEvent.getSource() == btnShowReport) {
 	    	handleAnimation(pnlShowReport, btnShowReport);
+			lblAverage.setText("");
+			lblMedian.setText("");
+	    	getStudentsGradesOfLecturer();
 	        pnlShowReport.toFront();
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	

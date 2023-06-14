@@ -7,6 +7,7 @@ import java.util.Map;
 public class Lecturer extends User{
 	
 	private Map<String, ArrayList<String>> subjectsCoursesMap = new HashMap<>(); // map for subjects and courses for the lecturer	
+	private ArrayList<StudentGrade> studentGrades;
 
     // Constructor to initialize the Lecturer object with attribute values
     public Lecturer(String id, String username, String password, String name, String email) {
@@ -28,5 +29,13 @@ public class Lecturer extends User{
     public void setLecturerSubjectsAndCourses(Map<String, ArrayList<String>> subjectsCoursesMap){
     	this.subjectsCoursesMap = subjectsCoursesMap;	 	
     }
+
+	public void setStudentsGrades(ArrayList<StudentGrade> studentGrades) {
+		this.studentGrades = studentGrades;
+	}
+	
+	public ArrayList<StudentGrade> getStudentsGrades() {
+		return studentGrades;
+	}
     
 }

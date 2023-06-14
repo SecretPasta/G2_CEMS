@@ -430,6 +430,11 @@ public class MessageHandler_Client {
 				grades.remove(0);
 				StudentDashboardFrameController.getInstance().loadStudentGradesIntoTable(grades);
 				break;
+				
+			case "Load all finished exams grades and info for lecturer":
+				grades.remove(0);
+				LecturerDashboardFrameController.loadStudentsGradesOfLecturer(grades);
+				break;
 		}
 
 	}
