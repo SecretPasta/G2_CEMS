@@ -133,7 +133,10 @@ public class StudentDashboardFrameController implements Initializable{
     private Exam selectedExam;
 
     @FXML
-    private TextField txtExamCode;
+    private TextField txtComputerizedExamCode;
+
+    @FXML
+    private TextField txtComputerizedExamStudentId;
 
     @FXML
     private JFXButton refreshComputerizedExams;
@@ -221,8 +224,10 @@ public class StudentDashboardFrameController implements Initializable{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){
             displayErrorMessage("Error: no Exam has been Selected!");
-        } else if (!selectedExam.getCode().equals(txtExamCode.getText())) {
+        } else if (!selectedExam.getCode().equals(txtComputerizedExamCode.getText())) {
             displayErrorMessage("Error: Incorrect Code!");
+        } else if (!student.getId().equals(txtComputerizedExamStudentId.getText())) {
+            displayErrorMessage("Error : Incorrect ID!");
         } else{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
