@@ -508,6 +508,7 @@ public class MessageHandler_Server {
 
 						if(values1.get(0) == (values1.get(1) + values1.get(2))){
 							//Got to DB and set the exam to closed state, '2' and save participants for statistics
+							DBController.saveExamStatisticsToDB(arrayListStr.get(1),arrayListStr.get(2),values1.get(0),values1.get(1),values1.get(2));
 							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
 						}
 						System.out.println(undergoingExams);
@@ -521,6 +522,7 @@ public class MessageHandler_Server {
 
 						if(values2.get(0) == (values2.get(1) + values2.get(2))){
 							//Got to DB and set the exam to closed state, '2' and save participants for statistics
+							DBController.saveExamStatisticsToDB(arrayListStr.get(1),arrayListStr.get(2),values2.get(0),values2.get(1),values2.get(2));
 							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
 						}
 						System.out.println(undergoingExams);

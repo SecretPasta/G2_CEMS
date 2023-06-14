@@ -2,6 +2,8 @@ package JDBC;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -1035,6 +1037,45 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 			e.printStackTrace();
 		}
 		return examInfo_arr;	
+	}
+
+	public static void saveExamStatisticsToDB(String examID, String actualDuration, int totalStudents, int completedStudents, int incompletedStudents) {
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				// Retrieve the duration from the exams table
+				String durationQuery = "SELECT duration FROM exams WHERE ID = ?";
+				PreparedStatement durationPs = mysqlConnection.getConnection().prepareStatement(durationQuery);
+				durationPs.setString(1, examID);
+				ResultSet durationResult = durationPs.executeQuery();
+				int duration = 0;
+				if (durationResult.next()) {
+					duration = durationResult.getInt("duration");
+				}
+
+				// Insert values into examparticipation table
+				String insertQuery = "INSERT INTO examparticipation (examID, date, duration, actualDuration, totalStudents, completedStudents, incompletedStudents) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement insertPs = mysqlConnection.getConnection().prepareStatement(insertQuery);
+				insertPs.setString(1, examID);
+
+				// Format the date as DD/MM/YYYY
+				LocalDate currentDate = LocalDate.now();
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				String formattedDate = currentDate.format(dateFormatter);
+
+				insertPs.setString(2, formattedDate);
+				insertPs.setInt(3, duration);
+				insertPs.setInt(4, Integer.parseInt(actualDuration));
+				insertPs.setInt(5, totalStudents);
+				insertPs.setInt(6, completedStudents);
+				insertPs.setInt(7, incompletedStudents);
+				insertPs.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

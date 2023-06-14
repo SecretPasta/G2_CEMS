@@ -5,11 +5,13 @@ public class ExamTimer extends Thread {
     private boolean stopTimer;
     private ComputerizedExamController instance;
     private int totalSeconds;
+    private int elapsedSeconds;
 
     public ExamTimer(int minutes, ComputerizedExamController instance) {
         this.minutes = minutes;
         this.stopTimer = false;
         this.instance = instance;
+        this.elapsedSeconds = 0;
     }
 
     @Override
@@ -32,6 +34,7 @@ public class ExamTimer extends Thread {
             }
 
             totalSeconds--;
+            elapsedSeconds++;
         }
         if(totalSeconds <= 0){
             timesUp();
@@ -46,6 +49,10 @@ public class ExamTimer extends Thread {
 
     public void updateTimer(int minutes){
         totalSeconds = minutes * 60;
+    }
+
+    public int getElapsedMinutes(){
+        return (int) (elapsedSeconds/60);
     }
 
     //method to set the time in the timer label
