@@ -90,9 +90,8 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 				infoOfRequest_Arr.add(hod_name_id[1]);
 				ClientUI.chat.accept(infoOfRequest_Arr);
 				
-				System.out.println("Request for changing the time of the exam sent succesfuly to the head of department!"); // succees
-				
-				getBtnBack(event);
+				((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+				LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(true); // true if request sent
 
 
 			} catch (NumberFormatException e) {
@@ -104,7 +103,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	
 	public void getBtnBack(ActionEvent event) throws Exception {
 		((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
-		LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime();
+		LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(false); // false when press back (request was not sent)
 	}
 
 

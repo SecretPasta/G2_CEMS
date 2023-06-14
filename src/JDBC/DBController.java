@@ -1010,6 +1010,31 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		
 	}
+	
+	public static ArrayList<StudentGrade> getFinishedExamsInfoByAuthorID(String authorID){ // get finished exams info that checked and ended for statics
+		
+		String query = "SELECT E.ID, FE.grade, E.subjectID, E.courseID FROM finishedexam FE "
+	             + "JOIN exams E ON E.ID = FE.examID "
+	             + "WHERE E.authorID = ? AND FE.approved = 1 E.isActive = 2";
+		
+		ArrayList<StudentGrade> examInfo_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, authorID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	examInfo_arr.add(new StudentGrade(rs.getString(1), rs.getString(4), rs.getString(3), null, rs.getDouble(2)));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return examInfo_arr;	
+	}
 
 }
 

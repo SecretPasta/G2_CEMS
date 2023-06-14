@@ -30,8 +30,6 @@ public class EditQuestionFrameController implements Initializable {
 	@FXML
 	private Label lblAuthorInfo;
 	@FXML
-	private Label lblMessage;
-	@FXML
 	private Label txtQuestionID;
 	@FXML
 	private Label txtSubject;
@@ -109,8 +107,11 @@ public class EditQuestionFrameController implements Initializable {
 	    
 	    // When getting back, update the edited question in the question's lecturer table in the dashboard screen
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
-	    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-	    		questionSelected.getId(), questionText);
+	    
+		    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
+		    		questionSelected.getId(), questionText, false);
+	    
+
 	}
 	
 
@@ -127,9 +128,7 @@ public class EditQuestionFrameController implements Initializable {
 			if(txtQuestionText.getText().trim().equals("") || 
 				txtAnswerCorrect.getText().trim().equals("") || txtAnswerWrong1.getText().trim().equals("") || 
 				txtAnswerWrong2.getText().trim().equals("") || txtAnswerWrong3.getText().trim().equals("")) {
-			
-		        lblMessage.setTextFill(Color.rgb(0, 102, 0));
-		        lblMessage.setText("[Error] Missing fields");
+				throw new NullPointerException();
 		        
 			} else {
 				
@@ -146,13 +145,16 @@ public class EditQuestionFrameController implements Initializable {
 		        
 		        questionText = txtQuestionText.getText();
 		        
-		        getBackbtn(event);
+			    ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
+				LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
+						questionSelected.getId(), questionText, true);
 		        
 			}
 	    
 		}catch (NullPointerException e) {
-	        lblMessage.setTextFill(Color.color(1, 0, 0));
-	        lblMessage.setText("[Error] Missing fields");	
+			
+			// displayErrorMessage("[Error] Missing fields");
+
 	
 		}
 	}

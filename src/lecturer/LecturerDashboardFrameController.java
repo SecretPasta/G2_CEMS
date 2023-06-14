@@ -424,7 +424,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param edited_QuestionText The updated text of the edited question.
 	 * @throws IOException If an I/O error occurs while showing the dashboard.
 	 */
-	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText) throws IOException {
+	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, boolean questionUpdated) throws IOException {
 	    // Update the edited question in the table of the lecturer questions
 	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
 	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
@@ -440,6 +440,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	
 	    // Clear the selection in the questions table
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
+	    
+	    if(questionUpdated) {
+	    	displaySuccessMessage("Question " + edited_QuestionID + " was updated succesfully");
+	    }
 	}
 
 	
@@ -1019,13 +1023,17 @@ public class LecturerDashboardFrameController implements Initializable{
 	    activeExamSelected = null;
 	}
 	
-	public void showDashboardFrom_ChangeTime() throws IOException {
+	public void showDashboardFrom_ChangeTime(boolean requestSent) throws IOException {
 	    // Show the current stage
 	    currStage.show();
 
 	    // Clear the selection in the exam tables
 	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
+	    if(requestSent) {
+	    	displaySuccessMessage("Request for changing the time of the exam sent succesfuly to the head of department!");
+	    }    
+	    
 	}
 
 	
