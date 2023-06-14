@@ -164,14 +164,22 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
                         exams1 = new ArrayList<>();
                         examsWithSameAnswers.put(exam1, exams1);
                     }
-                    exams1.add(exam2);
+                    if(examsWithSameAnswers.containsKey(exam2)) {
+                    	exams1.add(exam2);
+                    }
+                    	
+                    	
+                    
+                    
 
                     ArrayList<FinishedExam> exams2 = examsWithSameAnswers.get(exam2);
                     if (exams2 == null) {
                         exams2 = new ArrayList<>();
                         examsWithSameAnswers.put(exam2, exams2);
                     }
-                    exams2.add(exam1);
+                    if(examsWithSameAnswers.containsKey(exam1)) {
+                    	exams2.add(exam1);
+                    }
                 }
             }
         }
@@ -190,7 +198,10 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
             	modified_cheater.append("                              ");
             	modified_cheater.append(examcpy.getStudentID());
             }
-            cheaters_list.add(modified_cheater.toString());
+            if(!entry.getValue().isEmpty()) {
+            	cheaters_list.add(modified_cheater.toString());
+            }
+            
 
         }	
         
