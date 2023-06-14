@@ -9,7 +9,6 @@ public class FinishedExam extends Exam implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
     private String studentID;
-    private String lecturer;
     private double grade;
     private int approved;
     private int checkExam;
@@ -17,8 +16,8 @@ public class FinishedExam extends Exam implements Serializable {
 
 
     
-    public FinishedExam(String examID,String lecturer ,String studentID, double grade, String answers){
-    	super(examID, null, null, null, null, null, null, null, 0, lecturer, null, null);
+    public FinishedExam(String examID,String author ,String studentID, double grade, String answers){
+    	super(examID, null, null, null, null, null, null, null, 0, author, null, null);
         this.studentID = studentID;
         this.grade = grade;
         this.answers = answers;
@@ -50,10 +49,6 @@ public class FinishedExam extends Exam implements Serializable {
         return answers;
     }
 
-    public String getLecturer() {
-        return lecturer;
-    }
-
     public void approveGrade(){
         this.grade = 1;
     }
@@ -66,7 +61,7 @@ public class FinishedExam extends Exam implements Serializable {
         return "FinishedExam{" +
                 "examID='" + getExamID() + '\'' +
                 ", studentID='" + studentID + '\'' +
-                ", lecturer='" + lecturer + '\'' +
+                ", author='" + getAuthor() + '\'' +
                 ", grade=" + grade +
                 ", approved=" + approved +
                 ", checkExam=" + checkExam +

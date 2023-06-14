@@ -872,7 +872,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 				ps.setString(1, finishedExam.getExamID());
 				ps.setString(2, finishedExam.getStudentID());
 				ps.setString(3, finishedExam.getAnswers());
-				ps.setString(4, finishedExam.getLecturer());
+				ps.setString(4, finishedExam.getAuthor());
 				ps.setDouble(5, finishedExam.getGrade());
 				ps.setInt(6, finishedExam.getApproved());
 				ps.setInt(7, finishedExam.getCheckExam());
