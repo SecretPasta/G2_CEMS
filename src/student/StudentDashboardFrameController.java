@@ -11,7 +11,6 @@ import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.FinishedExam;
 import Config.Student;
-import Config.StudentGrade;
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
@@ -138,23 +137,23 @@ public class StudentDashboardFrameController implements Initializable{
 
     // My Grades Screen ##############################################################
     @FXML
-    private TableView<StudentGrade> tableView_MyGrades = new TableView<>();
+    private TableView<FinishedExam> tableView_MyGrades = new TableView<>();
 
     @FXML
-    private TableColumn<StudentGrade, String> courseExamID_MyGrades;
+    private TableColumn<FinishedExam, String> courseExamID_MyGrades;
     @FXML
-    private TableColumn<StudentGrade,String> courseColumn_MyGrades;
+    private TableColumn<FinishedExam,String> courseColumn_MyGrades;
 
     @FXML
-    private TableColumn<StudentGrade,String> subjectColumn_MyGrades;
+    private TableColumn<FinishedExam,String> subjectColumn_MyGrades;
 
     @FXML
-    private TableColumn<StudentGrade,String> lecturerColumn_MyGrades;
+    private TableColumn<FinishedExam,String> lecturerColumn_MyGrades;
 
     @FXML
-    private TableColumn<StudentGrade, Double> gradeColumn_MyGrades;
+    private TableColumn<FinishedExam, Double> gradeColumn_MyGrades;
 
-    private ObservableList<StudentGrade> myGradesObservableList = FXCollections.observableArrayList();
+    private ObservableList<FinishedExam> myGradesObservableList = FXCollections.observableArrayList();
 
     @FXML
     private JFXSnackbar snackbar;
@@ -182,7 +181,7 @@ public class StudentDashboardFrameController implements Initializable{
         System.out.println(examList);
     }
 
-    public void loadStudentGradesIntoTable(ArrayList<StudentGrade> gradesList){
+    public void loadStudentGradesIntoTable(ArrayList<FinishedExam> gradesList){
         myGradesObservableList.setAll(gradesList);
         tableView_MyGrades.setItems(myGradesObservableList);
     }
@@ -263,11 +262,11 @@ public class StudentDashboardFrameController implements Initializable{
 
         //--------------------- Grades Screen ---------------------------------------------------------------------
         // Setting up the data for table
-        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("examID"));
-        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("course"));
-        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("subject"));
-        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,String>("lecturer"));
-        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<StudentGrade,Double>("grade"));
+        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("examID"));
+        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("courseName"));
+        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("subjectName"));
+        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("author"));
+        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,Double>("grade"));
         ArrayList<String> getGradesArr = new ArrayList<>();
         getGradesArr.add("getStudentGradesById");
         getGradesArr.add((student.getId()));

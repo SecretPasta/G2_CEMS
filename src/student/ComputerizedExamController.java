@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 import Config.Exam;
 import Config.FinishedExam;
@@ -16,8 +15,6 @@ import Config.Student;
 
 import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
@@ -28,30 +25,22 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class ComputerizedExamController implements Initializable{
 	
@@ -205,18 +194,32 @@ public class ComputerizedExamController implements Initializable{
 	}
 
 	//A method to notify the server when a student submitted an exam only when the student answered all the questions
-	private void notifyFinishedExam(){
+	private void notifyFinishedExam(int elapsedTime){
+		String time = "";
+		if(elapsedTime == -1){
+			time += Integer.toString(currentExam.getDuration());
+		}else{
+			time+=Integer.toString(elapsedTime);
+		}
 		ArrayList<String> notify = new ArrayList<>();
 		notify.add("notifyServerStudentFinishedExam");
 		notify.add(currentExam.getExamID());
+		notify.add(time);
 		ClientUI.chat.accept(notify);
 	}
 
 	//A method to notify the server when a student submitted an exam without all the answers
-	private void notifyNotFinishedExam(){
+	private void notifyNotFinishedExam(int elapsedTime){
+		String time = "";
+		if(elapsedTime == -1){
+			time += Integer.toString(currentExam.getDuration());
+		}else{
+			time+=Integer.toString(elapsedTime);
+		}
 		ArrayList<String> notify = new ArrayList<>();
 		notify.add("notifyServerStudentNotFinishedExam");
 		notify.add(currentExam.getExamID());
+		notify.add(time);
 		ClientUI.chat.accept(notify);
 	}
 
@@ -290,8 +293,9 @@ public class ComputerizedExamController implements Initializable{
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
-	        	  
+				int elapsedTime = -1;
 				 if(examTimer!= null){
+					 elapsedTime = examTimer.getElapsedMinutes();
 					 examTimer.stopTimer();
 				 }
 				double grade;
@@ -300,19 +304,19 @@ public class ComputerizedExamController implements Initializable{
 				ArrayList<String> answers = new ArrayList<>();
 				answers.addAll(getChosenAnswers());
 				if(answers.contains(" ")){
-					notifyNotFinishedExam();
+					notifyNotFinishedExam(elapsedTime);
 				}
 				else{
-					notifyFinishedExam();
+					notifyFinishedExam(elapsedTime);
 				}
 				String answerString = "";
 				for(String ans : answers)
 					answerString += (ans + "|");
 		
 				ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
-				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
+				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null, null, null));
 				FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
-						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
+						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1), null, null);
 				finishedExam.checkExam();
 				finishedExamsList.add(finishedExam);
 				System.out.println(finishedExam);

@@ -2,6 +2,8 @@ package JDBC;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -884,8 +886,8 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 	}
 
-	public static ArrayList<StudentGrade> getAllStudentGradesById(String studentID) {
-		ArrayList<StudentGrade> grades = new ArrayList<>();
+	public static ArrayList<FinishedExam> getAllStudentGradesById(String studentID) {
+		ArrayList<FinishedExam> grades = new ArrayList<>();
 		String query = "SELECT exams.ID, course.Name AS courseName, subjects.Name AS subjectName, exams.author, finishedexam.grade " +
 				"FROM exams " +
 				"JOIN finishedexam ON exams.ID = finishedexam.examID " +
@@ -906,7 +908,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					String subject = rs.getString("subjectName");
 					String lecturer = rs.getString("author");
 					double grade = rs.getDouble("grade");
-					grades.add(new StudentGrade(examID, course, subject, lecturer, grade));
+					grades.add(new FinishedExam(examID, lecturer, studentID, grade, null, subject, course));
 				}
 			}
 		} catch (SQLException e) {
@@ -974,7 +976,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(1, examID);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                	FinishedExam finishedExam = new FinishedExam(examID, rs.getString(4), rs.getString(2), rs.getDouble(5), rs.getString(3));
+	                	FinishedExam finishedExam = new FinishedExam(examID, rs.getString(4), rs.getString(2), rs.getDouble(5), rs.getString(3), null, null);
 	                	finishedexams_arr.add(finishedExam);
 	                }
 	            }
@@ -1011,13 +1013,13 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 	}
 	
-	public static ArrayList<StudentGrade> getFinishedExamsInfoByAuthorID(String authorID){ // get finished exams info that checked and ended for statics
+	public static ArrayList<FinishedExam> getFinishedExamsInfoByAuthorID(String authorID){ // get finished exams info that checked and ended for statics
 		
 		String query = "SELECT E.ID, FE.grade, E.subjectID, E.courseID FROM finishedexam FE "
 	             + "JOIN exams E ON E.ID = FE.examID "
 	             + "WHERE E.authorID = ? AND FE.approved = 1 AND E.isActive = ?";
 		
-		ArrayList<StudentGrade> examInfo_arr = new ArrayList<>();
+		ArrayList<FinishedExam> examInfo_arr = new ArrayList<>();
 		try {
 			if (mysqlConnection.getConnection() != null) {
 	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
@@ -1025,7 +1027,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(2, "2");
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                	examInfo_arr.add(new StudentGrade(rs.getString(1), rs.getString(4), rs.getString(3), null, rs.getDouble(2)));
+	                	examInfo_arr.add(new FinishedExam(rs.getString(1), null, null, rs.getDouble(2), null, rs.getString(3), rs.getString(4)));
 	                }
 	            }
 			}
@@ -1035,6 +1037,45 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 			e.printStackTrace();
 		}
 		return examInfo_arr;	
+	}
+
+	public static void saveExamStatisticsToDB(String examID, String actualDuration, int totalStudents, int completedStudents, int incompletedStudents) {
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				// Retrieve the duration from the exams table
+				String durationQuery = "SELECT duration FROM exams WHERE ID = ?";
+				PreparedStatement durationPs = mysqlConnection.getConnection().prepareStatement(durationQuery);
+				durationPs.setString(1, examID);
+				ResultSet durationResult = durationPs.executeQuery();
+				int duration = 0;
+				if (durationResult.next()) {
+					duration = durationResult.getInt("duration");
+				}
+
+				// Insert values into examparticipation table
+				String insertQuery = "INSERT INTO examparticipation (examID, date, duration, actualDuration, totalStudents, completedStudents, incompletedStudents) "
+						+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement insertPs = mysqlConnection.getConnection().prepareStatement(insertQuery);
+				insertPs.setString(1, examID);
+
+				// Format the date as DD/MM/YYYY
+				LocalDate currentDate = LocalDate.now();
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				String formattedDate = currentDate.format(dateFormatter);
+
+				insertPs.setString(2, formattedDate);
+				insertPs.setInt(3, duration);
+				insertPs.setInt(4, Integer.parseInt(actualDuration));
+				insertPs.setInt(5, totalStudents);
+				insertPs.setInt(6, completedStudents);
+				insertPs.setInt(7, incompletedStudents);
+				insertPs.executeUpdate();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

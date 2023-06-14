@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `cemsdatabase`;
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -118,6 +116,35 @@ LOCK TABLES `department` WRITE;
 /*!40000 ALTER TABLE `department` DISABLE KEYS */;
 INSERT INTO `department` VALUES ('1','Information Systems Engineering'),('2','Software Engineering'),('3','Industrial Engineering'),('4','Mechanical Engineering'),('5','Optical Engineering'),('6','Civil Engineering'),('7','Biotechnology Engineering'),('8','Electrical Engineering'),('9','Applied Mathematics');
 /*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `examparticipation`
+--
+
+DROP TABLE IF EXISTS `examparticipation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `examparticipation` (
+  `examID` varchar(45) NOT NULL,
+  `date` varchar(45) DEFAULT NULL,
+  `duration` int DEFAULT NULL,
+  `actualDuration` int DEFAULT NULL,
+  `totalStudents` int DEFAULT NULL,
+  `completedStudents` int DEFAULT NULL,
+  `incompletedStudents` int DEFAULT NULL,
+  PRIMARY KEY (`examID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `examparticipation`
+--
+
+LOCK TABLES `examparticipation` WRITE;
+/*!40000 ALTER TABLE `examparticipation` DISABLE KEYS */;
+INSERT INTO `examparticipation` VALUES ('010104','14/06/2023',180,0,1,0,1);
+/*!40000 ALTER TABLE `examparticipation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -531,4 +558,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-13 13:43:16
+-- Dump completed on 2023-06-14 18:51:48

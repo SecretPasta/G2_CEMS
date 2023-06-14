@@ -1,13 +1,11 @@
 package handlers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import Config.*;
-import JDBC.DBController;
 import headofdepartment.HODDashboardFrameController;
 import lecturer.AddQuestionFrameController;
 import lecturer.CheckExam_ChooseStudentFrameController;
@@ -15,7 +13,6 @@ import lecturer.CheckExam_ReviewAndApproveFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import lecturer.ManageExam_ChangeTimeFrameController;
-import ocsf.server.ConnectionToClient;
 import ClientAndServerLogin.LoginFrameController;
 import student.ComputerizedExamController;
 import student.StudentDashboardFrameController;
@@ -59,9 +56,6 @@ public class MessageHandler_Client {
 			case ARRAY_LIST_FINISHED_EXAM:
 				handleFinishedExamArrayListValueMessage((ArrayList<FinishedExam>) msg);
 				break;
-			case ARRAY_LIST_STUDENT_GRADE:
-				handleStudentGradeArrayListValueMessage((ArrayList<StudentGrade>) msg);
-				break;
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;
@@ -96,8 +90,6 @@ public class MessageHandler_Client {
 					return MessageType.ARRAY_LIST_EXAM;
 				} else if (firstElement instanceof HeadOfDepartment) {
 					return MessageType.ARRAY_LIST_HOD;
-				} else if (firstElement instanceof StudentGrade) {
-					return MessageType.ARRAY_LIST_STUDENT_GRADE;
 				} else if (firstElement instanceof FinishedExam) {
 					return MessageType.ARRAY_LIST_FINISHED_EXAM;
 				}
@@ -421,23 +413,6 @@ public class MessageHandler_Client {
 	    	}
 		
 	}
-
-	private static void handleStudentGradeArrayListValueMessage(ArrayList<StudentGrade> grades){
-		System.out.println("Reached the handleStudentGradeArrayListValueMessage | ClientHandler");
-		String messageType = grades.get(0).getExamID();
-		switch (messageType){
-			case "studentGradesForClient":
-				grades.remove(0);
-				StudentDashboardFrameController.getInstance().loadStudentGradesIntoTable(grades);
-				break;
-				
-			case "Load all finished exams grades and info for lecturer":
-				grades.remove(0);
-				LecturerDashboardFrameController.loadStudentsGradesOfLecturer(grades);
-				break;
-		}
-
-	}
 	
 	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam){
 		//Handle ArrayList<FinishedExam> messages
@@ -451,6 +426,16 @@ public class MessageHandler_Client {
 					// 1 - finished exams array list
 					finishedExam.remove(0);
 					CheckExam_ChooseStudentFrameController.getInstance().loadAllFinishedExamsOfSelectedExam(finishedExam);
+					break;
+					
+				case "studentGradesForClient":
+					finishedExam.remove(0);
+					StudentDashboardFrameController.getInstance().loadStudentGradesIntoTable(finishedExam);
+					break;
+					
+				case "Load all finished exams grades and info for lecturer":
+					finishedExam.remove(0);
+					LecturerDashboardFrameController.loadStudentsGradesOfLecturer(finishedExam);
 					break;
 			}
 			

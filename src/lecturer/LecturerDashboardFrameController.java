@@ -19,10 +19,10 @@ import com.jfoenix.controls.JFXSnackbarLayout;
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
+import Config.FinishedExam;
 import Config.Lecturer;
 import Config.Question;
 import Config.QuestionInExam;
-import Config.StudentGrade;
 import client.ClientUI;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
@@ -1126,9 +1126,9 @@ public class LecturerDashboardFrameController implements Initializable{
 	    String selectedCourse = courseSelectBox_ShowReport.getSelectionModel().getSelectedItem();
 	    examSelectBox_ShowReport.getItems().clear();
 	    
-	    for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
-	    	if(selectedSubject != null && selectedCourse != null && studentGrade.getCourse().equals(getCourseIdByName(selectedCourse))
-	    			&& studentGrade.getSubject().equals(getSubjectIdByName(selectedSubject))) {
+	    for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
+	    	if(selectedSubject != null && selectedCourse != null && studentGrade.getCourseName().equals(getCourseIdByName(selectedCourse))
+	    			&& studentGrade.getSubjectName().equals(getSubjectIdByName(selectedSubject))) {
 	    		if(!examSelectBox_ShowReport.getItems().contains(studentGrade.getExamID()))
 	    			examSelectBox_ShowReport.getItems().add(studentGrade.getExamID());
 	    	
@@ -1144,14 +1144,14 @@ public class LecturerDashboardFrameController implements Initializable{
 		ClientUI.chat.accept(getstudentsgrades_arr);
 	}
 	
-	public static void loadStudentsGradesOfLecturer(ArrayList<StudentGrade> studentGrade) {
+	public static void loadStudentsGradesOfLecturer(ArrayList<FinishedExam> studentGrade) {
 		lecturer.setStudentsGrades(studentGrade);
 	}
 	
 	public int getAmountStudentsGradesByRange(double min, double max) {
 		int examCounter = 0;
 		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-		for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
+		for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
 			if(studentGrade.getExamID().equals(selectedExamID) && studentGrade.getGrade() >= min && studentGrade.getGrade() <= max) {
 				examCounter ++;
 			}
@@ -1166,7 +1166,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		int examCounter = 0;
 		double sumGrades = 0;
 		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-		for(StudentGrade studentGrade : lecturer.getStudentsGrades()) {
+		for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
 			if(studentGrade.getExamID().equals(selectedExamID)) {
 				examCounter ++;
 				sumGrades += studentGrade.getGrade();
