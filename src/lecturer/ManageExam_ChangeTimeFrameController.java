@@ -39,7 +39,6 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 
 	private static Exam exam;
 	private static Lecturer lecturer;
-	private String hodSelected;
 	
 	private static ManageExam_ChangeTimeFrameController instance;
 	
@@ -51,65 +50,87 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 		return instance;
 	}
 
+	/**
+	 * Starts the exam management process by opening the "Manage Exam" GUI.
+	 * 
+	 * @param temp_exam The exam to be managed.
+	 * @param temp_lecturer The lecturer managing the exam.
+	 * @throws IOException If an error occurs while loading the GUI.
+	 */
 	public static void start(Exam temp_exam, Lecturer temp_lecturer) throws IOException {
 	    exam = temp_exam; // save the exam
-	    lecturer = temp_lecturer;
+	    lecturer = temp_lecturer; // save the lecturer
 	    SceneManagment.createNewStage("/lecturer/ManageExam_ChangeTimeGUI.fxml", null, "Manage Exam").show();
 	}
+
 	
+	/**
+	 * Handles the event when the "Send Request" button is clicked.
+	 * 
+	 * @param event The event triggered by the button click.
+	 * @throws Exception If an error occurs during the request handling process.
+	 */
 	public void getBtnSendRequest(ActionEvent event) throws Exception {
-		
-		
-		
-		hodSelected = hodSelectBox.getSelectionModel().getSelectedItem();
-		
-		if(txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
-				|| hodSelected == null || hodSelected.equals("Please select Head Of Department")) {
-			System.out.println("[Error] Missing fields."); // error
-		}
-		else {
-			
-			String[] hod_name_id = hodSelected.split(" - ");
-			
-			try {
 
-			    int number = Integer.parseInt(txtExamDuration.getText());
-			    if(number <= 0) {
-			    	throw new NumberFormatException();
-			    }
-			
-				ArrayList<String> infoOfRequest_Arr = new ArrayList<>();
-				infoOfRequest_Arr.add("RequestToChangeAnExamDurationFromLecturerToHOD");
-				infoOfRequest_Arr.add(exam.getExamID());
-				infoOfRequest_Arr.add(exam.getSubjectName());
-				infoOfRequest_Arr.add(exam.getCourseName());
-				infoOfRequest_Arr.add(lecturer.getId());
-				infoOfRequest_Arr.add(lecturer.getName());
-				infoOfRequest_Arr.add(txtExplanationExamDurationChange.getText());
-				infoOfRequest_Arr.add(txtExamDuration.getText());
-				infoOfRequest_Arr.add(hod_name_id[1]);
-				ClientUI.chat.accept(infoOfRequest_Arr);
-				
-				((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
-				LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(true); // true if request sent
+	    String hodSelected = hodSelectBox.getSelectionModel().getSelectedItem();
+	    
+	    // Check if any required fields are missing
+	    if (txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
+	            || hodSelected == null || hodSelected.equals("Please select Head Of Department")) {
+	        System.out.println("[Error] Missing fields."); // error message
+	    } else {    
+	        try {
+	            // Parse the exam duration as an integer
+	            int number = Integer.parseInt(txtExamDuration.getText());
+	            if (number <= 0) {
+	                throw new NumberFormatException();
+	            }
+	            sendRequest(hodSelected); // send the request to hod
+	            
+	            ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+	            LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(true); // true if request sent
 
-
-			} catch (NumberFormatException e) {
-				System.out.println("only positives minutes"); // error
-			}
-		}	
-		
+	        } catch (NumberFormatException e) {
+	            System.out.println("only positives minutes"); // error message
+	        }
+	    }    
 	}
-	
+
+	/**
+	 * Sends a request to the selected Head of Department (HOD) to change the exam duration.
+	 * 
+	 * @param hodSelected The selected Head of Department.
+	 */
+	private void sendRequest(String hodSelected) {
+	    String[] hod_name_id = hodSelected.split(" - "); // the hods in the list as: "hod name - hod id"
+	    ArrayList<String> infoOfRequest_Arr = new ArrayList<>();
+	    infoOfRequest_Arr.add("RequestToChangeAnExamDurationFromLecturerToHOD");
+	    infoOfRequest_Arr.add(exam.getExamID());
+	    infoOfRequest_Arr.add(exam.getSubjectName());
+	    infoOfRequest_Arr.add(exam.getCourseName());
+	    infoOfRequest_Arr.add(lecturer.getId());
+	    infoOfRequest_Arr.add(lecturer.getName());
+	    infoOfRequest_Arr.add(txtExplanationExamDurationChange.getText());
+	    infoOfRequest_Arr.add(txtExamDuration.getText());
+	    infoOfRequest_Arr.add(hod_name_id[1]);
+	    ClientUI.chat.accept(infoOfRequest_Arr);
+	}
+
+
+	/**
+	 * Handles the event when the "Back" button is clicked.
+	 *
+	 * @param event The event triggered by the button click.
+	 * @throws Exception If an error occurs during the handling process.
+	 */
 	public void getBtnBack(ActionEvent event) throws Exception {
-		((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
-		LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(false); // false when press back (request was not sent)
+	    ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+	    LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(false); // false when press back (request was not sent)
 	}
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	hodSelected = null;
     	hodSelectBox.getItems().add("Please select Head Of Department");
     	
     	ArrayList<String> hod_arr = new ArrayList<>();
@@ -118,11 +139,17 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
     	ClientUI.chat.accept(hod_arr);
     }
     
-    public void loadHODsForLecturer(ArrayList<HeadOfDepartment> hod_arr){
-	    for (HeadOfDepartment hods : hod_arr) {
-	    		hodSelectBox.getItems().add(hods.toString());
-	    }
+    /**
+     * Loads the list of Head of Departments (HODs) for the lecturer.
+     *
+     * @param hod_arr The ArrayList of HeadOfDepartment objects.
+     */
+    public void loadHODsForLecturer(ArrayList<HeadOfDepartment> hod_arr) {
+        for (HeadOfDepartment hods : hod_arr) {
+            hodSelectBox.getItems().add(hods.toString());
+        }
     }
+
 
 
 }

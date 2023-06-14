@@ -39,8 +39,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	
 	private static String maxExamIdInCourse;
 
-	private ObservableList<RadioButton> checkBoxes;
-
 	private static Exam exam;
 
 	
@@ -63,7 +61,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
 
         Random random = new Random();
 
-        checkBoxes = FXCollections.observableArrayList();
 
         int i = 1; // numbering the questions
         for (QuestionInExam question : exam.getQuestions()) {
@@ -72,10 +69,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
             Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
 			questionLabel.setStyle("-fx-font-weight: bold");
             vbox.getChildren().add(questionLabel);
-
-			/*
-			 * ToggleGroup answers_group = new ToggleGroup();
-			 */
 
             // shuffling the answers
             int correctAnswer_place = 0; // Index of the correct answer in the list
@@ -87,10 +80,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
 			char answerLetter = 'a';
             // place the answers in the vbox
             for (String answer : question.getAnswers()) {
-				/*
-				 * RadioButton checkBox = new RadioButton(answer); checkBoxes.add(checkBox);
-				 * vbox.getChildren().add(checkBox); checkBox.setToggleGroup(answers_group);
-				 */
 				Label answerLabel = new Label("  " + answerLetter + ") " + answer);
 				vbox.getChildren().add(answerLabel);
 				answerLetter++;
