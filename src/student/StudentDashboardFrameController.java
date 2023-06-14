@@ -78,6 +78,8 @@ public class StudentDashboardFrameController implements Initializable{
     // Manual Exam Screen #####################################################
     @FXML
     private TableView<Exam> tableView_UpcomingManualExams = new TableView<>();
+    @FXML
+    private TableColumn<Exam,String> examIdColumn_ManualExams;
 
     @FXML
     private TableColumn<Exam,String> courseColumn_ManualExams;
@@ -104,6 +106,9 @@ public class StudentDashboardFrameController implements Initializable{
     // Computerized  Exam Screen #####################################################
     @FXML
     private TableView<Exam> tableView_UpcomingComputerizedExams = new TableView<>();
+
+    @FXML
+    private TableColumn<Exam,String> examIdColumn_ComputerizedExams;
 
     @FXML
     private TableColumn<Exam,String> courseColumn_ComputerizedExams;
@@ -240,6 +245,7 @@ public class StudentDashboardFrameController implements Initializable{
         //--------------------- Computerized Exam -----------------------------------------------------------------
         // Setting up the data for table
         // PropertyValueFactory<This is the Class Name,Variable type inside the class>("variable name"))
+        examIdColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("examID"));
         courseColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("courseName"));
         subjectColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("subjectName"));
         descriptionColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("commentsForStudent"));

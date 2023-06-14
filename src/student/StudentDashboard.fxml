@@ -177,37 +177,6 @@
                   </JFXButton>
                </children>
             </Pane>
-            <Pane fx:id="pnlManualExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="57.0" layoutY="25.0" prefHeight="35.0" prefWidth="293.0" text="Upcoming Manual Exams">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font></Label>
-                  <VBox layoutX="29.0" layoutY="78.0" prefHeight="345.0" prefWidth="735.0">
-                     <children>
-                        <TableView fx:id="tableView_UpcomingManualExams" prefHeight="400.0" prefWidth="735.0">
-                          <columns>
-                            <TableColumn fx:id="courseColumn_ManualExams" prefWidth="88.79998779296875" text="Course" />
-                            <TableColumn fx:id="subjectColumn_ManualExams" prefWidth="96.800048828125" text="Subject" />
-                              <TableColumn fx:id="descriptionColumn_ManualExams" prefWidth="312.8000183105469" text="Description " />
-                              <TableColumn fx:id="durationColumn_ManualExams" prefWidth="103.99993896484375" text="Duration" />
-                              <TableColumn fx:id="lecturerColumn_ManualExams" prefWidth="141.5999755859375" text="Lecturer" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </VBox>
-                  <JFXButton fx:id="btnStartManualExam" layoutX="302.0" layoutY="473.0" onAction="#getStartManualExamBtn" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Start Manual Exam" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlComputerizedExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <Label layoutX="57.0" layoutY="25.0" prefHeight="36.0" prefWidth="391.0" text="Upcoming Computerized Exams" textFill="#242633">
@@ -223,11 +192,12 @@
                      <children>
                         <TableView fx:id="tableView_UpcomingComputerizedExams" prefHeight="346.0" prefWidth="732.0">
                            <columns>
-                              <TableColumn fx:id="courseColumn_ComputerizedExams" prefWidth="89.60003662109375" text="Course" />
-                              <TableColumn fx:id="subjectColumn_ComputerizedExams" prefWidth="114.39996337890625" text="Subject" />
-                              <TableColumn fx:id="descriptionColumn_ComputerizedExams" prefWidth="280.8000793457031" text="Description " />
-                              <TableColumn fx:id="durationColumn_ComputerizedExams" prefWidth="104.79998779296875" text="Duration" />
-                              <TableColumn fx:id="lecturerColumn_ComputerizedExams" minWidth="3.20001220703125" prefWidth="140.79998779296875" text="Lecturer" />
+                              <TableColumn fx:id="examIdColumn_ComputerizedExams" prefWidth="65.0" text="ExamID" />
+                              <TableColumn fx:id="courseColumn_ComputerizedExams" prefWidth="130.0" text="Course" />
+                              <TableColumn fx:id="subjectColumn_ComputerizedExams" prefWidth="90.0" text="Subject" />
+                              <TableColumn fx:id="descriptionColumn_ComputerizedExams" prefWidth="250.0" text="Description " />
+                              <TableColumn fx:id="durationColumn_ComputerizedExams" prefWidth="75.0" text="Duration" />
+                              <TableColumn fx:id="lecturerColumn_ComputerizedExams" minWidth="3.20001220703125" prefWidth="120.0" text="Lecturer" />
                            </columns>
                         </TableView>
                      </children>
@@ -249,6 +219,38 @@
                   <JFXButton fx:id="refreshComputerizedExams" layoutX="538.0" layoutY="28.0" onAction="#getBtnRefreshComputerizedExams" text="Refresh" />
                </children>
             </Pane>
+            <Pane fx:id="pnlManualExam" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="57.0" layoutY="25.0" prefHeight="35.0" prefWidth="293.0" text="Upcoming Manual Exams">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font></Label>
+                  <VBox layoutX="29.0" layoutY="78.0" prefHeight="345.0" prefWidth="735.0">
+                     <children>
+                        <TableView fx:id="tableView_UpcomingManualExams" prefHeight="400.0" prefWidth="735.0">
+                          <columns>
+                              <TableColumn fx:id="examIdColumn_ManualExams" prefWidth="65.0" text="ExamID" />
+                            <TableColumn fx:id="courseColumn_ManualExams" prefWidth="130.0" text="Course" />
+                            <TableColumn fx:id="subjectColumn_ManualExams" prefWidth="90.0" text="Subject" />
+                              <TableColumn fx:id="descriptionColumn_ManualExams" prefWidth="250.0" text="Description " />
+                              <TableColumn fx:id="durationColumn_ManualExams" prefWidth="75.0" text="Duration" />
+                              <TableColumn fx:id="lecturerColumn_ManualExams" prefWidth="120.0" text="Lecturer" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <JFXButton fx:id="btnStartManualExam" layoutX="302.0" layoutY="473.0" onAction="#getStartManualExamBtn" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Start Manual Exam" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
             <Pane fx:id="pnlMyGrades" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -264,11 +266,11 @@
                      <children>
                         <TableView fx:id="tableView_MyGrades" prefHeight="450.0" prefWidth="735.0">
                            <columns>
-                              <TableColumn fx:id="courseExamID_MyGrades" prefWidth="104.0" text="ExamID" />
-                              <TableColumn fx:id="courseColumn_MyGrades" prefWidth="135.20004272460938" text="Course" />
-                              <TableColumn fx:id="subjectColumn_MyGrades" prefWidth="180.0" text="Subject" />
-                              <TableColumn fx:id="lecturerColumn_MyGrades" prefWidth="197.60009765625" text="Lecturer" />
-                              <TableColumn fx:id="gradeColumn_MyGrades" minWidth="0.0" prefWidth="118.39990234375" text="Grade" />
+                              <TableColumn fx:id="courseExamID_MyGrades" prefWidth="70.0" text="ExamID" />
+                              <TableColumn fx:id="courseColumn_MyGrades" prefWidth="200.0" text="Course" />
+                              <TableColumn fx:id="subjectColumn_MyGrades" prefWidth="250.0" text="Subject" />
+                              <TableColumn fx:id="lecturerColumn_MyGrades" prefWidth="130.0" text="Lecturer" />
+                              <TableColumn fx:id="gradeColumn_MyGrades" minWidth="0.0" text="Grade" />
                            </columns>
                         </TableView>
                      </children>
