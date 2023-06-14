@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -17,9 +22,91 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633;" stylesheets="@../student/StudentDashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headofdepartment.HODDashboardFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 0 0 30;" stylesheets="@../student/StudentDashboard.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headofdepartment.HODDashboardFrameController">
    <children>
-      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+      <Pane prefHeight="576.0" prefWidth="255.0" style="-fx-background-color: #242633; -fx-background-radius: 30 0 0 30;" stylesheets="@../lecturer/LecturerDashboard.css">
+         <children>
+            <Circle fill="#5dd299" layoutX="108.0" layoutY="60.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+            <Circle fill="#66a7f2" layoutX="86.0" layoutY="60.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+            <Label layoutX="129.0" layoutY="43.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="59.0" layoutY="487.0" onAction="#getLogoutBtn" prefHeight="36.0" prefWidth="144.0" ripplerFill="#242633" style="-fx-background-color: #FFC152; -fx-background-radius: 10 10 10 10;" text="Logout">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
+            <Circle fill="DODGERBLUE" layoutX="111.0" layoutY="539.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label layoutX="108.0" layoutY="531.0" text="?" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="123.0" layoutY="529.0" text="FAQ" textFill="#faf9f6">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox alignment="TOP_CENTER" layoutY="102.0" prefHeight="291.0" prefWidth="255.0" spacing="10.0">
+               <children>
+                  <Label fx:id="lbluserNameAndID" text="Label" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/User.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Label>
+                  <JFXButton fx:id="btnShowReport" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Show Report" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/ShowReport.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </JFXButton>
+                  <JFXButton fx:id="btnApproveTimeChange" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Time Change" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/ManageQuestions.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                  </JFXButton>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@../lecturer/LecturerDashboard.css">
          <children>
             <JFXSnackbar fx:id="snackbarError" />
             <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
@@ -57,17 +144,49 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
+                  <HBox layoutX="27.0" layoutY="65.0" prefHeight="40.0" prefWidth="744.0" spacing="30.0">
+                     <children>
+                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnSubjectSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." unFocusColor="#242633" />
+                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnCourseSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." unFocusColor="#242633" />
+                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
+                        <JFXButton id="btnSearch_CreateExam" fx:id="btnShow_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show" textFill="#242633" />
+                     </children>
+                  </HBox>
+                  <Label layoutX="27.0" layoutY="23.0" text="Show Report" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="47.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="100.0" text="Average Grade:" textFill="#242633" />
+                        <Label fx:id="lblAverage" prefHeight="20.0" prefWidth="100.0" text="Average Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="167.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="100.0" text="Median:" textFill="#242633" />
+                        <Label fx:id="lblMedian" prefHeight="20.0" prefWidth="100.0" text="Median Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <BarChart fx:id="barChart_ShowReport" layoutX="32.0" layoutY="161.0" prefHeight="388.0" prefWidth="735.0" style="-fx-alternative-column-fill-visible: false; -fx-alternative-row-fill-visible: false; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 2; -fx-border-color: #242633; -fx-padding: 10 0 0 0;">
+                     <xAxis>
+                        <CategoryAxis prefHeight="25.0" prefWidth="671.0" side="BOTTOM" style="-fx-gap-start-and-end: true; -fx-tick-label-fill: #242633; -fx-tick-mark-visible: false;" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis autoRanging="false" minorTickCount="0" side="LEFT" style="-fx-tick-label-fill: #242633; -fx-minor-tick-visible: false;" tickLabelGap="5.0" tickUnit="10.0" />
+                     </yAxis>
+                  </BarChart>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -82,98 +201,42 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="43.0" layoutY="55.0" prefHeight="255.0" prefWidth="674.0" />
-                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="431.0" layoutY="510.0" onAction="#getBtnAcceptRequest" text="Accept request" />
-                  <JFXButton id="btnRefresh" fx:id="btnRefresh" layoutX="114.0" layoutY="406.0" onAction="#getBtnRefresh" text="Refresh" />
-                  <JFXButton id="btnDenyRequest" layoutX="200.0" layoutY="510.0" onAction="#getBtnDenyRequest" text="Deny request" />
-                  <TextField id="txtMessageToWriteToLecturer" fx:id="txtMessageToWriteToLecturer" layoutX="217.0" layoutY="350.0" prefHeight="112.0" prefWidth="360.0" />
-                  <Label layoutX="340.0" layoutY="323.0" prefHeight="17.0" prefWidth="95.0" text="Write something:" />
+                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="51.0" layoutY="68.0" prefHeight="255.0" prefWidth="674.0" style="-fx-background-radius: 10;" />
+                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="47.0" layoutY="492.0" onAction="#getBtnAcceptRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Accept request" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="btnRefresh" fx:id="btnRefresh" layoutX="644.0" layoutY="333.0" onAction="#getBtnRefresh" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #242633; -fx-border-radius: 10;" text="Refresh" textFill="#242633" />
+                  <JFXButton id="btnDenyRequest" layoutX="537.0" layoutY="492.0" onAction="#getBtnDenyRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Deny request" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <TextField id="txtMessageToWriteToLecturer" fx:id="txtMessageToWriteToLecturer" alignment="TOP_LEFT" layoutX="47.0" layoutY="360.0" prefHeight="112.0" prefWidth="360.0" style="-fx-padding: 10;" />
+                  <Label layoutX="50.0" layoutY="333.0" prefHeight="17.0" prefWidth="226.0" text="Comments to Lecturer about Approve:" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="57.0" layoutY="25.0" text="Approve Time Change" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
                </children>
             </Pane>
          </children>
       </StackPane>
-      <Pane prefHeight="576.0" prefWidth="255.0" style="-fx-background-color: #242633;">
-         <children>
-            <Circle fill="#5dd299" layoutX="108.0" layoutY="60.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
-            <Circle fill="#66a7f2" layoutX="86.0" layoutY="60.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
-            <Label layoutX="129.0" layoutY="43.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <JFXButton buttonType="RAISED" layoutX="59.0" layoutY="487.0" onAction="#getLogoutBtn" prefHeight="36.0" prefWidth="144.0" ripplerFill="#242633" style="-fx-background-color: #FFC152; -fx-background-radius: 10 10 10 10;" text="Logout">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </JFXButton>
-            <Circle fill="DODGERBLUE" layoutX="111.0" layoutY="539.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label layoutX="108.0" layoutY="531.0" text="?" textFill="#faf9f6">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="123.0" layoutY="529.0" text="FAQ" textFill="#faf9f6">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-            <VBox alignment="TOP_CENTER" layoutY="102.0" prefHeight="291.0" prefWidth="255.0" spacing="10.0">
-               <children>
-                  <Label fx:id="lbluserNameAndID" text="Label" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="15.0" />
-                     </VBox.margin>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/User.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Label>
-                  <JFXButton fx:id="btnShowReport" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Show Report" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ShowReport.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="50.0" />
-                     </padding>
-                  </JFXButton>
-                  <JFXButton fx:id="btnApproveTimeChange" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#handleClicks" prefHeight="42.0" prefWidth="255.0" ripplerFill="#faf9f6" style="-fx-background-color: #242633;" text="Approve Change Time" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/ManageQuestions.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets left="50.0" />
-                     </padding>
-                  </JFXButton>
-               </children>
-            </VBox>
-         </children>
-      </Pane>
    </children>
    <effect>
       <DropShadow color="#1b1eeb" />

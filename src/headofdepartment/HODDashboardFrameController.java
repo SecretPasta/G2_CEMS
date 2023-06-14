@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
 import Config.HeadOfDepartment;
-import Config.Student;
 import client.ClientUI;
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
@@ -25,6 +25,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -34,6 +36,26 @@ import javafx.util.Duration;
 
 
 public class HODDashboardFrameController implements Initializable{
+
+	// -------------- Show Report PANEL --------------
+
+	@FXML
+	private JFXComboBox<String> subjectSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> courseSelectBox_ShowReport;
+	@FXML
+	private JFXComboBox<String> typeSelectBox_ShowReport;
+	@FXML
+	private JFXButton btnSearch_ShowReport;
+	@FXML
+	private Label lblAverage;
+	@FXML
+	private Label lblMedian;
+	@FXML
+	private BarChart<String, Number> barChart_ShowReport;
+	private XYChart.Series<String, Number> series1;
+
+	// -------------- END Show Report PANEL --------------
 
     @FXML
     private JFXButton btnApproveTimeChange;
@@ -229,6 +251,21 @@ public class HODDashboardFrameController implements Initializable{
             }
         });
     }
+
+	// -------------- Show Report PANEL --------------
+	@FXML
+	public void getBtnSubjectSelect() {
+	}
+
+	@FXML
+	public void getBtnCourseSelect() {
+	}
+
+	@FXML
+	public void getShowBtn_ShowReport() {
+	}
+
+	// -------------- END Show Report PANEL --------------
     
     public static void start(ArrayList<String> hodDetails) throws IOException {
 
