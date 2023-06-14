@@ -345,8 +345,8 @@ public class MessageHandler_Server {
 				    	break;
 				    	
 					case "getStudentGradesById":
-						ArrayList<StudentGrade> studentGrades = new ArrayList<>();
-						studentGrades.add(new StudentGrade("studentGradesForClient",null,null,null,0));
+						ArrayList<FinishedExam> studentGrades = new ArrayList<>();
+						studentGrades.add(new FinishedExam("studentGradesForClient",null,null,0,null, null, null));
 						studentGrades.addAll(DBController.getAllStudentGradesById(arrayListStr.get(1)));
 						client.sendToClient(studentGrades);
 						break;
@@ -427,7 +427,7 @@ public class MessageHandler_Server {
 					case "GetAllExamsByExamIDForLecturerForChecking":
 						// 1 - Exam ID
 						ArrayList<FinishedExam> studentsexamstocheck_arr = new ArrayList<>();
-						studentsexamstocheck_arr.add(new FinishedExam("LoadAllStudentsFinishedExamsToCheckForLecturer", null, null, 0, null));
+						studentsexamstocheck_arr.add(new FinishedExam("LoadAllStudentsFinishedExamsToCheckForLecturer", null, null, 0, null, null, null));
 						studentsexamstocheck_arr.addAll(DBController.getFinishedExamsByExamID(arrayListStr.get(1)));
 						client.sendToClient(studentsexamstocheck_arr);	
 						break;
@@ -477,8 +477,8 @@ public class MessageHandler_Server {
 					case "GetAllInfoOfFinishedExamForLecturer":
 						// 1 - lecturer ID
 						
-						ArrayList<StudentGrade> finishedexams_grades_forlecturer = new ArrayList<>();
-						finishedexams_grades_forlecturer.add(new StudentGrade("Load all finished exams grades and info for lecturer", null, null, null, 0));
+						ArrayList<FinishedExam> finishedexams_grades_forlecturer = new ArrayList<>();
+						finishedexams_grades_forlecturer.add(new FinishedExam("Load all finished exams grades and info for lecturer", null, null, 0, null, null, null));
 						finishedexams_grades_forlecturer.addAll(DBController.getFinishedExamsInfoByAuthorID(arrayListStr.get(1)));
 						client.sendToClient(finishedexams_grades_forlecturer);
 						break;

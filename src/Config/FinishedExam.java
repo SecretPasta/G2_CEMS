@@ -16,8 +16,8 @@ public class FinishedExam extends Exam implements Serializable {
 
 
     
-    public FinishedExam(String examID,String author ,String studentID, double grade, String answers){
-    	super(examID, null, null, null, null, null, null, null, 0, author, null, null);
+    public FinishedExam(String examID,String author ,String studentID, double grade, String answers, String subjectName, String courseName){
+    	super(examID, null, subjectName, null, courseName, null, null, null, 0, author, null, null);
         this.studentID = studentID;
         this.grade = grade;
         this.answers = answers;

@@ -278,9 +278,9 @@ public class ComputerizedExamController implements Initializable{
 					answerString += (ans + "|");
 		
 				ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
-				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null));
+				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null, null, null));
 				FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
-						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1) );
+						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1), null, null);
 				finishedExam.checkExam();
 				finishedExamsList.add(finishedExam);
 				System.out.println(finishedExam);
