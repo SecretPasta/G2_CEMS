@@ -2,6 +2,8 @@ package handlers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Config.*;
@@ -11,6 +13,10 @@ import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
 
 public class MessageHandler_Server {
+
+	private static HashMap<String, ArrayList<Integer>> undergoingExams = new HashMap<>();
+
+
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
@@ -481,6 +487,44 @@ public class MessageHandler_Server {
 						finishedexams_grades_forlecturer.add(new StudentGrade("Load all finished exams grades and info for lecturer", null, null, null, 0));
 						finishedexams_grades_forlecturer.addAll(DBController.getFinishedExamsInfoByAuthorID(arrayListStr.get(1)));
 						client.sendToClient(finishedexams_grades_forlecturer);
+						break;
+
+					case "notifyServerStudentBegunExam":
+
+						if(!undergoingExams.containsKey(arrayListStr.get(1))){
+							undergoingExams.put(arrayListStr.get(1),new ArrayList<Integer>(List.of(1,0,0)));
+						}else{
+							ArrayList<Integer> values = undergoingExams.get(arrayListStr.get(1));
+							values.set(0,values.get(0) + 1);
+						}
+						System.out.println(undergoingExams);
+						client.sendToClient("notifyServerStudentBegunExam - Received");
+						break;
+
+					case "notifyServerStudentFinishedExam":
+
+						ArrayList<Integer> values1 = undergoingExams.get(arrayListStr.get(1));
+						values1.set(1,values1.get(1) +1 );
+
+						if(values1.get(0) == (values1.get(1) + values1.get(2))){
+							//Got to DB and set the exam to closed state, '2' and save participants for statistics
+							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
+						}
+						System.out.println(undergoingExams);
+						client.sendToClient("notifyServerStudentFinishedExam - Received");
+						break;
+
+					case "notifyServerStudentNotFinishedExam":
+
+						ArrayList<Integer> values2 = undergoingExams.get(arrayListStr.get(1));
+						values2.set(2,values2.get(2)+1);
+
+						if(values2.get(0) == (values2.get(1) + values2.get(2))){
+							//Got to DB and set the exam to closed state, '2' and save participants for statistics
+							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
+						}
+						System.out.println(undergoingExams);
+						client.sendToClient("notifyServerStudentNotFinishedExam - Received");
 						break;
 
 	            }

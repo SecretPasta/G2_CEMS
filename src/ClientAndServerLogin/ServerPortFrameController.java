@@ -94,7 +94,7 @@ public class ServerPortFrameController implements Initializable {
 	public ServerPortFrameController() {
 		instance = this;
 	}
-	
+
 	/**
 	 * Retrieves the instance of the ServerPortFrameController.
 	 *

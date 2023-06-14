@@ -172,7 +172,7 @@ public class ComputerizedExamController implements Initializable{
 			
 		}
 		questionsPane.getChildren().add(tabPane);
-
+		notifyStartExam();
 	}
 
 	public void setUpdateExamTimer(String time){
@@ -195,6 +195,32 @@ public class ComputerizedExamController implements Initializable{
 		}
 
 	}
+
+	//A method to notify the server when a student starts an exam
+	private void notifyStartExam(){
+		 ArrayList<String> notify = new ArrayList<>();
+		 notify.add("notifyServerStudentBegunExam");
+		 notify.add(currentExam.getExamID());
+		 ClientUI.chat.accept(notify);
+	}
+
+	//A method to notify the server when a student submitted an exam only when the student answered all the questions
+	private void notifyFinishedExam(){
+		ArrayList<String> notify = new ArrayList<>();
+		notify.add("notifyServerStudentFinishedExam");
+		notify.add(currentExam.getExamID());
+		ClientUI.chat.accept(notify);
+	}
+
+	//A method to notify the server when a student submitted an exam without all the answers
+	private void notifyNotFinishedExam(){
+		ArrayList<String> notify = new ArrayList<>();
+		notify.add("notifyServerStudentNotFinishedExam");
+		notify.add(currentExam.getExamID());
+		ClientUI.chat.accept(notify);
+	}
+
+
 
 	private void saveCorrectAnswers(ArrayList<QuestionInExam> questions){
 		correctAnswers = new ArrayList<>();
@@ -273,6 +299,12 @@ public class ComputerizedExamController implements Initializable{
 				grade = gradeComputerizedExam();
 				ArrayList<String> answers = new ArrayList<>();
 				answers.addAll(getChosenAnswers());
+				if(answers.contains(" ")){
+					notifyNotFinishedExam();
+				}
+				else{
+					notifyFinishedExam();
+				}
 				String answerString = "";
 				for(String ans : answers)
 					answerString += (ans + "|");
