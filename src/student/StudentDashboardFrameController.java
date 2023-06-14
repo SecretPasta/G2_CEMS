@@ -1,10 +1,15 @@
 package student;
 
+import java.io.File;
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.LoginFrameController;
 import ClientAndServerLogin.SceneManagment;
@@ -12,11 +17,6 @@ import Config.Exam;
 import Config.FinishedExam;
 import Config.Student;
 import client.ClientUI;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
-import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
@@ -33,6 +33,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -98,6 +100,9 @@ public class StudentDashboardFrameController implements Initializable{
 
     @FXML
     private JFXButton btnStartManualExam;
+
+	@FXML
+	private JFXButton getUploadManualExamBtn;
 
     private ObservableList<Exam> manualExamsObservableList = FXCollections.observableArrayList();
 
@@ -238,11 +243,6 @@ public class StudentDashboardFrameController implements Initializable{
 
     }
 
-    public void getStartManualExamBtn(ActionEvent event) throws Exception{
-        System.out.println("You have started the Manual Exam!!!");
-        // Code to open window for the appropriate exam
-    }
-
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
         lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
@@ -265,7 +265,6 @@ public class StudentDashboardFrameController implements Initializable{
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
         //--------------------- Manual Exam -----------------------------------------------------------------------
-
 
 
 
@@ -306,6 +305,48 @@ public class StudentDashboardFrameController implements Initializable{
         ClientUI.chat.accept(getGradesArr);
     }
 
+//--------------------- Manual Exam -----------------------------------------------------------------------
+	@FXML
+	public void getStartManualExamBtn(ActionEvent action) throws Exception {
+		System.out.println("You have started the Manual Exam!!!");
+		// Code to open window for the appropriate exam
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+
+		directoryChooser.setTitle("Select a folder");
+
+		File selectedDir = directoryChooser.showDialog(currentStage);
+
+		String selectedDirPath = selectedDir.getAbsolutePath();
+
+		System.out.println(selectedDirPath);
+
+		// FILE TRANSFER FROM DB TO COMPUTER
+//		try {
+//			File downloadedFile = new File(selectedDirPath + "\\" + "Manual_Exam.txt");
+//			
+//			
+//			FileOutputStream os = new FileOutputStream(downloadedFile);
+//			BufferedOutputStream bis = new BufferedOutputStream(os);
+//
+//			bis.write(((MyFile) msg).getMybytearray(), 0, ((MyFile) msg).getSize());
+//			bis.close();
+//			
+//		} catch (Exception e) {
+//		}
+
+
+	}
+
+	@FXML
+	public void getUploadManualExamBtn(ActionEvent action) {
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle("Open File");
+		chooser.showOpenDialog(pnlManualExam.getScene().getWindow());
+
+	}
+
+//--------------------- END Manual Exam -----------------------------------------------------------------------
+
 
     public static void start(ArrayList<String> studentDetails) throws IOException {
 
@@ -327,6 +368,7 @@ public class StudentDashboardFrameController implements Initializable{
                 try {
                     // Save the current dashboard screen for returning back  , "/student/StudentDashboard.css", "Student Dashboard"
                     currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml");
+					currentStage.setTitle("StudentDashboard");
                     currentStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
