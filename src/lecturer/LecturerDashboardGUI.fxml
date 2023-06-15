@@ -166,15 +166,6 @@
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
          <children>
             <JFXSnackbar fx:id="snackbar" StackPane.alignment="CENTER" />
-            <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <Label layoutX="250.0" layoutY="175.0" text="Check Exams" />
-               </children></Pane>
             <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <Label alignment="CENTER" layoutX="38.0" layoutY="32.0" prefHeight="125.0" prefWidth="727.0" style="-fx-border-color: #66A7F2; -fx-border-radius: 10; -fx-border-width: 2; -fx-padding: 20;" text="Hello and welcome to our dedicated exam management application! Our platform offers a comprehensive set of tools to streamline your exam-related tasks. With just a few clicks, you can effortlessly check exams, create new exams, manage questions, manage exams, and generate insightful reports." wrapText="true">
@@ -434,12 +425,22 @@
                   </Label>
                </children>
             </Pane>
+            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
+            <Pane fx:id="pnlCheckExams" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="250.0" layoutY="175.0" text="Check Exams" />
+               </children></Pane>
             <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <HBox layoutX="27.0" layoutY="65.0" prefHeight="40.0" prefWidth="744.0" spacing="30.0">
                      <children>
-                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" onAction="#getBtnSubjectSelect" promptText="Select subject..." unFocusColor="#242633" />
-                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" prefHeight="25.0" prefWidth="200.0" onAction="#getBtnCourseSelect" promptText="Select course..." unFocusColor="#242633" />
+                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnSubjectSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." unFocusColor="#242633" />
+                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnCourseSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." unFocusColor="#242633" />
                         <JFXComboBox id="examSelectBox_ShowReport" fx:id="examSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Select exam..." unFocusColor="#242633" />
                         <JFXButton id="btnSearch_CreateExam" fx:id="btnSearch_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show" textFill="#242633" />
                      </children>
@@ -482,9 +483,38 @@
                       <NumberAxis autoRanging="false" minorTickCount="0" side="LEFT" style="-fx-tick-label-fill: #242633; -fx-minor-tick-visible: false;" tickLabelGap="5.0" tickUnit="10.0" />
                     </yAxis>
                   </BarChart>
+                  <VBox layoutX="267.0" layoutY="111.0" prefHeight="50.0" prefWidth="125.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="126.0" text="number of examinees:" textFill="#242633" />
+                        <Label fx:id="lblExaminees" prefHeight="20.0" prefWidth="118.0" text="Examinees Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="408.0" layoutY="111.0" prefHeight="50.0" prefWidth="118.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="115.0" text="submitted on time:" textFill="#242633" />
+                        <Label fx:id="lblOnTime" prefHeight="20.0" prefWidth="100.0" text="On Time Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <VBox layoutX="563.0" layoutY="111.0" prefHeight="50.0" prefWidth="140.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="135.0" text="did not submit on time:" textFill="#242633" />
+                        <Label fx:id="lblNotOnTime" prefHeight="20.0" prefWidth="131.0" text="Not On Time Label" textFill="#242633">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </Pane>
-            <Pane fx:id="pnlEmpty" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: #FAF9F6;" />
          </children>
       </StackPane>
    </children>

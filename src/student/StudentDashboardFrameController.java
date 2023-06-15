@@ -311,7 +311,7 @@ public class StudentDashboardFrameController implements Initializable{
 	public void getStartManualExamBtn(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
 		displaySuccessMessage("You have started the Computerized Exam!");
-		ManualExamController.start(student);
+		//ManualExamController.start(student);
 	}
 
 //--------------------- END Manual Exam -----------------------------------------------------------------------

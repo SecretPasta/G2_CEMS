@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1076,6 +1077,36 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+
+
+
+	public static ArrayList<String> getStatisticsOfExamByID(String examID) {
+
+		String query = "SELECT totalStudents, completedStudents, incompletedStudents FROM examparticipation "
+	             + "WHERE examID = ?";
+		
+		ArrayList<String> examStats_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, examID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if(rs.next()) {
+	                	examStats_arr.add(String.valueOf(rs.getInt(1)));
+	                	examStats_arr.add(String.valueOf(rs.getInt(2)));
+	                	examStats_arr.add(String.valueOf(rs.getInt(3)));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return examStats_arr;	
 	}
 
 }
