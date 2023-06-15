@@ -3,6 +3,7 @@ package headofdepartment;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -48,6 +49,18 @@ public class HODDashboardFrameController implements Initializable{
 
 	@FXML
 	private JFXComboBox<String> typeSelectBox_ShowReport;
+	
+	private ArrayList<String> reprtsType = new ArrayList<>(Arrays.asList(
+			"Students", 
+			"Lecturers",
+			"Courses"
+			));
+	
+	private ObservableList<String> listOfData_observablelist = FXCollections.observableArrayList();
+	
+    private String chosenReport;
+    
+    private String selectedSpecificReport;
 
 	// -------------- END Show Report PANEL --------------
 
@@ -113,15 +126,26 @@ public class HODDashboardFrameController implements Initializable{
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	lbluserNameAndID.setText((headofdepartment.getName() + "\n(ID: " + headofdepartment.getId() + ")")); //Initializing the label
+		chosenReport = null;
+		selectedSpecificReport = null;
+		listOfData_ShowReport.getSelectionModel().clearSelection();
     	
     	getAllrequests();
+    	
+    	setReportsInComboBox();
     	
     	currentPane = pnlGreeting;
         pnlGreeting.toFront();
 		
 	}
     
-    @FXML
+    private void setReportsInComboBox() {
+    	for(String reportName : reprtsType) {
+    		typeSelectBox_ShowReport.getItems().add(reportName);
+    	}
+	}
+
+	@FXML
     public void getBtnDenyRequest(ActionEvent event) throws Exception{
     	
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
@@ -249,14 +273,57 @@ public class HODDashboardFrameController implements Initializable{
 	// -------------- Show Report PANEL --------------
 
 	@FXML
-	void getBtnShowReport_ShowReport(ActionEvent event) {
-
+	public void getBtnShowReport_ShowReport(ActionEvent event) {
+		try {
+			selectedSpecificReport = listOfData_ShowReport.getSelectionModel().getSelectedItem();
+			String[] name_id_Report_arr = selectedSpecificReport.split(" - ");
+			
+			((Node) event.getSource()).getScene().getWindow().hide();
+			ViewReportFrameController.start(name_id_Report_arr[0], name_id_Report_arr[1], chosenReport);
+			
+		} catch (Exception e) {
+			displayError("Error: you have to select specific report first");
+		}
 	}
 
 	@FXML
-	void getShowBtn_ShowReport(ActionEvent event) {
+	public void getViewDataBtn_ShowReport(ActionEvent event) {
+		chosenReport = typeSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+		selectedSpecificReport = null;
+		try {
+			if(chosenReport == null || chosenReport.equals("")) {
+				throw new NullPointerException();
+			}
+			
+			ArrayList<String> getReportTypeHOD_arr = new ArrayList<>();
+			getReportTypeHOD_arr.add("GetAllOptionForDataReport_HOD");
+			getReportTypeHOD_arr.add(headofdepartment.getId());
+			getReportTypeHOD_arr.add(chosenReport);
+			ClientUI.chat.accept(getReportTypeHOD_arr);
 
+			
+		} catch (NullPointerException e){
+			displayError("Error: please choose report first");
+		}	
+		
 	}
+	
+	public void showStageFrom_ViewReport() {
+		
+		listOfData_ShowReport.getSelectionModel().clearSelection();
+		
+		currentStage.show();	
+		
+	}
+	
+	@FXML
+	public void getSelectedReport(ActionEvent event) throws Exception{
+		selectedSpecificReport = null;
+		listOfData_observablelist.clear();
+		listOfData_ShowReport.setItems(listOfData_observablelist);
+        listOfData_ShowReport.refresh();
+	}
+
 
 	// -------------- END Show Report PANEL --------------
     
@@ -315,6 +382,14 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     void handleClicks(ActionEvent actionEvent) {
     	if (actionEvent.getSource() == btnShowReport) {
+    		
+    		listOfData_observablelist.clear();
+    		listOfData_ShowReport.setItems(listOfData_observablelist);
+            listOfData_ShowReport.refresh();
+    		typeSelectBox_ShowReport.getSelectionModel().clearSelection();
+    		chosenReport = null;
+    		selectedSpecificReport = null;
+    		listOfData_ShowReport.getSelectionModel().clearSelection();
     		handleAnimation(pnlShowReport, btnShowReport);
 	        pnlShowReport.toFront();
 	    }
@@ -361,6 +436,19 @@ public class HODDashboardFrameController implements Initializable{
             }
         });
     }
+
+	public void loadAllOptionsForChosenReport(ArrayList<String> options_arr) { // getting the option: "name - id"
+	    	Platform.runLater(new Runnable() {
+	            @Override
+	            public void run() {
+	            	
+					listOfData_observablelist.setAll(options_arr);	
+			        listOfData_ShowReport.setItems(listOfData_observablelist);
+			        listOfData_ShowReport.refresh();
+	            }
+	        });
+		
+	}
 
 	
 

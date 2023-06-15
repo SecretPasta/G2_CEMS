@@ -1518,6 +1518,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param event The action event
 	 * @throws Exception If an exception occurs during the execution
 	 */
+	@FXML
 	public void getCloseBtn(ActionEvent event) throws Exception {
 		
 	    // Hide the primary window
@@ -1534,6 +1535,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param event The action event
 	 * @throws Exception If an exception occurs during the execution
 	 */
+	@FXML
 	public void getLogoutBtn(ActionEvent event) throws Exception {
 		
 	    // Hide the primary window
@@ -1556,6 +1558,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	 *
 	 * @param actionEvent The action event
 	 */
+	@FXML
 	public void handleClicks(ActionEvent actionEvent) {
 		
 		questionSelected = null; // reset the selected question

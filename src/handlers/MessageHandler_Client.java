@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 
 import Config.*;
 import headofdepartment.HODDashboardFrameController;
+import headofdepartment.ViewReportFrameController;
 import lecturer.AddQuestionFrameController;
 import lecturer.CheckExam_ChooseStudentFrameController;
 import lecturer.CheckExam_ReviewAndApproveFrameController;
@@ -290,6 +291,27 @@ public class MessageHandler_Client {
 	                	// 3 - notSubmittedOnTime
            	
 	                	LecturerDashboardFrameController.getInstance().set_StatisticsOfExam(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3)); 	
+	                	break;
+	                	
+	                case "LoadToListOfDataForHOD_report":
+	                	// 0 - Identifying string
+	                	// 1.. - the options to choose list
+	                	
+	                	arrayListStr.remove(0); // Removing identifying string
+	                	
+	                	HODDashboardFrameController.getInstance().loadAllOptionsForChosenReport(arrayListStr);
+	                	
+	                	break;
+	                	
+	                case "LoadToGradesToChart_HOD":
+	                	// 0 - Identifying string
+	                	// 1.. - grades
+	                	
+	                	arrayListStr.remove(0); // Removing identifying string
+	                	
+	                	ViewReportFrameController.getInstance().loadAllGradesToChart(arrayListStr);
+	                	
+	                	
 	                	break;
 	                	
 	            }       

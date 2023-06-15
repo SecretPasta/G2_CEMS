@@ -536,6 +536,67 @@ public class MessageHandler_Server {
 						sttistics_arr.addAll(DBController.getStatisticsOfExamByID(arrayListStr.get(1)));
 						client.sendToClient(sttistics_arr);
 						break;
+						
+					case "GetAllOptionForDataReport_HOD":
+						// 1 - headofdepartment Id
+						// 2 - chosen Report
+						
+						ArrayList<String> allOptionDataforreport_arr = new ArrayList<>();
+						allOptionDataforreport_arr.add("LoadToListOfDataForHOD_report");
+						
+						switch(arrayListStr.get(2)) {
+						
+						case "Students":
+							allOptionDataforreport_arr.addAll(DBController.getAllStudentsOfHod(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Lecturers":
+							allOptionDataforreport_arr.addAll(DBController.getAllLecturersOfHod(arrayListStr.get(1)));
+							
+							break;
+						
+						case "Courses":
+							allOptionDataforreport_arr.addAll(DBController.getAllCoursesOfHod(arrayListStr.get(1)));
+							
+							break;
+
+						}
+						
+						client.sendToClient(allOptionDataforreport_arr);
+						
+						break;
+						
+					case "GetAllGradesForReport_HOD":
+						
+						// 1 - chosen Report
+						// 2 - id of selected report to show: studentID / lecturerID / courseID
+						
+						ArrayList<String> gradesforreport_arr = new ArrayList<>();
+						gradesforreport_arr.add("LoadToGradesToChart_HOD");
+						
+						switch(arrayListStr.get(1)) {
+						
+						case "Students":
+							gradesforreport_arr.addAll(DBController.getAllStudentGrades(arrayListStr.get(2)));
+							
+							break;
+							
+						case "Lecturers":
+							gradesforreport_arr.addAll(DBController.getAllLecturerGrades(arrayListStr.get(2)));
+							
+							break;
+						
+						case "Courses":
+							gradesforreport_arr.addAll(DBController.getAllCourseGrades(arrayListStr.get(2)));
+							
+							break;
+
+						}
+						
+						client.sendToClient(gradesforreport_arr);
+						
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {

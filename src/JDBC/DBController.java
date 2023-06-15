@@ -1111,7 +1111,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	
 	public static ArrayList<String> getAllStudentsOfHod(String HodID) {
 
-		String query = "SELECT S.studentID FROM student S "
+		String query = "SELECT S.Name, S.studentID FROM student S "
 				+ "JOIN headofdepartment H ON S.DepartmentID = H.DepartmentID "
 				+ "WHERE H.HeadOfDepartmentID = ?";
 		
@@ -1122,7 +1122,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(1, HodID);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                	studentsID_arr.add(rs.getString(1));
+	                	studentsID_arr.add(rs.getString(1) + " - " + rs.getString(2));
 	                }
 	            }
 			}
@@ -1140,7 +1140,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 				+ "FROM course C "
 				+ "JOIN coursedepartment CD ON CD.CourseID = C.CourseID "
 				+ "JOIN headofdepartment H ON CD.DepartmentID = H.DepartmentID "
-				+ "WHERE H.DepartmentID = ?";
+				+ "WHERE H.HeadOfDepartmentID = ?";
 		
 		ArrayList<String> coursesID_arr = new ArrayList<>();
 		try {
@@ -1164,10 +1164,10 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	public static ArrayList<String> getAllLecturersOfHod(String HodID) {
 
 		String query = "SELECT L.Name, L.LecturerID "
-				+ "FROM lecturer C "
+				+ "FROM lecturer L "
 				+ "JOIN lecturerdepartment LD ON LD.LecturerID = L.LecturerID "
 				+ "JOIN headofdepartment H ON LD.DepartmentID = H.DepartmentID "
-				+ "WHERE H.DepartmentID = ?";
+				+ "WHERE H.HeadOfDepartmentID = ?";
 		
 		ArrayList<String> lecturerID_arr = new ArrayList<>();
 		try {
@@ -1187,7 +1187,88 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		return lecturerID_arr;	
 	}
+	
+	public static ArrayList<String> getAllStudentGrades(String studentID) {
 
+		String query = "SELECT grade "
+				+ "FROM finishedexam "
+				+ "WHERE studentID = ? AND approved = 1";
+		
+		ArrayList<String> studentGrades_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, studentID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	studentGrades_arr.add(Double.toString(rs.getDouble(1)));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return studentGrades_arr;	
+	}
+
+
+
+
+
+	public static ArrayList<String> getAllLecturerGrades(String lecturerID) {
+		
+		String query = "SELECT FE.grade FROM finishedexam FE "
+				+ "JOIN exams E ON E.ID = FE.examID "
+				+ "WHERE E.isActive = ? AND FE.approved = 1 AND E.authorID = ?";
+		
+		ArrayList<String> lecturerGrades_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, "2");
+	            ps.setString(2, lecturerID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	lecturerGrades_arr.add(Double.toString(rs.getDouble(1)));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lecturerGrades_arr;
+	}
+
+
+	public static ArrayList<String> getAllCourseGrades(String courseID) {
+		
+		String query = "SELECT FE.grade FROM finishedexam FE "
+				+ "JOIN exams E ON E.ID = FE.examID "
+				+ "WHERE E.isActive = ? AND FE.approved = 1 AND E.courseID = ?";
+		
+		ArrayList<String> courseGrades_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, "2");
+	            ps.setString(2, courseID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	courseGrades_arr.add(Double.toString(rs.getDouble(1)));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return courseGrades_arr;
+	}
 
 }
 
