@@ -160,6 +160,12 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private Label lblMedian;
 	@FXML
+	private Label lblExaminees;
+	@FXML
+	private Label lblOnTime;
+	@FXML
+	private Label lblNotOnTime;
+	@FXML
 	private BarChart<String, Number> barChart_ShowReport;
 	private XYChart.Series<String, Number> series1;
 	
@@ -1158,13 +1164,14 @@ public class LecturerDashboardFrameController implements Initializable{
 		return examCounter;
 	}
 	
-	@SuppressWarnings("null")
-	public void set_Average_Median_ByExamID(String examID){
+	public void set_average_median_OfExam_ByExamID(String examID){
 
 		ArrayList<Double> grades = new ArrayList<>();
 		int examCounter = 0;
 		double sumGrades = 0;
 		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+		
+		// average
 		for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
 			if(studentGrade.getExamID().equals(selectedExamID)) {
 				examCounter ++;
@@ -1172,20 +1179,18 @@ public class LecturerDashboardFrameController implements Initializable{
 				grades.add(studentGrade.getGrade());
 			}
 		}
-		
 		lblAverage.setText(Double.toString(sumGrades / examCounter));
 		
+		// median
 		Collections.sort(grades);
-
 		int n = grades.size();
-		
         if (n % 2 == 1) {  // odd number of grades
         	lblMedian.setText(Double.toString(grades.get(n / 2)));
         } else {  // even number of grades
             int middleRight = n / 2;
             int middleLeft = middleRight - 1;
             lblMedian.setText(Double.toString((grades.get(middleLeft) + grades.get(middleRight)) / 2.0));
-        }
+        }    
 		
 	}
 	
@@ -1194,79 +1199,130 @@ public class LecturerDashboardFrameController implements Initializable{
 	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
 		try {
 			String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-			set_Average_Median_ByExamID(selectedExamID);
+			
 			if(selectedExamID == null || selectedExamID.equals("")) {
-				displayErrorMessage("[Error] you have to choose an exam first");
+				throw new Exception();
+			}
+			else {
+				getExamStatisticsByExamID(selectedExamID); // get from DB
+				set_average_median_OfExam_ByExamID(selectedExamID);
+				loadAllDataIntoHistogramReport(true);
 			}
 			
-			else {
-				int maxBarValue = 0;
-				int barValue = 0;	//barValue - amount of students in the specified range
-		
-				for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
-					switch (i) {
-					case 0:
-						barValue = getAmountStudentsGradesByRange(0.0, 54.9);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//0-54.9
-						break;
-					case 1:
-						barValue = getAmountStudentsGradesByRange(55.0, 64.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//55-64
-						break;
-					case 2:
-						barValue = getAmountStudentsGradesByRange(65.0, 69.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//65-69
-						break;
-					case 3:
-						barValue = getAmountStudentsGradesByRange(70.0, 74.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//70-74
-						break;
-					case 4:
-						barValue = getAmountStudentsGradesByRange(75.0, 79.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//75-79
-						break;
-					case 5:
-						barValue = getAmountStudentsGradesByRange(80.0, 84.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//80-84
-						break;
-					case 6:
-						barValue = getAmountStudentsGradesByRange(85.0, 89.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//85-89
-						break;
-					case 7:
-						barValue = getAmountStudentsGradesByRange(90.0, 94.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//90-94
-						break;
-					case 8:
-						barValue = getAmountStudentsGradesByRange(95.0, 100.0);
-						maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
-						series1.getData().get(i).setYValue(barValue);					//95-100
-						break;
-					default:
-						break;
-					}
-				}
-	
-	        
-		        // Set the upper bound of the Y-axis
-				ValueAxis<Number> yAxis = (ValueAxis<Number>) barChart_ShowReport.getYAxis();
-				int upperBound =  (int) (maxBarValue * 1.1);
-				yAxis.setUpperBound(upperBound);
-			}
 		}catch (Exception e) {
-			displayErrorMessage("[Error] you have to choose exam before searching");
+			displayErrorMessage("Error: you have to choose exam before searching");
+			lblAverage.setText("");
+			lblMedian.setText("");
 		}
 	}
 	
+	public void set_StatisticsOfExam(String totalExminees, String submittedOnTime, String notSubmittedOnTime){
+		
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+			    // total Examinees
+			    lblExaminees.setText(totalExminees);
+			
+			    // total on time
+			    lblOnTime.setText(submittedOnTime);
+			
+			    // total not on time
+			    lblNotOnTime.setText(notSubmittedOnTime);   
+	        }
+	    });
+	}
 	
+	
+	private void getExamStatisticsByExamID(String selectedExamID) {
+		ArrayList<String> getexamstats_arr = new ArrayList<>();
+		getexamstats_arr.add("GetStatisticsOfExamByExamIDFromDB");
+		getexamstats_arr.add(selectedExamID);
+		ClientUI.chat.accept(getexamstats_arr);
+	}
+
+	private void loadAllDataIntoHistogramReport(boolean status) {
+			int maxBarValue = 0;
+			int barValue = 0;	//barValue - amount of students in the specified range
+	
+			for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
+				switch (i) {
+				case 0:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(0.0, 54.9);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//0-54.9
+					break;
+				case 1:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(55.0, 64.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//55-64
+					break;
+				case 2:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(65.0, 69.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//65-69
+					break;
+				case 3:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(70.0, 74.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//70-74
+					break;
+				case 4:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(75.0, 79.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//75-79
+					break;
+				case 5:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(80.0, 84.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//80-84
+					break;
+				case 6:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(85.0, 89.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//85-89
+					break;
+				case 7:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(90.0, 94.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//90-94
+					break;
+				case 8:
+					if(status) {
+						barValue = getAmountStudentsGradesByRange(95.0, 100.0);
+					}
+					maxBarValue = maxBarValue > barValue ? maxBarValue : barValue;
+					series1.getData().get(i).setYValue(barValue);					//95-100
+					break;
+				default:
+					break;
+				}
+			}
+        
+	        // Set the upper bound of the Y-axis
+			ValueAxis<Number> yAxis = (ValueAxis<Number>) barChart_ShowReport.getYAxis();
+			int upperBound =  (int) (maxBarValue * 1.1);
+			yAxis.setUpperBound(upperBound);
+		}
+		
+	
+
 	private void displayLabelForData(Data<String, Number> data) {
 	    final Node node = data.getNode();
 	    final Text dataText = new Text(data.getYValue().toString());
@@ -1508,11 +1564,19 @@ public class LecturerDashboardFrameController implements Initializable{
 	    	handleAnimation(pnlShowReport, btnShowReport);
 			lblAverage.setText("");
 			lblMedian.setText("");
+			lblExaminees.setText("");
+			lblOnTime.setText("");
+			lblNotOnTime.setText("");
+			subjectSelectBox_ShowReport.getSelectionModel().clearSelection();
+	    	courseSelectBox_ShowReport.getSelectionModel().clearSelection();
+	    	examSelectBox_ShowReport.getSelectionModel().clearSelection();
+	    	loadAllDataIntoHistogramReport(false);
 	    	getStudentsGradesOfLecturer();
 	        pnlShowReport.toFront();
 	    }
 	    if (actionEvent.getSource() == btnCheckExams) {	    	
 	    	handleAnimation(pnlCheckExams, btnCheckExams);
+	    	
 	    	getAllExamsToCheck();
 	        pnlCheckExams.toFront();
 	    }
