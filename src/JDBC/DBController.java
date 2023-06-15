@@ -1108,6 +1108,86 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		return examStats_arr;	
 	}
+	
+	public static ArrayList<String> getAllStudentsOfHod(String HodID) {
+
+		String query = "SELECT S.studentID FROM student S "
+				+ "JOIN headofdepartment H ON S.DepartmentID = H.DepartmentID "
+				+ "WHERE H.HeadOfDepartmentID = ?";
+		
+		ArrayList<String> studentsID_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HodID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	studentsID_arr.add(rs.getString(1));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return studentsID_arr;	
+	}
+	
+	public static ArrayList<String> getAllCoursesOfHod(String HodID) {
+
+		String query = "SELECT C.Name, C.CourseID "
+				+ "FROM course C "
+				+ "JOIN coursedepartment CD ON CD.CourseID = C.CourseID "
+				+ "JOIN headofdepartment H ON CD.DepartmentID = H.DepartmentID "
+				+ "WHERE H.DepartmentID = ?";
+		
+		ArrayList<String> coursesID_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HodID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	coursesID_arr.add(rs.getString(1) + " - " + rs.getString(2));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return coursesID_arr;	
+	}
+	
+	public static ArrayList<String> getAllLecturersOfHod(String HodID) {
+
+		String query = "SELECT L.Name, L.LecturerID "
+				+ "FROM lecturer C "
+				+ "JOIN lecturerdepartment LD ON LD.LecturerID = L.LecturerID "
+				+ "JOIN headofdepartment H ON LD.DepartmentID = H.DepartmentID "
+				+ "WHERE H.DepartmentID = ?";
+		
+		ArrayList<String> lecturerID_arr = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HodID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	lecturerID_arr.add(rs.getString(1) + " - " + rs.getString(2));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lecturerID_arr;	
+	}
+
 
 }
 
