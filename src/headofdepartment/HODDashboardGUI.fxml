@@ -5,9 +5,6 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -106,7 +103,7 @@
             </VBox>
          </children>
       </Pane>
-      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@../lecturer/LecturerDashboard.css">
+      <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@../student/StudentDashboard.css">
          <children>
             <JFXSnackbar fx:id="snackbarError" />
             <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
@@ -144,49 +141,8 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
-                  <HBox layoutX="27.0" layoutY="65.0" prefHeight="40.0" prefWidth="744.0" spacing="30.0">
-                     <children>
-                        <JFXComboBox id="subjectSelectBox_ShowReport" fx:id="subjectSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnSubjectSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select subject..." unFocusColor="#242633" />
-                        <JFXComboBox id="courseSelectBox_ShowReport" fx:id="courseSelectBox_ShowReport" focusColor="#66a7f2" onAction="#getBtnCourseSelect" prefHeight="25.0" prefWidth="200.0" promptText="Select course..." unFocusColor="#242633" />
-                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
-                        <JFXButton id="btnSearch_CreateExam" fx:id="btnShow_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show" textFill="#242633" />
-                     </children>
-                  </HBox>
-                  <Label layoutX="27.0" layoutY="23.0" text="Show Report" textFill="#242633">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <VBox layoutX="47.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
-                     <children>
-                        <Label prefHeight="20.0" prefWidth="100.0" text="Average Grade:" textFill="#242633" />
-                        <Label fx:id="lblAverage" prefHeight="20.0" prefWidth="100.0" text="Average Label" textFill="#242633">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="167.0" layoutY="111.0" prefHeight="50.0" prefWidth="100.0" spacing="5.0">
-                     <children>
-                        <Label prefHeight="20.0" prefWidth="100.0" text="Median:" textFill="#242633" />
-                        <Label fx:id="lblMedian" prefHeight="20.0" prefWidth="100.0" text="Median Label" textFill="#242633">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <BarChart fx:id="barChart_ShowReport" layoutX="32.0" layoutY="161.0" prefHeight="388.0" prefWidth="735.0" style="-fx-alternative-column-fill-visible: false; -fx-alternative-row-fill-visible: false; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 2; -fx-border-color: #242633; -fx-padding: 10 0 0 0;">
-                     <xAxis>
-                        <CategoryAxis prefHeight="25.0" prefWidth="671.0" side="BOTTOM" style="-fx-gap-start-and-end: true; -fx-tick-label-fill: #242633; -fx-tick-mark-visible: false;" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis autoRanging="false" minorTickCount="0" side="LEFT" style="-fx-tick-label-fill: #242633; -fx-minor-tick-visible: false;" tickLabelGap="5.0" tickUnit="10.0" />
-                     </yAxis>
-                  </BarChart>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -226,13 +182,65 @@
                   </Label>
                </children>
             </Pane>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+            <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
+                  <HBox layoutX="237.0" layoutY="63.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
+                     <children>
+                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
+                        <JFXButton id="btnSearch_CreateExam" fx:id="btnShow_ShowReport" onAction="#getShowBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="View Data" textFill="#242633" />
+                     </children>
+                  </HBox>
+                  <Label layoutX="27.0" layoutY="23.0" text="Show Report" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
+                  <JFXListView id="listRequests" fx:id="listOfData_ShowReport" layoutX="50.0" layoutY="113.0" prefHeight="350.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
+                  <JFXButton id="btnAcceptRequest" fx:id="btnShowReport_ShowReport" layoutX="304.0" layoutY="482.0" onAction="#getBtnShowReport_ShowReport" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Show Report" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Head of Department Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Text layoutX="42.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Report:&#10;The Show Report section provides comprehensive statistics and data on the department's exams and assessments. It offers valuable insights into student performance, including average scores, success rates, and grade distribution. This section helps the head of the department make data-driven decisions and evaluate the effectiveness of teaching methods.&#10;" wrappingWidth="524.4054565429688">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Change Time:&#10;The Approve Change Time section allows the head of the department to review and approve requests for Change time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="606.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/report.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="42.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/clock.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
          </children>
