@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" prefHeight="410.0" prefWidth="815.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="student.ManualExamController">
+   <children>
+      <AnchorPane prefHeight="410.0" prefWidth="815.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@ComputerizedExam.css">
+         <children>
+            <AnchorPane fx:id="questionsPane" layoutY="179.0" prefHeight="320.0" prefWidth="815.0" style="-fx-background-color: #FAF9F6;" stylesheets="@ComputerizedExam.css" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+               <children>
+                  <HBox layoutX="297.0" layoutY="110.0" prefHeight="35.0" prefWidth="295.0" spacing="10.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="110.0" text="Remaining time:" textFill="#242633">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Text fx:id="timer" fill="#fe774c" strokeType="OUTSIDE" strokeWidth="0.0" underline="true" wrappingWidth="165.0">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox layoutX="120.0" layoutY="39.0" prefHeight="50.0" prefWidth="575.0">
+                     <children>
+                        <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 10 0 0 10;">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="48.0" prefWidth="55.0" text="Subject: " textFill="#242633">
+                                 <padding>
+                                    <Insets left="3.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label id="lblSubjectName" fx:id="lblSubjectName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="130.0" text="Subject Label" textFill="#242633" wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080;">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="50.0" prefWidth="50.0" text="Course: " textFill="#242633">
+                                 <padding>
+                                    <Insets left="3.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label id="lblCourseName" fx:id="lblCourseName" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Course Label" textFill="#242633" wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="30.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #808080; -fx-border-radius: 0 10 10 0;">
+                           <children>
+                              <Label alignment="TOP_CENTER" prefHeight="48.0" prefWidth="60.0" text="Student:" textFill="#242633">
+                                 <padding>
+                                    <Insets left="3.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label id="lblAuthor" fx:id="lblStudent" alignment="TOP_CENTER" prefHeight="48.0" prefWidth="136.0" text="Student Label" textFill="#242633" wrapText="true" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <JFXButton fx:id="btnUploadManualExam" layoutX="467.0" layoutY="167.0" onAction="#getUploadManualExamBtn" prefHeight="40.0" prefWidth="228.0" style="-fx-background-color: #242633; -fx-background-radius: 10; -fx-border-color: #66A7F2; -fx-border-radius: 10; -fx-border-width: 2; -fx-border-style: dashed;" text="Upload Manual Exam" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/upload.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btnDownloadManualExam" layoutX="120.0" layoutY="169.0" onAction="#getDownloadManualExamBtn" prefHeight="40.0" prefWidth="228.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Download Manual Exam" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/download.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="btnSubmitManualExam" layoutX="313.0" layoutY="235.0" onAction="#getSubmitManualExamBtn" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FFC152; -fx-background-radius: 10; -fx-border-color: #242633; -fx-border-radius: 10;" text="Submit Manual Exam" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="120.0" layoutY="153.0" text="*the countdown starts from download" textFill="#242633" wrapText="true">
+                     <font>
+                        <Font name="System Italic" size="11.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+            <Pane layoutX="100.0" layoutY="14.0" prefHeight="64.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Circle fill="#5dd299" layoutX="80.0" layoutY="32.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />
+                  <Circle fill="#66a7f2" layoutX="58.0" layoutY="32.0" radius="18.0" stroke="#66a7f2" strokeType="INSIDE" />
+                  <Label layoutX="101.0" layoutY="15.0" prefHeight="35.0" prefWidth="85.0" text="CEMS" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="349.0" layoutY="15.0" text="Manual Exam" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

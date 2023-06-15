@@ -1,6 +1,5 @@
 package student;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,8 +32,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -306,43 +303,15 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
 //--------------------- Manual Exam -----------------------------------------------------------------------
-	@FXML
-	public void getStartManualExamBtn(ActionEvent action) throws Exception {
-		System.out.println("You have started the Manual Exam!!!");
-		// Code to open window for the appropriate exam
-		DirectoryChooser directoryChooser = new DirectoryChooser();
-
-		directoryChooser.setTitle("Select a folder");
-
-		File selectedDir = directoryChooser.showDialog(currentStage);
-
-		String selectedDirPath = selectedDir.getAbsolutePath();
-
-		System.out.println(selectedDirPath);
-
-		// FILE TRANSFER FROM DB TO COMPUTER
-//		try {
-//			File downloadedFile = new File(selectedDirPath + "\\" + "Manual_Exam.txt");
-//			
-//			
-//			FileOutputStream os = new FileOutputStream(downloadedFile);
-//			BufferedOutputStream bis = new BufferedOutputStream(os);
-//
-//			bis.write(((MyFile) msg).getMybytearray(), 0, ((MyFile) msg).getSize());
-//			bis.close();
-//			
-//		} catch (Exception e) {
-//		}
-
-
+	public void showDashboardFrom_ManualExam() {
+		// Show the current stage
+		currentStage.show();
 	}
 
-	@FXML
-	public void getUploadManualExamBtn(ActionEvent action) {
-		FileChooser chooser = new FileChooser();
-		chooser.setTitle("Open File");
-		chooser.showOpenDialog(pnlManualExam.getScene().getWindow());
-
+	public void getStartManualExamBtn(ActionEvent event) throws IOException {
+		((Node) event.getSource()).getScene().getWindow().hide();
+		displaySuccessMessage("You have started the Computerized Exam!");
+		ManualExamController.start(student);
 	}
 
 //--------------------- END Manual Exam -----------------------------------------------------------------------
