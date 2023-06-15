@@ -131,6 +131,6 @@
             </Text>
          </children>
       </TextFlow>
-      <JFXSnackbar fx:id="snackbarError" layoutX="702.0" layoutY="679.0" stylesheets="@AddEditQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
+      <JFXSnackbar fx:id="snackbar" layoutX="702.0" layoutY="679.0" stylesheets="@AddEditQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>

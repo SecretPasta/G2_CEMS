@@ -1,13 +1,12 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -38,7 +37,6 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.chart.Axis;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;

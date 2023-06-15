@@ -1,19 +1,21 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+
 import ClientAndServerLogin.SceneManagment;
-import Config.Exam;
 import Config.FinishedExam;
 import Config.Lecturer;
 import Config.QuestionInExam;
 import client.ClientUI;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,8 +23,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class CheckExam_ReviewAndApproveFrameController implements Initializable {
 
@@ -37,6 +41,11 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 
 	@FXML
 	private ScrollPane scrollPane;
+	@FXML
+	private AnchorPane root;
+	@FXML
+	private JFXSnackbar snackbar;
+	private JFXSnackbarLayout snackbarLayout;
 
 	@FXML
 	private TextField txtCommentForNewGrade;
@@ -66,7 +75,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	void getBtnApproveGrade(ActionEvent event) throws IOException {
 	    // Check if the new grade is provided without comments
 	    if (!(txtNewGrade.getText().trim().equals("")) && txtCommentForNewGrade.getText().trim().equals("")) {
-	        System.out.println("[Error] You must write comments to the student for changing the grade");
+	        displayErrorMessage("Error: You must write comments to the student for changing the grade");
 	    } else {
 	        approve_SetGrade_FinishedExam(); // send to the server to approve
 
@@ -115,15 +124,15 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	void getBtnChangeGrade(ActionEvent event) {
 	    try {
 	        if (txtNewGrade.getText().trim().equals("") || txtNewGrade == null) {
-	            System.out.println("[Error] New grade field is empty");
+	            displayErrorMessage("Error: New grade field is empty");
 	        } else if (Double.parseDouble(txtNewGrade.getText()) < 0) {
 	            throw new NumberFormatException();
 	        } else {
 	            finishedExamSelected.setGrade(Double.parseDouble(txtNewGrade.getText()));
-	            System.out.println("Exam grade changed to: " + finishedExamSelected.getGrade());
+	            displaySuccessMessage("Exam grade changed to: " + finishedExamSelected.getGrade());
 	        }
 	    } catch (NumberFormatException e) {
-	        System.out.println("[Error] New grade must be a valid number >= 0");
+	        displayErrorMessage("Error: New grade must be a valid number >= 0");
 	        txtNewGrade.clear();
 	    }
 	}
@@ -157,11 +166,11 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		
 		if(finishedExamSelected.getGrade() >= 55.0) {
 			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Passed)");
-			//lblAutoGrade.setStyle("-fx-color: green; -fx-font-weight: bold;");
+			lblAutoGrade.setStyle("-fx-color:  #5DD299; -fx-font-weight: bold;");
 		}
 		else {
 			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Failed)");
-			//lblAutoGrade.setStyle("-fx-color: red; -fx-font-weight: bold;");
+			lblAutoGrade.setStyle("-fx-color:  #FE774C; -fx-font-weight: bold;");
 		}
 		
 		
@@ -191,13 +200,13 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	                answerLabel = new Label("  " + answerLetter + ") " + question.getAnswers().get(j));
 
 	                if (j == 0) { // correct answer
-	                    answerLabel.setStyle("-fx-background-color: green; -fx-font-weight: bold;");
+	                    answerLabel.setStyle("-fx-background-color: #5DD299; -fx-font-weight: bold;");
 	                } else {
 	                    if (studentAnswers[i] != null && studentAnswers[i].equals(question.getAnswers().get(j))) {
-	                        answerLabel.setStyle("-fx-background-color: red; -fx-font-weight: bold;");
+	                        answerLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold; -fx-background-radius: 10;");
 	                    }
 	                    if (studentAnswers[i] == null || studentAnswers[i].trim().equals("")) {
-	                        questionLabel.setStyle("-fx-background-color: red; -fx-font-weight: bold;");
+	                        questionLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold; -fx-background-radius: 10;");
 	                        System.out.println(1);
 	                    }
 	                }
@@ -232,6 +241,36 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	 */
 	public static void saveQuestionsInExam(ArrayList<QuestionInExam> questionsInExam_temp) {
 	    questionsInExam = questionsInExam_temp;
+	}
+	
+	public void displayErrorMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+				snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+		        snackbar.setPrefWidth(root.getPrefWidth() - 40);
+		        snackbarLayout = new JFXSnackbarLayout(message);
+		        snackbarLayout.getStylesheets().add(css);
+		        snackbar.getStylesheets().add(css);
+		        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	        }
+	    });
+	}
+	
+	public void displaySuccessMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				snackbar.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	        }
+	    });
 	}
 
 

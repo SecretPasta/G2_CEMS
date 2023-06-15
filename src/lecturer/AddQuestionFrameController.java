@@ -1,6 +1,7 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.util.HashMap;
 
 
@@ -26,7 +27,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -44,7 +44,7 @@ public class AddQuestionFrameController implements Initializable {
     private AnchorPane root;
     
     @FXML
-    private JFXSnackbar snackbarError;
+    private JFXSnackbar snackbar;
 
 	@FXML
     private TextField textQuestionText;
@@ -161,7 +161,7 @@ public class AddQuestionFrameController implements Initializable {
 	    
 		    // Check if any required fields are empty
 		    if (areFieldsMissing(coursesSelect, subjectSelect)) {
-		        displaySnackbarError(); // Display error message in a snackbar
+		        displayErrorMessage(); // Display error message in a snackbar
 		    } else {
 		        getMaxQuestionIdFromCurrentSubject(subjectSelect); // Retrieve the maximum question ID for the selected subject
 		        addQuestionToDatabase(subjectSelect, coursesSelect); // Add the question to the database
@@ -169,7 +169,7 @@ public class AddQuestionFrameController implements Initializable {
 		    }
 	    
 	    }catch (NullPointerException | IndexOutOfBoundsException e) {
-	    	displaySnackbarError(); // Display error message in a snackbar
+	    	displayErrorMessage(); // Display error message in a snackbar
 		}
 	}
 	
@@ -193,11 +193,11 @@ public class AddQuestionFrameController implements Initializable {
 	/**
 	 * Displays an error message in a snackbar for missing fields.
 	 */
-	private void displaySnackbarError() {
-	    snackbarError = new JFXSnackbar(root);
+	private void displayErrorMessage() {
+	    snackbar = new JFXSnackbar(root);
 	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
-	    snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-	    snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 	
 

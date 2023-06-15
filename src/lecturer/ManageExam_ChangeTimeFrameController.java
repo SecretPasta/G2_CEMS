@@ -1,31 +1,30 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.HeadOfDepartment;
 import Config.Lecturer;
-import Config.QuestionInExam;
+
 import client.ClientUI;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 public class ManageExam_ChangeTimeFrameController implements Initializable {
 	
@@ -36,6 +35,11 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	
 	@FXML
 	private JFXComboBox<String> hodSelectBox;
+	@FXML 
+	private AnchorPane root;
+	@FXML
+	private JFXSnackbar snackbar;
+	private JFXSnackbarLayout snackbarLayout;
 
 	private static Exam exam;
 	private static Lecturer lecturer;
@@ -77,7 +81,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	    // Check if any required fields are missing
 	    if (txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
 	            || hodSelected == null || hodSelected.equals("Please select Head Of Department")) {
-	        System.out.println("[Error] Missing fields."); // error message
+	        displayErrorMessage("Error: Missing fields"); // error message
 	    } else {    
 	        try {
 	            // Parse the exam duration as an integer
@@ -91,7 +95,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	            LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(true); // true if request sent
 
 	        } catch (NumberFormatException e) {
-	            System.out.println("only positives minutes"); // error message
+	            displayErrorMessage("Error: Only positives minutes"); // error message
 	        }
 	    }    
 	}
@@ -149,6 +153,13 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
             hodSelectBox.getItems().add(hods.toString());
         }
     }
+    
+    private void displayErrorMessage(String message) {
+	    snackbar = new JFXSnackbar(root);
+	    snackbarLayout = new JFXSnackbarLayout(message);
+	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	}
 
 
 

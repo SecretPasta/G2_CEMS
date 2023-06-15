@@ -1,6 +1,7 @@
 package lecturer;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,14 +11,11 @@ import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.QuestionInExam;
 import client.ClientUI;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.VBox;
 
 public class CreateExam_ReviewFrameController implements Initializable {

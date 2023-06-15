@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_ReviewGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ReviewAndApproveFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_ReviewGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ReviewAndApproveFrameController">
    <children>
       <AnchorPane layoutY="75.0" prefHeight="525.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" stylesheets="@CreateExam_CommentsAndTime.css">
          <children>
@@ -97,7 +98,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAutoGrade" prefHeight="50.0" prefWidth="130.0" text="AutoGrade Label" textFill="#5dd299">
+                  <Label fx:id="lblAutoGrade" prefHeight="50.0" prefWidth="130.0" text="AutoGrade Label" textFill="#242633">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>
@@ -162,5 +163,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <JFXSnackbar fx:id="snackbar" />
    </children>
 </AnchorPane>

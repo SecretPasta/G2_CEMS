@@ -50,7 +50,9 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	private TextField txtExamCode;
 	
 	@FXML
-	private JFXSnackbar snackbarError;
+	private JFXSnackbar snackbar;
+	private JFXSnackbarLayout snackbarLayout;
+	
 	@FXML
 	private AnchorPane root;
 	
@@ -111,10 +113,10 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	public void getBtnShowReview(ActionEvent event) throws Exception {
 	    try {
 	        if (txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
-	            displaySnackbarError("Error: Missing fields.");
+	            displayErrorMessage("Error: Missing fields.");
 	        } else {
 	            if (txtExamCode.getText().length() != 4) {
-	                displaySnackbarError("Error: Exam code has to be 4 digits.");
+	                displayErrorMessage("Error: Exam code has to be 4 digits.");
 	                return;
 	            }
 	            int examDuration = Integer.parseInt(txtExamDuration.getText());
@@ -136,9 +138,9 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	        }
 
 	    } catch (NullPointerException e) {
-	        displaySnackbarError("Error: Missing fields.");
+	        displayErrorMessage("Error: Missing fields.");
 	    } catch (NumberFormatException e) {
-	        displaySnackbarError("Error: Exam duration has to be a valid number.");
+	        displayErrorMessage("Error: Exam duration has to be a valid number.");
 	    }
 	}
 
@@ -167,11 +169,11 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	/**
 	 * Displays an error message in a snackbar for missing fields.
 	 */
-	private void displaySnackbarError(String message) {
-	    snackbarError = new JFXSnackbar(root);
-	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
-	    snackbarError.setPrefWidth(root.getPrefWidth() - 40);
-	    snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	private void displayErrorMessage(String message) {
+	    snackbar = new JFXSnackbar(root);
+	    snackbarLayout = new JFXSnackbarLayout(message);
+	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 
 

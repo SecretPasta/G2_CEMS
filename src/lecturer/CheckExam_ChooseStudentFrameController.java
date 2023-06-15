@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
@@ -29,6 +31,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class CheckExam_ChooseStudentFrameController implements Initializable {
 
@@ -43,7 +46,9 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	private AnchorPane root;
 
 	@FXML
-	private JFXSnackbar snackbarError;
+	private JFXSnackbar snackbar;
+	
+	private JFXSnackbarLayout snackbarLayout;
 
 	@FXML
 	private TableColumn<FinishedExam, String> studentIdColumn_tableExam;
@@ -114,7 +119,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	    try {
 	        if (finishedExamSelected_temp != null) {
 	            // Display a message to the lecturer for a successful exam approval
-	            System.out.println("Exam approved!");
+	            displaySuccessMessage("Exam approved!");
 	        }
 	        
 	        // Remove the student exam from the finishedExams_observablelist and refresh the table view
@@ -164,7 +169,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	        
 	    } catch (NullPointerException e) {
 	        // Handle the case when a student exam is not selected
-	        System.out.println("Error: Student exam was not selected");
+	        displayErrorMessage("Error: Student exam was not selected");
 	    }
 	    
 	    // Clear the selection in the finished exams table view
@@ -306,6 +311,36 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 
 	            // Get suspect exams for cheating
 	            getSuspectExamsForCheating();
+	        }
+	    });
+	}
+	
+	public void displayErrorMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+				snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+		        snackbar.setPrefWidth(root.getPrefWidth() - 40);
+		        snackbarLayout = new JFXSnackbarLayout(message);
+		        snackbarLayout.getStylesheets().add(css);
+		        snackbar.getStylesheets().add(css);
+		        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	        }
+	    });
+	}
+	
+	public void displaySuccessMessage(String message) {
+	    Platform.runLater(new Runnable() {
+	        @Override
+	        public void run() {
+	            snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				snackbar.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	        }
 	    });
 	}

@@ -80,7 +80,7 @@
                   </HBox>
                </children>
             </VBox>
-            <JFXSnackbar fx:id="snackbarError" layoutX="588.0" layoutY="471.0" />
+            <JFXSnackbar fx:id="snackbar" layoutX="588.0" layoutY="471.0" />
          </children>
       </AnchorPane>
       <Circle fill="#5dd299" layoutX="54.0" layoutY="37.0" radius="18.0" stroke="#5dd299" strokeType="INSIDE" />

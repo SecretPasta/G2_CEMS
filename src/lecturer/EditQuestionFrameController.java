@@ -2,10 +2,17 @@ package lecturer;
 
 import ClientAndServerLogin.SceneManagment;
 
+
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import Config.Question;
 import client.ClientUI;
 
@@ -37,6 +44,10 @@ public class EditQuestionFrameController implements Initializable {
 	private Label txtCourseName;
 	@FXML
 	private Label txtQuestionAuthor;
+	@FXML
+    private JFXSnackbar snackbar;
+	@FXML
+    private AnchorPane root;
 	
 	@FXML
 	private TextField txtAnswerCorrect;
@@ -152,8 +163,7 @@ public class EditQuestionFrameController implements Initializable {
 			}
 	    
 		}catch (NullPointerException e) {
-			
-			// displayErrorMessage("[Error] Missing fields");
+			displayErrorMessage();
 
 	
 		}
@@ -175,6 +185,13 @@ public class EditQuestionFrameController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		loadSelectedQuestion();
+	}
+	
+	private void displayErrorMessage() {
+	    snackbar = new JFXSnackbar(root);
+	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
+	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}
 
 }
