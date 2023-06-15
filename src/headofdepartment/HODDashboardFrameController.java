@@ -25,8 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -40,20 +38,16 @@ public class HODDashboardFrameController implements Initializable{
 	// -------------- Show Report PANEL --------------
 
 	@FXML
-	private JFXComboBox<String> subjectSelectBox_ShowReport;
+	private JFXButton btnShowReport_ShowReport;
+
 	@FXML
-	private JFXComboBox<String> courseSelectBox_ShowReport;
+	private JFXButton btnShow_ShowReport;
+
+	@FXML
+	private JFXListView<String> listOfData_ShowReport;
+
 	@FXML
 	private JFXComboBox<String> typeSelectBox_ShowReport;
-	@FXML
-	private JFXButton btnSearch_ShowReport;
-	@FXML
-	private Label lblAverage;
-	@FXML
-	private Label lblMedian;
-	@FXML
-	private BarChart<String, Number> barChart_ShowReport;
-	private XYChart.Series<String, Number> series1;
 
 	// -------------- END Show Report PANEL --------------
 
@@ -132,14 +126,14 @@ public class HODDashboardFrameController implements Initializable{
     	
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
     	if(chosenRequest == null) {
-    		displayError("[Error] please choose request first.");
+			displayError("Error: please choose request first.");
     	}
     	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
-    		displayError("[Error] please write explanation");
+			displayError("Error: please write explanation");
     	}
     	else {
     		requestDenied();
-    		displayError("request for Change time to add denied!");
+			displayError("Request for Change time to add denied!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -149,14 +143,14 @@ public class HODDashboardFrameController implements Initializable{
     public void getBtnAcceptRequest(ActionEvent event) throws Exception{
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
     	if(chosenRequest == null) {
-    		displayError("[Error] please choose request first.");
+			displayError("Error: please choose request first.");
     	}
     	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
-    		displayError("[Error] please write explanation");
+			displayError("Error: please write explanation");
     	}
     	else {
     		requestAccepted();
-    		displayError("request for Change time to add cofirmed!");
+			displayError("Request for Change time to add cofirmed!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -253,16 +247,15 @@ public class HODDashboardFrameController implements Initializable{
     }
 
 	// -------------- Show Report PANEL --------------
+
 	@FXML
-	public void getBtnSubjectSelect() {
+	void getBtnShowReport_ShowReport(ActionEvent event) {
+
 	}
 
 	@FXML
-	public void getBtnCourseSelect() {
-	}
+	void getShowBtn_ShowReport(ActionEvent event) {
 
-	@FXML
-	public void getShowBtn_ShowReport() {
 	}
 
 	// -------------- END Show Report PANEL --------------

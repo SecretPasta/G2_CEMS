@@ -82,3 +82,35 @@
 	-fx-scale-x: 1.05;
 	-fx-scale-y: 1.05;
 }
+
+.list-view{
+	-fx-padding: 5;
+	-fx-background-color: #242633, #FAF9F6;
+	-fx-background-insets: 0, 2 2 2 2;
+	-fx-background-radius: 5;
+	
+}
+
+.list-view .scroll-bar:horizontal, .list-view .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.list-view .scroll-bar:horizontal .track,
+.list-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.list-view .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.list-view > .corner {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10em;
+}

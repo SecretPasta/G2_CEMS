@@ -283,6 +283,15 @@ public class MessageHandler_Client {
 	                	
 	                	break;
 	                	
+	                case "LoadStatisticsOfExamByIdForLecturer":
+	                	// 0 - Identifying string
+	                	// 1 - totalExminees
+	                	// 2 - submittedOnTime
+	                	// 3 - notSubmittedOnTime
+           	
+	                	LecturerDashboardFrameController.getInstance().set_StatisticsOfExam(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3)); 	
+	                	break;
+	                	
 	            }       
 	            
             }catch (Exception e) {

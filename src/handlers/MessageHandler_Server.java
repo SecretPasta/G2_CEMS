@@ -528,6 +528,14 @@ public class MessageHandler_Server {
 						System.out.println(undergoingExams);
 						client.sendToClient("notifyServerStudentNotFinishedExam - Received");
 						break;
+						
+					case "GetStatisticsOfExamByExamIDFromDB":
+						// 1 - exam ID
+						ArrayList<String> sttistics_arr = new ArrayList<>();
+						sttistics_arr.add("LoadStatisticsOfExamByIdForLecturer");
+						sttistics_arr.addAll(DBController.getStatisticsOfExamByID(arrayListStr.get(1)));
+						client.sendToClient(sttistics_arr);
+						break;
 
 	            }
             }catch (IOException | ClassNotFoundException e) {
