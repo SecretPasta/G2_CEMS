@@ -3,8 +3,8 @@
 }
 
 .jfx-tab-pane .tab-selected-line {
-    -fx-background-color: #66A7F2;
-	-fx-scale-x: 62%;
+    -fx-background-color: #FAF9F6;
+    -fx-scale-x: 0%;
 }
 .jfx-tab-pane .tab .tab-label {
     -fx-font-weight: bold;
@@ -12,6 +12,11 @@
     -fx-font-size: 14;
     -fx-effect: null;
 
+}
+
+.jfx-tab-pane .tab:selected {
+	-fx-border-width: 0 0 2 0;
+	-fx-border-color: #66A7F2;
 }
 
 .jfx-tab-pane .tab-header-area .jfx-rippler{

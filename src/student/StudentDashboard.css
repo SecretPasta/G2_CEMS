@@ -73,6 +73,10 @@
 	-fx-background-insets: 0, 1 1 1 1;
 	-fx-background-radius: 5;
 }
+.text-field:focused {
+	-fx-background-radius: 5;
+	-fx-background-color: #66A7F2, #FFFFFF;
+}
 
 .button:hover{
 	-fx-scale-x: 1.05;

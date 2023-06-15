@@ -6,6 +6,7 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import Config.Exam;
@@ -31,6 +32,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.Toggle;
@@ -288,45 +290,46 @@ public class ComputerizedExamController implements Initializable{
 		}
 		return null;
 	}
+	
 	public void submitExam() {
-
-	    Platform.runLater(new Runnable() {
-	        @Override
-	        public void run() {
-				int elapsedTime = -1;
-				 if(examTimer!= null){
-					 elapsedTime = examTimer.getElapsedMinutes();
-					 examTimer.stopTimer();
-				 }
-				double grade;
-				System.out.println("You've Submitted the exam!");
-				grade = gradeComputerizedExam();
-				ArrayList<String> answers = new ArrayList<>();
-				answers.addAll(getChosenAnswers());
-				if(answers.contains(" ")){
-					notifyNotFinishedExam(elapsedTime);
-				}
-				else{
-					notifyFinishedExam(elapsedTime);
-				}
-				String answerString = "";
-				for(String ans : answers)
-					answerString += (ans + "|");
 		
-				ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
-				finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null, null, null));
-				FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
-						participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1), null, null);
-				finishedExam.checkExam();
-				finishedExamsList.add(finishedExam);
-				System.out.println(finishedExam);
-				openStage.hide();
-				StudentDashboardFrameController.getInstance().showDashboardWindow();
-				//Submitting Exam to the DB
-				ClientUI.chat.accept(finishedExamsList);
-				
-		        }
-    });
+			Platform.runLater(new Runnable() {
+		        @Override
+		        public void run() {
+					int elapsedTime = -1;
+					 if(examTimer!= null){
+						 elapsedTime = examTimer.getElapsedMinutes();
+						 examTimer.stopTimer();
+					 }
+					double grade;
+					System.out.println("You've Submitted the exam!");
+					grade = gradeComputerizedExam();
+					ArrayList<String> answers = new ArrayList<>();
+					answers.addAll(getChosenAnswers());
+					if(answers.contains(" ")){
+						notifyNotFinishedExam(elapsedTime);
+					}
+					else{
+						notifyFinishedExam(elapsedTime);
+					}
+					String answerString = "";
+					for(String ans : answers)
+						answerString += (ans + "|");
+			
+					ArrayList<FinishedExam> finishedExamsList= new ArrayList<>();
+					finishedExamsList.add(new FinishedExam("saveFinishedExamToDB",null,null,0,null, null, null));
+					FinishedExam finishedExam = new FinishedExam(currentExam.getExamID(), currentExam.getAuthor(),
+							participatingStudent.getId(),grade,answerString.substring(0, answerString.length() - 1), null, null);
+					finishedExam.checkExam();
+					finishedExamsList.add(finishedExam);
+					System.out.println(finishedExam);
+					openStage.hide();
+					StudentDashboardFrameController.getInstance().showDashboardWindow();
+					//Submitting Exam to the DB
+					ClientUI.chat.accept(finishedExamsList);
+					
+			        }
+			});
 
 	}
 
@@ -365,14 +368,31 @@ public class ComputerizedExamController implements Initializable{
 	//Submitting by Pressing "Submit"
 	@FXML
 	public void getSubmitExamBtn(ActionEvent event) {
+		Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+		root.setDisable(true);
 
-	    Platform.runLater(new Runnable() {
-	        @Override
-	        public void run() {
-	    		examTimer.stopTimer();
-	    		submitExam();
-	        }
-	    });
+	    confirmationAlert.initStyle(StageStyle.UTILITY);
+	    confirmationAlert.setTitle("Submitting Exam");
+		confirmationAlert.setHeaderText("Are you sure?");
+
+	    confirmationAlert.setContentText("You are going to submit your exam. You will not have opportunity to change your answers.\n"
+	    								+ "Press OK to submit, to continue exam press Cancel.\n");
+
+	    confirmationAlert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+		confirmationAlert.getDialogPane().setPrefSize(700, 250);
+		Optional<ButtonType> result = confirmationAlert.showAndWait();
+		if(!result.isPresent()) root.setDisable(false);
+
+		else if(result.get() == ButtonType.OK) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					examTimer.stopTimer();
+					submitExam();
+				}
+			});
+		}
+		else if(result.get() == ButtonType.CANCEL) root.setDisable(false);
 	}
 
 	//method to update the exam duration after approval, approval is done in headofdepartment code

@@ -225,7 +225,7 @@ public class StudentDashboardFrameController implements Initializable{
     public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
         if(selectedExam == null){
-            displayErrorMessage("Error: no Exam has been Selected!");
+            displayErrorMessage("Error: No Exam has been Selected!");
         } else if (!selectedExam.getCode().equals(txtComputerizedExamCode.getText())) {
             displayErrorMessage("Error: Incorrect Code!");
         } else if (!student.getId().equals(txtComputerizedExamStudentId.getText())) {
@@ -233,7 +233,7 @@ public class StudentDashboardFrameController implements Initializable{
         } else{
             //Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            displaySuccessMessage("You have started the Computerized Exam!");
+            //displaySuccessMessage("You have started the Computerized Exam!");
             ComputerizedExamController.start(selectedExam,student);
             selectedExam = null;
         }
@@ -310,7 +310,7 @@ public class StudentDashboardFrameController implements Initializable{
 
 	public void getStartManualExamBtn(ActionEvent event) throws IOException {
 		((Node) event.getSource()).getScene().getWindow().hide();
-		displaySuccessMessage("You have started the Computerized Exam!");
+		//displaySuccessMessage("You have started the Computerized Exam!");
 		ManualExamController.start(student);
 	}
 
@@ -386,7 +386,7 @@ public class StudentDashboardFrameController implements Initializable{
             transition.play();
 
             newSection.setStyle("-fx-border-color: #FAF9F6");
-            if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
+            if(currentSection != null && currentSection != newSection) currentSection.setStyle("-fx-border-color: #242633");
 
             currentPane = newPane;
             currentSection = newSection;
@@ -395,13 +395,20 @@ public class StudentDashboardFrameController implements Initializable{
     }
     
 	private void displayErrorMessage(String message) {
-		snackbar = new JFXSnackbar(stackPane);
-		String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
-        snackbar.setPrefWidth(754);
-        snackbarLayout = new JFXSnackbarLayout(message);
-        snackbarLayout.getStylesheets().add(css);
-        snackbar.getStylesheets().add(css);
-        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+		
+		Platform.runLater(new Runnable() {		
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+		        snackbar.setPrefWidth(754);
+		        snackbarLayout = new JFXSnackbarLayout(message);
+		        snackbarLayout.getStylesheets().add(css);
+		        snackbar.getStylesheets().add(css);
+		        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+			}
+		});
+		
 	}
 	
 	public void displaySuccessMessage(String message) {
