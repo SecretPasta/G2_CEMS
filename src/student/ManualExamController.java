@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.ResourceBundle;
 
@@ -86,8 +87,11 @@ public class ManualExamController implements Initializable {
 		selectedDirPath = selectedDir.getAbsolutePath();
 
 		System.out.println(selectedDirPath);
+		ArrayList<String> exam = new ArrayList<>();
+		exam.add("downloadManualExamFromServer");
+		exam.add(currentExam.getExamID());
+		ClientUI.chat.accept(exam);
 
-		
 
 
 		// FILE TRANSFER FROM DB TO COMPUTER
@@ -108,15 +112,15 @@ public class ManualExamController implements Initializable {
 	}
 
 
-	public void saveExamToComputer(Object msg) throws IOException,ClassNotFoundException{
+	public void saveExamToComputer(MyFile myFile){
 		System.out.println("Entered Save to Computer");
 		try{
-			File file = new File(selectedDirPath + "/potato.txt");
+			File file = new File(selectedDirPath + "/" + myFile.getFileName());
 
 			FileOutputStream os = new FileOutputStream(file);
 			BufferedOutputStream bis = new BufferedOutputStream(os);
 
-			bis.write(((MyFile)msg).getMybytearray(),0,((MyFile)msg).getSize());
+			bis.write(myFile.getMybytearray(),0,myFile.getSize());
 			bis.close();
 		}catch (Exception e){}
 

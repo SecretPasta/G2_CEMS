@@ -1,5 +1,6 @@
 package handlers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import lecturer.LecturerDashboardFrameController;
 import lecturer.ManageExam_ChangeTimeFrameController;
 import ClientAndServerLogin.LoginFrameController;
 import student.ComputerizedExamController;
+import student.ManualExamController;
 import student.StudentDashboardFrameController;
 
 public class MessageHandler_Client {
@@ -57,6 +59,9 @@ public class MessageHandler_Client {
 			case ARRAY_LIST_FINISHED_EXAM:
 				handleFinishedExamArrayListValueMessage((ArrayList<FinishedExam>) msg);
 				break;
+			case MY_FILE:
+				handleMyFileValueMessage((MyFile) msg);
+				break;
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;
@@ -65,7 +70,7 @@ public class MessageHandler_Client {
 
 
 
-	// This method is used to determine the type of a message.
+	// This method is used to determine the type of message.
 	private static MessageType getMessageType(Object msg) {
 		// Check if the message is a String.
 		if (msg instanceof String) {
@@ -113,6 +118,9 @@ public class MessageHandler_Client {
 					return MessageType.MAP_STRING_STRING;
 				}
 			}
+		} else if (msg instanceof MyFile) {
+			return MessageType.MY_FILE;
+
 		}
 		// If none of the above conditions are met, return null.
 		return null;
@@ -481,5 +489,8 @@ public class MessageHandler_Client {
 		}
 	}
 
-
+	private static void handleMyFileValueMessage(MyFile file){
+		System.out.println("Reach handleMyFileValueMessage | Client Handler");
+		ManualExamController.getInstance().saveExamToComputer(file);
+	}
 }

@@ -1,5 +1,7 @@
 package handlers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import JDBC.DBController;
 import javafx.collections.ObservableList;
 import ClientAndServerLogin.ServerPortFrameController;
 import ocsf.server.ConnectionToClient;
+
+import static JDBC.DBController.getManualExamPath;
 
 public class MessageHandler_Server {
 
@@ -604,8 +608,35 @@ public class MessageHandler_Server {
 						manualExams.addAll(DBController.getManualExamsByActiveness("1", null));
 						client.sendToClient(manualExams);
 						break;
+					case "downloadManualExamFromServer":
+						String path = getManualExamPath(arrayListStr.get(1));
 
-	            }
+						// Read the file and convert it to a byte array
+						File file = new File(path);
+						byte[] fileData;
+						try {
+							FileInputStream fileInputStream = new FileInputStream(file);
+							fileData = new byte[(int) file.length()];
+							fileInputStream.read(fileData);
+							fileInputStream.close();
+						} catch (IOException e) {
+							// Handle any errors that occur during file reading
+							e.printStackTrace();
+							break;
+						}
+
+						// Create a new MyFile object
+						MyFile myFile = new MyFile(file.getName());
+						myFile.setSize(fileData.length);
+						myFile.initArray(fileData.length);
+						myFile.setMybytearray(fileData);
+
+						// Send the MyFile object to the client
+						client.sendToClient(myFile);
+						break;
+
+
+				}
             }catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

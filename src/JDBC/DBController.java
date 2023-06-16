@@ -1383,6 +1383,30 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 
+	public static String getManualExamPath(String examID) {
+		String query = "SELECT filename, filePath FROM manualexams WHERE examId = ?";
+		String examPath = null;
+
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+				ps.setString(1, examID);
+				try (ResultSet rs = ps.executeQuery()) {
+					if (rs.next()) {
+						String filename = rs.getString("filename");
+						String filePath = rs.getString("filePath");
+						examPath = filePath + "/" + filename;
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return examPath;
+	}
 
 
 
