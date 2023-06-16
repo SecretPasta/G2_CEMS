@@ -143,7 +143,6 @@ CREATE TABLE `examparticipation` (
 
 LOCK TABLES `examparticipation` WRITE;
 /*!40000 ALTER TABLE `examparticipation` DISABLE KEYS */;
-INSERT INTO `examparticipation` VALUES ('010104','14/06/2023',180,0,1,0,1);
 /*!40000 ALTER TABLE `examparticipation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -379,6 +378,40 @@ INSERT INTO `lecturersubject` VALUES ('206391146','01'),('206391146','02'),('333
 UNLOCK TABLES;
 
 --
+-- Table structure for table `manualexams`
+--
+
+DROP TABLE IF EXISTS `manualexams`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `manualexams` (
+  `examId` varchar(45) NOT NULL,
+  `subjectID` varchar(45) DEFAULT NULL,
+  `courseID` varchar(45) DEFAULT NULL,
+  `filename` varchar(100) DEFAULT NULL,
+  `file` mediumblob,
+  `commentsStudent` varchar(1000) DEFAULT NULL,
+  `commentsLecturer` varchar(1000) DEFAULT NULL,
+  `duration` int DEFAULT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `author` varchar(45) DEFAULT NULL,
+  `authorID` varchar(45) DEFAULT NULL,
+  `isActive` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`examId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `manualexams`
+--
+
+LOCK TABLES `manualexams` WRITE;
+/*!40000 ALTER TABLE `manualexams` DISABLE KEYS */;
+INSERT INTO `manualexams` VALUES ('123456','01','02','potato.txt',NULL,'Manual Exam','I like potatoes',180,'001','Ben Dover','6942042069','1');
+/*!40000 ALTER TABLE `manualexams` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `question`
 --
 
@@ -558,4 +591,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-14 18:51:48
+-- Dump completed on 2023-06-16 22:17:40

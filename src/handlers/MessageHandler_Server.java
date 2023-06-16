@@ -124,7 +124,7 @@ public class MessageHandler_Server {
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
-		System.out.println("Reached the handleStringArrayListMessage method");
+		System.out.println("Reached the handleStringArrayListMessage method | Server Handler");
             ArrayList<String> arrayListStr = (ArrayList<String>) arrayList;
 			System.out.println(arrayListStr);
             String messageType = arrayListStr.get(0);
@@ -596,6 +596,13 @@ public class MessageHandler_Server {
 						
 						client.sendToClient(gradesforreport_arr);
 						
+						break;
+					case "GetAllManualExamsFromDB":
+						System.out.println("Reached GetAllManualExams From DB case");
+						ArrayList<Exam> manualExams = new ArrayList<>();
+						manualExams.add(new Exam("manualExamsForStudentTable",null,null,null,null,null,null,null,0,null,null,null));
+						manualExams.addAll(DBController.getManualExamsByActiveness("1", null));
+						client.sendToClient(manualExams);
 						break;
 
 	            }

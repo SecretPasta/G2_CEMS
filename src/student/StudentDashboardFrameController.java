@@ -1,6 +1,7 @@
 package student;
 
 import java.io.IOException;
+import java.lang.ref.Cleaner;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -98,8 +99,8 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnStartManualExam;
 
-	@FXML
-	private JFXButton getUploadManualExamBtn;
+    @FXML
+    private JFXButton btnRefreshManualExams;
 
     private ObservableList<Exam> manualExamsObservableList = FXCollections.observableArrayList();
 
@@ -262,8 +263,16 @@ public class StudentDashboardFrameController implements Initializable{
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
         //--------------------- Manual Exam -----------------------------------------------------------------------
-
-
+        examIdColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("examID"));
+        courseColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("courseName"));
+        subjectColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("subjectName"));
+        descriptionColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("commentsForStudent"));
+        durationColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,Integer>("duration"));
+        lecturerColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("author"));
+        ArrayList<String> getManualExamArray = new ArrayList<>();
+        getManualExamArray.add("GetAllManualExamsFromDB");
+        ClientUI.chat.accept(getManualExamArray);
+        tableView_UpcomingManualExams.getSelectionModel().clearSelection();
 
         //--------------------- End of Manual Exam ----------------------------------------------------------------
 
@@ -300,6 +309,7 @@ public class StudentDashboardFrameController implements Initializable{
         getGradesArr.add("getStudentGradesById");
         getGradesArr.add((student.getId()));
         ClientUI.chat.accept(getGradesArr);
+        tableView_UpcomingManualExams.getSelectionModel().clearSelection();
     }
 
 //--------------------- Manual Exam -----------------------------------------------------------------------
@@ -313,6 +323,17 @@ public class StudentDashboardFrameController implements Initializable{
 		//displaySuccessMessage("You have started the Computerized Exam!");
 		ManualExamController.start(student);
 	}
+
+    public void loadManualExamsIntoTable(ArrayList<Exam> exams){
+        manualExamsObservableList.setAll(exams);
+        tableView_UpcomingManualExams.setItems(manualExamsObservableList);
+    }
+
+    public void getBtnRefreshManualExams(ActionEvent event){
+        ArrayList<String> getManualExamArray = new ArrayList<>();
+        getManualExamArray.add("GetAllManualExamsFromDB");
+        ClientUI.chat.accept(getManualExamArray);
+    }
 
 //--------------------- END Manual Exam -----------------------------------------------------------------------
 

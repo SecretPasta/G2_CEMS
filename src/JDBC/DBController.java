@@ -1323,8 +1323,68 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
             }
         }catch (SQLException e) {}	
 	}
-	
-	
+
+	public static ArrayList<Exam> getManualExamsByActiveness(String active, String authorID) {
+		String query;
+		ArrayList<Exam> manualExamsArr = new ArrayList<>();
+		PreparedStatement ps = null;
+		try {
+			if (mysqlConnection.getConnection() != null) {
+				if (authorID == null) {
+					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.file, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
+							"FROM manualexams AS me " +
+							"JOIN course AS c ON me.courseID = c.CourseID " +
+							"JOIN subjects AS s ON me.subjectID = s.SubjectID " +
+							"WHERE me.isActive = ?";
+
+					ps = mysqlConnection.getConnection().prepareStatement(query);
+					ps.setString(1, active);
+				} else {
+					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.file, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
+							"FROM manualexams AS me " +
+							"JOIN course AS c ON me.courseID = c.CourseID " +
+							"JOIN subjects AS s ON me.subjectID = s.SubjectID " +
+							"WHERE me.isActive = ? AND me.authorID = ?";
+
+					ps = mysqlConnection.getConnection().prepareStatement(query);
+					ps.setString(1, active);
+					ps.setString(2, authorID);
+				}
+				try (ResultSet rs = ps.executeQuery()) {
+					while (rs.next()) {
+						String examId = rs.getString("examId");
+						String subjectID = rs.getString("subjectID");
+						String courseID = rs.getString("courseID");
+						String filename = rs.getString("filename");
+						String file = rs.getString("file");
+						String commentsStudent = rs.getString("commentsStudent");
+						String commentsLecturer = rs.getString("commentsLecturer");
+						int duration = rs.getInt("duration");
+						String code = rs.getString("code");
+						String author = rs.getString("author");
+						//String authorID = rs.getString("authorID");
+						String isActive = rs.getString("isActive");
+						String courseName = rs.getString("courseName");
+						String subjectName = rs.getString("subjectName");
+
+						Exam exam = new Exam(examId, subjectID, subjectName, courseID, courseName, null, commentsLecturer,
+								commentsStudent, duration, author, code, authorID);
+
+						manualExamsArr.add(exam);
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return manualExamsArr;
+	}
+
+
+
+
 
 }
 

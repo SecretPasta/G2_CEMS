@@ -400,6 +400,10 @@ public class MessageHandler_Client {
 					examList.remove(0);
 					LecturerDashboardFrameController.getInstance().loadAllExamsToCheckInTable(examList);
 					break;
+				case "manualExamsForStudentTable":
+					examList.remove(0);
+					StudentDashboardFrameController.getInstance().loadManualExamsIntoTable(examList);
+					break;
 	    	}
     	} catch (IndexOutOfBoundsException e) {}
 		
