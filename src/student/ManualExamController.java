@@ -2,7 +2,10 @@ package student;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import Config.Exam;
 import com.jfoenix.controls.JFXButton;
 
 import ClientAndServerLogin.SceneManagment;
@@ -10,6 +13,7 @@ import Config.Student;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,7 +22,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ManualExamController {
+public class ManualExamController implements Initializable {
 
 	@FXML
 	private JFXButton btnDownloadManualExam;
@@ -48,11 +52,23 @@ public class ManualExamController {
 	private Text timer;
 
 	protected static Stage currentStage; // save current stage
-	private static Student student;
+	private static Student currentStudent;
+	private static Exam currentExam;
+
+	private ManualExamTimer manualExamTimer;
+
+	private static ManualExamController instance;
+
+	public ManualExamController(){
+		instance = this;
+	}
+
+	public static ManualExamController getInstance(){
+		return instance;
+	}
 
 	@FXML
 	void getDownloadManualExamBtn(ActionEvent event) {
-		System.out.println("You have started the Manual Exam!!!");
 		// Code to open window for the appropriate exam
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 
@@ -77,14 +93,36 @@ public class ManualExamController {
 //			
 //		} catch (Exception e) {
 //		}
-
+		manualExamTimer =  new ManualExamTimer(currentExam.getDuration(),instance);
+		manualExamTimer.start();
 	}
+
+
+
+	public void submitManualExam(){
+		System.out.println("You have started the Manual Exam!!!");
+
+		if(manualExamTimer != null){
+			manualExamTimer.stopTimer();
+		}
+	}
+
 
 	@FXML
 	void getSubmitManualExamBtn(ActionEvent event) {
+		submitManualExam();
 		((Node) event.getSource()).getScene().getWindow().hide();
 		StudentDashboardFrameController.getInstance().showDashboardFrom_ManualExam();
 
+	}
+
+
+	public void setUpdateExamTimer(String time){
+		timer.setText(time);
+	}
+
+	public void endOfTimerSubmit(){
+		submitManualExam();
 	}
 
 	@FXML
@@ -95,8 +133,16 @@ public class ManualExamController {
 
 	}
 
-	public static void start(Student student) throws IOException {
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		lblSubjectName.setText(currentExam.getSubjectName());
+		lblCourseName.setText(currentExam.getCourseName());
+		lblStudent.setText(currentStudent.getName() + "\n" + currentStudent.getId());
+	}
 
+	public static void start(Exam exam, Student student) throws IOException {
+		currentExam = exam;
+		currentStudent = student;
 		// Initialize the student with the provided details
 
 		// student = new Student(studentDetails.get(2), studentDetails.get(3),

@@ -1331,7 +1331,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		try {
 			if (mysqlConnection.getConnection() != null) {
 				if (authorID == null) {
-					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.file, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
+					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
 							"FROM manualexams AS me " +
 							"JOIN course AS c ON me.courseID = c.CourseID " +
 							"JOIN subjects AS s ON me.subjectID = s.SubjectID " +
@@ -1340,7 +1340,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 					ps = mysqlConnection.getConnection().prepareStatement(query);
 					ps.setString(1, active);
 				} else {
-					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.file, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
+					query = "SELECT me.examId, me.subjectID, me.courseID, me.filename, me.commentsStudent, me.commentsLecturer, me.duration, me.code, me.author, me.authorID, me.isActive, c.Name AS courseName, s.Name AS subjectName " +
 							"FROM manualexams AS me " +
 							"JOIN course AS c ON me.courseID = c.CourseID " +
 							"JOIN subjects AS s ON me.subjectID = s.SubjectID " +
@@ -1356,7 +1356,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 						String subjectID = rs.getString("subjectID");
 						String courseID = rs.getString("courseID");
 						String filename = rs.getString("filename");
-						String file = rs.getString("file");
+						//String file = rs.getString("file");
 						String commentsStudent = rs.getString("commentsStudent");
 						String commentsLecturer = rs.getString("commentsLecturer");
 						int duration = rs.getInt("duration");
