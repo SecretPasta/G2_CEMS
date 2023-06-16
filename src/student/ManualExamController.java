@@ -1,11 +1,16 @@
 package student;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.BitSet;
 import java.util.ResourceBundle;
 
 import Config.Exam;
+import Config.MyFile;
+import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 
 import ClientAndServerLogin.SceneManagment;
@@ -59,6 +64,8 @@ public class ManualExamController implements Initializable {
 
 	private static ManualExamController instance;
 
+	private String selectedDirPath;
+
 	public ManualExamController(){
 		instance = this;
 	}
@@ -76,9 +83,12 @@ public class ManualExamController implements Initializable {
 
 		File selectedDir = directoryChooser.showDialog(currentStage);
 
-		String selectedDirPath = selectedDir.getAbsolutePath();
+		selectedDirPath = selectedDir.getAbsolutePath();
 
 		System.out.println(selectedDirPath);
+
+		
+
 
 		// FILE TRANSFER FROM DB TO COMPUTER
 //		try {
@@ -97,6 +107,21 @@ public class ManualExamController implements Initializable {
 		manualExamTimer.start();
 	}
 
+
+	public void saveExamToComputer(Object msg) throws IOException,ClassNotFoundException{
+		System.out.println("Entered Save to Computer");
+		try{
+			File file = new File(selectedDirPath + "/potato.txt");
+
+			FileOutputStream os = new FileOutputStream(file);
+			BufferedOutputStream bis = new BufferedOutputStream(os);
+
+			bis.write(((MyFile)msg).getMybytearray(),0,((MyFile)msg).getSize());
+			bis.close();
+		}catch (Exception e){}
+
+
+	}
 
 
 	public void submitManualExam(){
