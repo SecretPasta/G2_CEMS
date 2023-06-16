@@ -389,7 +389,7 @@ CREATE TABLE `manualexams` (
   `subjectID` varchar(45) DEFAULT NULL,
   `courseID` varchar(45) DEFAULT NULL,
   `filename` varchar(100) DEFAULT NULL,
-  `file` mediumblob,
+  `filePath` varchar(1000) DEFAULT NULL,
   `commentsStudent` varchar(1000) DEFAULT NULL,
   `commentsLecturer` varchar(1000) DEFAULT NULL,
   `duration` int DEFAULT NULL,
@@ -407,7 +407,7 @@ CREATE TABLE `manualexams` (
 
 LOCK TABLES `manualexams` WRITE;
 /*!40000 ALTER TABLE `manualexams` DISABLE KEYS */;
-INSERT INTO `manualexams` VALUES ('123456','01','02','potato.txt',NULL,'Manual Exam','I like potatoes',180,'001','Ben Dover','6942042069','1');
+INSERT INTO `manualexams` VALUES ('123456','01','02','potato.txt','C:/TestFiles','Manual Exam','I like potatoes',180,'001','Ben Dover','6942042069','1');
 /*!40000 ALTER TABLE `manualexams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -591,4 +591,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-16 22:17:40
+-- Dump completed on 2023-06-17  1:06:37

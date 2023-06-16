@@ -1,9 +1,6 @@
 package student;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -67,6 +64,8 @@ public class ManualExamController implements Initializable {
 
 	private String selectedDirPath;
 
+	private MyFile myFile;
+
 	public ManualExamController(){
 		instance = this;
 	}
@@ -127,22 +126,23 @@ public class ManualExamController implements Initializable {
 
 	}
 
-
-	public void submitManualExam(){
-		System.out.println("You have started the Manual Exam!!!");
-
-		if(manualExamTimer != null){
-			manualExamTimer.stopTimer();
-		}
-	}
-
-
 	@FXML
 	void getSubmitManualExamBtn(ActionEvent event) {
-		submitManualExam();
-		((Node) event.getSource()).getScene().getWindow().hide();
-		StudentDashboardFrameController.getInstance().showDashboardFrom_ManualExam();
 
+		if(myFile == null){
+			System.out.println("Error, no file has been chosen! Please choose a file");
+			//Add snackbar error for this
+		}else{
+			System.out.println("You have Submitted the Manual Exam!!!");
+
+			if(manualExamTimer != null){
+				manualExamTimer.stopTimer();
+			}
+			// Send the MyFile object to the server
+			ClientUI.chat.accept(myFile);
+			((Node) event.getSource()).getScene().getWindow().hide();
+			StudentDashboardFrameController.getInstance().showDashboardFrom_ManualExam();
+		}
 	}
 
 
@@ -151,16 +151,42 @@ public class ManualExamController implements Initializable {
 	}
 
 	public void endOfTimerSubmit(){
-		submitManualExam();
+		currentStage.getScene().getWindow().hide();
+		StudentDashboardFrameController.getInstance().showDashboardFrom_ManualExam();
 	}
 
 	@FXML
 	void getUploadManualExamBtn(ActionEvent event) {
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle("Open File");
-		chooser.showOpenDialog(root.getScene().getWindow());
+		File selectedFile = chooser.showOpenDialog(root.getScene().getWindow());
 
+		if (selectedFile != null) {
+			System.out.println("File Name: " + selectedFile.getName() + " File Path: " + selectedFile.getAbsolutePath());
+
+			// Read the selected file and convert it to a byte array
+			byte[] fileData;
+			try {
+				FileInputStream fileInputStream = new FileInputStream(selectedFile);
+				fileData = new byte[(int) selectedFile.length()];
+				fileInputStream.read(fileData);
+				fileInputStream.close();
+			} catch (IOException e) {
+				// Handle any errors that occur during file reading
+				e.printStackTrace();
+				return;
+			}
+
+			// Create a new MyFile object
+			myFile = new MyFile(selectedFile.getName());
+			myFile.setSize(fileData.length);
+			myFile.initArray(fileData.length);
+			myFile.setMybytearray(fileData);
+
+
+		}
 	}
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

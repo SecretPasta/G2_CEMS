@@ -2,6 +2,7 @@ package handlers;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +56,8 @@ public class MessageHandler_Server {
 			case ARRAY_LIST_FINISHED_EXAM:
 				handleFinishedExamArrayListValueMessage((ArrayList<FinishedExam>) msg, client);
 				break;
+			case MY_FILE:
+				handleMyFileValueMessage((MyFile) msg, client);
 	        default:
 	            System.out.println("Message type does not exist");
 	            break;
@@ -95,8 +98,10 @@ public class MessageHandler_Server {
 	                return MessageType.MAP_STRING_STRING;
 	            }
 	        }
-	    }
-	    return null;
+	    } else if (msg instanceof MyFile) {
+			return MessageType.MY_FILE;
+		}
+		return null;
 	}
 	
 	
@@ -749,5 +754,37 @@ public class MessageHandler_Server {
 			e.printStackTrace();
 		}
 	}
+
+	private static void handleMyFileValueMessage(MyFile myFile, ConnectionToClient client) {
+		System.out.println("Reached handleMyFileValueMessage | Server Handler");
+		try {
+			// Create the directory if it doesn't exist
+			File directory = new File("C:\\SubmitedExams");
+			if (!directory.exists()) {
+				directory.mkdirs();
+			}
+
+			// Create the file path using the directory and the received file name
+			String filePath = directory.getPath() + File.separator + myFile.getFileName();
+
+			// Write the byte array to the file
+			FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+			fileOutputStream.write(myFile.getMybytearray());
+			fileOutputStream.close();
+
+			// Send a confirmation message to the client
+			client.sendToClient("MyFile Received and Saved Successfully");
+		} catch (IOException e) {
+			// Handle any errors that occur during file saving
+			e.printStackTrace();
+			try {
+				// Send an error message to the client
+				client.sendToClient("Error in Saving MyFile");
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
     
 }
