@@ -94,6 +94,7 @@ public class ViewReportFrameController implements Initializable{
 		}catch (Exception e) {
 			lblAverage.setText("No Data");
 			lblMedian.setText("No Data");
+			lblDataReport.setText("Report For: " + chosenReport + " - " + name + " (" + id + ")\nno available data");
 			e.getStackTrace();
 		}
 	}

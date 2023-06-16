@@ -291,9 +291,7 @@ public class MessageHandler_Client {
 	                	// 3 - notSubmittedOnTime
 	                	try {
 	                	LecturerDashboardFrameController.getInstance().set_StatisticsOfExam(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3)); 	
-	    	        	} catch (Exception e) {
-	    	        		LecturerDashboardFrameController.getInstance().set_StatisticsOfExam("0", "0", "0");
-	    	        	}
+	    	        	} catch (Exception e) {}
 	                	break;
 	                	
 	                case "LoadToListOfDataForHOD_report":

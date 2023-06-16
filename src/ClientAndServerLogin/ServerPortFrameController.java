@@ -137,6 +137,10 @@ public class ServerPortFrameController implements Initializable {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void importAllExternalUsers(ActionEvent event) throws Exception {
+		DBController.importUsersData();
+	}
 
 
 	/**
@@ -150,6 +154,7 @@ public class ServerPortFrameController implements Initializable {
 	        lblMessage.setText("[Error] Missing fields!");
 	    } else {
 	        lblMessage.setText("");
+	        importAllExternalUsers(event);
 	        // Connect to the MySQL database
 	        boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
 	        if (sqlConnectionSucceed) {

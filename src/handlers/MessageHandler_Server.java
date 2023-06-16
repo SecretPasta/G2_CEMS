@@ -698,8 +698,12 @@ public class MessageHandler_Server {
 		switch (messageType){
 			case "saveFinishedExamToDB":
 				//finishedExam.remove(0);
-				DBController.saveFinishedExamToDB(finishedExam.get(1));
-				client.sendToClient("Exam was saved in the DB");
+				if(DBController.saveFinishedExamToDB(finishedExam.get(1))) {
+					client.sendToClient("Exam was saved in the DB");
+				}
+				else {
+					client.sendToClient("The exam is already finished.");
+				}
 				break;
 		}
 		}catch (IOException e) {

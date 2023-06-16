@@ -1047,7 +1047,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	    ClientUI.chat.accept(exam_arr_active_change);
 	}
 
-
+	public void getBtnRefresh_ManageExam(ActionEvent event) throws Exception {
+    	getAllActiveInActiveExams(); // send to the server a request to get all the exams (active and inactive)
+    	tableView_inActiveExams.getSelectionModel().clearSelection();
+    	tableView_activeExams.getSelectionModel().clearSelection();
+	}
 	
 	// -------------- END ManageExam PANEL --------------
 
@@ -1211,8 +1215,6 @@ public class LecturerDashboardFrameController implements Initializable{
 			
 		}catch (Exception e) {
 			displayErrorMessage("Error: you have to choose exam before searching");
-			lblAverage.setText("");
-			lblMedian.setText("");
 		}
 	}
 	
@@ -1600,9 +1602,12 @@ public class LecturerDashboardFrameController implements Initializable{
 	    }
 	    if (actionEvent.getSource() == btnManageExams) { // Working screen
 	    	handleAnimation(pnlManageExams, btnManageExams);
-	    	getAllActiveInActiveExams(); // send to the server a request to get all the exams (active and inactive)
-	    	tableView_inActiveExams.getSelectionModel().clearSelection();
-	    	tableView_activeExams.getSelectionModel().clearSelection();
+	    	
+	    	try {
+				getBtnRefresh_ManageExam(actionEvent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	        pnlManageExams.toFront();
 	    }
 	}

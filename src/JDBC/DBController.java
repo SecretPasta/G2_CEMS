@@ -866,7 +866,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 
-	public static void saveFinishedExamToDB(FinishedExam finishedExam) {
+	public static boolean saveFinishedExamToDB(FinishedExam finishedExam) {
 		String query = "INSERT INTO finishedexam (examID, studentID, answers, lecturer, grade, approved, checkExam) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		try {
@@ -883,8 +883,9 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 				ps.executeUpdate();
 			}
 		} catch (SQLException | ClassNotFoundException e) {
-			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public static ArrayList<FinishedExam> getAllStudentGradesById(String studentID) {
@@ -1269,6 +1270,61 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		}
 		return courseGrades_arr;
 	}
+
+
+
+	public static void importUsersData() {
+		
+		try {
+			
+            PreparedStatement ps1 = mysqlConnection.conn.prepareStatement("SELECT * FROM external_users");
+            ResultSet rs = ps1.executeQuery();
+            while (rs.next()) {
+            	String role = rs.getString(5);
+                User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+
+                try {
+                	String query = null;
+                	String departmentName = null;
+                	String departmentID = null;
+                	String roleID = null;
+
+                    if(role.equals("HeadOfDepartment") || role.equals("Student")) {
+                    	departmentName = rs.getString(6);
+                    	departmentID = rs.getString(7);
+                    	roleID = role.toLowerCase() + "ID";
+                    	query = "INSERT INTO " + role + " ( " + roleID + ", `UserName`, `Password`, `Name`, `Email`, `Department`, `DepartmentID`,`isLogged`) VALUES (?, ?, ?, ?, ?, ?, ?, 0);";
+                        ps1 = mysqlConnection.conn.prepareStatement(query);
+                        ps1.setString(1, user.getId());
+                        ps1.setString(2, user.getUsername());
+                        ps1.setString(3, user.getPassword());
+                        ps1.setString(4, user.getName());
+                        ps1.setString(5, user.getEmail());
+                        ps1.setString(6, departmentName);
+                        ps1.setString(7, departmentID);
+                        ps1.executeUpdate();
+                    }
+                    else if(role.equals("Lecturer")) {
+                    	roleID = role.toLowerCase() + "ID";
+                    	query = "INSERT INTO " + role + " ( " + roleID + ", `UserName`, `Password`, `Name`, `Email`,`isLogged`) VALUES (?, ?, ?, ?, ?, 0);";
+                        ps1 = mysqlConnection.conn.prepareStatement(query);
+                        ps1.setString(1, user.getId());
+                        ps1.setString(2, user.getUsername());
+                        ps1.setString(3, user.getPassword());
+                        ps1.setString(4, user.getName());
+                        ps1.setString(5, user.getEmail());
+                        ps1.executeUpdate();
+                    }
+                }
+                catch (Exception e2) {
+                    System.out.println("import user failed");
+                    return;
+                }
+            }
+        }catch (SQLException e) {}	
+	}
+	
+	
 
 }
 
