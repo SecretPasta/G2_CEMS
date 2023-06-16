@@ -42,6 +42,7 @@ import javafx.scene.chart.ValueAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
@@ -186,8 +187,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	private TableColumn<Question, String> courseNameColumn_ManageQuestions;
 	@FXML
 	private TableColumn<Question, String> questionTextColumn_ManageQuestions;
-	@FXML
-	private TableColumn<Question, String> authorColumn_ManageQuestions;
 	
 	@FXML
 	private TableColumn<Question, String> idColumn_CreateExam;
@@ -273,6 +272,7 @@ public class LecturerDashboardFrameController implements Initializable{
 		getAllExamsToCheck();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    currentPane = pnlGreeting;
+	    pnlEmpty.toFront();
 	    pnlGreeting.toFront();
 		
 	    // -------------- ManageQuestions PANEL --------------
@@ -281,7 +281,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	    idColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    subjectColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("subject"));
 	    questionTextColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
-	    authorColumn_ManageQuestions.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
 	      
 	    // all courses of lecturer here to add to boxSearchbyCourse_ManageQuestions
 	    boxSearchbyCourse_ManageQuestions.getItems().add("All");
@@ -315,6 +314,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    idColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("id"));
 	    questionTextColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("questionText"));    
 	    authorColumn_CreateExam.setCellValueFactory(new PropertyValueFactory<Question, String>("lecturer"));
+
 	    
 	    idColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("id"));
 	    questionTextColumn_CreateExam2.setCellValueFactory(new PropertyValueFactory<QuestionInExam, String>("questionText"));    
@@ -1229,6 +1229,7 @@ public class LecturerDashboardFrameController implements Initializable{
 			
 			    // total not on time
 			    lblNotOnTime.setText(notSubmittedOnTime);   
+
 	        }
 	    });
 	}

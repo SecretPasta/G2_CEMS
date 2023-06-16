@@ -197,7 +197,7 @@ public class MessageHandler_Client {
 	                	try {
 		                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
 		                		ComputerizedExamController.getInstance().submitExam(); // close the exam for the student in the specific exam
-		                		System.out.println("exam closed");
+		                		StudentDashboardFrameController.getInstance().displayErrorMessage("Your exam has been closed by your lecturer");
 		                	}
 	                	}catch (NullPointerException e){}
 	                	
@@ -289,8 +289,11 @@ public class MessageHandler_Client {
 	                	// 1 - totalExminees
 	                	// 2 - submittedOnTime
 	                	// 3 - notSubmittedOnTime
-           	
+	                	try {
 	                	LecturerDashboardFrameController.getInstance().set_StatisticsOfExam(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3)); 	
+	    	        	} catch (Exception e) {
+	    	        		LecturerDashboardFrameController.getInstance().set_StatisticsOfExam("0", "0", "0");
+	    	        	}
 	                	break;
 	                	
 	                case "LoadToListOfDataForHOD_report":
@@ -298,7 +301,7 @@ public class MessageHandler_Client {
 	                	// 1.. - the options to choose list
 	                	
 	                	arrayListStr.remove(0); // Removing identifying string
-	                	
+
 	                	HODDashboardFrameController.getInstance().loadAllOptionsForChosenReport(arrayListStr);
 	                	
 	                	break;

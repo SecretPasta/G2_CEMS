@@ -394,7 +394,7 @@ public class StudentDashboardFrameController implements Initializable{
         
     }
     
-	private void displayErrorMessage(String message) {
+    public void displayErrorMessage(String message) {
 		
 		Platform.runLater(new Runnable() {		
 			@Override

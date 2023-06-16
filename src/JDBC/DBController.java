@@ -1014,11 +1014,11 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 	}
 	
-	public static ArrayList<FinishedExam> getFinishedExamsInfoByAuthorID(String authorID){ // get finished exams info that checked and ended for statics
+	public static ArrayList<FinishedExam> getFinishedExamsInfoByAuthorID(String authorID){ // get finished exams info for statics
 		
 		String query = "SELECT E.ID, FE.grade, E.subjectID, E.courseID FROM finishedexam FE "
 	             + "JOIN exams E ON E.ID = FE.examID "
-	             + "WHERE E.authorID = ? AND FE.approved = 1 AND E.isActive = ?";
+	             + "WHERE E.authorID = ? AND FE.checkExam = 1 AND E.isActive = ?";
 		
 		ArrayList<FinishedExam> examInfo_arr = new ArrayList<>();
 		try {
@@ -1192,7 +1192,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 		String query = "SELECT grade "
 				+ "FROM finishedexam "
-				+ "WHERE studentID = ? AND approved = 1";
+				+ "WHERE studentID = ? AND checkExam = 1";
 		
 		ArrayList<String> studentGrades_arr = new ArrayList<>();
 		try {
@@ -1221,7 +1221,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 		String query = "SELECT FE.grade FROM finishedexam FE "
 				+ "JOIN exams E ON E.ID = FE.examID "
-				+ "WHERE E.isActive = ? AND FE.approved = 1 AND E.authorID = ?";
+				+ "WHERE E.isActive = ? AND FE.checkExam = 1 AND E.authorID = ?";
 		
 		ArrayList<String> lecturerGrades_arr = new ArrayList<>();
 		try {
@@ -1248,7 +1248,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		
 		String query = "SELECT FE.grade FROM finishedexam FE "
 				+ "JOIN exams E ON E.ID = FE.examID "
-				+ "WHERE E.isActive = ? AND FE.approved = 1 AND E.courseID = ?";
+				+ "WHERE E.isActive = ? AND FE.checkExam = 1 AND E.courseID = ?";
 		
 		ArrayList<String> courseGrades_arr = new ArrayList<>();
 		try {
