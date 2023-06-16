@@ -319,9 +319,16 @@ public class StudentDashboardFrameController implements Initializable{
 	}
 
 	public void getStartManualExamBtn(ActionEvent event) throws IOException {
-		((Node) event.getSource()).getScene().getWindow().hide();
-		//displaySuccessMessage("You have started the Computerized Exam!");
-		ManualExamController.start(student);
+        selectedExam = tableView_UpcomingManualExams.getSelectionModel().getSelectedItem();
+        if(selectedExam == null){
+            displayErrorMessage("Error: No Exam has been Selected!");
+        } else{
+            //Hide primary Window
+            ((Node) event.getSource()).getScene().getWindow().hide();
+            //displaySuccessMessage("You have started the Computerized Exam!");
+            ManualExamController.start(selectedExam,student);
+            selectedExam = null;
+        }
 	}
 
     public void loadManualExamsIntoTable(ArrayList<Exam> exams){
