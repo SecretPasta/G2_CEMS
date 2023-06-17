@@ -315,6 +315,11 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	    });
 	}
 	
+	/**
+	 * Displays an error message using a Snackbar.
+	 *
+	 * @param message The error message to display.
+	 */
 	public void displayErrorMessage(String message) {
 	    Platform.runLater(new Runnable() {
 	        @Override
@@ -330,6 +335,11 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	    });
 	}
 	
+	/**
+	 * Displays a success message using a Snackbar.
+	 *
+	 * @param message The success message to display.
+	 */
 	public void displaySuccessMessage(String message) {
 	    Platform.runLater(new Runnable() {
 	        @Override

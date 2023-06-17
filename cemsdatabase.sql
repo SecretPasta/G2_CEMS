@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `cemsdatabase`;
 -- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
@@ -177,7 +175,7 @@ CREATE TABLE `exams` (
 
 LOCK TABLES `exams` WRITE;
 /*!40000 ALTER TABLE `exams` DISABLE KEYS */;
-INSERT INTO `exams` VALUES ('010104','01','01','Class EM203 has additional time','Java Exam - Duration 3 Hours','180','Omri Sharof','01003,01014,01015,01017,01016','C001','1','206391146'),('010203','01','02','check for additional time.','Exam duration is 2 hours','120','Omri Sharof','01004,01018,01019,01020,01021','C002','1','206391146'),('010304','01','03','Class EM101 has additional time.','Exam duration is 3 hours, formula sheet is allowed.','180','Omri Sharof','01001,01002,01011,01012,01013','C003','1','206391146'),('010501','01','05','Class M303 has additional time','Exam in C++, duration 3 hours','180','Omri Sharof','01005,01022,01023,01024,01025','C004','2','206391146'),('020601','02','06','-','Exam in discrete math','180','Omri Sharof','02001,02002,02003,02004','M001','2','206391146'),('030404','03','04','Class M208 has additonal Time','English Exam - 3 Hours Duration','180','Omri Sharof','03001,03003,03004,03005,03006','E001','1','206391146');
+INSERT INTO `exams` VALUES ('010104','01','01','Class EM203 has additional time','Java Exam - Duration 3 Hours','180','Omri Sharof','01003,01014,01015,01017,01016','C001','1','206391146'),('010203','01','02','check for additional time.','Exam duration is 2 hours','120','Omri Sharof','01004,01018,01019,01020,01021','C002','1','206391146'),('010304','01','03','Class EM101 has additional time.','Exam duration is 3 hours, formula sheet is allowed.','180','Omri Sharof','01001,01002,01011,01012,01013','C003','1','206391146'),('010501','01','05','Class M303 has additional time','Exam in C++, duration 3 hours','180','Omri Sharof','01005,01022,01023,01024,01025','C004','1','206391146'),('020601','02','06','-','Exam in discrete math','180','Omri Sharof','02001,02002,02003,02004','M001','1','206391146'),('030404','03','04','Class M208 has additonal Time','English Exam - 3 Hours Duration','180','Omri Sharof','03001,03003,03004,03005,03006','E001','1','206391146');
 /*!40000 ALTER TABLE `exams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +233,6 @@ CREATE TABLE `finishedexam` (
 
 LOCK TABLES `finishedexam` WRITE;
 /*!40000 ALTER TABLE `finishedexam` DISABLE KEYS */;
-INSERT INTO `finishedexam` VALUES ('010203','316350768',' | | | |','Omri Sharof',0,0,1),('010304','316350768',' | | | |','Omri Sharof',0,0,1),('010501','316350768','Pass by value: Memory address passed, modifications affect original.|they both increment the value before it is used.|it is used to define a new variable.|by using the \'final\' keyword.| They are used interchangeably','Omri Sharof',70,0,1),('030404','316350768','English is challenging due to its irregular grammar rules and exceptions.|Ate,Cool| | ','Omri Sharof',40,0,1);
 /*!40000 ALTER TABLE `finishedexam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +291,6 @@ CREATE TABLE `headofdepartmentrequests` (
 
 LOCK TABLES `headofdepartmentrequests` WRITE;
 /*!40000 ALTER TABLE `headofdepartmentrequests` DISABLE KEYS */;
-INSERT INTO `headofdepartmentrequests` VALUES ('aaa2','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','fds','23'),('aaa3','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('aaa3','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('aaa2','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','sdfdfdfd','234'),('yossi ohayon','Coding','Advanced Java Programming','206391146','010103','Omri Sharof','d','sd'),('2233','Language','Advanced English','206391146','030404','Omri Sharof','asd','12');
 /*!40000 ALTER TABLE `headofdepartmentrequests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -622,4 +618,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-17 15:04:26
+-- Dump completed on 2023-06-17 15:55:55

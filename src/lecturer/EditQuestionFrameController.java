@@ -121,8 +121,6 @@ public class EditQuestionFrameController implements Initializable {
 	    
 		    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
 		    		questionSelected.getId(), questionText, false);
-	    
-
 	}
 	
 
@@ -164,8 +162,6 @@ public class EditQuestionFrameController implements Initializable {
 	    
 		}catch (NullPointerException e) {
 			displayErrorMessage();
-
-	
 		}
 	}
 

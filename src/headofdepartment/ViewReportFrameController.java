@@ -115,7 +115,10 @@ public class ViewReportFrameController implements Initializable{
 		for(String grade : gradesList) {
 			sumGrades += Double.parseDouble(grade);
 		}
-		lblAverage.setText(Double.toString(sumGrades / gradesList.size()));
+		double average = sumGrades / gradesList.size();
+		String formattedAverage = String.format("%.2f", average);
+		lblAverage.setText(formattedAverage);
+
 		
 		// median
 		Collections.sort(gradesList);
@@ -125,7 +128,10 @@ public class ViewReportFrameController implements Initializable{
         } else {  // even number of grades
             int middleRight = n / 2;
             int middleLeft = middleRight - 1;
-            lblMedian.setText(Double.toString((Double.parseDouble(gradesList.get(middleLeft)) + (Double.parseDouble(gradesList.get(middleRight)))) / 2.0));
+            double median = (Double.parseDouble(gradesList.get(middleLeft)) + Double.parseDouble(gradesList.get(middleRight))) / 2.0;
+            String medianString = String.format("%.2f", median);
+            lblMedian.setText(medianString);
+
         }    
 		
 	}

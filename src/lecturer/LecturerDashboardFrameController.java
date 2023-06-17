@@ -169,13 +169,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	@FXML
 	private BarChart<String, Number> barChart_ShowReport;
 	private XYChart.Series<String, Number> series1;
-	
-	/*
-	@FXML
-	private Axis<String> showReport_CategoryAxis;
-	@FXML
-	private Axis<Number> showReport_NumberAxis;
-	*/
 
 	// -------------- END ShowReport PANEL --------------
 
@@ -997,28 +990,47 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 	
+	/**
+	 * Handles the button click event for changing the time of a managed exam.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getBtnChangeTime_ManageExams(ActionEvent event) throws Exception {
-		activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
-		
-		try {
+	    activeExamSelected = tableView_activeExams.getSelectionModel().getSelectedItem();
+
+	    try {
+	        // Check if an active exam is selected
 	        if (activeExamSelected == null) {
 	            throw new NullPointerException();
 	        }
-	        ((Node) event.getSource()).getScene().getWindow().hide(); // Hide the primary window
+
+	        // Hide the primary window
+	        ((Node) event.getSource()).getScene().getWindow().hide();
+
+	        // Open the manage exam change time frame
 	        ManageExam_ChangeTimeFrameController.start(activeExamSelected, lecturer);
 
 	    } catch (NullPointerException e) {
+	        // Display an error message if no exam is selected
 	        displayErrorMessage("Error: Exam not selected");
 	    }
 	    
+	    // Clear selection and refresh tables
 	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.refresh();
 	    tableView_inActiveExams.refresh();
 
+	    // Reset activeExamSelected
 	    activeExamSelected = null;
 	}
+
 	
+	/**
+	 * Shows the dashboard after changing the time of an exam.
+	 * @param requestSent Indicates whether the request for changing the exam time was sent successfully.
+	 * @throws IOException if an error occurs during the process.
+	 */
 	public void showDashboardFrom_ChangeTime(boolean requestSent) throws IOException {
 	    // Show the current stage
 	    currStage.show();
@@ -1026,11 +1038,13 @@ public class LecturerDashboardFrameController implements Initializable{
 	    // Clear the selection in the exam tables
 	    tableView_inActiveExams.getSelectionModel().clearSelection();
 	    tableView_activeExams.getSelectionModel().clearSelection();
-	    if(requestSent) {
-	    	displaySuccessMessage("Request for changing the time of the exam sent succesfuly to the head of department!");
+
+	    // Display success message if request was sent successfully
+	    if (requestSent) {
+	        displaySuccessMessage("Request for changing the time of the exam sent successfully to the head of department!");
 	    }    
-	    
 	}
+
 
 	
 	/**
@@ -1047,70 +1061,127 @@ public class LecturerDashboardFrameController implements Initializable{
 	    ClientUI.chat.accept(exam_arr_active_change);
 	}
 
+	/**
+	 * Handles the button click event for refreshing the managed exams.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getBtnRefresh_ManageExam(ActionEvent event) throws Exception {
-    	getAllActiveInActiveExams(); // send to the server a request to get all the exams (active and inactive)
-    	tableView_inActiveExams.getSelectionModel().clearSelection();
-    	tableView_activeExams.getSelectionModel().clearSelection();
+	    // Send a request to the server to get all active and inactive exams
+	    getAllActiveInActiveExams();
+
+	    // Clear selection in the exam tables
+	    tableView_inActiveExams.getSelectionModel().clearSelection();
+	    tableView_activeExams.getSelectionModel().clearSelection();
 	}
+
 	
 	// -------------- END ManageExam PANEL --------------
 
 	// -------------- CheckExam PANEL --------------
 
+	/**
+	 * Handles the button click event for checking an exam of a student and approving grades.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getApproveGradesBtn_CheckExam(ActionEvent event) throws Exception {
-		
-		examSelectedForChecking = tableView_CheckExam.getSelectionModel().getSelectedItem();
-		
-		try {
-			if (examSelectedForChecking == null) {
-				throw new NullPointerException();
-			}
-			
-			((Node) event.getSource()).getScene().getWindow().hide();
-			CheckExam_ChooseStudentFrameController.start(examSelectedForChecking, lecturer);
-			
-		} catch (NullPointerException e) {
-			displayErrorMessage("Error: Exam not selected");
-		}
-			    
-		tableView_activeExams.getSelectionModel().clearSelection();
+	    // Get the selected exam for checking
+	    examSelectedForChecking = tableView_CheckExam.getSelectionModel().getSelectedItem();
+	    
+	    try {
+	        // Check if an exam is selected
+	        if (examSelectedForChecking == null) {
+	            throw new NullPointerException();
+	        }
+	        
+	        // Hide the primary window
+	        ((Node) event.getSource()).getScene().getWindow().hide();
+	        
+	        // Open the choose student frame for checking
+	        CheckExam_ChooseStudentFrameController.start(examSelectedForChecking, lecturer);
+	        
+	    } catch (NullPointerException e) {
+	        // Display an error message if no exam is selected
+	        displayErrorMessage("Error: Exam not selected");
+	    }
+	    
+	    // Clear selection in the active exams table
+	    tableView_activeExams.getSelectionModel().clearSelection();
 
-		examSelectedForChecking = null;
-		
+	    // Reset examSelectedForChecking
+	    examSelectedForChecking = null;
 	}
 
+
+	/**
+	 * Shows the dashboard after checking an exam and approving grades.
+	 */
 	public void showDashboardFrom_CheckExam() {
-
-		// Show the current stage
-		currStage.show();
+	    // Show the current stage
+	    currStage.show();
 	}
 
+
+	/**
+	 * Handles the button click event for refreshing the exams to check.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	public void getRefreshBtn_CheckExam(ActionEvent event) throws Exception {
-		getAllExamsToCheck();
+	    // Send a request to the server to get all exams to check
+	    getAllExamsToCheck();
 	}
+
 	
+	/**
+	 * Sends a request to the server to get all exams to check for the lecturer.
+	 */
 	private void getAllExamsToCheck() {
-		ArrayList<String> examstocheck_arr = new ArrayList<>();
-		examstocheck_arr.add("GetAllLecturerExamsForChecking");
-		examstocheck_arr.add(lecturer.getId());
-		examstocheck_arr.add("2"); // finished exams
-		ClientUI.chat.accept(examstocheck_arr);
+	    // Create an ArrayList to hold the request parameters
+	    ArrayList<String> examstocheck_arr = new ArrayList<>();
+	    // Add the request details to the ArrayList
+	    examstocheck_arr.add("GetAllLecturerExamsForChecking");
+	    examstocheck_arr.add(lecturer.getId());
+	    examstocheck_arr.add("2"); // finished exams
+
+	    // Send the request to the server
+	    ClientUI.chat.accept(examstocheck_arr);
 	}
+
 	
+	/**
+	 * Loads all exams to check into the table.
+	 * @param exams The list of exams to load into the table.
+	 */
 	public void loadAllExamsToCheckInTable(ArrayList<Exam> exams) {
-		checkExamObservableList.setAll(exams);
-		tableView_CheckExam.setItems(checkExamObservableList);
-		tableView_CheckExam.refresh();
-		tableView_CheckExam.getSelectionModel().clearSelection();
+	    // Set the exams in the observable list
+	    checkExamObservableList.setAll(exams);
+
+	    // Set the observable list as the items in the table
+	    tableView_CheckExam.setItems(checkExamObservableList);
+
+	    // Refresh the table to update the view
+	    tableView_CheckExam.refresh();
+
+	    // Clear the selection in the table
+	    tableView_CheckExam.getSelectionModel().clearSelection();
 	}
+
 
 	// -------------- END CheckExam PANEL --------------
 	
 	// -------------- ShowReport PANEL --------------
 	
+	/**
+	 * Handles the button click event for selecting a subject.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	@FXML
 	public void getBtnSubjectSelect(ActionEvent event) throws Exception {
-		courseSelectBox_ShowReport.getItems().clear();
+	    // Clear the items in the course selection box
+	    courseSelectBox_ShowReport.getItems().clear();
 
 	    // Retrieve the selected subject from the subject selection box
 	    String selectedSubject = subjectSelectBox_ShowReport.getSelectionModel().getSelectedItem();
@@ -1124,8 +1195,8 @@ public class LecturerDashboardFrameController implements Initializable{
 	            break;
 	        }
 	    }    
-
 	}
+
 	
 	@FXML
 	public void getBtnCourseSelect(ActionEvent event) throws Exception {
@@ -1146,109 +1217,162 @@ public class LecturerDashboardFrameController implements Initializable{
 
 	}
 	
+	/**
+	 * Sends a request to the server to get the grades of students for the lecturer.
+	 */
 	public void getStudentsGradesOfLecturer() {
-		ArrayList<String> getstudentsgrades_arr = new ArrayList<>();
-		getstudentsgrades_arr.add("GetAllInfoOfFinishedExamForLecturer");
-		getstudentsgrades_arr.add(lecturer.getId());
-		ClientUI.chat.accept(getstudentsgrades_arr);
-	}
-	
-	public static void loadStudentsGradesOfLecturer(ArrayList<FinishedExam> studentGrade) {
-		lecturer.setStudentsGrades(studentGrade);
-	}
-	
-	public int getAmountStudentsGradesByRange(double min, double max) {
-		int examCounter = 0;
-		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-		for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
-			if(studentGrade.getExamID().equals(selectedExamID) && studentGrade.getGrade() >= min && studentGrade.getGrade() <= max) {
-				examCounter ++;
-			}
-		}
-		return examCounter;
-	}
-	
-	public void set_average_median_OfExam_ByExamID(String examID){
+	    // Create an ArrayList to hold the request parameters
+	    ArrayList<String> getstudentsgrades_arr = new ArrayList<>();
+	    // Add the request details to the ArrayList
+	    getstudentsgrades_arr.add("GetAllInfoOfFinishedExamForLecturer");
+	    getstudentsgrades_arr.add(lecturer.getId());
 
-		ArrayList<Double> grades = new ArrayList<>();
-		int examCounter = 0;
-		double sumGrades = 0;
-		String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-		
-		// average
-		for(FinishedExam studentGrade : lecturer.getStudentsGrades()) {
-			if(studentGrade.getExamID().equals(selectedExamID)) {
-				examCounter ++;
-				sumGrades += studentGrade.getGrade();
-				grades.add(studentGrade.getGrade());
-			}
-		}
-		lblAverage.setText(Double.toString(sumGrades / examCounter));
-		
-		// median
-		Collections.sort(grades);
-		int n = grades.size();
-        if (n % 2 == 1) {  // odd number of grades
-        	lblMedian.setText(Double.toString(grades.get(n / 2)));
-        } else {  // even number of grades
-            int middleRight = n / 2;
-            int middleLeft = middleRight - 1;
-            lblMedian.setText(Double.toString((grades.get(middleLeft) + grades.get(middleRight)) / 2.0));
-        }    
-		
+	    // Send the request to the server
+	    ClientUI.chat.accept(getstudentsgrades_arr);
 	}
+
 	
+	/**
+	 * Loads the grades of students for the lecturer.
+	 * @param studentGrade The list of FinishedExam objects representing the students' grades.
+	 */
+	public static void loadStudentsGradesOfLecturer(ArrayList<FinishedExam> studentGrade) {
+	    lecturer.setStudentsGrades(studentGrade); // Set the students' grades for the lecturer
+	}
+
 	
+	/**
+	 * Calculates the amount of students' grades falling within the specified range for a selected exam.
+	 * @param min The minimum grade value of the range.
+	 * @param max The maximum grade value of the range.
+	 * @return The amount of students' grades within the specified range.
+	 */
+	public int getAmountStudentsGradesByRange(double min, double max) {
+	    int examCounter = 0;
+	    String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+	    
+	    // Iterate through the students' grades for the lecturer
+	    for (FinishedExam studentGrade : lecturer.getStudentsGrades()) {
+	        if (studentGrade.getExamID().equals(selectedExamID) && studentGrade.getGrade() >= min && studentGrade.getGrade() <= max) {
+	            // Increment the exam counter for grades falling within the range
+	            examCounter++;
+	        }
+	    }
+	    return examCounter;
+	}
+
+	
+	/**
+	 * Sets the average and median grades for a specific exam.
+	 * @param examID The ID of the exam to calculate the average and median grades for.
+	 */
+	public void set_average_median_OfExam_ByExamID(String examID) {
+	    ArrayList<Double> grades = new ArrayList<>();
+	    int examCounter = 0;
+	    double sumGrades = 0;
+	    String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+
+	    // Calculate the average grade
+	    for (FinishedExam studentGrade : lecturer.getStudentsGrades()) {
+	        if (studentGrade.getExamID().equals(selectedExamID)) {
+	            examCounter++;
+	            sumGrades += studentGrade.getGrade();
+	            grades.add(studentGrade.getGrade());
+	        }
+	    }
+	    double average = sumGrades / examCounter;
+	    String formattedAverage = String.format("%.2f", average);
+	    lblAverage.setText(formattedAverage);
+
+
+	    // Calculate the median grade
+	    Collections.sort(grades);
+	    int n = grades.size();
+	    if (n % 2 == 1) {  // odd number of grades
+	    	lblMedian.setText(Double.toString(grades.get(n / 2)));
+
+	    } else {  // even number of grades
+	        int middleRight = n / 2;
+	        int middleLeft = middleRight - 1;
+	        double median = (grades.get(middleLeft) + grades.get(middleRight)) / 2.0;
+	        String formattedMedian = String.format("%.2f", median);
+	        lblMedian.setText(formattedMedian);
+
+	    }
+	}
+
+	
+	/**
+	 * Handles the button click event for showing the report.
+	 * @param event The action event triggered by the button click.
+	 * @throws Exception if an error occurs during the process.
+	 */
 	@FXML
 	public void getShowBtn_ShowReport(ActionEvent event) throws Exception {
-		try {
-			String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
-			
-			if(selectedExamID == null || selectedExamID.equals("")) {
-				throw new Exception();
-			}
-			else {
-				getExamStatisticsByExamID(selectedExamID); // get from DB
-				set_average_median_OfExam_ByExamID(selectedExamID);
-				loadAllDataIntoHistogramReport(true);
-			}
-			
-		}catch (Exception e) {
-			displayErrorMessage("Error: you have to choose exam before searching");
-		}
+	    try {
+	        String selectedExamID = examSelectBox_ShowReport.getSelectionModel().getSelectedItem();
+
+	        if (selectedExamID == null || selectedExamID.equals("")) {
+	            throw new Exception();
+	        } else {
+	            // Get exam statistics from the database
+	            getExamStatisticsByExamID(selectedExamID);
+	            // Calculate and set average and median grades for the selected exam
+	            set_average_median_OfExam_ByExamID(selectedExamID);
+	            // Load all data into the histogram report
+	            loadAllDataIntoHistogramReport(true);
+	        }
+
+	    } catch (Exception e) {
+	        displayErrorMessage("Error: You have to choose an exam before searching.");
+	    }
 	}
+
 	
-	public void set_StatisticsOfExam(String totalExminees, String submittedOnTime, String notSubmittedOnTime){
-		
+	/**
+	 * Sets the statistics of the exam, including total examinees, number of submissions on time, and number of submissions not on time.
+	 * @param totalExaminees The total number of examinees.
+	 * @param submittedOnTime The number of submissions received on time.
+	 * @param notSubmittedOnTime The number of submissions not received on time.
+	 */
+	public void set_StatisticsOfExam(String totalExaminees, String submittedOnTime, String notSubmittedOnTime) {
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
-			    // total Examinees
-			    lblExaminees.setText(totalExminees);
-			
-			    // total on time
-			    lblOnTime.setText(submittedOnTime);
-			
-			    // total not on time
-			    lblNotOnTime.setText(notSubmittedOnTime);   
+	            // Set the total examinees
+	            lblExaminees.setText(totalExaminees);
 
+	            // Set the number of submissions received on time
+	            lblOnTime.setText(submittedOnTime);
+
+	            // Set the number of submissions not received on time
+	            lblNotOnTime.setText(notSubmittedOnTime);
 	        }
 	    });
 	}
 	
 	
+	/**
+	 * Retrieves the statistics of an exam by its ID from the database.
+	 * @param selectedExamID The ID of the selected exam.
+	 */
 	private void getExamStatisticsByExamID(String selectedExamID) {
-		ArrayList<String> getexamstats_arr = new ArrayList<>();
-		getexamstats_arr.add("GetStatisticsOfExamByExamIDFromDB");
-		getexamstats_arr.add(selectedExamID);
-		ClientUI.chat.accept(getexamstats_arr);
+	    ArrayList<String> getexamstats_arr = new ArrayList<>();
+	    getexamstats_arr.add("GetStatisticsOfExamByExamIDFromDB");
+	    getexamstats_arr.add(selectedExamID);
+	    ClientUI.chat.accept(getexamstats_arr);
 	}
 
+	/**
+	 * Loads all the data into the histogram report.
+	 * @param status Indicates whether the data should be loaded based on a status flag.
+	 */
 	private void loadAllDataIntoHistogramReport(boolean status) {
 			int maxBarValue = 0;
 			int barValue = 0;	//barValue - amount of students in the specified range
 	
-			for(int i = 0; i < series1.getData().size();i++) {	//in this loop we are setting all the statistic per exam			
+			for(int i = 0; i < series1.getData().size();i++) {
+				//in this loop we are setting all the statistic per exam			
 				switch (i) {
 				case 0:
 					if(status) {
@@ -1326,10 +1450,15 @@ public class LecturerDashboardFrameController implements Initializable{
 		
 	
 
+	/**
+	 * Displays a label for the data point in the chart.
+	 *
+	 * @param data The data point for which to display the label.
+	 */
 	private void displayLabelForData(Data<String, Number> data) {
 	    final Node node = data.getNode();
 	    final Text dataText = new Text(data.getYValue().toString());
-	    
+
 	    node.parentProperty().addListener(new ChangeListener<Parent>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
@@ -1341,6 +1470,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
 	        @Override
 	        public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+	            // Position the data label at the center of the data point
 	            dataText.setLayoutX(Math.round(bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
 	            dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
 	        }
@@ -1354,19 +1484,27 @@ public class LecturerDashboardFrameController implements Initializable{
 	        }
 	    });
 	}
+
 	
+	/**
+	 * Adds data to the chart.
+	 *
+	 * @param range  The range of the data.
+	 * @param amount The amount of the data.
+	 */
 	private void addData(String range, int amount) {
-		final XYChart.Data<String, Number> data = new XYChart.Data<>(range, amount);
+	    final XYChart.Data<String, Number> data = new XYChart.Data<>(range, amount);
 	    data.nodeProperty().addListener(new ChangeListener<Node>() {
-	        @Override 
+	        @Override
 	        public void changed(ObservableValue<? extends Node> ov, Node oldNode, final Node node) {
-	          if (node != null) {
-	            displayLabelForData(data);
-	          } 
+	            if (node != null) {
+	                displayLabelForData(data); // Display a label for the data point
+	            }
 	        }
-	      });
-	    series1.getData().add(data);
+	    });
+	    series1.getData().add(data); // Add the data to the series
 	}
+
 
 	// -------------- END ShowReport PANEL --------------
 
@@ -1613,26 +1751,46 @@ public class LecturerDashboardFrameController implements Initializable{
 	}
 	
 
+	/**
+	 * Handles the animation for transitioning between panes.
+	 *
+	 * @param newPane     The new pane to transition to.
+	 * @param newSection  The new section button associated with the new pane.
+	 */
 	public void handleAnimation(Pane newPane, JFXButton newSection) {
-		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
-        outgoingPane.setFromValue(1);
-        outgoingPane.setToValue(0);
-        
-        FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
-        comingPane.setFromValue(0);
-        comingPane.setToValue(1);
-            
-        SequentialTransition transition = new SequentialTransition();
-        transition.getChildren().addAll(outgoingPane, comingPane);
-        transition.play();
-        
-        newSection.setStyle("-fx-border-color: #FAF9F6");
-        if(currentSection != null && currentSection != newSection) currentSection.setStyle("-fx-border-color: #242633");
-        
-        currentPane = newPane;
-        currentSection = newSection;  
+	    // Create a fade transition for the outgoing pane
+	    FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+	    outgoingPane.setFromValue(1);
+	    outgoingPane.setToValue(0);
+
+	    // Create a fade transition for the incoming pane
+	    FadeTransition comingPane = new FadeTransition(Duration.millis(125), newPane);
+	    comingPane.setFromValue(0);
+	    comingPane.setToValue(1);
+
+	    // Create a sequential transition to play the fade transitions in order
+	    SequentialTransition transition = new SequentialTransition();
+	    transition.getChildren().addAll(outgoingPane, comingPane);
+	    transition.play();
+
+	    // Set the style of the new section button
+	    newSection.setStyle("-fx-border-color: #FAF9F6");
+
+	    // Reset the style of the current section button, if applicable
+	    if (currentSection != null && currentSection != newSection) {
+	        currentSection.setStyle("-fx-border-color: #242633");
+	    }
+
+	    // Update the current pane and section button
+	    currentPane = newPane;
+	    currentSection = newSection;
 	}
-	
+
+	/**
+	 * Displays an error message using a Snackbar.
+	 *
+	 * @param message The error message to display.
+	 */
 	public void displayErrorMessage(String message) {
 	    Platform.runLater(new Runnable() {
 	        @Override
@@ -1648,6 +1806,11 @@ public class LecturerDashboardFrameController implements Initializable{
 	    });
 	}
 	
+	/**
+	 * Displays a success message using a Snackbar.
+	 *
+	 * @param message The success message to display.
+	 */
 	public void displaySuccessMessage(String message) {
 	    Platform.runLater(new Runnable() {
 	        @Override
@@ -1662,5 +1825,6 @@ public class LecturerDashboardFrameController implements Initializable{
 	        }
 	    });
 	}
+	
 
 }
