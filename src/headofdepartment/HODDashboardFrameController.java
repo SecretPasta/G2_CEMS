@@ -28,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -37,12 +38,6 @@ import javafx.util.Duration;
 public class HODDashboardFrameController implements Initializable{
 
 	// -------------- Show Report PANEL --------------
-
-	@FXML
-	private JFXButton btnShowReport_ShowReport;
-
-	@FXML
-	private JFXButton btnShow_ShowReport;
 
 	@FXML
 	private JFXListView<String> listOfData_ShowReport;
@@ -63,6 +58,27 @@ public class HODDashboardFrameController implements Initializable{
     private String selectedSpecificReport;
 
 	// -------------- END Show Report PANEL --------------
+    
+	@FXML
+	private JFXComboBox<String> typeSelectBox_GeneralInfo;
+	
+	@FXML
+	private JFXListView<String> listInfo_Info;
+	
+	private String chosenInfo;
+	
+	private ObservableList<String> listOfGeneralInfo_observablelist = FXCollections.observableArrayList();
+	
+	private ArrayList<String> info_type_arr = new ArrayList<>(Arrays.asList(
+			"Subjects", 
+			"Courses",
+			"Lecturers",
+			"Students",
+			"Exams",
+			"Questions"
+			));
+    @FXML
+    private TextField txtFilter_GeneralReport;
 
     @FXML
     private JFXButton btnApproveTimeChange;
@@ -71,7 +87,7 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     private JFXButton currentSection;
     @FXML
-    private JFXButton btnAcceptRequest;
+    private JFXButton btnGeneralInformation;
     
     @FXML
     private TextField txtMessageToWriteToLecturer;
@@ -86,6 +102,8 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     private Pane pnlGreeting;
     @FXML
+    private Pane pnlGeneralInformation;
+    @FXML
     private Pane currentPane;
 
     @FXML
@@ -96,6 +114,7 @@ public class HODDashboardFrameController implements Initializable{
     
     @FXML
     private JFXListView<String> listRequests;
+    
     
     private ObservableList<String> requests_observablelist = FXCollections.observableArrayList();
 
@@ -109,7 +128,7 @@ public class HODDashboardFrameController implements Initializable{
     private String explanation;
     private String examDurationAdd;
     
-    ArrayList<String> allRequests = new ArrayList<>();
+    private ArrayList<String> allRequests = new ArrayList<>();
     
     private static HODDashboardFrameController instance;
     private static HeadOfDepartment headofdepartment;
@@ -129,6 +148,9 @@ public class HODDashboardFrameController implements Initializable{
 		chosenReport = null;
 		selectedSpecificReport = null;
 		listOfData_ShowReport.getSelectionModel().clearSelection();
+		
+		typeSelectBox_GeneralInfo.getItems().addAll(info_type_arr);
+		typeSelectBox_GeneralInfo.getSelectionModel().clearSelection();
     	
     	getAllrequests();
     	
@@ -364,19 +386,53 @@ public class HODDashboardFrameController implements Initializable{
     }
     
     @FXML
-    public void getSelectedInformation(ActionEvent event) throws Exception{
-    	
-    }
-    
-    @FXML
     public void getViewDataBtn_GeneralInfo(ActionEvent event) throws Exception{
     	
-    }
-    
-    @FXML
-    public void getBtnShowInformation_GeneralInfo(ActionEvent event) throws Exception{
+		chosenInfo = typeSelectBox_GeneralInfo.getSelectionModel().getSelectedItem();
+		try {
+			if(chosenInfo == null || chosenInfo.equals("")) {
+				throw new NullPointerException();
+			}
+			
+			ArrayList<String> getInfoTypeHOD_arr = new ArrayList<>();
+			getInfoTypeHOD_arr.add("GetAllGeneralInfo_HOD");
+			getInfoTypeHOD_arr.add(headofdepartment.getId());
+			getInfoTypeHOD_arr.add(chosenInfo);
+			ClientUI.chat.accept(getInfoTypeHOD_arr);
+
+			
+		} catch (NullPointerException e){
+			displayError("Error: please choose info to show first");
+		}	
     	
     }
+    
+    
+    
+    
+    
+    @FXML
+    public void getFilteringWord_GeneralReport(ActionEvent event) throws Exception{
+    	
+    	System.out.println(123);
+    	if(txtFilter_GeneralReport.getText() == null || txtFilter_GeneralReport.getText().trim().equals("")) {
+    		listInfo_Info.setItems(listOfGeneralInfo_observablelist);
+    	}
+    	else {
+        	String inputText = txtFilter_GeneralReport.getText();
+        	ObservableList<String> filteredList = FXCollections.observableArrayList();
+
+        	for (String item : listOfGeneralInfo_observablelist) {
+        	    if (item.contains(inputText)) {
+        	        filteredList.add(item);
+        	    }
+        	}
+
+        	listInfo_Info.setItems(filteredList);
+    	}
+    	
+    }
+
 
     @FXML
     public void getLogoutBtn(ActionEvent event) throws Exception{
@@ -412,6 +468,10 @@ public class HODDashboardFrameController implements Initializable{
 	    	handleAnimation(pnlApproveTimeChange, btnApproveTimeChange);
 	    	getAllrequests();
 	        pnlApproveTimeChange.toFront();
+	    }
+	    if (actionEvent.getSource() == btnGeneralInformation) {
+	    	handleAnimation(pnlGeneralInformation, btnGeneralInformation);
+	    	pnlGeneralInformation.toFront();
 	    }
     }
     
@@ -464,6 +524,19 @@ public class HODDashboardFrameController implements Initializable{
 	        });
 		
 	}
+	
+	public void loadAllInfoForChosenTypeInfo(ArrayList<String> info_arr) { // getting the information
+    	Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+            	
+				listOfGeneralInfo_observablelist.setAll(info_arr);	
+				listInfo_Info.setItems(listOfGeneralInfo_observablelist);
+				listInfo_Info.refresh();
+            }
+        });
+	
+}
 
 	
 

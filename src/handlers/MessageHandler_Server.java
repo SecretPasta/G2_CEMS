@@ -639,6 +639,50 @@ public class MessageHandler_Server {
 						// Send the MyFile object to the client
 						client.sendToClient(myFile);
 						break;
+						
+					case "GetAllGeneralInfo_HOD":
+						
+						// 1 - headofdepartment Id
+						// 2 - chosen Info
+						ArrayList<String> info_arr = new ArrayList<>();
+						info_arr.add("LoadAllSelectedGeneralInfo_HOD");
+						switch(arrayListStr.get(2)) {
+						
+						case "Subjects":
+							info_arr.addAll(DBController.GeneralInformationSubjects(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Courses":
+							info_arr.addAll(DBController.getAllCoursesOfHod(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Lecturers":
+							info_arr.addAll(DBController.getAllLecturersOfHod(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Students":
+							info_arr.addAll(DBController.getAllStudentsOfHod(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Exams":
+							info_arr.addAll(DBController.GeneralInformationExams(arrayListStr.get(1)));
+							
+							break;
+							
+						case "Questions":
+							info_arr.addAll(DBController.GeneralInformationQuestions(arrayListStr.get(1)));
+							
+							break;
+						
+						
+						}
+						client.sendToClient(info_arr);
+						
+						break;
 
 
 				}

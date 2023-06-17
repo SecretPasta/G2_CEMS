@@ -323,6 +323,16 @@ public class MessageHandler_Client {
 	                	
 	                	break;
 	                	
+	                case "LoadAllSelectedGeneralInfo_HOD":
+	                	// 0 - Identifying string
+	                	// 1.. - general info selected
+	                	
+	                	arrayListStr.remove(0); // Removing identifying string
+	                	
+	                	HODDashboardFrameController.getInstance().loadAllInfoForChosenTypeInfo(arrayListStr);
+	                	
+	                	break;
+	                	
 	            }       
 	            
             }catch (Exception e) {
