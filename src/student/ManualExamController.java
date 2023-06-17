@@ -91,21 +91,6 @@ public class ManualExamController implements Initializable {
 		exam.add(currentExam.getExamID());
 		ClientUI.chat.accept(exam);
 
-
-
-		// FILE TRANSFER FROM DB TO COMPUTER
-//		try {
-//			File downloadedFile = new File(selectedDirPath + "\\" + "Manual_Exam.txt");
-//			
-//			
-//			FileOutputStream os = new FileOutputStream(downloadedFile);
-//			BufferedOutputStream bis = new BufferedOutputStream(os);
-//
-//			bis.write(((MyFile) msg).getMybytearray(), 0, ((MyFile) msg).getSize());
-//			bis.close();
-//			
-//		} catch (Exception e) {
-//		}
 		manualExamTimer =  new ManualExamTimer(currentExam.getDuration(),instance);
 		manualExamTimer.start();
 	}
