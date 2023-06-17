@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -36,7 +36,7 @@ CREATE TABLE `course` (
 
 LOCK TABLES `course` WRITE;
 /*!40000 ALTER TABLE `course` DISABLE KEYS */;
-INSERT INTO `course` VALUES ('01','Advanced Java Programming','04'),('02','Data Structures and Algorithms with Java','03'),('03','Introduction to Python','04'),('04','Advanced English','04'),('05','C++ for Beginners','01'),('06','Discrete Math','01'),('07','Classical Physics ','00');
+INSERT INTO `course` VALUES ('01','Advanced Java Programming','04'),('02','Data Structures and Algorithms with Java','03'),('03','Introduction to Python','04'),('04','Advanced English','04'),('05','C++ for Beginners','01'),('06','Discrete Math','01'),('07','Classical Physics ','00'),('08','Calculus I','00'),('09','Physics Fundamentals','00'),('10','Linear Algebra','00'),('11','Quantum Mechanics','00'),('12','Web Development','00'),('13','Machine Learning','00'),('14','Differential Equations','00'),('15','Probability Theory','00');
 /*!40000 ALTER TABLE `course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `coursedepartment` (
 
 LOCK TABLES `coursedepartment` WRITE;
 /*!40000 ALTER TABLE `coursedepartment` DISABLE KEYS */;
-INSERT INTO `coursedepartment` VALUES ('01','1'),('02','1'),('03','1'),('04','1'),('05','1'),('01','2'),('02','2'),('03','2'),('04','2'),('05','2'),('04','3'),('04','5'),('04','6'),('07','6'),('04','7'),('04','8'),('04','9'),('06','9');
+INSERT INTO `coursedepartment` VALUES ('01','1'),('02','1'),('03','1'),('04','1'),('05','1'),('12','1'),('13','1'),('01','2'),('02','2'),('03','2'),('04','2'),('05','2'),('12','2'),('13','2'),('04','3'),('09','4'),('04','5'),('10','5'),('04','6'),('07','6'),('11','6'),('04','7'),('04','8'),('09','8'),('04','9'),('06','9'),('08','9'),('14','9'),('15','9');
 /*!40000 ALTER TABLE `coursedepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `coursesubject` (
 
 LOCK TABLES `coursesubject` WRITE;
 /*!40000 ALTER TABLE `coursesubject` DISABLE KEYS */;
-INSERT INTO `coursesubject` VALUES ('01','01'),('02','01'),('03','01'),('05','01'),('06','02'),('04','03'),('07','04');
+INSERT INTO `coursesubject` VALUES ('01','01'),('02','01'),('03','01'),('05','01'),('12','01'),('13','01'),('06','02'),('08','02'),('10','02'),('14','02'),('15','02'),('04','03'),('07','04'),('09','04'),('11','04');
 /*!40000 ALTER TABLE `coursesubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +234,7 @@ CREATE TABLE `headofdepartment` (
 
 LOCK TABLES `headofdepartment` WRITE;
 /*!40000 ALTER TABLE `headofdepartment` DISABLE KEYS */;
-INSERT INTO `headofdepartment` VALUES ('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',0);
+INSERT INTO `headofdepartment` VALUES ('1111','Miriam.Levy','123456','Miriam.Levy','Miriam.Levy@e.braude.ac.il','Applied Mathematics','9',0),('1212','Daniel.Rosenberg','090909','Daniel Rosenberg','Daniel.Rosenberg@e.braude.ac.il','Civil Engineering','6',0),('2222','David.Katz','123123','David.Katz','David.Katz@e.braude.ac.il','Mechanical Engineering','4',0),('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',0),('3344','Avraham.Cohen','123456','Avraham.Cohen','Avraham.Cohen@e.braude.ac.il','Information Systems Engineering','1',0),('3737','Sarah.Cohen','888888','Sarah.Cohen','Sarah.Cohen@e.braude.ac.il','Biotechnology Engineering','7',0),('4455','Leah.Weiss','222222','Leah Weiss','Leah.Weiss@e.braude.ac.il','Optical Engineering','5',0),('5555','Rachel.Goldstein','000000','Rachel.Goldstein','Rachel.Goldstein@e.braude.ac.il','Electrical Engineering','8',0),('6666','Eli.Cohen','111111','Eli.Cohen','Eli.Cohen@e.braude.ac.il','Industrial Engineering','3',0);
 /*!40000 ALTER TABLE `headofdepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,7 +291,7 @@ CREATE TABLE `lecturer` (
 
 LOCK TABLES `lecturer` WRITE;
 /*!40000 ALTER TABLE `lecturer` DISABLE KEYS */;
-INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0);
+INSERT INTO `lecturer` VALUES ('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',0),('315728904','Mark.Berman','334433','Mark Berman','Mark.Berman@e.braude.ac.il',0),('321654987','Jacob.Rosenberg','321789','Jacob Rosenberg','Jacob.Rosenberg@e.braude.ac.il',0),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',0),('654987321','Rebecca.Cohen','987321','Rebecca Cohen','Rebecca.Cohen@e.braude.ac.il',0),('796428315','Sophia.Harris','315204','Sophia Harris','Sophia.Harris@e.braude.ac.il',0),('864297531','Elena.Aharon','123123','Elena Aharon','Elena.Aharon@e.braude.ac.il',0);
 /*!40000 ALTER TABLE `lecturer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,7 +319,7 @@ CREATE TABLE `lecturercourse` (
 
 LOCK TABLES `lecturercourse` WRITE;
 /*!40000 ALTER TABLE `lecturercourse` DISABLE KEYS */;
-INSERT INTO `lecturercourse` VALUES ('206391146','01'),('206391146','02'),('206391146','03'),('206391146','04'),('206391146','05'),('206391146','06'),('333444555','01'),('333444555','02'),('333444555','03'),('333444555','07');
+INSERT INTO `lecturercourse` VALUES ('206391146','01'),('206391146','02'),('206391146','03'),('206391146','04'),('206391146','05'),('206391146','06'),('206391146','14'),('315728904','08'),('321654987','10'),('333444555','01'),('333444555','02'),('333444555','03'),('333444555','07'),('654987321','12'),('654987321','13'),('796428315','09'),('796428315','10'),('796428315','15'),('864297531','11');
 /*!40000 ALTER TABLE `lecturercourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +346,7 @@ CREATE TABLE `lecturerdepartment` (
 
 LOCK TABLES `lecturerdepartment` WRITE;
 /*!40000 ALTER TABLE `lecturerdepartment` DISABLE KEYS */;
-INSERT INTO `lecturerdepartment` VALUES ('206391146','1'),('206391146','2'),('333444555','6'),('333444555','9');
+INSERT INTO `lecturerdepartment` VALUES ('206391146','1'),('206391146','2'),('796428315','3'),('864297531','4'),('315728904','5'),('864297531','5'),('333444555','6'),('315728904','7'),('321654987','7'),('654987321','8'),('315728904','9'),('333444555','9');
 /*!40000 ALTER TABLE `lecturerdepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,7 +373,7 @@ CREATE TABLE `lecturersubject` (
 
 LOCK TABLES `lecturersubject` WRITE;
 /*!40000 ALTER TABLE `lecturersubject` DISABLE KEYS */;
-INSERT INTO `lecturersubject` VALUES ('206391146','01'),('206391146','02'),('333444555','02'),('206391146','03'),('333444555','04');
+INSERT INTO `lecturersubject` VALUES ('206391146','01'),('654987321','01'),('206391146','02'),('315728904','02'),('321654987','02'),('333444555','02'),('796428315','02'),('206391146','03'),('333444555','04'),('796428315','04'),('864297531','04');
 /*!40000 ALTER TABLE `lecturersubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -591,4 +591,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-17  1:06:37
+-- Dump completed on 2023-06-17 12:12:36
