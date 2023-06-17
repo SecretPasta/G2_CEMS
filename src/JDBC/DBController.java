@@ -1412,7 +1412,91 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 		return examPath;
 	}
+	
+	
+	public static ArrayList<String> GeneralInformationQuestions(String HODid) {
+		String query = "SELECT Q.id, Q.questionText, Q.answerCorrect, Q.answerWrong1, Q.answerWrong2, Q.answerWrong3 FROM question Q "
+				+ "JOIN questioncourse QC ON Q.id = QC.questionID "
+				+ "JOIN coursedepartment CD ON QC.courseID = CD.courseID "
+				+ "JOIN headofdepartment HOD ON HOD.HeadOfDepartmentID = ? "
+				+ "WHERE CD.DepartmentID = HOD.DepartmentID";
+		
+		ArrayList<String> HODQuestions = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HODid);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	HODQuestions.add(rs.getString(1) + " - " + rs.getString(2) + "\n\t 1) " + rs.getString(3) + "\n\t 2) " + rs.getString(4)
+	                	+ "\n\t 3) " + rs.getString(5) + "\n\t 4) " + rs.getString(6));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return HODQuestions;
+	}
 
+	public static ArrayList<String> GeneralInformationExams(String HODid) {
+		String query = "SELECT E.ID, E.questionsInExam, E.code, E.duration, E.isActive, GROUP_CONCAT(Q.questionText SEPARATOR ', ') AS questionTexts "
+			    + "FROM exams E "
+			    + "JOIN coursedepartment CD ON E.CourseID = CD.CourseID "
+			    + "JOIN headofdepartment HOD ON HOD.HeadOfDepartmentID = ? "
+			    + "JOIN question Q ON FIND_IN_SET(Q.id, E.questionsInExam) > 0 "
+			    + "WHERE CD.DepartmentID = HOD.DepartmentID "
+			    + "GROUP BY E.ID";
+		
+		ArrayList<String> HODExams = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HODid);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	HODExams.add(rs.getString(1) + " - Code: " + rs.getString(3)+ " - Duration (in minutes): " + rs.getString(4)+ " - " + 
+	                "IsActive (0-no, 1-yes, 2-finished): " + rs.getString(5) + "\n\n" + rs.getString("questionTexts").replaceAll("[?,.], ", "\n"));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return HODExams;
+	}
+
+	public static ArrayList<String> GeneralInformationSubjects(String HODid) {
+		String query = "SELECT DISTINCT S.SubjectID, S.Name FROM subjects S "
+				+ "JOIN coursesubject CS ON S.SubjectID = CS.SubjectID "
+				+ "JOIN coursedepartment CD ON CS.CourseID = CD.CourseID "
+				+ "JOIN headofdepartment HOD ON HOD.HeadOfDepartmentID = ? "
+				+ "WHERE CD.DepartmentID = HOD.DepartmentID";
+		
+		ArrayList<String> HODSubjectss = new ArrayList<>();
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, HODid);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while(rs.next()) {
+	                	HODSubjectss.add(rs.getString(1) + " - " + rs.getString(2));
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return HODSubjectss;
+
+	}
+	
 
 
 }

@@ -121,15 +121,6 @@
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@../student/StudentDashboard.css">
          <children>
             <JFXSnackbar fx:id="snackbarError" />
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-               </children>
-            </Pane>
             <Pane fx:id="pnlApproveTimeChange" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -201,8 +192,8 @@
                <children>
                   <HBox layoutX="237.0" layoutY="63.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
                      <children>
-                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" onAction="#getSelectedReport" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
-                        <JFXButton id="btnSearch_CreateExam" fx:id="btnShow_ShowReport" onAction="#getViewDataBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="View Data" textFill="#242633" />
+                        <JFXComboBox id="typeSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" onAction="#getSelectedReport" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
+                        <JFXButton id="btnShow_ShowReport" fx:id="btnShow_ShowReport" onAction="#getViewDataBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="View Data" textFill="#242633" />
                      </children>
                   </HBox>
                   <Label layoutX="27.0" layoutY="23.0" text="Show Report" textFill="#242633">
@@ -223,6 +214,15 @@
                   </JFXButton>
                </children>
             </Pane>
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
             <Pane fx:id="pnlGeneralInformation" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -232,8 +232,8 @@
                   </JFXButton>
                   <HBox layoutX="237.0" layoutY="65.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
                      <children>
-                        <JFXComboBox id="examSelectBox_ShowReport" fx:id="typeSelectBox_GeneralInfo" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" onAction="#getSelectedInformation" prefHeight="25.0" prefWidth="200.0" promptText="Information type..." unFocusColor="#242633" />
-                        <JFXButton id="btnSearch_CreateExam" fx:id="btnShow_GeneralInfo" onAction="#getViewDataBtn_GeneralInfo" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show Data" textFill="#242633" />
+                        <JFXComboBox id="typeSelectBox_GeneralInfo" fx:id="typeSelectBox_GeneralInfo" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Information type..." unFocusColor="#242633" />
+                        <JFXButton id="btnShowData_Info" fx:id="btnShowData_Info" onAction="#getViewDataBtn_GeneralInfo" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show Data" textFill="#242633" />
                      </children>
                   </HBox>
                   <Label layoutX="27.0" layoutY="23.0" text="General Information" textFill="#242633">
@@ -241,12 +241,9 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <JFXListView id="listRequests" fx:id="listOfData_ShowReport1" layoutX="50.0" layoutY="113.0" prefHeight="350.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
-                  <JFXButton id="btnAcceptRequest" fx:id="btnShowReport_ShowReport1" layoutX="304.0" layoutY="482.0" onAction="#getBtnShowInformation_GeneralInfo" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Show Information" textFill="#faf9f6">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
+                  <JFXListView id="listInfo_Info" fx:id="listInfo_Info" layoutX="50.0" layoutY="113.0" prefHeight="350.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
+                  <TextField id="txtFilter_GeneralReport" fx:id="txtFilter_GeneralReport" layoutX="351.0" layoutY="28.0" />
+                  <JFXButton layoutX="556.0" layoutY="27.0" onAction="#getFilteringWord_GeneralReport" text="Filter" />
                </children>
             </Pane>
          </children>
