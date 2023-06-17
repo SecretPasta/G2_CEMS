@@ -65,7 +65,7 @@ public class ComputerizedExamController implements Initializable {
     @FXML
 
     private static Stage openStage;
-    private ExamTimer examTimer;
+    private ComputerizedExamTimer examTimer;
 
     private JFXTabPane tabPane;
 
@@ -90,11 +90,10 @@ public class ComputerizedExamController implements Initializable {
     }
 
 
-
     /**
-
-     Retrieves the instance of the ComputerizedExamController.
-     @return The instance of the ComputerizedExamController.
+     * Retrieves the instance of the ComputerizedExamController.
+     *
+     * @return The instance of the ComputerizedExamController.
      */
     public static ComputerizedExamController getInstance() {
         return instance;
@@ -112,7 +111,7 @@ public class ComputerizedExamController implements Initializable {
         // Load all the questions text and answers from the database to panes
 
         // Timer for Exam ----------------------------------------------------------------------
-        examTimer = new ExamTimer(currentExam.getDuration(), instance);
+        examTimer = new ComputerizedExamTimer(currentExam.getDuration(), instance);
         examTimer.start();
         // End of Timer for Exam ------------------------------------------------------------------
 
@@ -201,9 +200,9 @@ public class ComputerizedExamController implements Initializable {
 
 
     /**
-
-     Sets the updated exam timer value.
-     @param time The new time value to be displayed.
+     * Sets the updated exam timer value.
+     *
+     * @param time The new time value to be displayed.
      */
     public void setUpdateExamTimer(String time) {
         timer.setText(time);
@@ -456,7 +455,7 @@ public class ComputerizedExamController implements Initializable {
      */
     @FXML
     public void getSubmitExamBtn(ActionEvent event) {
-// Create a confirmation alert dialog
+        // Create a confirmation alert dialog
         Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
         root.setDisable(true);
 
@@ -470,13 +469,13 @@ public class ComputerizedExamController implements Initializable {
         confirmationAlert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
         confirmationAlert.getDialogPane().setPrefSize(700, 250);
 
-// Display the confirmation alert dialog and wait for the user's response
+        // Display the confirmation alert dialog and wait for the user's response
         Optional<ButtonType> result = confirmationAlert.showAndWait();
 
         if (!result.isPresent()) {
             root.setDisable(false);
         } else if (result.get() == ButtonType.OK) {
-// Perform exam submission in the JavaFX application thread
+            // Perform exam submission in the JavaFX application thread
             Platform.runLater(() -> {
                 examTimer.stopTimer();
                 submitExam();

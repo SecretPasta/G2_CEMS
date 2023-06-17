@@ -1,6 +1,6 @@
 package student;
 
-public class ExamTimer extends Thread {
+public class ComputerizedExamTimer extends Thread {
     private int minutes;
     private boolean stopTimer;
     private ComputerizedExamController instance;
@@ -14,7 +14,7 @@ public class ExamTimer extends Thread {
      * @param minutes   The duration of the exam in minutes.
      * @param instance  The ComputerizedExamController instance to update the timer label.
      */
-    public ExamTimer(int minutes, ComputerizedExamController instance) {
+    public ComputerizedExamTimer(int minutes, ComputerizedExamController instance) {
         this.minutes = minutes;
         this.stopTimer = false;
         this.instance = instance;
