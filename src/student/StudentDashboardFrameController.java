@@ -178,36 +178,72 @@ public class StudentDashboardFrameController implements Initializable{
 
     // End of My Grades Screen #######################################################
 
-    public StudentDashboardFrameController(){
+    /**
+
+     Constructs a new instance of the StudentDashboardFrameController.
+     Sets the instance variable to reference this instance.
+     */
+    public StudentDashboardFrameController() {
         instance = this;
     }
 
-    public static StudentDashboardFrameController getInstance(){
+
+    /**
+
+     Returns the instance of the StudentDashboardFrameController.
+     @return The instance of the StudentDashboardFrameController.
+     */
+    public static StudentDashboardFrameController getInstance() {
         return instance;
     }
 
-    public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList){
+    /**
+
+     Loads the computerized exams into the table view.
+     @param examList The list of Exam objects representing the computerized exams.
+     */
+    public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList) {
         computerizedExamsObservableList.setAll(examList);
         tableView_UpcomingComputerizedExams.setItems(computerizedExamsObservableList);
         System.out.println(examList);
     }
 
-    public void loadStudentGradesIntoTable(ArrayList<FinishedExam> gradesList){
+    /**
+
+     Loads the student grades into the table view.
+     @param gradesList The list of FinishedExam objects representing the student's grades.
+     */
+    public void loadStudentGradesIntoTable(ArrayList<FinishedExam> gradesList) {
         myGradesObservableList.setAll(gradesList);
         tableView_MyGrades.setItems(myGradesObservableList);
     }
+    /**
 
+     Handles the event when the "Close" button is clicked.
+
+     @param event The ActionEvent triggered by the button click.
+
+     @throws Exception If an error occurs while closing the window.
+     */
     @FXML
-    public void getCloseBtn(ActionEvent event) throws Exception{
+    public void getCloseBtn(ActionEvent event) throws Exception {
         // Hide the primary window
         ((Node) event.getSource()).getScene().getWindow().hide();
-
         // Send a quit message to the server using the client's ID and role
         ClientUI.chat.client.quit(student.getId(), "student");
     }
 
+
+    /**
+
+     Handles the event when the "Logout" button is clicked.
+
+     @param event The ActionEvent triggered by the button click.
+
+     @throws Exception If an error occurs while logging out.
+     */
     @FXML
-    public void getLogoutBtn(ActionEvent event) throws Exception{
+    public void getLogoutBtn(ActionEvent event) throws Exception {
         // Hide the primary window
         ((Node) event.getSource()).getScene().getWindow().hide();
 
@@ -223,52 +259,64 @@ public class StudentDashboardFrameController implements Initializable{
     }
 
 
-    public void getStartComputerizedExamBtn(ActionEvent event) throws Exception{
+    /**
+
+     Handles the event when the "Start Computerized Exam" button is clicked.
+     @param event The ActionEvent triggered by the button click.
+     @throws Exception If an error occurs while starting the computerized exam.
+     */
+    public void getStartComputerizedExamBtn(ActionEvent event) throws Exception {
         selectedExam = tableView_UpcomingComputerizedExams.getSelectionModel().getSelectedItem();
-        if(selectedExam == null){
+        if (selectedExam == null) {
             displayErrorMessage("Error: No Exam has been Selected!");
         } else if (!selectedExam.getCode().equals(txtComputerizedExamCode.getText())) {
             displayErrorMessage("Error: Incorrect Code!");
         } else if (!student.getId().equals(txtComputerizedExamStudentId.getText())) {
-            displayErrorMessage("Error : Incorrect ID!");
-        } else{
-            //Hide primary Window
+            displayErrorMessage("Error: Incorrect ID!");
+        } else {
+// Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            //displaySuccessMessage("You have started the Computerized Exam!");
-            ComputerizedExamController.start(selectedExam,student);
+// Start the computerized exam
+            ComputerizedExamController.start(selectedExam, student);
             selectedExam = null;
         }
-
     }
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-        lbluserNameAndID.setText((student.getName() + "\n(ID: " + student.getId() + ")")); //Initializing the label
+    /**
+     * Initializes the student dashboard screen.
+     *
+     * @param url      The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resource The resources used to localize the root object, or null if the root object was not localized.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle resource) {
+        lbluserNameAndID.setText(student.getName() + "\n(ID: " + student.getId() + ")"); // Initializing the label
 
         //--------------------- Computerized Exam -----------------------------------------------------------------
         // Setting up the data for table
-        // PropertyValueFactory<This is the Class Name,Variable type inside the class>("variable name"))
-        examIdColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("examID"));
-        courseColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("courseName"));
-        subjectColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("subjectName"));
-        descriptionColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("commentsForStudent"));
-        durationColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,Integer>("duration"));
-        lecturerColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("author"));
-        //Crate an ArrayList of all Available Exams
+        examIdColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("examID"));
+        courseColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        subjectColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        descriptionColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("commentsForStudent"));
+        durationColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        lecturerColumn_ComputerizedExams.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+        // Create an ArrayList of all Available Exams
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
-        getExamArray.add((student.getId()));
+        getExamArray.add(student.getId());
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
         //--------------------- End of Computerized Exam ----------------------------------------------------------
 
         //--------------------- Manual Exam -----------------------------------------------------------------------
-        examIdColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("examID"));
-        courseColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("courseName"));
-        subjectColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("subjectName"));
-        descriptionColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("commentsForStudent"));
-        durationColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,Integer>("duration"));
-        lecturerColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<Exam,String>("author"));
+        examIdColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("examID"));
+        courseColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        subjectColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        descriptionColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("commentsForStudent"));
+        durationColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        lecturerColumn_ManualExams.setCellValueFactory(new PropertyValueFactory<>("author"));
+
         ArrayList<String> getManualExamArray = new ArrayList<>();
         getManualExamArray.add("GetAllManualExamsFromDB");
         ClientUI.chat.accept(getManualExamArray);
@@ -278,65 +326,97 @@ public class StudentDashboardFrameController implements Initializable{
 
         //--------------------- Grades Screen ---------------------------------------------------------------------
         // Setting up the data for table
-        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("examID"));
-        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("courseName"));
-        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("subjectName"));
-        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,String>("author"));
-        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<FinishedExam,Double>("grade"));
+        courseExamID_MyGrades.setCellValueFactory(new PropertyValueFactory<>("examID"));
+        courseColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        subjectColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<>("subjectName"));
+        lecturerColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<>("author"));
+        gradeColumn_MyGrades.setCellValueFactory(new PropertyValueFactory<>("grade"));
+
         ArrayList<String> getGradesArr = new ArrayList<>();
         getGradesArr.add("getStudentGradesById");
-        getGradesArr.add((student.getId()));
+        getGradesArr.add(student.getId());
         ClientUI.chat.accept(getGradesArr);
 
         //--------------------- End of Grades Screen --------------------------------------------------------------
 
         currentPane = pnlGreeting;
         pnlGreeting.toFront();
-		// TODO Auto-generated method stub
-		
-	}
+    }
 
-    public void getBtnRefreshComputerizedExams(ActionEvent action){
+
+
+    /**
+
+     Handles the event when the "Refresh Computerized Exams" button is clicked.
+     @param action The ActionEvent triggered by the button click.
+     */
+    public void getBtnRefreshComputerizedExams(ActionEvent action) {
         ArrayList<String> getExamArray = new ArrayList<>();
         getExamArray.add("GetAllComputerizedExamsFromDB");
-        getExamArray.add((student.getId()));
+        getExamArray.add(student.getId());
         ClientUI.chat.accept(getExamArray);
         tableView_UpcomingComputerizedExams.getSelectionModel().clearSelection();
     }
 
-    public void getBtnRefreshGrades(ActionEvent action){
+    /**
+
+     Handles the event when the "Refresh Grades" button is clicked.
+     @param action The ActionEvent triggered by the button click.
+     */
+    public void getBtnRefreshGrades(ActionEvent action) {
         ArrayList<String> getGradesArr = new ArrayList<>();
         getGradesArr.add("getStudentGradesById");
-        getGradesArr.add((student.getId()));
+        getGradesArr.add(student.getId());
         ClientUI.chat.accept(getGradesArr);
         tableView_UpcomingManualExams.getSelectionModel().clearSelection();
     }
 
 //--------------------- Manual Exam -----------------------------------------------------------------------
-	public void showDashboardFrom_ManualExam() {
-		// Show the current stage
-		currentStage.show();
-	}
+    /**
 
-	public void getStartManualExamBtn(ActionEvent event) throws IOException {
+     Shows the dashboard from the Manual Exam screen.
+     This method shows the current stage, which brings the dashboard to the front.
+     */
+    public void showDashboardFrom_ManualExam() {
+        currentStage.show();
+    }
+
+    /**
+
+     Handles the event when the "Start Manual Exam" button is clicked.
+     @param event The ActionEvent triggered by the button click.
+     @throws IOException If an error occurs while starting the manual exam.
+     */
+    public void getStartManualExamBtn(ActionEvent event) throws IOException {
         selectedExam = tableView_UpcomingManualExams.getSelectionModel().getSelectedItem();
-        if(selectedExam == null){
+        if (selectedExam == null) {
             displayErrorMessage("Error: No Exam has been Selected!");
-        } else{
-            //Hide primary Window
+        } else {
+            // Hide primary Window
             ((Node) event.getSource()).getScene().getWindow().hide();
-            //displaySuccessMessage("You have started the Computerized Exam!");
-            ManualExamController.start(selectedExam,student);
+            // Start the manual exam
+            ManualExamController.start(selectedExam, student);
             selectedExam = null;
         }
-	}
+    }
 
-    public void loadManualExamsIntoTable(ArrayList<Exam> exams){
+
+    /**
+
+     Loads the manual exams into the table view.
+     @param exams The list of manual exams to be loaded.
+     */
+    public void loadManualExamsIntoTable(ArrayList<Exam> exams) {
         manualExamsObservableList.setAll(exams);
         tableView_UpcomingManualExams.setItems(manualExamsObservableList);
     }
 
-    public void getBtnRefreshManualExams(ActionEvent event){
+    /**
+
+     Handles the event when the "Refresh Manual Exams" button is clicked.
+     @param event The ActionEvent triggered by the button click.
+     */
+    public void getBtnRefreshManualExams(ActionEvent event) {
         ArrayList<String> getManualExamArray = new ArrayList<>();
         getManualExamArray.add("GetAllManualExamsFromDB");
         ClientUI.chat.accept(getManualExamArray);
@@ -345,63 +425,80 @@ public class StudentDashboardFrameController implements Initializable{
 //--------------------- END Manual Exam -----------------------------------------------------------------------
 
 
+    /**
+     * Starts the student application with the provided student details.
+     *
+     * @param studentDetails The details of the student.
+     *                       Index 0: login As
+     *                       Index 1: user ID
+     *                       Index 2: userName
+     *                       Index 3: user Password
+     *                       Index 4: user Name
+     *                       Index 5: user Email
+     *                       Index 6: Courses
+     * @throws IOException If an error occurs while creating the stage.
+     */
     public static void start(ArrayList<String> studentDetails) throws IOException {
-
         // Initialize the student with the provided details
-        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6),studentDetails.get(7));
-        // -- studentDetails --
-        // 1 - login As
-        // 2 - user ID
-        // 3 - userName
-        // 4 - user Password
-        // 5 - user Name
-        // 6 - user Email
-        // 7 - Courses
+        student = new Student(studentDetails.get(2), studentDetails.get(3), studentDetails.get(4), studentDetails.get(5), studentDetails.get(6), studentDetails.get(7));
 
         // Run the following code on the JavaFX Application Thread using Platform.runLater()
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // Save the current dashboard screen for returning back  , "/student/StudentDashboard.css", "Student Dashboard"
-                    currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml");
-					currentStage.setTitle("StudentDashboard");
-                    currentStage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        Platform.runLater(() -> {
+            try {
+                // Create a new stage for the student dashboard
+                currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml");
+                currentStage.setTitle("Student Dashboard");
+                currentStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
 
 
 
-    //Show the main dashboard window
-    public void showDashboardWindow(){
+
+    /**
+
+     Shows the main dashboard window.
+     This method shows the current stage and triggers the refresh of computerized exams.
+     */
+    public void showDashboardWindow() {
         currentStage.show();
         getBtnRefreshComputerizedExams(null);
     }
 
+
+    /**
+
+     Handles the click events from different buttons.
+     @param actionEvent The ActionEvent triggered by the button click.
+     */
     @FXML
     void handleClicks(ActionEvent actionEvent) {
-    	if (actionEvent.getSource() == btnComputerizedExam) {
-    		handleAnimation(pnlComputerizedExam, btnComputerizedExam);
-	        pnlComputerizedExam.toFront();
-	    }
-	    if (actionEvent.getSource() == btnManualExam) {
-	    	handleAnimation(pnlManualExam, btnManualExam);
-	        pnlManualExam.toFront();
-	    }
-	    if (actionEvent.getSource() == btnMyGrades) {
-	    	handleAnimation(pnlMyGrades, btnMyGrades);
-	        pnlMyGrades.toFront();    
-	    }
+        if (actionEvent.getSource() == btnComputerizedExam) {
+            handleAnimation(pnlComputerizedExam, btnComputerizedExam);
+            pnlComputerizedExam.toFront();
+        }
+        if (actionEvent.getSource() == btnManualExam) {
+            handleAnimation(pnlManualExam, btnManualExam);
+            pnlManualExam.toFront();
+        }
+        if (actionEvent.getSource() == btnMyGrades) {
+            handleAnimation(pnlMyGrades, btnMyGrades);
+            pnlMyGrades.toFront();
+        }
     }
 
-    // method to transition between panes when clicking on buttons on the right side
+    /**
+     * Handles the transition between panes when clicking on buttons on the right side.
+     *
+     * @param newPane     The new pane to transition to.
+     * @param newSection  The new section button that triggers the transition.
+     */
     public void handleAnimation(Pane newPane, JFXButton newSection) {
-    	if(newSection != currentSection) {
-    		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
+        if (newSection != currentSection) {
+            FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
             outgoingPane.setFromValue(1);
             outgoingPane.setToValue(0);
 
@@ -414,46 +511,56 @@ public class StudentDashboardFrameController implements Initializable{
             transition.play();
 
             newSection.setStyle("-fx-border-color: #FAF9F6");
-            if(currentSection != null && currentSection != newSection) currentSection.setStyle("-fx-border-color: #242633");
+            if (currentSection != null && currentSection != newSection) {
+                currentSection.setStyle("-fx-border-color: #242633");
+            }
 
             currentPane = newPane;
             currentSection = newSection;
-    	}
-        
+        }
     }
-    
+
+
+
+    /**
+
+     Displays an error message using a snackbar.
+     @param message The error message to be displayed.
+     */
     public void displayErrorMessage(String message) {
-		
-		Platform.runLater(new Runnable() {		
-			@Override
-			public void run() {
-				snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
-		        snackbar.setPrefWidth(754);
-		        snackbarLayout = new JFXSnackbarLayout(message);
-		        snackbarLayout.getStylesheets().add(css);
-		        snackbar.getStylesheets().add(css);
-		        snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
-			}
-		});
-		
-	}
-	
-	public void displaySuccessMessage(String message) {
-		
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
-				snackbar.setPrefWidth(754);
-				snackbarLayout = new JFXSnackbarLayout(message);
-				snackbarLayout.getStylesheets().add(css);
-				snackbar.getStylesheets().add(css);
-				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+                String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+                snackbar.setPrefWidth(754);
+                snackbarLayout = new JFXSnackbarLayout(message);
+                snackbarLayout.getStylesheets().add(css);
+                snackbar.getStylesheets().add(css);
+                snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
             }
         });
-	}
+    }
+
+    /**
+
+     Displays a success message using a snackbar.
+     @param message The message to be displayed.
+     */
+    public void displaySuccessMessage(String message) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                snackbar = new JFXSnackbar(stackPane);
+                String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+                snackbar.setPrefWidth(754);
+                snackbarLayout = new JFXSnackbarLayout(message);
+                snackbarLayout.getStylesheets().add(css);
+                snackbar.getStylesheets().add(css);
+                snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+            }
+        });
+    }
 
 
 
