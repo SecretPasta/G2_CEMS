@@ -414,7 +414,6 @@ public class HODDashboardFrameController implements Initializable{
     @FXML
     public void getFilteringWord_GeneralReport(ActionEvent event) throws Exception{
     	
-    	System.out.println(123);
     	if(txtFilter_GeneralReport.getText() == null || txtFilter_GeneralReport.getText().trim().equals("")) {
     		listInfo_Info.setItems(listOfGeneralInfo_observablelist);
     	}

@@ -1442,13 +1442,16 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	}
 
 	public static ArrayList<String> GeneralInformationExams(String HODid) {
-		String query = "SELECT E.ID, E.questionsInExam, E.code, E.duration, E.isActive, GROUP_CONCAT(Q.questionText SEPARATOR ', ') AS questionTexts "
+		
+		ArrayList<QuestionInExam> questions = new ArrayList<>();// get all questions from an exam
+		ArrayList<String> questionsText = new ArrayList<>(); // get all questions texts from an exam
+		
+		
+		String query = "SELECT E.ID, E.code, E.duration, E.isActive "
 			    + "FROM exams E "
 			    + "JOIN coursedepartment CD ON E.CourseID = CD.CourseID "
 			    + "JOIN headofdepartment HOD ON HOD.HeadOfDepartmentID = ? "
-			    + "JOIN question Q ON FIND_IN_SET(Q.id, E.questionsInExam) > 0 "
-			    + "WHERE CD.DepartmentID = HOD.DepartmentID "
-			    + "GROUP BY E.ID";
+			    + "WHERE CD.DepartmentID = HOD.DepartmentID ";
 		
 		ArrayList<String> HODExams = new ArrayList<>();
 		try {
@@ -1457,8 +1460,12 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	            ps.setString(1, HODid);
 	            try (ResultSet rs = ps.executeQuery()) {
 	                while(rs.next()) {
-	                	HODExams.add(rs.getString(1) + " - Code: " + rs.getString(3)+ " - Duration (in minutes): " + rs.getString(4)+ " - " + 
-	                "IsActive (0-no, 1-yes, 2-finished): " + rs.getString(5) + "\n\n" + rs.getString("questionTexts").replaceAll("[?,.], ", "\n"));
+	                	questions = retrieveQuestionsInExamById(rs.getString(1));
+	                	for(int i = 0; i < questions.size(); i++) {
+	                		questionsText.add(questions.get(i).getQuestionText());
+	                	}
+	                	HODExams.add(rs.getString(1) + " - Code: " + rs.getString(2) + " - Duration (in minutes): " + rs.getString(3) + " - " + 
+	                "IsActive (0-no, 1-yes, 2-finished): " + rs.getString(4) + "\nAnswers:\n" + String.join("\n- " , questionsText));
 	                }
 	            }
 			}
