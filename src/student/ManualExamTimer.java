@@ -7,6 +7,12 @@ public class ManualExamTimer extends Thread {
     private int totalSeconds;
     private int elapsedSeconds;
 
+    /**
+     * Constructs a new ManualExamTimer with the specified duration in minutes and the associated controller instance.
+     *
+     * @param minutes  the duration of the timer in minutes
+     * @param instance the ManualExamController instance associated with the timer
+     */
     public ManualExamTimer(int minutes, ManualExamController instance) {
         this.minutes = minutes;
         this.stopTimer = false;
@@ -14,6 +20,13 @@ public class ManualExamTimer extends Thread {
         this.elapsedSeconds = 0;
     }
 
+
+    /**
+     * Starts the timer and runs the timer logic.
+     * This method is executed when the thread is started.
+     * It updates the timer every second and checks if the timer has reached zero.
+     * If the timer reaches zero, it calls the {@link #timesUp()} method.
+     */
     @Override
     public void run() {
         totalSeconds = minutes * 60;
@@ -25,7 +38,6 @@ public class ManualExamTimer extends Thread {
 
             String timeString = String.format("%02d:%02d:%02d", hours, minutesRemaining, secondsRemaining);
             setTime(timeString);
-            //System.out.println(timeString);
 
             try {
                 Thread.sleep(1000); // Sleep for 1 second
@@ -36,32 +48,54 @@ public class ManualExamTimer extends Thread {
             totalSeconds--;
             elapsedSeconds++;
         }
-        if(totalSeconds <= 0){
+        if (totalSeconds <= 0) {
             timesUp();
         }
 
         System.out.println("Time's up!");
     }
 
-    public void stopTimer(){
+
+    /**
+     * Stops the timer.
+     */
+    public void stopTimer() {
         stopTimer = true;
     }
 
-    public void updateTimer(int minutes){
+    /**
+     * Updates the timer with the specified duration in minutes.
+     *
+     * @param minutes The new duration of the timer in minutes.
+     */
+    public void updateTimer(int minutes) {
         totalSeconds = minutes * 60;
     }
 
-    public int getElapsedMinutes(){
-        return (int) (elapsedSeconds/60);
+    /**
+     * Returns the elapsed time in minutes.
+     *
+     * @return The elapsed time in minutes.
+     */
+    public int getElapsedMinutes() {
+        return (int) (elapsedSeconds / 60);
     }
 
-    //method to set the time in the timer label
-    private void setTime(String time){
+    /**
+     * Sets the time in the timer label of the associated ComputerizedExamController instance.
+     *
+     * @param time The time to be set in the timer label.
+     */
+    private void setTime(String time) {
         instance.setUpdateExamTimer(time);
     }
-    //When the timer runs out submit the exam
-    private void timesUp(){
+
+    /**
+     * Handles the logic when the timer runs out.
+     */
+    private void timesUp() {
         instance.endOfTimerSubmit();
     }
+
 }
 
