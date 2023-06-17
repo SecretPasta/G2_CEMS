@@ -362,6 +362,21 @@ public class HODDashboardFrameController implements Initializable{
         // Send a quit message to the server using the client's ID and role
         ClientUI.chat.client.quit(headofdepartment.getId(), "headofdepartment");
     }
+    
+    @FXML
+    public void getSelectedInformation(ActionEvent event) throws Exception{
+    	
+    }
+    
+    @FXML
+    public void getViewDataBtn_GeneralInfo(ActionEvent event) throws Exception{
+    	
+    }
+    
+    @FXML
+    public void getBtnShowInformation_GeneralInfo(ActionEvent event) throws Exception{
+    	
+    }
 
     @FXML
     public void getLogoutBtn(ActionEvent event) throws Exception{

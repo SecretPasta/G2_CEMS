@@ -154,7 +154,6 @@ public class ServerPortFrameController implements Initializable {
 	        lblMessage.setText("[Error] Missing fields!");
 	    } else {
 	        lblMessage.setText("");
-	        importAllExternalUsers(event);
 	        // Connect to the MySQL database
 	        boolean sqlConnectionSucceed = mysqlConnection.connect(getURL(), getUserName(), getPassWord());
 	        if (sqlConnectionSucceed) {
@@ -162,6 +161,7 @@ public class ServerPortFrameController implements Initializable {
 	            lblStatus.setTextFill(Color.rgb(93, 210, 153));
 	            lblStatus.setText("Connected");
 	            setVisabilityForUI(true);
+	            importAllExternalUsers(event);
 	            DBController.setAllUsersNotIsLogged(); // Set all users' isLogged to 0
 	            // Start the server
 	            serverCommunication = ServerUI.runServer(getPort());

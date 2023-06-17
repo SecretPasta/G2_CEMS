@@ -1275,12 +1275,14 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 
 	public static void importUsersData() {
 		
+		int importSucceedCnt = 0;
+		int importFailedCnt = 0;
+		
 		try {
-			
             PreparedStatement ps1 = mysqlConnection.conn.prepareStatement("SELECT * FROM external_users");
             ResultSet rs = ps1.executeQuery();
             while (rs.next()) {
-            	String role = rs.getString(5);
+            	String role = rs.getString(8);
                 User user = new User(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
 
                 try {
@@ -1315,13 +1317,16 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
                         ps1.setString(5, user.getEmail());
                         ps1.executeUpdate();
                     }
+                    importSucceedCnt ++;
                 }
                 catch (Exception e2) {
-                    System.out.println("import user failed");
-                    return;
+                	importFailedCnt ++;
                 }
             }
-        }catch (SQLException e) {}	
+        }catch (SQLException e) {
+        	System.out.println("no external_users found");
+        }
+        System.out.println("imported: " + importSucceedCnt + "\nfailed: " + importFailedCnt);
 	}
 
 	public static ArrayList<Exam> getManualExamsByActiveness(String active, String authorID) {
