@@ -1503,6 +1503,31 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		return HODSubjectss;
 
 	}
+
+
+
+
+
+	public static String getStudentEmailByID(String studentID) {
+		
+		String query = "SELECT Email FROM student WHERE StudentID = ?";
+		try {
+			if (mysqlConnection.getConnection() != null) {
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
+	            ps.setString(1, studentID);
+	            try (ResultSet rs = ps.executeQuery()) {
+	                if(rs.next()) {
+	                	return rs.getString(1);
+	                }
+	            }
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 

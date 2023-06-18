@@ -465,7 +465,7 @@ public class MessageHandler_Server {
 						// 7 - Comment For New Grade
 						
 						DBController.setFinishedExamApproved(arrayListStr.get(1), arrayListStr.get(2), arrayListStr.get(3));
-						
+						String studentEmail = DBController.getStudentEmailByID(arrayListStr.get(2));
 						
 						ObservableList<ConnectedClient> connectedClients4 = ServerPortFrameController.getConnectedClients();
 
@@ -483,7 +483,10 @@ public class MessageHandler_Server {
 								connectedClients4.get(i).getClient().sendToClient(newgrademessage_arr);
 							}
 						}
-						client.sendToClient("exam approved and a message has been sent to the student");
+						ArrayList<String> messageForLecturer_arr = new ArrayList<>();
+						messageForLecturer_arr.add("Exam approved send message to lecturer");
+						messageForLecturer_arr.add(studentEmail);
+						client.sendToClient(messageForLecturer_arr);
 						
 						
 						// send message to student with lecturer name and exam id and course name of exam

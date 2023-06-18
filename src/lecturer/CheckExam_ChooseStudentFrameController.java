@@ -117,10 +117,6 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	 */
 	public void showStageFrom_StudentList(FinishedExam finishedExamSelected_temp) throws IOException {
 	    try {
-	        if (finishedExamSelected_temp != null) {
-	            // Display a message to the lecturer for a successful exam approval
-	            displaySuccessMessage("Exam approved!");
-	        }
 	        
 	        // Remove the student exam from the finishedExams_observablelist and refresh the table view
 	        for (int i = 0; i < finishedExams_observablelist.size(); i++) {
