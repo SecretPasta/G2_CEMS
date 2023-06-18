@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@CreateExam_CommentsAndTime.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CreateExam_CommentsAndTimeFrameController">
    <children>
       <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>

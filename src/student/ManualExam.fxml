@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="root" prefHeight="410.0" prefWidth="815.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="student.ManualExamController">
+<AnchorPane fx:id="root" prefHeight="410.0" prefWidth="815.0" style="-fx-background-radius: 30;" stylesheets="@../lecturer/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="student.ManualExamController">
    <children>
       <AnchorPane prefHeight="410.0" prefWidth="815.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@ComputerizedExam.css">
          <children>
