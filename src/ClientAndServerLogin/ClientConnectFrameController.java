@@ -94,7 +94,9 @@ public class ClientConnectFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/ClientAndServerLogin/ClientConnectGUI.fxml", "/ClientAndServerLogin/LoginGUI.css", "Client Connect Managment Tool").show();
+		SceneManagment
+				.createNewStage("/ClientAndServerLogin/ClientConnectGUI.fxml", null, "Client Connect Managment Tool")
+				.show();
 	}
 
 	@Override

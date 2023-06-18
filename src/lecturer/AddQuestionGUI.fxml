@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.AddQuestionFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #5DD299; -fx-background-radius: 30;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.AddQuestionFrameController">
    <children>
       <JFXButton id="backBtn" fx:id="backBtn" layoutX="735.0" layoutY="30.0" onAction="#getBackBtn" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" textFill="#242633" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
          <font>
@@ -71,7 +71,7 @@
       <AnchorPane layoutX="25.0" layoutY="126.0" prefHeight="470.0" prefWidth="244.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30;" AnchorPane.leftAnchor="25.0">
          <children>
             <JFXListView fx:id="courseSelectList" layoutX="29.0" layoutY="116.0" prefHeight="313.0" prefWidth="186.0" style="-fx-padding: 5; -fx-background-color: #242633, #FAF9F6; -fx-background-insets: 0, 1 1 1 1; -fx-background-radius: 5;" AnchorPane.leftAnchor="29.0" />
-            <JFXComboBox id="subjectSelectBox" fx:id="subjectSelectBox" focusColor="#54bf8b" layoutX="29.0" layoutY="50.0" onAction="#getSubjectSelectBox" prefHeight="30.0" prefWidth="186.0" unFocusColor="#242633" />
+            <JFXComboBox id="subjectSelectBox" fx:id="subjectSelectBox" focusColor="#54bf8b" layoutX="29.0" layoutY="50.0" onAction="#getSubjectSelectBox" prefHeight="30.0" prefWidth="186.0" promptText="Select subject..." unFocusColor="#242633" />
             <Label layoutX="29.0" layoutY="32.0" text="Subject" textFill="#242633">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -131,6 +131,6 @@
             </Text>
          </children>
       </TextFlow>
-      <JFXSnackbar fx:id="snackbar" layoutX="702.0" layoutY="679.0" stylesheets="@AddEditQuestion.css" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
+      <JFXSnackbar fx:id="snackbar" layoutX="702.0" layoutY="679.0" AnchorPane.leftAnchor="600.0" AnchorPane.rightAnchor="50.0" />
    </children>
 </AnchorPane>

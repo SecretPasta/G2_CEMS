@@ -1,14 +1,13 @@
 package lecturer;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.FinishedExam;
@@ -75,7 +74,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	void getBtnApproveGrade(ActionEvent event) throws IOException {
 	    // Check if the new grade is provided without comments
 	    if (!(txtNewGrade.getText().trim().equals("")) && txtCommentForNewGrade.getText().trim().equals("")) {
-	        displayErrorMessage("Error: You must write comments to the student for changing the grade");
+			displayErrorMessage("Error: You must write comments to the student for changing the grade!");
 	    } else {
 	        approve_SetGrade_FinishedExam(); // send to the server to approve
 
@@ -124,15 +123,16 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	void getBtnChangeGrade(ActionEvent event) {
 	    try {
 	        if (txtNewGrade.getText().trim().equals("") || txtNewGrade == null) {
-	            displayErrorMessage("Error: New grade field is empty");
-	        } else if (Double.parseDouble(txtNewGrade.getText()) < 0) {
+				displayErrorMessage("Error: New Grade field is empty!");
+			} else if (Double.parseDouble(txtNewGrade.getText()) < 0
+					|| Double.parseDouble(txtNewGrade.getText()) > 100) {
 	            throw new NumberFormatException();
 	        } else {
 	            finishedExamSelected.setGrade(Double.parseDouble(txtNewGrade.getText()));
-	            displaySuccessMessage("Exam grade changed to: " + finishedExamSelected.getGrade());
+				displaySuccessMessage("Exam grade changed to: " + finishedExamSelected.getGrade() + "!");
 	        }
 	    } catch (NumberFormatException e) {
-	        displayErrorMessage("Error: New grade must be a valid number >= 0");
+			displayErrorMessage("Error: New grade must be in range [0-100]!");
 	        txtNewGrade.clear();
 	    }
 	}
@@ -149,7 +149,8 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	    lecturer = lecturer_temp;
 	    finishedExamSelected = finishedExamSelected_temp;
 
-	    currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ReviewAndApprove.fxml", null, "Check Exam");
+		currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ReviewAndApprove.fxml", null,
+				"Lecturer->CheckExam->ApproveGrade");
 	    currStage.show();
 	}
 
@@ -166,11 +167,11 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 		
 		if(finishedExamSelected.getGrade() >= 55.0) {
 			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Passed)");
-			lblAutoGrade.setStyle("-fx-color:  #5DD299; -fx-font-weight: bold;");
+			lblAutoGrade.setStyle("-fx-text-fill:  #5DD299; -fx-font-weight: bold;");
 		}
 		else {
 			lblAutoGrade.setText(Double.toString(finishedExamSelected.getGrade()) + " (Failed)");
-			lblAutoGrade.setStyle("-fx-color:  #FE774C; -fx-font-weight: bold;");
+			lblAutoGrade.setStyle("-fx-text-fill:  #FE774C; -fx-font-weight: bold;");
 		}
 		
 		
@@ -248,7 +249,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	        @Override
 	        public void run() {
 				snackbar = new JFXSnackbar(root);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css").toExternalForm();
 		        snackbar.setPrefWidth(root.getPrefWidth() - 40);
 		        snackbarLayout = new JFXSnackbarLayout(message);
 		        snackbarLayout.getStylesheets().add(css);
@@ -263,7 +264,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	        @Override
 	        public void run() {
 	            snackbar = new JFXSnackbar(root);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css").toExternalForm();
 				snackbar.setPrefWidth(root.getPrefWidth() - 40);
 				snackbarLayout = new JFXSnackbarLayout(message);
 				snackbarLayout.getStylesheets().add(css);

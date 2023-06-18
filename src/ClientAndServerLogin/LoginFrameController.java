@@ -1,7 +1,6 @@
 package ClientAndServerLogin;
 
 import java.io.IOException;
-
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,27 +9,24 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
-
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import client.ClientUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
@@ -109,7 +105,7 @@ public class LoginFrameController implements Initializable{
 	public void getLoginBtn(ActionEvent event) throws Exception {
 	    if (txtUsername.getText().equals("") || txtPassword.getText().equals("") || loginAs.getSelectionModel().getSelectedItem() == null) {
 	    	snackbarError = new JFXSnackbar(snackbarRoot);
-			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+			JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields!");
 			snackbarError.setPrefWidth(snackbarRoot.getPrefWidth() - 40);
 	        snackbarError.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	    } else {
@@ -155,7 +151,11 @@ public class LoginFrameController implements Initializable{
 	 * @throws IOException If an I/O exception occurs during the process
 	 */
 	public static void start() throws IOException {
-	    SceneManagment.createNewStage("/ClientAndServerLogin/LoginGUI.fxml", null, "Login").show(); // Creates and shows the login screen stage
+		SceneManagment.createNewStage("/ClientAndServerLogin/LoginGUI.fxml", null, "CEMS-Login").show(); // Creates and
+																											// shows the
+																											// login
+																											// screen
+																											// stage
 	}
 
 
@@ -192,7 +192,7 @@ public class LoginFrameController implements Initializable{
 	    		            + "assist you promptly." +
 			    		    "\nThank you for your understanding!");
 
-	    alert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+		alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
 		alert.getDialogPane().setPrefSize(700, 250);
 		alert.showAndWait();
 		root.setDisable(false);

@@ -1,27 +1,23 @@
 package lecturer;
 
 import java.io.IOException;
-
-import java.util.HashMap;
-
-
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
+import ClientAndServerLogin.SceneManagment;
 import Config.Lecturer;
 import Config.Question;
 import client.ClientUI;
-import ClientAndServerLogin.SceneManagment;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,7 +74,8 @@ public class AddQuestionFrameController implements Initializable {
      */
     public static void start(Lecturer lecturer_temp) throws IOException {
         lecturer = lecturer_temp;
-        SceneManagment.createNewStage("/lecturer/AddQuestionGUI.fxml", null, "Question Add Management Tool").show();
+		SceneManagment.createNewStage("/lecturer/AddQuestionGUI.fxml", null, "Lecturer->ManageQuestions->AddQuestion")
+				.show();
     }
 
 	
@@ -86,7 +83,6 @@ public class AddQuestionFrameController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 	    // Set up the courseSelectList
-	    courseSelectList.getItems().add("Please select a subject first");
 	    courseSelectList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
 	    // Add subjects to the subjectSelectBox
@@ -182,7 +178,8 @@ public class AddQuestionFrameController implements Initializable {
 	 * @return True if any of the required fields are empty, false otherwise.
 	 */
 	private boolean areFieldsMissing(ObservableList<String> coursesSelect, String subjectSelect) {
-	    return (subjectSelect == null || subjectSelect.isEmpty() || coursesSelect.get(0).equals("Please select a subject first") ||
+		return (subjectSelect == null || subjectSelect.isEmpty()
+				||
 	            coursesSelect.isEmpty() || textQuestionText.getText().trim().equals("") ||
 	            txtAnswerCorrect.getText().trim().equals("") ||
 	            txtAnswerWrong1.getText().trim().equals("") || txtAnswerWrong2.getText().trim().equals("") ||
@@ -195,7 +192,7 @@ public class AddQuestionFrameController implements Initializable {
 	 */
 	private void displayErrorMessage() {
 	    snackbar = new JFXSnackbar(root);
-	    JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields");
+		JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout("Error: Missing fields!");
 	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
 	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 	}

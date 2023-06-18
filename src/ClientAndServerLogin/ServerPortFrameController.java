@@ -282,33 +282,8 @@ public class ServerPortFrameController implements Initializable {
 	    usernameColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("clientname"));
 	    ipColumn.setCellValueFactory(new PropertyValueFactory<ConnectedClient, String>("ip"));
 	   
-	    
-//	    pinger.start();
 	    tableView.setItems(connectedClients);
 	}
-
-//	public class clientPinger extends Thread{
-//		private volatile boolean stopPinging = false;
-//		public void run() {
-//			while(!stopPinging) {
-//				for (ConnectedClient client : connectedClients) {
-//	                // Perform the ping operation on each client
-//					if()
-//					client.getIp();
-//	                pingClient(client);
-//	            }
-//				
-//				 try {
-//		                Thread.sleep(10000); // Sleep for 10 second
-//		            } catch (InterruptedException e) {
-//		                e.printStackTrace();
-//		            }
-//			}
-//		}
-//		public void stopPinging() {
-//	        stopPinging = true;
-//	    }
-//	}
 	
 	
 }

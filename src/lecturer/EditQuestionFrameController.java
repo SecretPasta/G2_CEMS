@@ -1,28 +1,25 @@
 package lecturer;
 
-import ClientAndServerLogin.SceneManagment;
-
-
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
+import ClientAndServerLogin.SceneManagment;
+import Config.Question;
+import client.ClientUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import Config.Question;
-import client.ClientUI;
 
 public class EditQuestionFrameController implements Initializable {
 	
@@ -175,7 +172,8 @@ public class EditQuestionFrameController implements Initializable {
 	public static void start(Question questionSelected_temp) throws Exception {
 	    questionSelected = questionSelected_temp;
 	    questionText = questionSelected.getQuestionText();
-	    SceneManagment.createNewStage("/lecturer/EditQuestionGUI.fxml", null, "Question Edit Management Tool").show();
+		SceneManagment.createNewStage("/lecturer/EditQuestionGUI.fxml", null, "Lecturer->ManageQuestions->EditQuestion")
+				.show();
 	}
 
 	@Override

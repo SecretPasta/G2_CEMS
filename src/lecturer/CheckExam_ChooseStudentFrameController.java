@@ -1,17 +1,16 @@
 package lecturer;
 
 import java.io.IOException;
-import java.util.HashMap;
-
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
@@ -92,7 +91,8 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	public static void start(Exam examSelectedForChecking_temp, Lecturer lecturer_temp) throws IOException {
 	    luecturer = lecturer_temp;
 	    examSelectedForChecking = examSelectedForChecking_temp;
-	    currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ChooseStudent.fxml", null, "Check Exam");
+		currStage = SceneManagment.createNewStage("/lecturer/CheckExam_ChooseStudent.fxml", null,
+				"Lecturer->CheckExam->ChooseStudent");
 	    currStage.show();
 	}
 
@@ -165,7 +165,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	        
 	    } catch (NullPointerException e) {
 	        // Handle the case when a student exam is not selected
-	        displayErrorMessage("Error: Student exam was not selected");
+			displayErrorMessage("Error: Student was not selected!");
 	    }
 	    
 	    // Clear the selection in the finished exams table view
@@ -296,7 +296,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	        @Override
 	        public void run() {
 	        	if(finishedExams.isEmpty()) {
-	        		displayErrorMessage("No exams to approve");
+					displayErrorMessage("Error: No exams to approve!");
 	        	}
 	        	else {
 		            // Set the finished exams to the observable list
@@ -327,7 +327,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	        @Override
 	        public void run() {
 				snackbar = new JFXSnackbar(root);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css").toExternalForm();
 		        snackbar.setPrefWidth(root.getPrefWidth() - 40);
 		        snackbarLayout = new JFXSnackbarLayout(message);
 		        snackbarLayout.getStylesheets().add(css);
@@ -347,7 +347,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	        @Override
 	        public void run() {
 	            snackbar = new JFXSnackbar(root);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css").toExternalForm();
 				snackbar.setPrefWidth(root.getPrefWidth() - 40);
 				snackbarLayout = new JFXSnackbarLayout(message);
 				snackbarLayout.getStylesheets().add(css);

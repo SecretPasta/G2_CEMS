@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="370.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@LoginGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.ClientConnectFrameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="370.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.ClientConnectFrameController">
    <children>
       <Pane layoutY="50.0" prefHeight="340.0" prefWidth="370.0" style="-fx-background-color: #faf9f6; -fx-background-radius: 0 60 0 0;">
          <children>

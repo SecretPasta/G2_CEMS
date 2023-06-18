@@ -1,23 +1,21 @@
 package lecturer;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
-
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.SceneManagment;
 import Config.Exam;
 import Config.HeadOfDepartment;
 import Config.Lecturer;
-
 import client.ClientUI;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -64,7 +62,9 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	public static void start(Exam temp_exam, Lecturer temp_lecturer) throws IOException {
 	    exam = temp_exam; // save the exam
 	    lecturer = temp_lecturer; // save the lecturer
-	    SceneManagment.createNewStage("/lecturer/ManageExam_ChangeTimeGUI.fxml", null, "Manage Exam").show();
+		SceneManagment
+				.createNewStage("/lecturer/ManageExam_ChangeTimeGUI.fxml", null, "Lecturer->ManageExam->ChangeTime")
+				.show();
 	}
 
 	
@@ -80,8 +80,8 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	    
 	    // Check if any required fields are missing
 	    if (txtExplanationExamDurationChange.getText().trim().equals("") || txtExamDuration.getText().trim().equals("")
-	            || hodSelected == null || hodSelected.equals("Please select Head Of Department")) {
-	        displayErrorMessage("Error: Missing fields"); // error message
+				|| hodSelected == null) {
+			displayErrorMessage("Error: Missing fields!"); // error message
 	    } else {    
 	        try {
 	            // Parse the exam duration as an integer
@@ -95,7 +95,7 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 	            LecturerDashboardFrameController.getInstance().showDashboardFrom_ChangeTime(true); // true if request sent
 
 	        } catch (NumberFormatException e) {
-	            displayErrorMessage("Error: Only positives minutes"); // error message
+				displayErrorMessage("Error: Minutes should be positive!"); // error message
 	        }
 	    }    
 	}
@@ -135,8 +135,6 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	hodSelectBox.getItems().add("Please select Head Of Department");
-    	
     	ArrayList<String> hod_arr = new ArrayList<>();
     	hod_arr.add("GetRelevantHodForLecturer");
     	hod_arr.add(lecturer.getId());
@@ -154,14 +152,25 @@ public class ManageExam_ChangeTimeFrameController implements Initializable {
         }
     }
     
-    private void displayErrorMessage(String message) {
-	    snackbar = new JFXSnackbar(root);
-	    snackbarLayout = new JFXSnackbarLayout(message);
-	    snackbar.setPrefWidth(root.getPrefWidth() - 40);
-	    snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+	/**
+	 * Displays an error message using a Snackbar.
+	 *
+	 * @param message The error message to display.
+	 */
+	public void displayErrorMessage(String message) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css").toExternalForm();
+				snackbar.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+			}
+		});
 	}
-
-
 
 }
 

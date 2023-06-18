@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="530.0" style="-fx-background-color: #66A7F2;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.ManageExam_ChangeTimeFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="530.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 30;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.ManageExam_ChangeTimeFrameController">
    <children>
       <JFXButton id="btnBack" fx:id="btnBack" layoutX="50.0" layoutY="617.0" onAction="#getBtnBack" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" textFill="#242633">
          <font>
@@ -40,7 +40,7 @@
       </Pane>
       <AnchorPane layoutX="50.0" layoutY="100.0" prefHeight="136.0" prefWidth="430.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 15;">
          <children>
-            <VBox layoutX="23.0" layoutY="21.0" prefHeight="94.0" prefWidth="322.0" spacing="20.0">
+            <VBox layoutX="23.0" layoutY="21.0" prefHeight="94.0" prefWidth="380.0" spacing="20.0">
                <children>
                   <HBox prefHeight="34.0" prefWidth="320.0" spacing="10.0">
                      <children>
@@ -49,7 +49,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <JFXComboBox id="hodSelectBox" fx:id="hodSelectBox" prefHeight="26.0" prefWidth="159.0" />
+                        <JFXComboBox id="hodSelectBox" fx:id="hodSelectBox" prefHeight="26.0" prefWidth="220.0" promptText="Choose HOD..." />
                      </children>
                   </HBox>
                   <HBox prefHeight="44.0" prefWidth="320.0" spacing="10.0">
@@ -59,7 +59,7 @@
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField id="txtExamDuration" fx:id="txtExamDuration" prefHeight="34.0" prefWidth="120.0" style="-fx-background-radius: 5;" />
+                        <TextField id="txtExamDuration" fx:id="txtExamDuration" prefHeight="34.0" prefWidth="185.0" style="-fx-background-radius: 5;" />
                         <Label prefHeight="34.0" text="*in Minutes">
                            <font>
                               <Font name="System Italic" size="12.0" />

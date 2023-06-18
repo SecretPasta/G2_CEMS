@@ -1,25 +1,22 @@
 package student;
 
 import java.io.IOException;
-
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import Config.Exam;
-import Config.FinishedExam;
-import Config.QuestionInExam;
-import Config.Student;
-
-import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
 
 import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
+import Config.FinishedExam;
+import Config.QuestionInExam;
+import Config.Student;
+import client.ClientUI;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -222,7 +219,8 @@ public class ComputerizedExamController implements Initializable {
         System.out.println(exam);
 
         try {
-            openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null, "ComputerizedExam");
+			openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null,
+					"Student->ComputerizedExam");
             openStage.show();
         } catch (IOException e) {
             // Handle the exception (e.g., display an error message)
@@ -436,7 +434,7 @@ public class ComputerizedExamController implements Initializable {
                     + "\r\n"
                     + "The allotted time for your exam has come to an end. Your exam has been automatically submitted. \nNo further changes or submissions "
                     + "can be made.\n\n");
-            alert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+			alert.getDialogPane().getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
             alert.getDialogPane().setPrefSize(700, 250);
 
             // Show the dialog and wait for user interaction
@@ -466,7 +464,8 @@ public class ComputerizedExamController implements Initializable {
         confirmationAlert.setContentText("You are going to submit your exam. You will not have the opportunity to change your answers.\n"
                 + "Press OK to submit, to continue the exam press Cancel.\n");
 
-        confirmationAlert.getDialogPane().getStylesheets().add(getClass().getResource("/student/ComputerizedExam.css").toExternalForm());
+		confirmationAlert.getDialogPane().getStylesheets()
+				.add(getClass().getResource("/css/styles.css").toExternalForm());
         confirmationAlert.getDialogPane().setPrefSize(700, 250);
 
         // Display the confirmation alert dialog and wait for the user's response

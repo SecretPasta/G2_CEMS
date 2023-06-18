@@ -1,17 +1,16 @@
 package lecturer;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXSnackbar;
-import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
-import Config.Exam;
 import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
 import Config.Lecturer;
 import Config.QuestionInExam;
 import javafx.collections.FXCollections;
@@ -87,7 +86,8 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	    subjectName = subjectName_temp;
 	    courseID = courseID_temp;
 	    courseName = courseName_temp;
-	    currStage = SceneManagment.createNewStage("/lecturer/CreateExam_CommentsAndTimeGUI.fxml", null, "Create Exam");
+		currStage = SceneManagment.createNewStage("/lecturer/CreateExam_CommentsAndTimeGUI.fxml", null,
+				"Lecturer->CreateExam->CommentsAndTime");
 	    currStage.show();
 	}
 
@@ -113,10 +113,10 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	public void getBtnShowReview(ActionEvent event) throws Exception {
 	    try {
 	        if (txtExamDuration.getText().trim().equals("") || txtExamCode.getText().trim().equals("")) {
-	            displayErrorMessage("Error: Missing fields.");
+				displayErrorMessage("Error: Missing fields!");
 	        } else {
 	            if (txtExamCode.getText().length() != 4) {
-	                displayErrorMessage("Error: Exam code has to be 4 digits.");
+					displayErrorMessage("Error: Exam code has to be 4 digits!");
 	                return;
 	            }
 	            int examDuration = Integer.parseInt(txtExamDuration.getText());
@@ -138,9 +138,9 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	        }
 
 	    } catch (NullPointerException e) {
-	        displayErrorMessage("Error: Missing fields.");
+			displayErrorMessage("Error: Missing fields!");
 	    } catch (NumberFormatException e) {
-	        displayErrorMessage("Error: Exam duration has to be a valid number.");
+			displayErrorMessage("Error: Exam duration has to be a valid number!");
 	    }
 	}
 
@@ -161,6 +161,7 @@ public class CreateExam_CommentsAndTimeFrameController implements Initializable 
 	 * @param event The action event triggered by the "Back" button.
 	 * @throws Exception If an error occurs during the process.
 	 */
+	@FXML
 	public void getBtnBack(ActionEvent event) throws Exception {
 	    ((Node) event.getSource()).getScene().getWindow().hide();
 	    LecturerDashboardFrameController.getInstance().showDashboardFrom_CreateExam(); // Previous screen

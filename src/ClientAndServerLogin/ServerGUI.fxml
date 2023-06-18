@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="600.0" prefWidth="1055.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@ServerGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.ServerPortFrameController">
+<Pane prefHeight="600.0" prefWidth="1055.0" style="-fx-background-color: #242633; -fx-background-radius: 30;" stylesheets="@../css/ServerGUI.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientAndServerLogin.ServerPortFrameController">
    <children>
       <Label layoutX="332.0" layoutY="15.0" text="CEMS - Server Connect" textFill="WHITE">
          <font>
@@ -31,7 +31,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Label>
-            <TableView fx:id="tableView" prefHeight="255.0" prefWidth="394.0" stylesheets="@ServerGUI.css">
+            <TableView fx:id="tableView" prefHeight="255.0" prefWidth="394.0">
               <columns>
                 <TableColumn fx:id="ipColumn" prefWidth="174.0" text="IP Address" />
                 <TableColumn fx:id="usernameColumn" prefWidth="204.79998779296875" text="Client Name" />
@@ -66,19 +66,19 @@
          <children>
             <VBox layoutX="328.0" layoutY="77.0" prefHeight="80.0" prefWidth="185.0" spacing="5.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="61.0" stylesheets="@ServerGUI.css" text="Port:" textFill="#242633">
+                  <Label prefHeight="27.0" prefWidth="61.0" text="Port:" textFill="#242633">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtPort" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0" stylesheets="@ServerGUI.css">
+                  <TextField fx:id="txtPort" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
                </children>
             </VBox>
-            <Label layoutX="15.0" layoutY="14.0" stylesheets="@ServerGUI.css" text="Connection Details" textFill="#242633">
+            <Label layoutX="15.0" layoutY="14.0" text="Connection Details" textFill="#242633">
                <font>
                   <Font name="System Bold" size="28.0" />
                </font>
@@ -90,12 +90,12 @@
             </Text>
             <VBox layoutX="26.0" layoutY="77.0" prefHeight="80.0" prefWidth="185.0" spacing="5.0">
                <children>
-                  <Label prefHeight="35.0" prefWidth="119.0" stylesheets="@ServerGUI.css" text="Host IP:" textFill="#242633">
+                  <Label prefHeight="35.0" prefWidth="119.0" text="Host IP:" textFill="#242633">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtServerIP" editable="false" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0" stylesheets="@ServerGUI.css">
+                  <TextField fx:id="txtServerIP" editable="false" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -109,7 +109,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <PasswordField fx:id="txtPassWord" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0" promptText="******" stylesheets="@ServerGUI.css">
+                  <PasswordField fx:id="txtPassWord" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0" promptText="******">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -133,7 +133,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtURL" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="581.0" stylesheets="@ServerGUI.css">
+                  <TextField fx:id="txtURL" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="581.0">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -147,7 +147,7 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="txtUserName" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0" stylesheets="@ServerGUI.css">
+                  <TextField fx:id="txtUserName" maxHeight="44.0" maxWidth="277.0" minHeight="44.0" minWidth="277.0" prefHeight="44.0" prefWidth="277.0">
                      <font>
                         <Font size="16.0" />
                      </font>

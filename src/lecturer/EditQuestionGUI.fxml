@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #66A7F2;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.EditQuestionFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #66A7F2; -fx-background-radius: 30;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.EditQuestionFrameController">
    <children>
       <JFXButton id="backBtn" fx:id="btnBack" layoutX="735.0" layoutY="20.0" onAction="#getBackbtn" prefHeight="34.0" prefWidth="105.0" style="-fx-background-color: #ffc152; -fx-background-radius: 10;" text="Back" textFill="#242633" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
          <font>

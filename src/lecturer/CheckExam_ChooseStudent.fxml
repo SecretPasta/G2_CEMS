@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ChooseStudentFrameController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #242633; -fx-background-radius: 30 30 0 0;" stylesheets="@../css/styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lecturer.CheckExam_ChooseStudentFrameController">
    <children>
       <AnchorPane fx:id="root" layoutY="75.0" prefHeight="501.0" prefWidth="1050.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 0 30 0 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="75.0">
          <children>
@@ -33,19 +33,19 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
-            <HBox layoutX="240.0" layoutY="10.0" prefHeight="40.0" prefWidth="570.0">
+            <HBox alignment="CENTER" layoutX="240.0" layoutY="5.0" prefHeight="40.0" prefWidth="570.0">
                <children>
-                  <Label fx:id="lblExamId" prefHeight="40.0" prefWidth="190.0" text="ExamId Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                  <Label fx:id="lblExamId" alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="190.0" text="ExamId Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblSubject" prefHeight="40.0" prefWidth="190.0" text="Subject Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                  <Label fx:id="lblSubject" alignment="CENTER" prefHeight="40.0" prefWidth="190.0" text="Subject Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCourse" prefHeight="40.0" prefWidth="190.0" text="Course Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
+                  <Label fx:id="lblCourse" alignment="CENTER" prefHeight="40.0" prefWidth="190.0" text="Course Label" textAlignment="CENTER" textFill="#242633" wrapText="true">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -62,7 +62,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <JFXButton layoutX="952.0" layoutY="26.0" maxWidth="75.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back">
+      <JFXButton layoutX="952.0" layoutY="26.0" maxWidth="75.0" onAction="#getBtnBack" prefHeight="30.0" prefWidth="70.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Back" textFill="#242633">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

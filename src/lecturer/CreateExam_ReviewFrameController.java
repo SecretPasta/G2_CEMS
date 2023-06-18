@@ -1,7 +1,6 @@
 package lecturer;
 
 import java.io.IOException;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
@@ -48,7 +47,8 @@ public class CreateExam_ReviewFrameController implements Initializable {
 	public static void start(Exam temp_exam) throws IOException {
 	    exam = temp_exam; // save the exam
 	    // Create a new stage for the Create Exam Review GUI
-	    SceneManagment.createNewStage("/lecturer/CreateExam_ReviewGUI.fxml", null, "Create Exam").show();
+		SceneManagment.createNewStage("/lecturer/CreateExam_ReviewGUI.fxml", null, "Lecturer->CreateExam->FinalReview")
+				.show();
 	}
 
 

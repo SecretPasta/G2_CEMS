@@ -204,7 +204,7 @@ public class HODDashboardFrameController implements Initializable{
     	}
     	else {
     		requestAccepted();
-			displaySuccessMessage("Request for Change time to add cofirmed!");
+			displaySuccessMessage("Request for changing time approved!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -386,7 +386,7 @@ public class HODDashboardFrameController implements Initializable{
                 try {
                     // Save the current dashboard screen for returning back  , "/headofdepartment/HODDashboardGUI.fxml", "HOD Dashboard"
 					currentStage = SceneManagment.createNewStage("/headofdepartment/HODDashboardGUI.fxml", null,
-							"HeadOfDepartment");
+							"HeadOfDepartmentDashboard");
                     currentStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();

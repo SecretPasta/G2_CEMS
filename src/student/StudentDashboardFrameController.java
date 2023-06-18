@@ -58,6 +58,9 @@ public class StudentDashboardFrameController implements Initializable{
     @FXML
     private JFXButton btnViewExam;
 
+	@FXML
+	private JFXButton btnHelp;
+
     @FXML
     private Label lbluserNameAndID;
 
@@ -466,6 +469,7 @@ public class StudentDashboardFrameController implements Initializable{
     public void showDashboardWindow() {
         currentStage.show();
         getBtnRefreshComputerizedExams(null);
+		displaySuccessMessage("You've completed the Computerized Exam!");
     }
 
 
@@ -488,6 +492,10 @@ public class StudentDashboardFrameController implements Initializable{
             handleAnimation(pnlMyGrades, btnMyGrades);
             pnlMyGrades.toFront();
         }
+		if (actionEvent.getSource() == btnHelp) {
+			handleAnimation(pnlGreeting, btnHelp);
+			pnlGreeting.toFront();
+		}
     }
 
     /**
@@ -510,10 +518,10 @@ public class StudentDashboardFrameController implements Initializable{
             transition.getChildren().addAll(outgoingPane, comingPane);
             transition.play();
 
-            newSection.setStyle("-fx-border-color: #FAF9F6");
-            if (currentSection != null && currentSection != newSection) {
-                currentSection.setStyle("-fx-border-color: #242633");
-            }
+			if (newSection != btnHelp)
+				newSection.setStyle("-fx-border-color: #FAF9F6");
+			if (currentSection != null && currentSection != newSection)
+				currentSection.setStyle("-fx-border-color: #242633");
 
             currentPane = newPane;
             currentSection = newSection;
