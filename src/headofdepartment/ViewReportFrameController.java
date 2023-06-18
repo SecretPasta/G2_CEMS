@@ -2,12 +2,11 @@ package headofdepartment;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.ResourceBundle;
 
 import ClientAndServerLogin.SceneManagment;
-import Config.FinishedExam;
 import client.ClientUI;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -66,7 +65,7 @@ public class ViewReportFrameController implements Initializable{
 		name = name_temp;
 		id = id_temp;
 		chosenReport = chosenReport_temp;	
-		SceneManagment.createNewStage("/headofdepartment/ViewReport.fxml", null, "Report Test").show();
+		SceneManagment.createNewStage("/headofdepartment/ViewReport.fxml", null, "HeadOfDepartment->ViewReport").show();
 	}
 
 	@Override

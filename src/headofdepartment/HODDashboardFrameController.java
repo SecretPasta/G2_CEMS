@@ -385,7 +385,8 @@ public class HODDashboardFrameController implements Initializable{
             public void run() {
                 try {
                     // Save the current dashboard screen for returning back  , "/headofdepartment/HODDashboardGUI.fxml", "HOD Dashboard"
-                    currentStage = SceneManagment.createNewStage("/headofdepartment/HODDashboardGUI.fxml");
+					currentStage = SceneManagment.createNewStage("/headofdepartment/HODDashboardGUI.fxml", null,
+							"HeadOfDepartment");
                     currentStage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -531,7 +532,7 @@ public class HODDashboardFrameController implements Initializable{
 			@Override
 			public void run() {
 				snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css")
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css")
 						.toExternalForm();
 				snackbar.setPrefWidth(754);
 				snackbarLayout = new JFXSnackbarLayout(message);
@@ -552,7 +553,7 @@ public class HODDashboardFrameController implements Initializable{
 			@Override
 			public void run() {
 				snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css")
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css")
 						.toExternalForm();
 				snackbar.setPrefWidth(754);
 				snackbarLayout = new JFXSnackbarLayout(message);

@@ -1,7 +1,6 @@
 package student;
 
 import java.io.IOException;
-import java.lang.ref.Cleaner;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -379,6 +378,7 @@ public class StudentDashboardFrameController implements Initializable{
      */
     public void showDashboardFrom_ManualExam() {
         currentStage.show();
+		displaySuccessMessage("You've completed the Manual Exam!");
     }
 
     /**
@@ -446,8 +446,8 @@ public class StudentDashboardFrameController implements Initializable{
         Platform.runLater(() -> {
             try {
                 // Create a new stage for the student dashboard
-                currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml");
-                currentStage.setTitle("Student Dashboard");
+				currentStage = SceneManagment.createNewStage("/student/StudentDashboard.fxml", null,
+						"StudentDashboard");
                 currentStage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -532,8 +532,8 @@ public class StudentDashboardFrameController implements Initializable{
             @Override
             public void run() {
                 snackbar = new JFXSnackbar(stackPane);
-                String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
-                snackbar.setPrefWidth(754);
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css").toExternalForm();
+				snackbar.setPrefWidth(stackPane.getPrefWidth() - 40);
                 snackbarLayout = new JFXSnackbarLayout(message);
                 snackbarLayout.getStylesheets().add(css);
                 snackbar.getStylesheets().add(css);
@@ -552,8 +552,8 @@ public class StudentDashboardFrameController implements Initializable{
             @Override
             public void run() {
                 snackbar = new JFXSnackbar(stackPane);
-                String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
-                snackbar.setPrefWidth(754);
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css").toExternalForm();
+				snackbar.setPrefWidth(stackPane.getPrefWidth() - 40);
                 snackbarLayout = new JFXSnackbarLayout(message);
                 snackbarLayout.getStylesheets().add(css);
                 snackbar.getStylesheets().add(css);

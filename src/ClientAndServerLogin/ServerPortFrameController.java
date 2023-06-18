@@ -1,7 +1,6 @@
 package ClientAndServerLogin;
 
 import java.io.IOException;
-
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -9,29 +8,25 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
 
+import Config.ConnectedClient;
+import JDBC.DBController;
+import JDBC.mysqlConnection;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-
-
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import ocsf.server.ConnectionToClient;
-import Config.ConnectedClient;
-import JDBC.DBController;
-import JDBC.mysqlConnection;
 import server.EchoServer;
 import server.ServerUI;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 
 public class ServerPortFrameController implements Initializable {
 	
@@ -233,7 +228,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void start(Stage primaryStage) throws Exception {
-		SceneManagment.createNewStage("/ClientAndServerLogin/ServerGUI.fxml", "/ClientAndServerLogin/ServerGUI.css", "Server").show();
+		SceneManagment.createNewStage("/ClientAndServerLogin/ServerGUI.fxml", null, "CEMS-Server").show();
 	}
 
 	public void exitBtn(ActionEvent event) throws Exception {

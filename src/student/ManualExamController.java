@@ -1,18 +1,24 @@
 package student;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.ResourceBundle;
 
-import Config.Exam;
-import Config.MyFile;
-import client.ClientUI;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbar.SnackbarEvent;
+import com.jfoenix.controls.JFXSnackbarLayout;
 
 import ClientAndServerLogin.SceneManagment;
+import Config.Exam;
+import Config.MyFile;
 import Config.Student;
+import client.ClientUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class ManualExamController implements Initializable {
 
@@ -53,6 +60,10 @@ public class ManualExamController implements Initializable {
 
 	@FXML
 	private Text timer;
+
+	@FXML
+	private JFXSnackbar snackbar;
+	private JFXSnackbarLayout snackbarLayout;
 
 	protected static Stage currentStage; // save current stage
 	private static Student currentStudent;
@@ -128,9 +139,11 @@ public class ManualExamController implements Initializable {
 			bis.write(myFile.getMybytearray(), 0, myFile.getSize());
 			bis.close();
 		} catch (Exception e) {
+			displayErrorMessage("Error: Core Dumped :(");
 			// Handle any exceptions that occur during file saving
 			e.printStackTrace();
 		}
+		displaySuccessMessage("File has been downloaded successfully!");
 	}
 
 
@@ -142,8 +155,7 @@ public class ManualExamController implements Initializable {
 	@FXML
 	void getSubmitManualExamBtn(ActionEvent event) {
 		if (myFile == null) {
-			System.out.println("Error, no file has been chosen! Please choose a file");
-			// Add snackbar error for this
+			displayErrorMessage("Error: No file has been chosen!");
 		} else {
 			System.out.println("You have Submitted the Manual Exam!!!");
 
@@ -193,6 +205,7 @@ public class ManualExamController implements Initializable {
 
 		if (selectedFile != null) {
 			System.out.println("File Name: " + selectedFile.getName() + " File Path: " + selectedFile.getAbsolutePath());
+			displaySuccessMessage("Your file has been uploaded successfully!");
 
 			// Read the selected file and convert it to a byte array
 			byte[] fileData;
@@ -251,12 +264,54 @@ public class ManualExamController implements Initializable {
 			@Override
 			public void run() {
 				try {
-					currentStage = SceneManagment.createNewStage("/student/ManualExam.fxml");
-					currentStage.setTitle("Student -> Manual Exam");
+					currentStage = SceneManagment.createNewStage("/student/ManualExam.fxml", null,
+							"Student->ManualExam");
 					currentStage.show();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		});
+	}
+
+	/**
+	 * Displays an error message using a Snackbar.
+	 *
+	 * @param message The error message to display.
+	 */
+	public void displayErrorMessage(String message) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css")
+						.toExternalForm();
+				snackbar.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+			}
+		});
+	}
+
+	/**
+	 * Displays a success message using a Snackbar.
+	 *
+	 * @param message The success message to display.
+	 */
+	public void displaySuccessMessage(String message) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(root);
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css")
+						.toExternalForm();
+				snackbar.setPrefWidth(root.getPrefWidth() - 40);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
 			}
 		});
 	}
