@@ -224,7 +224,7 @@ CREATE TABLE `finishedexam` (
   `grade` double DEFAULT NULL,
   `approved` int DEFAULT NULL,
   `checkExam` int DEFAULT NULL,
-  PRIMARY KEY (`examID`)
+  PRIMARY KEY (`examID`,`studentID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -234,7 +234,7 @@ CREATE TABLE `finishedexam` (
 
 LOCK TABLES `finishedexam` WRITE;
 /*!40000 ALTER TABLE `finishedexam` DISABLE KEYS */;
-INSERT INTO `finishedexam` VALUES ('010105','206392246','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.|An abstract class can have method implementations and member variables, while an interface only has method signatures (without implementations) and constants.| By extending multiple classes.|the \'static\' keyword is used to make a class immutable.|Same name, different parameters.','Omri Sharof',60,1,1);
+INSERT INTO `finishedexam` VALUES ('010105','206392246','A stack is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed. Elements are added and removed from only one end of the stack.|An abstract class cannot have any methods.|By implementing multiple interfaces.|the \'static\' keyword is used to define variables and methods that can only be accessed within the same package.|Same name, different parameters.','Omri Sharof',60,1,1),('010105','987654321','A queue is a data structure that follows the Last-In-First-Out (LIFO) principle, where the last element added is the first one to be removed.|An abstract class cannot have any methods.|By implementing multiple interfaces.|the \'static\' keyword is used to define variables and methods that can only be accessed within the same package.|while method overriding occurs when multiple methods in the same class have the same name.','Omri Sharof',20,1,1);
 /*!40000 ALTER TABLE `finishedexam` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -555,7 +555,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('098765432','Boris.Shostin','123123','Boris Shostin','Boris.Shostin@e.braude.ac.il','Software Engineering','2',0),('123456789','Alon.Ternerider','112233','Alon Ternerider','Alon.Ternerider@e.braude.ac.il','Software Engineering','2',0),('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','Information Systems Engineering','1',0),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','2',0),('456765422','Abed.Zuzu','123456','Abed Zuzu','Abed.Zuzu@e.braude.ac.il','Information Systems Engineering','1',0),('456789123','Ilya.Vor','778899','Ilya Vor','Ilya.Vor@e.braude.ac.il','Software Engineering','2',0),('876543211','Tom.B','345345','Tom B','Tom.B@e.braude.ac.il','Mechanical Engineering','4',0),('987654321','Kfir.Sharoni','445566','Kfir Sharoni','Kfir.Sharoni@e.braude.ac.il','Information Systems Engineering','1',0);
+INSERT INTO `student` VALUES ('098765432','Boris.Shostin','123123','Boris Shostin','Boris.Shostin@e.braude.ac.il','Software Engineering','2',0),('123456789','Alon.Ternerider','112233','Alon Ternerider','Alon.Ternerider@e.braude.ac.il','Software Engineering','2',0),('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','Information Systems Engineering','1',1),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','2',0),('456765422','Abed.Zuzu','123456','Abed Zuzu','Abed.Zuzu@e.braude.ac.il','Information Systems Engineering','1',0),('456789123','Ilya.Vor','778899','Ilya Vor','Ilya.Vor@e.braude.ac.il','Software Engineering','2',0),('876543211','Tom.B','345345','Tom B','Tom.B@e.braude.ac.il','Mechanical Engineering','4',0),('987654321','Kfir.Sharoni','445566','Kfir Sharoni','Kfir.Sharoni@e.braude.ac.il','Information Systems Engineering','1',1);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -620,4 +620,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-19  0:07:55
+-- Dump completed on 2023-06-19  0:23:31
