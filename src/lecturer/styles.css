@@ -1,0 +1,274 @@
+.table-view {
+    -fx-background-color: #1E1E1E ,#FAF9F6;
+    -fx-background-radius: 10 10 10 10;
+    -fx-background-insets: 0, 2 2 2 2;
+    -fx-padding: 2 3 7 3;
+}
+
+.table-view .column-header-background{
+        -fx-background-color: #1E1E1E ,#FAF9F6;
+        -fx-background-radius: 10 10 0 0;
+        -fx-background-insets: 0, -1 -1 2 -1;    
+}
+
+.table-view .column-header, .table-view .filler{
+        -fx-size: 30px;
+        -fx-background-color: transparent;
+        
+}
+    
+.table-view .column-header .label {
+        -fx-text-fill: #1E1E1E;
+}
+
+.table-view .table-column{
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell{
+	-fx-background-color: #FAF9F6;
+}
+
+.table-row-cell:focused{
+	-fx-background-color: #66A7F2;
+	-fx-text-fill: #FAF9F6;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #BED8F5, #66A7F2);
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
+}
+
+.text-field {
+	-fx-background-color: #242633, #FFFFFF;
+	-fx-background-insets: 0, 1 1 1 1;
+	-fx-background-radius: 5;
+}
+.text-field:focused {
+	-fx-background-radius: 5;
+	-fx-background-color: #66A7F2, #FFFFFF;
+}
+
+.jfx-snackbar-toast{
+	-fx-text-fill: #FE774C;
+	-fx-font-weight: bold;
+}
+
+.jfx-snackbar-content{
+	-fx-background-color: #383838;
+	-fx-background-radius: 10 10 0 0;
+}
+
+.button:hover{
+	-fx-scale-x: 1.05;
+	-fx-scale-y: 1.05;
+}
+
+#lblSignUp:hover, #lblForgotPassword:hover{
+	-fx-text-fill: #5DD299;
+	-fx-scale-x: 1.05;
+	-fx-scale-y: 1.05;
+}
+
+.jfx-layout-heading{
+	-fx-background-color: #FE774C;
+    -fx-font-size: 20px;
+}
+
+.jfx-layout-body{
+    -fx-background-color: #FAF9F6; 
+    -fx-padding: 5;  
+}
+
+.jfx-layout-actions{
+	-fx-background-color: #FAF9F6;
+	-fx-alignment: center;
+}
+
+.jfx-layout-actions .button{
+	-fx-background-color: #66A7F2;
+	-fx-text-fill: #FAF9F6;
+	-fx-pref-width: 100;
+	-fx-font-weight: bold;
+}
+
+.list-view{
+	-fx-padding: 5;
+	-fx-background-color: #242633, #FAF9F6;
+	-fx-background-insets: 0, 2 2 2 2;
+	-fx-background-radius: 5;
+	
+}
+
+.list-view .scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+
+.list-view .scroll-bar:horizontal .track,
+.list-view .scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.list-view .scroll-bar:vertical .thumb{
+    -fx-background-color:  #5DD299;
+    -fx-background-radius: 10em;
+}
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-background-color:  #5DD299;
+    -fx-background-radius: 10em;
+}
+.list-view > .corner {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10em;
+}
+
+.scroll-pane {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: #383838;
+    -fx-border-radius: 10;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal, .scroll-bar:vertical{
+    -fx-background-color:transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+}
+
+.scroll-pane .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #BED8F5, #66A7F2);
+    -fx-background-radius: 10em;
+}
+.scroll-pane > .corner {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10em;
+}
+
+.chart{
+    -fx-background-color:  #FAF9F6;
+    -fx-font-size: 14;
+    -fx-text-fill: #242633;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color:transparent;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: #66A7F2;
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: #66A7F2;
+}
+
+.data0.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data1.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data2.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data3.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data4.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data5.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data6.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data7.chart-bar {
+    -fx-background-color: #5DD299;
+}
+.data8.chart-bar {
+    -fx-background-color: #5DD299;
+}
+
+.jfx-tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.jfx-tab-pane .tab-selected-line {
+    -fx-background-color: #FAF9F6;
+    -fx-scale-x: 0%;
+}
+.jfx-tab-pane .tab .tab-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #383838;
+    -fx-font-size: 14;
+    -fx-effect: null;
+
+}
+
+.jfx-tab-pane .tab:selected {
+	-fx-border-width: 0 0 2 0;
+	-fx-border-color: #66A7F2;
+}
+
+.jfx-tab-pane .tab-header-area .jfx-rippler{
+    -jfx-rippler-fill: #66A7F2;
+}
+
+.dialog-pane{
+    -fx-background-color: #FAF9F6;
+}
+.dialog-pane > *.button-bar > *.container{
+    -fx-background-color: #FAF9F6;
+}
+
+.dialog-pane .button {
+    -fx-background-color: #FAF9F6;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: #242633;
+}
+.dialog-pane > *.label.content{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.dialog-pane:header *.header-panel{
+    -fx-background-color: #242633;
+}
+.dialog-pane:header *.header-panel *.label{
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: #FAF9F6;
+}
