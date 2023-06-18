@@ -58,7 +58,7 @@ public class EchoServer extends AbstractServer
   public void handleMessageFromClient(Object msg, ConnectionToClient client)
   { 
 	  MessageHandler_Server.handleMessage(msg, client); // handle the message from the client in different class
-	  //System.out.println("Message received: " + msg.toString() + " from " + client);
+	  System.out.println("Message received: " + msg.toString() + " from " + client);
   
   }
     
@@ -68,7 +68,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStarted()
   {
-    //System.out.println("Server listening for connections on port " + getPort());
+    System.out.println("Server listening for connections on port " + getPort());
   }
   
   /**
@@ -77,7 +77,7 @@ public class EchoServer extends AbstractServer
    */
   protected void serverStopped()
   {
-    //System.out.println("Server has stopped listening for connections.");
+    System.out.println("Server has stopped listening for connections.");
   }
   
 }

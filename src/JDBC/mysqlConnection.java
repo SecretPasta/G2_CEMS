@@ -11,25 +11,25 @@ public class mysqlConnection {
 		try
 		{
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            //System.out.println("Driver definition succeed");
+            System.out.println("Driver definition succeed");
         } catch (Exception ex) {
         	/* handle the error*/
-        	 //System.out.println("Driver definition failed");
+        	 System.out.println("Driver definition failed");
         	 return false;
         	 }
         
         try 
         {
             conn = DriverManager.getConnection(url, user, password);
-            //System.out.println("SQL connection succeed");
+            System.out.println("SQL connection succeed");
             return true;
             
             // 172.20.10.3
      	} catch (SQLException ex) 
      	    {/* handle any errors*/  		
-            //System.out.println("SQLException: " + ex.getMessage());
-            //System.out.println("SQLState: " + ex.getSQLState());
-            //System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
             return false;
             }
 	}

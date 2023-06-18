@@ -260,14 +260,15 @@ public class LecturerDashboardFrameController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		getLecturerSubjectsAndCoursesFromDB(lecturer);
-		getAllSubjectsFromDB();
-		getAllCoursesFromDB();
-		getAllExamsToCheck();
 	    lbluserNameAndID.setText(lecturer.getName() + "\n(ID: " + lecturer.getId() + ")"); // Set lecturer name and id under in the frame
 	    currentPane = pnlGreeting;
 	    pnlEmpty.toFront();
 	    pnlGreeting.toFront();
+	    
+		getLecturerSubjectsAndCoursesFromDB(lecturer);
+		getAllSubjectsFromDB();
+		getAllCoursesFromDB();
+		getAllExamsToCheck();
 		
 	    // -------------- ManageQuestions PANEL --------------
 
