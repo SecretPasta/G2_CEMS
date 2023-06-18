@@ -1796,7 +1796,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        @Override
 	        public void run() {
 				snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarError.css").toExternalForm();
 		        snackbar.setPrefWidth(754);
 		        snackbarLayout = new JFXSnackbarLayout(message);
 		        snackbarLayout.getStylesheets().add(css);
@@ -1816,7 +1816,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	        @Override
 	        public void run() {
 	            snackbar = new JFXSnackbar(stackPane);
-				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css").toExternalForm();
+				String css = this.getClass().getClassLoader().getResource("css/SnackbarSuccess.css").toExternalForm();
 				snackbar.setPrefWidth(754);
 				snackbarLayout = new JFXSnackbarLayout(message);
 				snackbarLayout.getStylesheets().add(css);
