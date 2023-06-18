@@ -48,7 +48,7 @@ public class ClientController implements ChatIF
     } 
     catch(IOException exception) 
     {
-      System.out.println("Error: Can't setup connection!"+ " Terminating client.");
+      //System.out.println("Error: Can't setup connection!"+ " Terminating client.");
       System.exit(1);
     }
   }
@@ -73,7 +73,7 @@ public class ClientController implements ChatIF
    */
   public void display(String message) 
   {
-    System.out.println("> " + message);
+    //System.out.println("> " + message);
   }
 }
 //End of ConsoleChat class

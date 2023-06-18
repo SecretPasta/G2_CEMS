@@ -54,7 +54,7 @@ public class ComputerizedExamTimer extends Thread {
             timesUp();
         }
 
-        System.out.println("Time's up!");
+        //System.out.println("Time's up!");
     }
 
 

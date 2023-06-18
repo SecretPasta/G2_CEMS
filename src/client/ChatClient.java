@@ -62,11 +62,11 @@ public class ChatClient extends AbstractClient
 
   public void handleMessageFromServer(Object msg) 
   {
-	  System.out.println("--> handleMessageFromServer");
+	  //System.out.println("--> handleMessageFromServer");
 	  awaitResponse = false;
 	  
 	  MessageHandler_Client.handleMessage(msg); // handle the message from the server in different class
-	  System.out.println(msg);
+	  //System.out.println(msg);
 
   }
 
@@ -107,7 +107,7 @@ public class ChatClient extends AbstractClient
   public void quit(String userID, String userLoginAs)
   {
 	if(isConnected()) {
-		System.out.println("exited2");
+		//System.out.println("exited2");
 		ArrayList<String> clientInfo = new ArrayList<>();
 		clientInfo.add("ClientQuitting");
 	    try {
@@ -134,7 +134,7 @@ public class ChatClient extends AbstractClient
   public void quit()
   {
 	if(isConnected()) {
-		System.out.println("exited1");
+		//System.out.println("exited1");
 		ArrayList<String> clientInfo = new ArrayList<>();
 		clientInfo.add("ClientQuitting");
 	    try {

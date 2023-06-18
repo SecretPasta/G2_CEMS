@@ -67,7 +67,7 @@ public class MessageHandler_Client {
 				handleMyFileValueMessage((MyFile) msg);
 				break;
 	        default:
-	            System.out.println("Message type does not exist");
+	            //System.out.println("Message type does not exist");
 	            break;
 	    }
 	}
@@ -140,7 +140,7 @@ public class MessageHandler_Client {
 	    		case "server is disconnected":
 	    			// if get client get the message server is disconnected, get him out of the program
 					JOptionPane.showMessageDialog(null, "server is disconnected.", "Connect to Server", JOptionPane.INFORMATION_MESSAGE);
-					System.out.println("exited");
+					//System.out.println("exited");
 					System.exit(0); 
 	    			break;
 	    			
@@ -183,13 +183,13 @@ public class MessageHandler_Client {
 						else if(arrayListStr.get(1).equals("Student")) { // login as student
 							// 7 - Department Name
 							// 8 - DepartmentID
-							System.out.println("Student Login in\n");
+							//System.out.println("Student Login in\n");
 							StudentDashboardFrameController.start(arrayListStr);
 						}
 						else if(arrayListStr.get(1).equals("HeadOfDepartment")) { // login as head of department
 							HODDashboardFrameController.start(arrayListStr);
 						}
-						System.out.println("logged in succesfully");
+						//System.out.println("logged in succesfully");
 						userID = arrayListStr.get(2);
 	                    break;
 	                    
@@ -368,14 +368,14 @@ public class MessageHandler_Client {
     			// Handle LoadQuestionsFromDB message
     			questionList.remove(0); // remove the first question (the question that identified)
 				LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable_ManageQuestions(questionList);
-				System.out.println("The questions succesfully loaded from the DB to the table.");
+				//System.out.println("The questions succesfully loaded from the DB to the table.");
 				break;
 				
     		case "LoadQuestionsFromDB_CreateExamTable":
     			
     			questionList.remove(0); // remove the first question (the question that identified)
     			LecturerDashboardFrameController.getInstance().loadArrayQuestionsToTable_CreateExam(questionList);
-    			System.out.println("The questions succesfully loaded from the DB to the create exam table.");
+    			//System.out.println("The questions succesfully loaded from the DB to the create exam table.");
     			break;
     	} 	
     }
@@ -408,7 +408,7 @@ public class MessageHandler_Client {
 
 	//This method is to get Computerized Exams to the client
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList) {
-		System.out.println("Reached the handleExamArrayListMessage | ClientHandler");
+		//System.out.println("Reached the handleExamArrayListMessage | ClientHandler");
 		// Handle ArrayList<Exam> messages
 		// You're supposed to call a function within the Controller class and pass the List to it to update the fields
     	String messageType = examList.get(0).getExamID();
@@ -425,7 +425,7 @@ public class MessageHandler_Client {
 	    			LecturerDashboardFrameController.getInstance().loadAllInActiveExamsToTable(examList);
 					break;
 				case "computerizedExamsForStudentTable":
-					System.out.println("Reached the Client Handler");
+					//System.out.println("Reached the Client Handler");
 					examList.remove(0);
 					StudentDashboardFrameController.getInstance().loadComputerizedExamsIntoTable(examList);
 					break;
@@ -446,8 +446,8 @@ public class MessageHandler_Client {
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList) {
 		// Handle ArrayList<QuestionInExam> messages
 
-		System.out.println("Reached handleQuestionInExamArrayListMessage | ClientHandler");
-		System.out.println(questionInExamList + " Inside Handler!");
+		//System.out.println("Reached handleQuestionInExamArrayListMessage | ClientHandler");
+		//System.out.println(questionInExamList + " Inside Handler!");
     	String messageType = questionInExamList.get(0).getId();
 		questionInExamList.remove(0);
 
@@ -467,7 +467,7 @@ public class MessageHandler_Client {
 	}
 	
 	private static void handleHodArrayListMessage(ArrayList<HeadOfDepartment> hodList) {
-		System.out.println("Reached the handleHodArrayListMessage | ClientHandler");
+		//System.out.println("Reached the handleHodArrayListMessage | ClientHandler");
 		// Handle ArrayList<HeadOfDepartment> messages
 
     	String messageType = hodList.get(0).getId();
@@ -485,7 +485,7 @@ public class MessageHandler_Client {
 	
 	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam){
 		//Handle ArrayList<FinishedExam> messages
-		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
+		//System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
 		String messageType = finishedExam.get(0).getExamID();
 		try{
 			
@@ -515,7 +515,7 @@ public class MessageHandler_Client {
 	}
 
 	private static void handleMyFileValueMessage(MyFile file){
-		System.out.println("Reach handleMyFileValueMessage | Client Handler");
+		//System.out.println("Reach handleMyFileValueMessage | Client Handler");
 		ManualExamController.getInstance().saveExamToComputer(file);
 	}
 }

@@ -208,7 +208,7 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	                    }
 	                    if (studentAnswers[i] == null || studentAnswers[i].trim().equals("")) {
 	                        questionLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold;");
-	                        System.out.println(1);
+	                        //System.out.println(1);
 	                    }
 	                }
 

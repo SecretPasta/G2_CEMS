@@ -207,7 +207,7 @@ public class StudentDashboardFrameController implements Initializable{
     public void loadComputerizedExamsIntoTable(ArrayList<Exam> examList) {
         computerizedExamsObservableList.setAll(examList);
         tableView_UpcomingComputerizedExams.setItems(computerizedExamsObservableList);
-        System.out.println(examList);
+        //System.out.println(examList);
     }
 
     /**

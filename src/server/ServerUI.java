@@ -13,9 +13,9 @@ public class ServerUI extends Application {
 		try {
 			launch(args); 
         } catch (SecurityException se) {
-            System.out.println("Program exited with error: " + se.getMessage());
+            //System.out.println("Program exited with error: " + se.getMessage());
         } finally {
-            System.out.println("Server exited");
+            //System.out.println("Server exited");
             ServerPortFrameController.getInstance().disconnectBtn(); // call disconnect server func to exit the server correctly
         } 
 	}
@@ -33,7 +33,7 @@ public class ServerUI extends Application {
 			port = Integer.parseInt(p); // Set port to 5555
 
 		} catch (Throwable t) {
-			System.out.println("ERROR - Connection Failed!\n" + t.getMessage());
+			//System.out.println("ERROR - Connection Failed!\n" + t.getMessage());
 		}
 
 		echoServer = EchoServer.getInstance(port);
@@ -42,7 +42,7 @@ public class ServerUI extends Application {
 			echoServer.listen(); // Start listening for connections
 
 		} catch (Exception ex) {
-			System.out.println("ERROR - Could not listen for clients!\n" + ex.getMessage());
+			//System.out.println("ERROR - Could not listen for clients!\n" + ex.getMessage());
 		}
 		return echoServer;
 	}

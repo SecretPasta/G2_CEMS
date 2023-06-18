@@ -68,12 +68,12 @@ public class CreateExam_ReviewFrameController implements Initializable {
 			questionLabel.setStyle("-fx-font-weight: bold");
             vbox.getChildren().add(questionLabel);
 
-            // shuffling the answers
-            int correctAnswer_place = 0; // Index of the correct answer in the list
-            String tempAnswer_Correct = question.getAnswers().get(0); // Store the first answer as temporary correct answer
-            int wrongAnswer_place = random.nextInt(question.getAnswers().size() - 1) + 1; // Generate a random index for a wrong answer
-            question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place)); // Swap the correct answer with a randomly chosen wrong answer
-            question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct); // Set the wrong answer index with the original correct answer
+//            // shuffling the answers
+//            int correctAnswer_place = 0; // Index of the correct answer in the list
+//            String tempAnswer_Correct = question.getAnswers().get(0); // Store the first answer as temporary correct answer
+//            int wrongAnswer_place = random.nextInt(question.getAnswers().size() - 1) + 1; // Generate a random index for a wrong answer
+//            question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place)); // Swap the correct answer with a randomly chosen wrong answer
+//            question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct); // Set the wrong answer index with the original correct answer
 
 			char answerLetter = 'a';
             // place the answers in the vbox

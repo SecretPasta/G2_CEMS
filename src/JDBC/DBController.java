@@ -108,7 +108,7 @@ public class DBController {
 	                }
 	                rs.close();
 	            } else {
-	                System.out.println("myConn is NULL!");
+	                //System.out.println("myConn is NULL!");
 	            }
 	        } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
@@ -343,14 +343,14 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		    String subject = entry.getKey();
 		    ArrayList<String> courses = entry.getValue();
 
-		    System.out.println("Subject: " + subject);
-		    System.out.println("Courses:");
+		    //System.out.println("Subject: " + subject);
+		    //System.out.println("Courses:");
 
 		    for (String course : courses) {
-		        System.out.println("- " + course);
+		        //System.out.println("- " + course);
 		    }
 		    //Optional line to add a blank line between subjects
-		    System.out.println();
+		    //System.out.println();
 		}*/
 		
 		return lecDepartmentCoursesMap;
@@ -918,7 +918,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-		System.out.println(grades);
+		//System.out.println(grades);
 		return grades;
 	}
 
@@ -1324,9 +1324,9 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
                 }
             }
         }catch (SQLException e) {
-        	System.out.println("no external_users found");
+        	//System.out.println("no external_users found");
         }
-        System.out.println("imported: " + importSucceedCnt + "\nfailed: " + importFailedCnt);
+        //System.out.println("imported: " + importSucceedCnt + "\nfailed: " + importFailedCnt);
 	}
 
 	public static ArrayList<Exam> getManualExamsByActiveness(String active, String authorID) {
