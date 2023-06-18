@@ -294,7 +294,7 @@ public class MessageHandler_Client {
 	                	
 	                case "Exam approved send message to lecturer":
 	                	// 1 - student's email
-	                	LecturerDashboardFrameController.getInstance().displaySuccessMessage("Exam approved! and sent to the student's email: " +
+	                	CheckExam_ChooseStudentFrameController.getInstance().displaySuccessMessage("Exam approved! and sent to the student's email: " +
 	                			arrayListStr.get(1));
 	                	break;
 	                	
