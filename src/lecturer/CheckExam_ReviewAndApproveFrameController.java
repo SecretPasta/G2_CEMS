@@ -203,10 +203,10 @@ public class CheckExam_ReviewAndApproveFrameController implements Initializable 
 	                    answerLabel.setStyle("-fx-background-color: #5DD299; -fx-font-weight: bold;");
 	                } else {
 	                    if (studentAnswers[i] != null && studentAnswers[i].equals(question.getAnswers().get(j))) {
-	                        answerLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold; -fx-background-radius: 10;");
+	                        answerLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold;");
 	                    }
 	                    if (studentAnswers[i] == null || studentAnswers[i].trim().equals("")) {
-	                        questionLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold; -fx-background-radius: 10;");
+	                        questionLabel.setStyle("-fx-background-color: #FE774C; -fx-font-weight: bold;");
 	                        System.out.println(1);
 	                    }
 	                }

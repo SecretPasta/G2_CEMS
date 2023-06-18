@@ -284,6 +284,7 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	
 	/**
 	 * Loads all finished exams of the selected exam into the UI.
+	 * if there are no exams to approve, warning the lecturer
 	 * This method is called after receiving the finished exams from the server.
 	 * It updates the UI components with the new data.
 	 *
@@ -294,19 +295,24 @@ public class CheckExam_ChooseStudentFrameController implements Initializable {
 	    Platform.runLater(new Runnable() {
 	        @Override
 	        public void run() {
-	            // Set the finished exams to the observable list
-	            finishedExams_observablelist.setAll(finishedExams);
-
-	            // Set the observable list as the items of the table view
-	            finishedExams_tableView.setItems(finishedExams_observablelist);
-
-	            finishedExams_tableView.refresh();
-
-	            // Clear the selection in the table view
-	            finishedExams_tableView.getSelectionModel().clearSelection();
-
-	            // Get suspect exams for cheating
-	            getSuspectExamsForCheating();
+	        	if(finishedExams.isEmpty()) {
+	        		displayErrorMessage("No exams to approve");
+	        	}
+	        	else {
+		            // Set the finished exams to the observable list
+		            finishedExams_observablelist.setAll(finishedExams);
+	
+		            // Set the observable list as the items of the table view
+		            finishedExams_tableView.setItems(finishedExams_observablelist);
+	
+		            finishedExams_tableView.refresh();
+	
+		            // Clear the selection in the table view
+		            finishedExams_tableView.getSelectionModel().clearSelection();
+	
+		            // Get suspect exams for cheating
+		            getSuspectExamsForCheating();
+	        	}
 	        }
 	    });
 	}
