@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -381,7 +380,6 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	public static void addNewQuestion(Question question) {
 		String query = "INSERT INTO question (id, subjectID, questionText, questionNumber, answerCorrect, answerWrong1"
 				+ ", answerWrong2, answerWrong3, lecturer, lecturerID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		int i = 0;
 	    try {
 	    	
 	    	if (mysqlConnection.getConnection() != null) {
@@ -1326,7 +1324,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
         }catch (SQLException e) {
         	System.out.println("no external_users found");
         }
-        System.out.println("imported: " + importSucceedCnt + "\nfailed: " + importFailedCnt);
+        System.out.println("imported: " + importSucceedCnt + "\nfailed (already exist): " + importFailedCnt);
 	}
 
 	public static ArrayList<Exam> getManualExamsByActiveness(String active, String authorID) {
@@ -1465,7 +1463,7 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
 	                		questionsText.add(questions.get(i).getQuestionText());
 	                	}
 	                	HODExams.add(rs.getString(1) + " - Code: " + rs.getString(2) + " - Duration (in minutes): " + rs.getString(3) + " - " + 
-	                "IsActive (0-no, 1-yes, 2-finished): " + rs.getString(4) + "\nAnswers:\n" + String.join("\n- " , questionsText));
+	                "IsActive (0-no, 1-yes, 2-finished): " + rs.getString(4) + "\nQuestions:\n- " + String.join("\n- " , questionsText));
 	                }
 	            }
 			}

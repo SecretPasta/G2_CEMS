@@ -3,7 +3,6 @@ package lecturer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import ClientAndServerLogin.SceneManagment;
@@ -57,8 +56,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
 
         loadExamIntoGUI();
 
-        Random random = new Random();
-
 
         int i = 1; // numbering the questions
         for (QuestionInExam question : exam.getQuestions()) {
@@ -67,13 +64,6 @@ public class CreateExam_ReviewFrameController implements Initializable {
             Label questionLabel = new Label(i + ") " + question.getQuestionText() + "( " + question.getPoints() + " points )");
 			questionLabel.setStyle("-fx-font-weight: bold");
             vbox.getChildren().add(questionLabel);
-
-            // shuffling the answers
-            int correctAnswer_place = 0; // Index of the correct answer in the list
-            String tempAnswer_Correct = question.getAnswers().get(0); // Store the first answer as temporary correct answer
-            int wrongAnswer_place = random.nextInt(question.getAnswers().size() - 1) + 1; // Generate a random index for a wrong answer
-            question.getAnswers().set(correctAnswer_place, question.getAnswers().get(wrongAnswer_place)); // Swap the correct answer with a randomly chosen wrong answer
-            question.getAnswers().set(wrongAnswer_place, tempAnswer_Correct); // Set the wrong answer index with the original correct answer
 
 			char answerLetter = 'a';
             // place the answers in the vbox
