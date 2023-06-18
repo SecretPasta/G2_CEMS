@@ -110,7 +110,7 @@ public class ManualExamController implements Initializable {
 
 		selectedDirPath = selectedDir.getAbsolutePath();
 
-		System.out.println(selectedDirPath);
+		//System.out.println(selectedDirPath);
 
 		ArrayList<String> exam = new ArrayList<>();
 		exam.add("downloadManualExamFromServer");
@@ -129,7 +129,7 @@ public class ManualExamController implements Initializable {
 	 * @param myFile The exam file to be saved.
 	 */
 	public void saveExamToComputer(MyFile myFile) {
-		System.out.println("Entered Save to Computer");
+		//System.out.println("Entered Save to Computer");
 		try {
 			File file = new File(selectedDirPath + "/" + myFile.getFileName());
 
@@ -157,7 +157,7 @@ public class ManualExamController implements Initializable {
 		if (myFile == null) {
 			displayErrorMessage("Error: No file has been chosen!");
 		} else {
-			System.out.println("You have Submitted the Manual Exam!!!");
+			//System.out.println("You have Submitted the Manual Exam!!!");
 
 			if (manualExamTimer != null) {
 				manualExamTimer.stopTimer();
@@ -204,7 +204,7 @@ public class ManualExamController implements Initializable {
 		File selectedFile = chooser.showOpenDialog(root.getScene().getWindow());
 
 		if (selectedFile != null) {
-			System.out.println("File Name: " + selectedFile.getName() + " File Path: " + selectedFile.getAbsolutePath());
+			//System.out.println("File Name: " + selectedFile.getName() + " File Path: " + selectedFile.getAbsolutePath());
 			displaySuccessMessage("Your file has been uploaded successfully!");
 
 			// Read the selected file and convert it to a byte array

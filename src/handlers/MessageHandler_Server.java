@@ -25,7 +25,7 @@ public class MessageHandler_Server {
 
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
-		System.out.println("Reached the handleMessage Method | Server");
+		//System.out.println("Reached the handleMessage Method | Server");
 	    MessageType messageType = getMessageType(msg);
 	    if (messageType == null) {
 	        return;
@@ -59,14 +59,14 @@ public class MessageHandler_Server {
 			case MY_FILE:
 				handleMyFileValueMessage((MyFile) msg, client);
 	        default:
-	            System.out.println("Message type does not exist");
+	            //System.out.println("Message type does not exist");
 	            break;
 	    }
 	}
 
 
 	private static MessageType getMessageType(Object msg) {
-		System.out.println("Reached the getMessageType Method | Server Handler");
+		//System.out.println("Reached the getMessageType Method | Server Handler");
 	    if (msg instanceof String) {
 	        return MessageType.STRING;
 	    } else if (msg instanceof ArrayList) {
@@ -106,7 +106,7 @@ public class MessageHandler_Server {
 	
 	
     private static void handleStringMessage(String message, ConnectionToClient client) {
-		System.out.println("Reached the handleStringMessage Method");
+		//System.out.println("Reached the handleStringMessage Method");
         // Handle string messages
     	try {
 	    	switch (message) {
@@ -133,9 +133,9 @@ public class MessageHandler_Server {
     // must client.sendToClient(obj); after handling the message from the client to get response from the server
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
-		System.out.println("Reached the handleStringArrayListMessage method | Server Handler");
+		//System.out.println("Reached the handleStringArrayListMessage method | Server Handler");
             ArrayList<String> arrayListStr = (ArrayList<String>) arrayList;
-			System.out.println(arrayListStr);
+			//System.out.println(arrayListStr);
             String messageType = arrayListStr.get(0);
             try {
 	            switch (messageType) {
@@ -509,7 +509,7 @@ public class MessageHandler_Server {
 							ArrayList<Integer> values = undergoingExams.get(arrayListStr.get(1));
 							values.set(0,values.get(0) + 1);
 						}
-						System.out.println(undergoingExams);
+						//System.out.println(undergoingExams);
 						client.sendToClient("notifyServerStudentBegunExam - Received");
 						break;
 
@@ -523,7 +523,7 @@ public class MessageHandler_Server {
 							DBController.saveExamStatisticsToDB(arrayListStr.get(1),arrayListStr.get(2),values1.get(0),values1.get(1),values1.get(2));
 							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
 						}
-						System.out.println(undergoingExams);
+						//System.out.println(undergoingExams);
 						client.sendToClient("notifyServerStudentFinishedExam - Received");
 						break;
 
@@ -537,7 +537,7 @@ public class MessageHandler_Server {
 							DBController.saveExamStatisticsToDB(arrayListStr.get(1),arrayListStr.get(2),values2.get(0),values2.get(1),values2.get(2));
 							DBController.changeExamActivenessByID(arrayListStr.get(1),"2");
 						}
-						System.out.println(undergoingExams);
+						//System.out.println(undergoingExams);
 						client.sendToClient("notifyServerStudentNotFinishedExam - Received");
 						break;
 						
@@ -610,7 +610,7 @@ public class MessageHandler_Server {
 						
 						break;
 					case "GetAllManualExamsFromDB":
-						System.out.println("Reached GetAllManualExams From DB case");
+						//System.out.println("Reached GetAllManualExams From DB case");
 						ArrayList<Exam> manualExams = new ArrayList<>();
 						manualExams.add(new Exam("manualExamsForStudentTable",null,null,null,null,null,null,null,0,null,null,null));
 						manualExams.addAll(DBController.getManualExamsByActiveness("1", null));
@@ -696,7 +696,7 @@ public class MessageHandler_Server {
         }
     
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
-		System.out.println("Reached the handleQuestionArrayListMessage method");
+		//System.out.println("Reached the handleQuestionArrayListMessage method");
         // Handle ArrayList<Question> messages
     	// 1 - question to add
     	String messageType = questionList.get(0).getId();
@@ -723,7 +723,7 @@ public class MessageHandler_Server {
     
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList, ConnectionToClient client) {
         // Handle ArrayList<QuestionInExam> messages
-		System.out.println("Reached the handleQuestionInExamArrayListMessage method");
+		//System.out.println("Reached the handleQuestionInExamArrayListMessage method");
 
     	String messageType = questionInExamList.get(0).getId();
 
@@ -747,7 +747,7 @@ public class MessageHandler_Server {
     
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList, ConnectionToClient client) {
         // Handle ArrayList<Exam> messages
-		System.out.println("Reached the handleExamArrayListMessage method");
+		//System.out.println("Reached the handleExamArrayListMessage method");
 
     	String messageType = examList.get(0).getExamID();
 
@@ -782,7 +782,7 @@ public class MessageHandler_Server {
 	}
 	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam, ConnectionToClient client){
 		//Handle ArrayList<FinishedExam> messages
-		System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
+		//System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
 		String messageType = finishedExam.get(0).getExamID();
 		try{
 		switch (messageType){
@@ -803,7 +803,7 @@ public class MessageHandler_Server {
 	}
 
 	private static void handleMyFileValueMessage(MyFile myFile, ConnectionToClient client) {
-		System.out.println("Reached handleMyFileValueMessage | Server Handler");
+		//System.out.println("Reached handleMyFileValueMessage | Server Handler");
 		try {
 			// Create the directory if it doesn't exist
 			File directory = new File("C:\\SubmitedExams");

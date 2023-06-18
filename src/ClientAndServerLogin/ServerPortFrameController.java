@@ -232,7 +232,7 @@ public class ServerPortFrameController implements Initializable {
 	}
 
 	public void exitBtn(ActionEvent event) throws Exception {
-	    System.out.println("exit Academic Tool");
+	    //System.out.println("exit Academic Tool");
 	    disconnectBtn(); // Disconnect from the server and perform necessary cleanup
 	    System.exit(0); // Exit the program
 	    System.gc(); // Perform garbage collection
@@ -249,7 +249,7 @@ public class ServerPortFrameController implements Initializable {
 	        txtServerIP.setText(InetAddress.getLocalHost().getHostAddress()); // Set default server IP address
 	        txtServerIP.setDisable(true); // Disable editing of server IP address field
 	    } catch (UnknownHostException e) {
-	        System.out.println("Error: " + e.getMessage());
+	        //System.out.println("Error: " + e.getMessage());
 	    }
 	    
 	    txtURL.setText(DEFAULT_DB_NAME); // Set default database URL

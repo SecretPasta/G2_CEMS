@@ -216,7 +216,7 @@ public class ComputerizedExamController implements Initializable {
     public static void start(Exam exam, Student student) throws IOException {
         currentExam = exam;
         participatingStudent = student;
-        System.out.println(exam);
+        //System.out.println(exam);
 
         try {
 			openStage = SceneManagment.createNewStage("/student/ComputerizedExam.fxml", null,
@@ -315,8 +315,8 @@ public class ComputerizedExamController implements Initializable {
                 grade += questionsInExamObservableList.get(i).getPoints();
             }
         }
-        System.out.println(getChosenAnswers());
-        System.out.println(grade);
+        //System.out.println(getChosenAnswers());
+        //System.out.println(grade);
         return grade;
     }
 
@@ -379,7 +379,7 @@ public class ComputerizedExamController implements Initializable {
                 examTimer.stopTimer();
             }
             double grade;
-            System.out.println("You've Submitted the exam!");
+            //System.out.println("You've Submitted the exam!");
             grade = gradeComputerizedExam();
             ArrayList<String> answers = new ArrayList<>();
             answers.addAll(getChosenAnswers());
@@ -399,7 +399,7 @@ public class ComputerizedExamController implements Initializable {
                     participatingStudent.getId(), grade, answerString.substring(0, answerString.length() - 1), null, null);
             finishedExam.checkExam();
             finishedExamsList.add(finishedExam);
-            System.out.println(finishedExam);
+            //System.out.println(finishedExam);
             openStage.hide();
             StudentDashboardFrameController.getInstance().showDashboardWindow();
             // Submitting Exam to the DB
