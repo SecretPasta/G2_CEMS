@@ -1,12 +1,17 @@
 package handlers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import Config.*;
+import ClientAndServerLogin.LoginFrameController;
+import Config.Exam;
+import Config.FinishedExam;
+import Config.HeadOfDepartment;
+import Config.MyFile;
+import Config.Question;
+import Config.QuestionInExam;
 import headofdepartment.HODDashboardFrameController;
 import headofdepartment.ViewReportFrameController;
 import lecturer.AddQuestionFrameController;
@@ -15,7 +20,6 @@ import lecturer.CheckExam_ReviewAndApproveFrameController;
 import lecturer.CreateExam_ReviewFrameController;
 import lecturer.LecturerDashboardFrameController;
 import lecturer.ManageExam_ChangeTimeFrameController;
-import ClientAndServerLogin.LoginFrameController;
 import student.ComputerizedExamController;
 import student.ManualExamController;
 import student.StudentDashboardFrameController;
@@ -205,7 +209,8 @@ public class MessageHandler_Client {
 	                	try {
 		                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
 		                		ComputerizedExamController.getInstance().submitExam(); // close the exam for the student in the specific exam
-		                		StudentDashboardFrameController.getInstance().displayErrorMessage("Your exam has been closed by your lecturer");
+								StudentDashboardFrameController.getInstance()
+										.displayErrorMessage("Your exam has been closed by your lecturer!");
 		                	}
 	                	}catch (NullPointerException e){}
 	                	
@@ -215,7 +220,8 @@ public class MessageHandler_Client {
 	                	// 1 - Head of department ID
 	                	try {
 		                	if(userID.equals(arrayListStr.get(1))) { // if the current client is the head of department with the correct ID
-		                		HODDashboardFrameController.getInstance().displayError("new exam time change request recieved");
+								HODDashboardFrameController.getInstance()
+										.displaySuccessMessage("New exam time change request recieved!");
 		                		// send pop up message that Change time request recieved!!!!!
 		                		
 		                	}
@@ -260,8 +266,10 @@ public class MessageHandler_Client {
 						// 4 - txt Message from hod to lecturer
 	                	
 	                	if(userID.equals(arrayListStr.get(1))) {
-	                		LecturerDashboardFrameController.getInstance().displayErrorMessage("Your request for Change time of " + arrayListStr.get(3)
-	                		+ " minutes on exam (" + arrayListStr.get(2) + ") denied!\nHead Of Department's message: " + arrayListStr.get(4));
+							LecturerDashboardFrameController.getInstance()
+									.displaySuccessMessage("Your request for Change time of " + arrayListStr.get(3)
+											+ " minutes on exam (" + arrayListStr.get(2)
+											+ ") DENIED!\nHead Of Department's message: " + arrayListStr.get(4));
 	                	}
 	                	
 	                	break;
@@ -294,7 +302,8 @@ public class MessageHandler_Client {
 	                	
 	                case "Exam approved send message to lecturer":
 	                	// 1 - student's email
-	                	CheckExam_ChooseStudentFrameController.getInstance().displaySuccessMessage("Exam approved! and sent to the student's email: " +
+						CheckExam_ChooseStudentFrameController.getInstance().displaySuccessMessage(
+								"Exam approved! Message will be send to the student's email: " +
 	                			arrayListStr.get(1));
 	                	break;
 	                	

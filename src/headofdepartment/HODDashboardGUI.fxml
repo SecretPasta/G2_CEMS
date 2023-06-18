@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -35,17 +36,22 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </JFXButton>
-            <Circle fill="DODGERBLUE" layoutX="111.0" layoutY="539.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
-            <Label layoutX="108.0" layoutY="531.0" text="?" textFill="#faf9f6">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="123.0" layoutY="529.0" text="FAQ" textFill="#faf9f6">
+            <Circle fill="DODGERBLUE" layoutX="106.0" layoutY="545.0" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+            <JFXButton fx:id="btnHelp" layoutX="89.0" layoutY="530.0" onAction="#handleClicks" prefHeight="20.0" prefWidth="75.0" ripplerFill="#242633" style="-fx-border-radius: 10;" text="Help" textFill="#faf9f6">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
-            </Label>
+               <graphic>
+                  <Label text="?" textFill="#faf9f6">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+               </graphic>
+            </JFXButton>
             <VBox alignment="TOP_CENTER" layoutY="102.0" prefHeight="291.0" prefWidth="255.0" spacing="10.0">
                <children>
                   <Label fx:id="lbluserNameAndID" text="Label" textFill="#faf9f6">
@@ -120,7 +126,39 @@
       </Pane>
       <StackPane fx:id="stackPane" layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;" stylesheets="@../student/StudentDashboard.css">
          <children>
-            <JFXSnackbar fx:id="snackbarError" />
+            <JFXSnackbar fx:id="snackbar" />
+            <Pane fx:id="pnlGeneralInformation" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="27.0" layoutY="23.0" text="General Information" textFill="#242633">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXListView id="listInfo_Info" fx:id="listInfo_Info" layoutX="50.0" layoutY="138.0" prefHeight="385.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
+                  <HBox layoutX="50.0" layoutY="87.0" prefHeight="30.0" prefWidth="693.0" spacing="30.0">
+                     <children>
+                        <HBox prefHeight="40.0" prefWidth="319.0" spacing="30.0">
+                           <children>
+                              <JFXComboBox id="typeSelectBox_GeneralInfo" fx:id="typeSelectBox_GeneralInfo" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Information type..." unFocusColor="#242633" />
+                              <JFXButton id="btnShowData_Info" fx:id="btnShowData_Info" onAction="#getViewDataBtn_GeneralInfo" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show Data" textFill="#242633" />
+                           </children>
+                        </HBox>
+                        <Separator orientation="VERTICAL" prefHeight="200.0" />
+                        <HBox prefHeight="40.0" prefWidth="319.0" spacing="20.0">
+                           <children>
+                              <TextField id="txtFilter_GeneralReport" fx:id="txtFilter_GeneralReport" prefHeight="25.0" prefWidth="200.0" />
+                              <JFXButton onAction="#getFilteringWord_GeneralReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-border-style: dashed;" text="Filter" textFill="#242633" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+            </Pane>
             <Pane fx:id="pnlApproveTimeChange" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
                   <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
@@ -128,69 +166,34 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="51.0" layoutY="68.0" prefHeight="255.0" prefWidth="674.0" style="-fx-background-radius: 10;" />
-                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="47.0" layoutY="492.0" onAction="#getBtnAcceptRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Accept request" textFill="#faf9f6">
+                  <JFXListView id="listRequests" fx:id="listRequests" layoutX="47.0" layoutY="68.0" prefHeight="255.0" prefWidth="674.0" style="-fx-background-radius: 10;" />
+                  <JFXButton id="btnAcceptRequest" fx:id="btnAcceptRequest" layoutX="47.0" layoutY="492.0" onAction="#getBtnAcceptRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Accept request ✓" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton id="btnRefresh" fx:id="btnRefresh" layoutX="644.0" layoutY="333.0" onAction="#getBtnRefresh" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #242633; -fx-border-radius: 10;" text="Refresh" textFill="#242633" />
-                  <JFXButton id="btnDenyRequest" layoutX="537.0" layoutY="492.0" onAction="#getBtnDenyRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Deny request" textFill="#faf9f6">
+                  <JFXButton id="btnRefresh" fx:id="btnRefresh" layoutX="641.0" layoutY="333.0" onAction="#getBtnRefresh" prefHeight="25.0" prefWidth="80.0" style="-fx-border-color: #242633; -fx-border-radius: 10;" text="Refresh ⟳" textFill="#242633" />
+                  <JFXButton id="btnDenyRequest" layoutX="531.0" layoutY="492.0" onAction="#getBtnDenyRequest" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #FE774C; -fx-background-radius: 10;" text="Deny request ⛒" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
                   <TextField id="txtMessageToWriteToLecturer" fx:id="txtMessageToWriteToLecturer" alignment="TOP_LEFT" layoutX="47.0" layoutY="360.0" prefHeight="112.0" prefWidth="360.0" style="-fx-padding: 10;" />
-                  <Label layoutX="50.0" layoutY="333.0" prefHeight="17.0" prefWidth="226.0" text="Comments to Lecturer about Approve:" textFill="#242633">
+                  <Label layoutX="47.0" layoutY="333.0" prefHeight="17.0" prefWidth="226.0" text="Comments to Lecturer about Approve:" textFill="#242633">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="57.0" layoutY="25.0" text="Approve Time Change" textFill="#242633">
+                  <Label layoutX="27.0" layoutY="23.0" text="Approve Time Change" textFill="#242633">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Head of Department Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
-                  <Text layoutX="42.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Report:&#10;The Show Report section provides comprehensive statistics and data on the department's exams and assessments. It offers valuable insights into student performance, including average scores, success rates, and grade distribution. This section helps the head of the department make data-driven decisions and evaluate the effectiveness of teaching methods.&#10;" wrappingWidth="524.4054565429688">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="226.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Change Time:&#10;The Approve Change Time section allows the head of the department to review and approve requests for Change time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="606.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/report.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="42.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/clock.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Pane>
             <Pane fx:id="pnlShowReport" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
                <children>
-                  <HBox layoutX="237.0" layoutY="63.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
+                  <HBox layoutX="50.0" layoutY="65.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
                      <children>
                         <JFXComboBox id="typeSelectBox_ShowReport" fx:id="typeSelectBox_ShowReport" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" onAction="#getSelectedReport" prefHeight="25.0" prefWidth="200.0" promptText="Report type..." unFocusColor="#242633" />
                         <JFXButton id="btnShow_ShowReport" fx:id="btnShow_ShowReport" onAction="#getViewDataBtn_ShowReport" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="View Data" textFill="#242633" />
@@ -207,11 +210,56 @@
                      </font>
                   </JFXButton>
                   <JFXListView id="listRequests" fx:id="listOfData_ShowReport" layoutX="50.0" layoutY="113.0" prefHeight="350.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
-                  <JFXButton id="btnAcceptRequest" fx:id="btnShowReport_ShowReport" layoutX="304.0" layoutY="482.0" onAction="#getBtnShowReport_ShowReport" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Show Report" textFill="#faf9f6">
+                  <JFXButton id="btnAcceptRequest" fx:id="btnShowReport_ShowReport" layoutX="304.0" layoutY="482.0" onAction="#getBtnShowReport_ShowReport" prefHeight="36.0" prefWidth="190.0" style="-fx-background-color: #5DD299; -fx-background-radius: 10;" text="Show Report →" textFill="#faf9f6">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
+               </children>
+            </Pane>
+            <Pane fx:id="pnlGreeting" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
+               <children>
+                  <Label alignment="TOP_LEFT" layoutX="42.0" layoutY="31.0" prefHeight="82.0" prefWidth="709.0" style="-fx-border-color: #66A7F2; -fx-border-width: 2; -fx-border-radius: 10;" text="Welcome to the Head of Department Platform! Here's a quick guide on how to use the different sections." textFill="#383838" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <Text layoutX="34.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Report:&#10;The Show Report section provides comprehensive statistics and data on the department's exams and assessments. It offers valuable insights into student performance, including average scores, success rates, and grade distribution. This section helps the head of the department make data-driven decisions and evaluate the effectiveness of teaching methods.&#10;" wrappingWidth="524.4054565429688">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="226.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Approve Change Time:&#10;The Approve Change Time section allows the head of the department to review and approve requests for Change time during exams. They can consider individual circumstances, such as medical conditions or disabilities, and provide fair and inclusive support by approving or denying the requests.&#10;" wrappingWidth="524.4054565429686">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="598.0" layoutY="123.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/report.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="42.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/clock.png" />
+                     </image>
+                  </ImageView>
+                  <Text layoutX="42.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Information:&#10;The General Information section provides a read-only access feature for the Head of Department, allowing you to view all entered data without making any changes. This feature enables you to monitor and assess the department's activities, student submissions, and grades. It ensures data integrity while providing the necessary information for effective decision-making and management.&#10;" wrappingWidth="524.4054565429688">
+                     <font>
+                        <Font name="System Italic" size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="145.0" fitWidth="145.0" layoutX="606.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/generalinfo.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
@@ -221,29 +269,6 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </JFXButton>
-               </children>
-            </Pane>
-            <Pane fx:id="pnlGeneralInformation" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FAF9F6; -fx-background-radius: 30 0 0 30;">
-               <children>
-                  <JFXButton layoutX="717.0" layoutY="25.0" maxWidth="60.0" onAction="#getCloseBtn" prefHeight="25.0" ripplerFill="#383838" style="-fx-background-color: #FFC152; -fx-background-radius: 10;" text="Close">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </JFXButton>
-                  <HBox layoutX="237.0" layoutY="65.0" prefHeight="40.0" prefWidth="319.0" spacing="30.0">
-                     <children>
-                        <JFXComboBox id="typeSelectBox_GeneralInfo" fx:id="typeSelectBox_GeneralInfo" focusColor="#66a7f2" layoutX="240.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" promptText="Information type..." unFocusColor="#242633" />
-                        <JFXButton id="btnShowData_Info" fx:id="btnShowData_Info" onAction="#getViewDataBtn_GeneralInfo" prefHeight="25.0" prefWidth="85.0" style="-fx-border-color: #242633; -fx-border-radius: 10; -fx-background-color: #FAF9F6;" text="Show Data" textFill="#242633" />
-                     </children>
-                  </HBox>
-                  <Label layoutX="27.0" layoutY="23.0" text="General Information" textFill="#242633">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <JFXListView id="listInfo_Info" fx:id="listInfo_Info" layoutX="50.0" layoutY="113.0" prefHeight="350.0" prefWidth="693.0" style="-fx-background-radius: 10;" />
-                  <TextField id="txtFilter_GeneralReport" fx:id="txtFilter_GeneralReport" layoutX="351.0" layoutY="28.0" />
-                  <JFXButton layoutX="556.0" layoutY="27.0" onAction="#getFilteringWord_GeneralReport" text="Filter" />
                </children>
             </Pane>
          </children>

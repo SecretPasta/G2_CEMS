@@ -28,7 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -90,10 +90,16 @@ public class HODDashboardFrameController implements Initializable{
     private JFXButton btnGeneralInformation;
     
     @FXML
+	private JFXButton btnHelp;
+
+	@FXML
     private TextField txtMessageToWriteToLecturer;
 
     @FXML
     private Label lbluserNameAndID;
+
+	@FXML
+	private Label lblHelp;
 
     @FXML
     private Pane pnlApproveTimeChange;
@@ -107,7 +113,9 @@ public class HODDashboardFrameController implements Initializable{
     private Pane currentPane;
 
     @FXML
-    private JFXSnackbar snackbarError;
+	private JFXSnackbar snackbar;
+
+	private JFXSnackbarLayout snackbarLayout;
 
     @FXML
     private StackPane stackPane;
@@ -172,14 +180,14 @@ public class HODDashboardFrameController implements Initializable{
     	
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
     	if(chosenRequest == null) {
-			displayError("Error: please choose request first.");
+			displayErrorMessage("Error: Please choose request first!");
     	}
     	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
-			displayError("Error: please write explanation");
+			displayErrorMessage("Error: Please write explanation!");
     	}
     	else {
     		requestDenied();
-			displayError("Request for Change time to add denied!");
+			displaySuccessMessage("Request for Changing time was DENIED!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -189,14 +197,14 @@ public class HODDashboardFrameController implements Initializable{
     public void getBtnAcceptRequest(ActionEvent event) throws Exception{
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
     	if(chosenRequest == null) {
-			displayError("Error: please choose request first.");
+			displayErrorMessage("Error: Please choose request first!");
     	}
     	else if(txtMessageToWriteToLecturer.getText().trim().isEmpty()) {
-			displayError("Error: please write explanation");
+			displayErrorMessage("Error: Please write explanation!");
     	}
     	else {
     		requestAccepted();
-			displayError("Request for Change time to add cofirmed!");
+			displaySuccessMessage("Request for Change time to add cofirmed!");
     		getAllrequests();
     	}
     	chosenRequest = null;
@@ -285,8 +293,8 @@ public class HODDashboardFrameController implements Initializable{
 				listRequests.setItems(requests_observablelist);
 				listRequests.refresh();
 				if(!listRequests.getItems().isEmpty()) {
-					// send pop up message that Change time request recieved!!!!!
-					displayError("new exam time change request recieved");
+					// pop up message that Change time request recieved
+					displaySuccessMessage("New exam time change request recieved!");
 				}
             }
         });
@@ -304,7 +312,7 @@ public class HODDashboardFrameController implements Initializable{
 			ViewReportFrameController.start(name_id_Report_arr[0], name_id_Report_arr[1], chosenReport);
 			
 		} catch (Exception e) {
-			displayError("Error: you have to select specific report first");
+			displayErrorMessage("Error: You have to select specific report first!");
 		}
 	}
 
@@ -325,7 +333,7 @@ public class HODDashboardFrameController implements Initializable{
 
 			
 		} catch (NullPointerException e){
-			displayError("Error: please choose report first");
+			displayErrorMessage("Error: Please choose report first!");
 		}	
 		
 	}
@@ -348,6 +356,16 @@ public class HODDashboardFrameController implements Initializable{
 
 
 	// -------------- END Show Report PANEL --------------
+
+	// -------------- Greeting PANEL --------------
+
+	@FXML
+	void showHelpInfo(MouseEvent event) {
+		pnlGreeting.toFront();
+
+	}
+
+	// -------------- END Greeting PANEL --------------
     
     public static void start(ArrayList<String> hodDetails) throws IOException {
 
@@ -402,13 +420,10 @@ public class HODDashboardFrameController implements Initializable{
 
 			
 		} catch (NullPointerException e){
-			displayError("Error: please choose info to show first");
+			displayErrorMessage("Error: Please choose info to show first!");
 		}	
     	
     }
-    
-    
-    
     
     
     @FXML
@@ -472,6 +487,11 @@ public class HODDashboardFrameController implements Initializable{
 	    	handleAnimation(pnlGeneralInformation, btnGeneralInformation);
 	    	pnlGeneralInformation.toFront();
 	    }
+		if (actionEvent.getSource() == btnHelp) {
+			handleAnimation(pnlGreeting, btnHelp);
+			pnlGreeting.toFront();
+		}
+
     }
     
 
@@ -490,8 +510,10 @@ public class HODDashboardFrameController implements Initializable{
             transition.getChildren().addAll(outgoingPane, comingPane);
             transition.play();
 
-            newSection.setStyle("-fx-border-color: #FAF9F6");
-            if(currentSection != null) currentSection.setStyle("-fx-border-color: #242633");
+			if (newSection != btnHelp)
+				newSection.setStyle("-fx-border-color: #FAF9F6");
+			if (currentSection != null && currentSection != newSection)
+				currentSection.setStyle("-fx-border-color: #242633");
 
             currentPane = newPane;
             currentSection = newSection;
@@ -499,17 +521,47 @@ public class HODDashboardFrameController implements Initializable{
         
     }
     
-    //method to dispaly errors
-    public void displayError(String message) {
-    	Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-		    	snackbarError = new JFXSnackbar(stackPane);
-		        snackbarError.setPrefWidth(stackPane.getPrefWidth() - 40);
-		        snackbarError.fireEvent(new SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(3000), null));
-            }
-        });
-    }
+	/**
+	 * Displays an error message using a Snackbar.
+	 *
+	 * @param message The error message to display.
+	 */
+	public void displayErrorMessage(String message) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarError.css")
+						.toExternalForm();
+				snackbar.setPrefWidth(754);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+			}
+		});
+	}
+
+	/**
+	 * Displays a success message using a Snackbar.
+	 *
+	 * @param message The success message to display.
+	 */
+	public void displaySuccessMessage(String message) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				snackbar = new JFXSnackbar(stackPane);
+				String css = this.getClass().getClassLoader().getResource("lecturer/SnackbarSuccess.css")
+						.toExternalForm();
+				snackbar.setPrefWidth(754);
+				snackbarLayout = new JFXSnackbarLayout(message);
+				snackbarLayout.getStylesheets().add(css);
+				snackbar.getStylesheets().add(css);
+				snackbar.fireEvent(new SnackbarEvent(snackbarLayout, Duration.millis(3000), null));
+			}
+		});
+	}
 
 	public void loadAllOptionsForChosenReport(ArrayList<String> options_arr) { // getting the option: "name - id"
 	    	Platform.runLater(new Runnable() {
