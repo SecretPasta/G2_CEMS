@@ -744,7 +744,12 @@ public class MessageHandler_Server {
 		e.printStackTrace();
         }
 	}
-    
+	/**
+	 * Handles the received ArrayList of Exam objects and performs the necessary actions.
+	 *
+	 * @param examList the ArrayList of Exam objects
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList, ConnectionToClient client) {
         // Handle ArrayList<Exam> messages
 		//System.out.println("Reached the handleExamArrayListMessage method");
@@ -769,17 +774,36 @@ public class MessageHandler_Server {
         }
     	
     }
-    
+
+	/**
+	 * Handles the received Map of String keys and ArrayList<String> values.
+	 *
+	 * @param map the Map of String keys and ArrayList<String> values
+	 * @param client the ConnectionToClient representing the client connection
+	 */
     private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map, ConnectionToClient client) {
         // Handle Map<String, ArrayList<String>> messages
     	
 
     }
-    
+
+	/**
+	 * Handles the received Map of String keys and String values.
+	 *
+	 * @param msg the Map of String keys and String values
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	private static void handleMapStringStringValueMessage(Map<String, String> msg, ConnectionToClient client) {
 		// Handle Map<String, String> messages
 		
 	}
+
+	/**
+	 * Handles the received ArrayList of FinishedExam objects and performs the necessary actions.
+	 *
+	 * @param finishedExam the ArrayList of FinishedExam objects
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam, ConnectionToClient client){
 		//Handle ArrayList<FinishedExam> messages
 		//System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
@@ -802,6 +826,12 @@ public class MessageHandler_Server {
 		}
 	}
 
+	/**
+	 * Handles the received MyFile object and saves the file to the server.
+	 *
+	 * @param myFile the MyFile object containing the file data
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	private static void handleMyFileValueMessage(MyFile myFile, ConnectionToClient client) {
 		//System.out.println("Reached handleMyFileValueMessage | Server Handler");
 		try {

@@ -27,7 +27,13 @@ import student.StudentDashboardFrameController;
 public class MessageHandler_Client {
 	
 	private static String userID = null;
-	
+
+
+	/**
+	 * Handles the received message based on its type.
+	 *
+	 * @param msg the received message object
+	 */
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg) {
 	    MessageType messageType = getMessageType(msg);
@@ -74,7 +80,12 @@ public class MessageHandler_Client {
 
 
 
-	// This method is used to determine the type of message.
+	/**
+	 * Determines the MessageType based on the type of the message object.
+	 *
+	 * @param msg the message object
+	 * @return the corresponding MessageType
+	 */
 	private static MessageType getMessageType(Object msg) {
 		// Check if the message is a String.
 		if (msg instanceof String) {
@@ -131,7 +142,11 @@ public class MessageHandler_Client {
 	}
 
 
-
+	/**
+	 * Handles the message containing a string value.
+	 *
+	 * @param message the string message
+	 */
 	private static void handleStringMessage(String message) {
         // Handle string messages
     	
@@ -159,7 +174,12 @@ public class MessageHandler_Client {
     	}
     	
     }
-    
+
+	/**
+	 * Handles the message containing an ArrayList of strings.
+	 *
+	 * @param arrayList the ArrayList of strings
+	 */
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList) {
 
@@ -356,10 +376,13 @@ public class MessageHandler_Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
             }
-        }
-    
-    
-    // must remove the first question (the question that identified)
+	}
+
+	/**
+	 * Handles the message containing an ArrayList of Question objects.
+	 *
+	 * @param questionList the ArrayList of Question objects
+	 */
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList) {
         // Handle ArrayList<Question> messages
     	
@@ -381,7 +404,12 @@ public class MessageHandler_Client {
     			break;
     	} 	
     }
-    
+
+	/**
+	 * Handles the message containing a Map of String keys to ArrayList of String values.
+	 *
+	 * @param map the Map of String keys to ArrayList of String values
+	 */
     private static void handleMapStringKeyArrayListStringValueMessage(Map<String, ArrayList<String>> map) {
         // Handle Map<String, ArrayList<String>> messages
     		
@@ -391,8 +419,12 @@ public class MessageHandler_Client {
     	}
 
     }
-    
-    
+
+	/**
+	 * Handles the message containing a Map of String to String values.
+	 *
+	 * @param map the Map of String to String values
+	 */
     private static void handleMapStringStringValueMessage(Map<String, String> map) {
         // Handle the Map<String, String> here
     	
@@ -407,7 +439,11 @@ public class MessageHandler_Client {
     	}
     	
     }
-
+	/**
+	 * Handles the message containing an ArrayList of Exam objects.
+	 * First object is the message
+	 * @param examList the ArrayList of Exam objects
+	 */
 	//This method is to get Computerized Exams to the client
 	private static void handleExamArrayListMessage(ArrayList<Exam> examList) {
 		//System.out.println("Reached the handleExamArrayListMessage | ClientHandler");
@@ -445,6 +481,11 @@ public class MessageHandler_Client {
 	}
 
 
+	/**
+	 * Handles the message containing an ArrayList of QuestionInExam objects.
+	 *
+	 * @param questionInExamList the ArrayList of QuestionInExam objects
+	 */
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList) {
 		// Handle ArrayList<QuestionInExam> messages
 
@@ -463,11 +504,14 @@ public class MessageHandler_Client {
 	    			CheckExam_ReviewAndApproveFrameController.saveQuestionsInExam(questionInExamList);
 					break;
 	    	} 
-	    	
 
-		
 	}
-	
+
+	/**
+	 * Handles the message containing an ArrayList of HeadOfDepartment objects.
+	 *
+	 * @param hodList the ArrayList of HeadOfDepartment objects
+	 */
 	private static void handleHodArrayListMessage(ArrayList<HeadOfDepartment> hodList) {
 		//System.out.println("Reached the handleHodArrayListMessage | ClientHandler");
 		// Handle ArrayList<HeadOfDepartment> messages
@@ -484,7 +528,12 @@ public class MessageHandler_Client {
 	    	}
 		
 	}
-	
+
+	/**
+	 * Handles the message containing an ArrayList of FinishedExam objects.
+	 *
+	 * @param finishedExam the ArrayList of FinishedExam objects
+	 */
 	private static void handleFinishedExamArrayListValueMessage(ArrayList<FinishedExam> finishedExam){
 		//Handle ArrayList<FinishedExam> messages
 		//System.out.println("Reached handleFinishedExamValueMessage | Server Handler");
@@ -516,6 +565,11 @@ public class MessageHandler_Client {
 		}
 	}
 
+	/**
+	 * Handles the message containing a file value.
+	 *
+	 * @param file the MyFile object representing the file
+	 */
 	private static void handleMyFileValueMessage(MyFile file){
 		//System.out.println("Reach handleMyFileValueMessage | Client Handler");
 		ManualExamController.getInstance().saveExamToComputer(file);
