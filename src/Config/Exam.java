@@ -73,7 +73,7 @@ public class Exam implements Serializable{
 	 * @param examID the ID of the exam to set
 	 */
 	public void setExamID(String examID) {
-		this.examID = examID;
+		this.examID = subjectID + courseID + examID;
 	}
 
 	/**
