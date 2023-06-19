@@ -159,16 +159,18 @@ public class DBController {
 		ArrayList<String> userCannotConnect = new ArrayList<>(); // an array if there was a problem with sign in - wrond pass/username or user already exist
 		try {
 			if (mysqlConnection.getConnection() != null) {
-	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("SELECT EXISTS (SELECT * FROM " + userInfoArr.get(1) + " WHERE UserName =? AND Password =?)");
+	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement("SELECT * FROM " + userInfoArr.get(1) + " WHERE UserName =? AND Password =?");
 	            ps.setString(1, userInfoArr.get(2));
 	            ps.setString(2, userInfoArr.get(3));
 	
 	            ResultSet resultSet = ps.executeQuery();
 	            if(resultSet.next()) {
-	                if(resultSet.getInt(1) == 1) {
-	                	ArrayList<String> getUserDetails_arr = getUserDetails(userInfoArr.get(1), userInfoArr.get(2), userInfoArr.get(3));
-	                	// check if the user is already logged in by his ID and loginAs
-	                	if(!UserAlreadyLoggedin(getUserDetails_arr.get(0), userInfoArr.get(1))) {
+	                	ArrayList<String> getUserDetails_arr = new ArrayList<>();
+		    			for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+		    				getUserDetails_arr.add(resultSet.getString(i));
+		    			}
+	                	// check if the user is already logged
+	                	if(resultSet.getInt("isLogged") == 0) {
 	                		// userInfoArr.get(1) - loginAs, getUserDetails_arr.get(0) - user ID
 	                		setUserIsLogin("1", userInfoArr.get(1), getUserDetails_arr.get(0));
 	                		return getUserDetails_arr;
@@ -177,7 +179,7 @@ public class DBController {
 	                		userCannotConnect.add("UserAlreadyLoggedIn");
 	                		return userCannotConnect;
 	                	}	
-	                }
+	                
 	            }
 	            userCannotConnect.add("UserEnteredWrondPasswwordOrUsername");
 	            return userCannotConnect;
@@ -216,56 +218,6 @@ public class DBController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	// func to return details of user by his username and password
-	public static ArrayList<String> getUserDetails(String loginAs, String username, String password) {
-	    String query = "SELECT * FROM " + loginAs + " WHERE username = ? AND password = ?";
-	    ArrayList<String> userDetailsArr = new ArrayList<>();
-	    try {
-	    	if (mysqlConnection.getConnection() != null) {
-	    		PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	    		ps.setString(1, username);
-	    		ps.setString(2, password);
-	    		ResultSet resultSet = ps.executeQuery();
-	    		if(resultSet.next()) {
-	    			for(int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-	    				userDetailsArr.add(resultSet.getString(i));
-	    			}
-	    		}
-		    } 
-	    } catch (SQLException | ClassNotFoundException e) {
-	    	e.printStackTrace();
-	    }
-		  // 0 - user ID
-		  // 1 - userName
-		  // 2 - user Password
-		  // 3 - user Name
-		  // 4 - user Email
-		  // 5 - isLogged
-	    return userDetailsArr;
-	}
-	
-	// check if the user is already logged in
-	public static boolean UserAlreadyLoggedin(String userID, String logginAs) {
-		String userId = logginAs + "id";
-		String query = "SELECT IF(isLogged = 1, true, false) AS isLoggedIn FROM " + logginAs + " WHERE " + userId + "= ?";
-		try {
-			if (mysqlConnection.getConnection() != null) {
-	            PreparedStatement ps = mysqlConnection.getConnection().prepareStatement(query);
-	            ps.setString(1, userID);
-	            try (ResultSet resultSet = ps.executeQuery()) {
-	                if (resultSet.next()) {
-	                    return resultSet.getBoolean("isLoggedIn"); // isLoggedIn: true / false
-	                }
-	            }
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;	
 	}
 
 	public static boolean removeQuestion(String questionID) {
@@ -1322,9 +1274,9 @@ public static Map<String, ArrayList<String>> getLecturerSubjectCourses(String le
                 }
             }
         }catch (SQLException e) {
-        	//System.out.println("no external_users found");
+        	System.out.println("no external_users found");
         }
-        //System.out.println("imported: " + importSucceedCnt + "\nfailed (already exist): " + importFailedCnt);
+        System.out.println("imported: " + importSucceedCnt + "\nfailed (already exist): " + importFailedCnt);
 	}
 
 	public static ArrayList<Exam> getManualExamsByActiveness(String active, String authorID) {

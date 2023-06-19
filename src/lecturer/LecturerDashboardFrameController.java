@@ -268,7 +268,6 @@ public class LecturerDashboardFrameController implements Initializable{
 		getLecturerSubjectsAndCoursesFromDB(lecturer);
 		getAllSubjectsFromDB();
 		getAllCoursesFromDB();
-		getAllExamsToCheck();
 		
 	    // -------------- ManageQuestions PANEL --------------
 

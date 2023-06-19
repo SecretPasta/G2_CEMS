@@ -187,6 +187,8 @@ public class MessageHandler_Client {
 							StudentDashboardFrameController.start(arrayListStr);
 						}
 						else if(arrayListStr.get(1).equals("HeadOfDepartment")) { // login as head of department
+							// 7 - Department Name
+							// 8 - DepartmentID
 							HODDashboardFrameController.start(arrayListStr);
 						}
 						//System.out.println("logged in succesfully");
