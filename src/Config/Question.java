@@ -12,9 +12,9 @@ import javafx.util.Callback;
 public class Question implements Callback<TableView<Question>, TableRow<Question>>, Serializable{
 
 	private static final long serialVersionUID = 1L;
+	
 	private String id;
 	private Map<String, String> courses_id_name = new HashMap<>();
-
 	private String questionText;
 	private String questionNumber;
 	private ArrayList<String> answers;
@@ -22,14 +22,6 @@ public class Question implements Callback<TableView<Question>, TableRow<Question
 	private String lecturerID;
 	private ArrayList<String> subject;
 
-	/**
-	 * @param question id
-	 * @param question subject
-	 * @param question course name
-	 * @param question text
-	 * @param question number
-	 * @param question author
-	 */
 	public Question(String id, ArrayList<String> subject, Map<String, String> courses_id_name, String questionText, ArrayList<String> answers, String questionNumber,
 			String lecturer, String lecturerID) {
 		super();
