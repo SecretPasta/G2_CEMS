@@ -414,14 +414,10 @@ public class LecturerDashboardFrameController implements Initializable{
 	 * @param edited_QuestionText The updated text of the edited question.
 	 * @throws IOException If an I/O error occurs while showing the dashboard.
 	 */
-	public void showDashboardFrom_EditQuestions(String edited_QuestionID, String edited_QuestionText, boolean questionUpdated) throws IOException {
-	    // Update the edited question in the table of the lecturer questions
-	    for (int i = 0; i < questionsToEditObservableList.size(); i++) {
-	        if (questionsToEditObservableList.get(i).getId().equals(edited_QuestionID)) {
-	            questionsToEditObservableList.get(i).setQuestionText(edited_QuestionText);
-	        }
-	    }
-	
+	public void showDashboardFrom_EditQuestions(Question edited_Question, boolean questionUpdated) throws IOException {
+
+		// updating the edited question automatically because the observable list
+		
 	    // Show the current stage
 	    currStage.show();
 	
@@ -432,7 +428,7 @@ public class LecturerDashboardFrameController implements Initializable{
 	    tableView_ManageQuestions.getSelectionModel().clearSelection();
 	    
 	    if(questionUpdated) {
-			displaySuccessMessage("Question " + edited_QuestionID + " was updated succesfully!");
+			displaySuccessMessage("Question " + edited_Question.getId() + " was updated succesfully!");
 	    }
 	}
 

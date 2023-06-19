@@ -64,8 +64,6 @@ public class EditQuestionFrameController implements Initializable {
 	private Button btnSave = null;
 	
 	private static Question questionSelected; // the question that selected for editing will be saved here
-	
-	private static String questionText;
 
 	
 	/**
@@ -117,7 +115,7 @@ public class EditQuestionFrameController implements Initializable {
 	    // Pass the updated question details to the LecturerDashboardFrameController's showDashboardFrom_EditQuestions() method
 	    
 		    LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-		    		questionSelected.getId(), questionText, false);
+		    		questionSelected, false);
 	}
 	
 
@@ -149,11 +147,19 @@ public class EditQuestionFrameController implements Initializable {
 		        updateQuestionArr.add(txtAnswerWrong3.getText());
 		        ClientUI.chat.accept(updateQuestionArr);
 		        
-		        questionText = txtQuestionText.getText();
+		        questionSelected.setQuestionText(txtQuestionText.getText());
 		        
+		        ArrayList<String> answers = new ArrayList<>();
+		        answers.add(txtAnswerCorrect.getText());
+		        answers.add(txtAnswerWrong1.getText());
+		        answers.add(txtAnswerWrong2.getText());
+		        answers.add(txtAnswerWrong3.getText());
+
+		        questionSelected.setAnswers(answers);
+	        
 			    ((Node) event.getSource()).getScene().getWindow().hide(); // hiding primary window
 				LecturerDashboardFrameController.getInstance().showDashboardFrom_EditQuestions(
-						questionSelected.getId(), questionText, true);
+						questionSelected, true);
 		        
 			}
 	    
@@ -171,7 +177,6 @@ public class EditQuestionFrameController implements Initializable {
 	 */
 	public static void start(Question questionSelected_temp) throws Exception {
 	    questionSelected = questionSelected_temp;
-	    questionText = questionSelected.getQuestionText();
 		SceneManagment.createNewStage("/lecturer/EditQuestionGUI.fxml", null, "Lecturer->ManageQuestions->EditQuestion")
 				.show();
 	}
