@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 8.0.31, for macos12 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `cemsdatabase` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `cemsdatabase`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: cemsdatabase
 -- ------------------------------------------------------
@@ -162,7 +164,7 @@ CREATE TABLE `exams` (
   `commentsStudents` varchar(1000) DEFAULT NULL,
   `duration` varchar(45) DEFAULT NULL,
   `author` varchar(45) DEFAULT NULL,
-  `questionsInExam` varchar(100) DEFAULT NULL,
+  `questionsInExam` varchar(1000) DEFAULT NULL,
   `code` varchar(45) DEFAULT NULL,
   `isActive` varchar(45) DEFAULT NULL,
   `authorID` varchar(45) DEFAULT NULL,
@@ -206,6 +208,7 @@ CREATE TABLE `external_users` (
 
 LOCK TABLES `external_users` WRITE;
 /*!40000 ALTER TABLE `external_users` DISABLE KEYS */;
+INSERT INTO `external_users` VALUES ('098765432','Boris.Shostin','123123','Boris Shostin','Boris.Shostin@e.braude.ac.il','Software Engineering','2','Student'),('1111','Miriam.Levy','123456','Miriam.Levy','Miriam.Levy@e.braude.ac.il','Applied Mathematics','9','HeadOfDepartment'),('1212','Daniel.Rosenberg','090909','Daniel Rosenberg','Daniel.Rosenberg@e.braude.ac.il','Civil Engineering','6','HeadOfDepartment'),('123456789','Alon.Ternerider','112233','Alon Ternerider','Alon.Ternerider@e.braude.ac.il','Software Engineering','2','Student'),('206391146','Omri.Sharof','111111','Omri Sharof','Omri.Sharof@e.braude.ac.il',NULL,NULL,'Lecturer'),('206392246','Aleksander.Pitkin','123456','Aleksander Pitkin','Aleksander.Pitkin@e.braude.ac.il','Information Systems Engineering','1','Student'),('2222','David.Katz','123123','David.Katz','David.Katz@e.braude.ac.il','Mechanical Engineering','4','HeadOfDepartment'),('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2','HeadOfDepartment'),('315728904','Mark.Berman','334433','Mark Berman','Mark.Berman@e.braude.ac.il',NULL,NULL,'Lecturer'),('316350768','Nadav.Goldin','123456','Nadav Goldin','Nadav.Goldin@e.braude.ac.il','Software Engineering','2','Student'),('321654987','Jacob.Rosenberg','321789','Jacob Rosenberg','Jacob.Rosenberg@e.braude.ac.il',NULL,NULL,'Lecturer'),('333444555','Jason.Smith','123456','Jason Smith','Jason.Smith@e.braude.ac.il',NULL,NULL,'Lecturer'),('3344','Avraham.Cohen','123456','Avraham.Cohen','Avraham.Cohen@e.braude.ac.il','Information Systems Engineering','1','HeadOfDepartment'),('3737','Sarah.Cohen','888888','Sarah.Cohen','Sarah.Cohen@e.braude.ac.il','Biotechnology Engineering','7','HeadOfDepartment'),('4455','Leah.Weiss','222222','Leah Weiss','Leah.Weiss@e.braude.ac.il','Optical Engineering','5','HeadOfDepartment'),('456765422','Abed.Zuzu','123456','Abed Zuzu','Abed.Zuzu@e.braude.ac.il','Information Systems Engineering','1','Student'),('456789123','Ilya.Vor','778899','Ilya Vor','Ilya.Vor@e.braude.ac.il','Software Engineering','2','Student'),('5555','Rachel.Goldstein','000000','Rachel.Goldstein','Rachel.Goldstein@e.braude.ac.il','Electrical Engineering','8','HeadOfDepartment'),('654987321','Rebecca.Cohen','987321','Rebecca Cohen','Rebecca.Cohen@e.braude.ac.il',NULL,NULL,'Lecturer'),('6666','Eli.Cohen','111111','Eli.Cohen','Eli.Cohen@e.braude.ac.il','Industrial Engineering','3','HeadOfDepartment'),('796428315','Sophia.Harris','315204','Sophia Harris','Sophia.Harris@e.braude.ac.il',NULL,NULL,'Lecturer'),('864297531','Elena.Aharon','123123','Elena Aharon','Elena.Aharon@e.braude.ac.il',NULL,NULL,'Lecturer'),('876543211','Tom.B','345345','Tom B','Tom.B@e.braude.ac.il','Mechanical Engineering','4','Student'),('987654321','Kfir.Sharoni','445566','Kfir Sharoni','Kfir.Sharoni@e.braude.ac.il','Information Systems Engineering','1','Student');
 /*!40000 ALTER TABLE `external_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +267,7 @@ CREATE TABLE `headofdepartment` (
 
 LOCK TABLES `headofdepartment` WRITE;
 /*!40000 ALTER TABLE `headofdepartment` DISABLE KEYS */;
-INSERT INTO `headofdepartment` VALUES ('1111','Miriam.Levy','123456','Miriam.Levy','Miriam.Levy@e.braude.ac.il','Applied Mathematics','9',0),('1212','Daniel.Rosenberg','090909','Daniel Rosenberg','Daniel.Rosenberg@e.braude.ac.il','Civil Engineering','6',0),('2222','David.Katz','123123','David.Katz','David.Katz@e.braude.ac.il','Mechanical Engineering','4',0),('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',0),('3344','Avraham.Cohen','123456','Avraham.Cohen','Avraham.Cohen@e.braude.ac.il','Information Systems Engineering','1',0),('3737','Sarah.Cohen','888888','Sarah.Cohen','Sarah.Cohen@e.braude.ac.il','Biotechnology Engineering','7',0),('4455','Leah.Weiss','222222','Leah Weiss','Leah.Weiss@e.braude.ac.il','Optical Engineering','5',0),('5555','Rachel.Goldstein','000000','Rachel.Goldstein','Rachel.Goldstein@e.braude.ac.il','Electrical Engineering','8',0),('6666','Eli.Cohen','111111','Eli.Cohen','Eli.Cohen@e.braude.ac.il','Industrial Engineering','3',0);
+INSERT INTO `headofdepartment` VALUES ('1111','Miriam.Levy','123456','Miriam.Levy','Miriam.Levy@e.braude.ac.il','Applied Mathematics','9',0),('1212','Daniel.Rosenberg','090909','Daniel Rosenberg','Daniel.Rosenberg@e.braude.ac.il','Civil Engineering','6',0),('2222','David.Katz','123123','David.Katz','David.Katz@e.braude.ac.il','Mechanical Engineering','4',0),('2233','Yossi.Ohayon','123123','Yossi Ohayion','Yossi.Ohayon@e.braude.ac.il','Software Engineering','2',1),('3344','Avraham.Cohen','123456','Avraham.Cohen','Avraham.Cohen@e.braude.ac.il','Information Systems Engineering','1',0),('3737','Sarah.Cohen','888888','Sarah.Cohen','Sarah.Cohen@e.braude.ac.il','Biotechnology Engineering','7',0),('4455','Leah.Weiss','222222','Leah Weiss','Leah.Weiss@e.braude.ac.il','Optical Engineering','5',0),('5555','Rachel.Goldstein','000000','Rachel.Goldstein','Rachel.Goldstein@e.braude.ac.il','Electrical Engineering','8',0),('6666','Eli.Cohen','111111','Eli.Cohen','Eli.Cohen@e.braude.ac.il','Industrial Engineering','3',0);
 /*!40000 ALTER TABLE `headofdepartment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +285,7 @@ CREATE TABLE `headofdepartmentrequests` (
   `lecturerID` varchar(45) DEFAULT NULL,
   `examID` varchar(45) DEFAULT NULL,
   `lecturerName` varchar(45) DEFAULT NULL,
-  `explanation` varchar(45) DEFAULT NULL,
+  `explanation` varchar(250) DEFAULT NULL,
   `examDurationAdd` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -620,4 +623,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-19 10:56:25
+-- Dump completed on 2023-06-19 14:41:44
