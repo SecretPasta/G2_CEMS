@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,6 +34,7 @@ public class SceneManagment {
             scene.getStylesheets().add(SceneManagment.class.getResource(cssFilePath).toExternalForm());
         }
         Stage stage = new Stage();
+        stage.getIcons().add(new Image("images/Icon.ico"));
         stage.setScene(scene);
         stage.setTitle(title);
         stage.setResizable(false); // disable window resize option
