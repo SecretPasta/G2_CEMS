@@ -57,19 +57,37 @@ public class ConnectedClient {
 	public void setClientname(String username) {
 		this.clientname = username;
 	}
-
+	/**
+	 * Returns the client's connection.
+	 *
+	 * @return the client's connection
+	 */
 	public ConnectionToClient getClient() {
 		return client;
 	}
-
+	/**
+	 * Sets the client's connection.
+	 *
+	 * @param client the client's connection to set
+	 */
 	public void setClient(ConnectionToClient client) {
 		this.client = client;
 	}
 
+	/**
+	 * Returns the role of the client.
+	 *
+	 * @return the role of the client
+	 */
 	public String getRole() {
 		return role;
 	}
 
+	/**
+	 * Sets the role of the client.
+	 *
+	 * @param role the role of the client to set
+	 */
 	public void setRole(String role) {
 		this.role = role;
 	}
