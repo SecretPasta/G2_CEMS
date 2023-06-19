@@ -414,6 +414,8 @@ public class ComputerizedExamController implements Initializable {
      * @return The ID of the current exam.
      */
     public static String getExamId() {
+        if(currentExam.getExamID().equals(null))
+            return "0";
         return currentExam.getExamID();
     }
 
