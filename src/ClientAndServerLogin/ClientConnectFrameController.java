@@ -35,10 +35,20 @@ public class ClientConnectFrameController implements Initializable {
 	@FXML
 	private Button btnConnect;
 
+	/**
+
+	 Retrieves the text value from the "Port" text field.
+	 @return The text value from the "Port" text field
+	 */
 	public String getTxtPort() {
 		return txtPort.getText();
 	}
 
+	/**
+
+	 Retrieves the text value from the "Server IP" text field.
+	 @return The text value from the "Server IP" text field
+	 */
 	public String getTxtServerIP() {
 		return txtServerIP.getText();
 	}
@@ -92,13 +102,26 @@ public class ClientConnectFrameController implements Initializable {
 		}
 
 	}
+	/**
 
+	 Starts the JavaFX application by creating and displaying the primary stage.
+	 @param primaryStage the primary stage of the JavaFX application
+	 @throws Exception if an exception occurs during the startup process
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		SceneManagment
 				.createNewStage("/ClientAndServerLogin/ClientConnectGUI.fxml", null, "Client Connect Managment Tool")
 				.show();
 	}
 
+	/**
+
+	 Initializes the user interface components and sets default values.
+
+	 @param location The URL of the FXML file
+
+	 @param resources The resource bundle for the FXML file (not used in this method)
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	    // Initialize the user interface components and set default values

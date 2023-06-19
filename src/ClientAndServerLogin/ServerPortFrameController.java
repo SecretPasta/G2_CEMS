@@ -114,7 +114,11 @@ public class ServerPortFrameController implements Initializable {
 	    }
 	}
 
+	/**
 
+	 Retrieves the list of connected clients.
+	 @return the ObservableList of ConnectedClient objects representing the connected clients
+	 */
 	public static ObservableList<ConnectedClient> getConnectedClients() {
 		return connectedClients;
 	}
@@ -132,7 +136,14 @@ public class ServerPortFrameController implements Initializable {
 	        e.printStackTrace();
 	    }
 	}
-	
+
+	/**
+
+	 Handles the event when the "Import All External Users" button is clicked.
+	 Calls the DBController to import users data from an external source.
+	 @param event the ActionEvent triggered by clicking the button
+	 @throws Exception if an error occurs during the import process
+	 */
 	public void importAllExternalUsers(ActionEvent event) throws Exception {
 		DBController.importUsersData();
 	}
@@ -181,7 +192,14 @@ public class ServerPortFrameController implements Initializable {
 	    this.btnConnect.setDisable(isVisible);
 	}
 
+	/**
 
+	 Handles the disconnection process of the server.
+
+	 Sends a disconnection message to all connected clients and closes the server.
+
+	 Updates the UI components and clears the connectedClients table.
+	 */
 	public void disconnectBtn() {
 	    try {
 	        // Send message to clients only if the server is on. If the server is not connected, the connection is null
@@ -209,28 +227,61 @@ public class ServerPortFrameController implements Initializable {
 	    setVisabilityForUI(false); // Set the visibility and enable/disable state of UI components
 	}
 
-	
+
+
 	//Text Field getters
+	/**
+
+	 Retrieves the entered password from the password field.
+	 @return The entered password as a string.
+	 */
 	private String getPassWord() {
 		return txtPassWord.getText();
 	}
 
+	/**
+
+	 Retrieves the entered username from the username field.
+	 @return The entered username as a string.
+	 */
 	private String getUserName() {
 		return txtUserName.getText();
 	}
 
+	/**
+
+	 Retrieves the entered URL from the URL field.
+	 @return The entered URL as a string.
+	 */
 	private String getURL() {
 		return txtURL.getText();
 	}
 
+	/**
+
+	 Retrieves the entered port number from the port field.
+	 @return The entered port number as a string.
+	 */
 	private String getPort() {
 		return txtPort.getText();
 	}
 
+	/**
+
+	 Starts the application by creating and showing the server GUI stage.
+	 @param primaryStage The primary stage of the application.
+	 @throws Exception If an exception occurs during the process.
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		SceneManagment.createNewStage("/ClientAndServerLogin/ServerGUI.fxml", null, "CEMS-Server").show();
 	}
 
+	/**
+
+	 Handles the action event for the exit button.
+	 @param event The action event triggered by the exit button.
+	 @throws Exception If an exception occurs during the process.
+	 */
 	public void exitBtn(ActionEvent event) throws Exception {
 	    //System.out.println("exit Academic Tool");
 	    disconnectBtn(); // Disconnect from the server and perform necessary cleanup
@@ -273,6 +324,14 @@ public class ServerPortFrameController implements Initializable {
 		}
 	}
 
+	/**
+
+	 Initializes the controller.
+
+	 @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+
+	 @param resources The resources used to localize the root object, or null if the root object was not localized.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	    loadInfo();
