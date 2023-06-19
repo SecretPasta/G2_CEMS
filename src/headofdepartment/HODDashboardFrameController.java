@@ -141,15 +141,30 @@ public class HODDashboardFrameController implements Initializable{
     private static HODDashboardFrameController instance;
     private static HeadOfDepartment headofdepartment;
     protected static Stage currentStage; // save current stage
-    
+
+	/**
+	 * Constructor for the HODDashboardFrameController class.
+	 * This constructor sets the instance variable to the current instance of the controller.
+	 */
     public HODDashboardFrameController(){
         instance = this;
     }
 
+	/**
+	 * Returns the instance of the HODDashboardFrameController class.
+	 *
+	 * @return the instance of the HODDashboardFrameController class
+	 */
     public static HODDashboardFrameController getInstance(){
         return instance;
     }
-    
+
+	/**
+	 * Initializes the controller.
+	 *
+	 * @param arg0 the URL of the FXML file
+	 * @param arg1 the resource bundle associated with the FXML file
+	 */
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
     	lbluserNameAndID.setText((headofdepartment.getName() + "\n(ID: " + headofdepartment.getId() + ")")); //Initializing the label
@@ -168,13 +183,23 @@ public class HODDashboardFrameController implements Initializable{
         pnlGreeting.toFront();
 		
 	}
-    
+
+	/**
+	 * Sets the reports in the combo box for selecting report types.
+	 * This method adds the report names from the "reprtsType" list to the combo box for selecting report types.
+	 */
     private void setReportsInComboBox() {
     	for(String reportName : reprtsType) {
     		typeSelectBox_ShowReport.getItems().add(reportName);
     	}
 	}
 
+	/**
+	 * Handles the event when the "Deny Request" button is clicked.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the process of denying the request
+	 */
 	@FXML
     public void getBtnDenyRequest(ActionEvent event) throws Exception{
     	
@@ -193,6 +218,12 @@ public class HODDashboardFrameController implements Initializable{
     	chosenRequest = null;
     }
 
+	/**
+	 * Handles the event when the "Accept Request" button is clicked.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the process of accepting the request
+	 */
 	@FXML
     public void getBtnAcceptRequest(ActionEvent event) throws Exception{
     	chosenRequest = listRequests.getSelectionModel().getSelectedItem();
@@ -209,7 +240,11 @@ public class HODDashboardFrameController implements Initializable{
     	}
     	chosenRequest = null;
     }
-    
+
+	/**
+	 * Handles the acceptance of a request for change in exam time.
+	 * This method retrieves the necessary information from the chosen request, creates a request accepted message, and sends it to the server.
+	 */
     private void requestAccepted() {
     	
     	int requestId = Integer.parseInt(chosenRequest.split("\\)")[0]) - 1;
@@ -229,7 +264,11 @@ public class HODDashboardFrameController implements Initializable{
 		requestaccepted_arr.add(txtMessageToWriteToLecturer.getText());
 		ClientUI.chat.accept(requestaccepted_arr);
 	}
-    
+
+	/**
+	 * Handles the denial of a request for change in exam time.
+	 * This method retrieves the necessary information from the chosen request, creates a request denied message, and sends it to the server.
+	 */
     private void requestDenied() {
     	
     	int requestId = Integer.parseInt(chosenRequest.split("\\)")[0]) - 1;
@@ -251,11 +290,21 @@ public class HODDashboardFrameController implements Initializable{
         
 	}
 
+	/**
+	 * Handles the event when the "Refresh" button is clicked.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the process of refreshing the requests
+	 */
 	@FXML
     public void getBtnRefresh(ActionEvent event) throws Exception{
     	getAllrequests();
     }
-    
+
+	/**
+	 * Retrieves all requests of the head of department from the database.
+	 * This method sends a request to the server to retrieve all requests associated with the head of department and updates the UI accordingly.
+	 */
     public static void getAllrequests() {
 		ArrayList<String> getallrequest_arr = new ArrayList<>();
 		getallrequest_arr.add("GetAllRequestsOfHodFromDB");
@@ -263,6 +312,11 @@ public class HODDashboardFrameController implements Initializable{
 		ClientUI.chat.accept(getallrequest_arr);
 	}
 
+	/**
+	 * Loads the requests from the database and updates the UI with the retrieved data.
+	 *
+	 * @param requests_arr an ArrayList containing the requests retrieved from the database
+	 */
 	public void loadRequestsFromDB(ArrayList<String> requests_arr) {
 		allRequests = requests_arr;
 		
@@ -302,6 +356,11 @@ public class HODDashboardFrameController implements Initializable{
 
 	// -------------- Show Report PANEL --------------
 
+	/**
+	 * Handles the event when the "Show Report" button is clicked for the Show Report screen.
+	 *
+	 * @param event the action event representing the button click
+	 */
 	@FXML
 	public void getBtnShowReport_ShowReport(ActionEvent event) {
 		try {
@@ -316,6 +375,11 @@ public class HODDashboardFrameController implements Initializable{
 		}
 	}
 
+	/**
+	 * Handles the event when the "View Data" button is clicked for the Show Report screen.
+	 *
+	 * @param event the action event representing the button click
+	 */
 	@FXML
 	public void getViewDataBtn_ShowReport(ActionEvent event) {
 		chosenReport = typeSelectBox_ShowReport.getSelectionModel().getSelectedItem();
@@ -337,7 +401,11 @@ public class HODDashboardFrameController implements Initializable{
 		}	
 		
 	}
-	
+
+	/**
+	 * Shows the stage for the View Report screen.
+	 * This method clears the selection in the report list and shows the current stage.
+	 */
 	public void showStageFrom_ViewReport() {
 		
 		listOfData_ShowReport.getSelectionModel().clearSelection();
@@ -345,7 +413,12 @@ public class HODDashboardFrameController implements Initializable{
 		currentStage.show();	
 		
 	}
-	
+	/**
+	 * Handles the event when a specific report is selected.
+	 *
+	 * @param event the action event representing the selection event
+	 * @throws Exception if an exception occurs during the process of handling the event
+	 */
 	@FXML
 	public void getSelectedReport(ActionEvent event) throws Exception{
 		selectedSpecificReport = null;
@@ -366,7 +439,13 @@ public class HODDashboardFrameController implements Initializable{
 	}
 
 	// -------------- END Greeting PANEL --------------
-    
+
+	/**
+	 * Starts the head of department application with the provided details.
+	 *
+	 * @param hodDetails an ArrayList containing the details of the head of department
+	 * @throws IOException if an I/O exception occurs during the startup process
+	 */
     public static void start(ArrayList<String> hodDetails) throws IOException {
 
         // Initialize the student with the provided details
@@ -394,7 +473,13 @@ public class HODDashboardFrameController implements Initializable{
             }
         });
     }
-    
+
+	/**
+	 * Handles the event when the "Close" button is clicked.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the process of closing the window or sending a quit message to the server
+	 */
     @FXML
     public void getCloseBtn(ActionEvent event) throws Exception{
         // Hide the primary window
@@ -403,7 +488,13 @@ public class HODDashboardFrameController implements Initializable{
         // Send a quit message to the server using the client's ID and role
         ClientUI.chat.client.quit(headofdepartment.getId(), "headofdepartment");
     }
-    
+
+	/**
+	 * Handles the event when the "View Data" button is clicked for general information.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the process of retrieving and displaying the data
+	 */
     @FXML
     public void getViewDataBtn_GeneralInfo(ActionEvent event) throws Exception{
     	
@@ -425,8 +516,13 @@ public class HODDashboardFrameController implements Initializable{
 		}	
     	
     }
-    
-    
+
+	/**
+	 * Handles the event when the filtering word for the general report is entered.
+	 *
+	 * @param event the action event representing the event when the filtering word is entered
+	 * @throws Exception if an exception occurs during the filtering process
+	 */
     @FXML
     public void getFilteringWord_GeneralReport(ActionEvent event) throws Exception{
     	
@@ -449,6 +545,12 @@ public class HODDashboardFrameController implements Initializable{
     }
 
 
+	/**
+	 * Handles the logout button click event in the user interface.
+	 *
+	 * @param event the action event representing the button click
+	 * @throws Exception if an exception occurs during the logout process
+	 */
     @FXML
     public void getLogoutBtn(ActionEvent event) throws Exception{
         // Hide the primary window
@@ -464,7 +566,12 @@ public class HODDashboardFrameController implements Initializable{
         // Start the login screen after logout
         LoginFrameController.start();
     }
-    
+
+	/**
+	 * Handles button clicks in the user interface.
+	 *
+	 * @param actionEvent the action event representing the button click
+	 */
     @FXML
     void handleClicks(ActionEvent actionEvent) {
     	if (actionEvent.getSource() == btnShowReport) {
@@ -494,9 +601,14 @@ public class HODDashboardFrameController implements Initializable{
 		}
 
     }
-    
 
- // method to transition between panes when clicking on buttons on the right side
+
+	/**
+	 * Handles the animation and transition between panes when clicking on buttons on the right side.
+	 *
+	 * @param newPane the new pane to transition to
+	 * @param newSection the new section button that triggered the transition
+	 */
     public void handleAnimation(Pane newPane, JFXButton newSection) {
     	if(newSection != currentSection) {
     		FadeTransition outgoingPane = new FadeTransition(Duration.millis(125), currentPane);
@@ -576,7 +688,13 @@ public class HODDashboardFrameController implements Initializable{
 	        });
 		
 	}
-	
+
+	/**
+	 * Loads all information for the chosen type of information into the view.
+	 * This method updates the UI components in a JavaFX application by running the code on the JavaFX application thread.
+	 *
+	 * @param info_arr the ArrayList containing the information to be loaded
+	 */
 	public void loadAllInfoForChosenTypeInfo(ArrayList<String> info_arr) { // getting the information
     	Platform.runLater(new Runnable() {
             @Override
@@ -588,7 +706,7 @@ public class HODDashboardFrameController implements Initializable{
             }
         });
 	
-}
+	}
 
 	
 

@@ -46,14 +46,30 @@ public class ViewReportFrameController implements Initializable{
 	private static ArrayList<String> gradesList;
 	
 	private static ViewReportFrameController instance;
-	
+
+	/**
+	 * Constructs a new ViewReportFrameController.
+	 * This constructor sets the instance variable to reference the current instance of the class.
+	 */
 	public ViewReportFrameController() {
 		instance = this;
 	}
-	
+
+	/**
+	 * Retrieves the singleton instance of the ViewReportFrameController.
+	 *
+	 * @return the singleton instance of the ViewReportFrameController
+	 */
 	public static ViewReportFrameController getInstance(){
 		return instance;
 	}
+
+	/**
+
+	 Handles the action when the back button is clicked.
+	 Closes the current window and shows the Head of Department Dashboard.
+	 @param event The action event triggered by clicking the back button.
+	 */
 
 	@FXML
 	public void getBtnBack(ActionEvent event) {
@@ -61,6 +77,14 @@ public class ViewReportFrameController implements Initializable{
         HODDashboardFrameController.getInstance().showStageFrom_ViewReport();
 	}
 
+	/**
+
+	 Starts the ViewReport functionality for the Head of Department.
+	 @param name_temp The name of the Head of Department.
+	 @param id_temp The ID of the Head of Department.
+	 @param chosenReport_temp The chosen report to be viewed.
+	 @throws IOException if an I/O error occurs.
+	 */
 	public static void start(String name_temp, String id_temp, String chosenReport_temp) throws IOException {
 		name = name_temp;
 		id = id_temp;
@@ -68,6 +92,15 @@ public class ViewReportFrameController implements Initializable{
 		SceneManagment.createNewStage("/headofdepartment/ViewReport.fxml", null, "HeadOfDepartment->ViewReport").show();
 	}
 
+
+	/**
+
+	 Initializes the controller when the corresponding view is loaded.
+
+	 @param location The location used to resolve relative paths for the root object.
+
+	 @param resources The resources used to localize the root object.
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		try {
@@ -98,6 +131,10 @@ public class ViewReportFrameController implements Initializable{
 		}
 	}
 
+	/**
+
+	 Retrieves the grades for the selected report.
+	 */
 	private void getGradesForSelectedReport() {
 		ArrayList<String> grades_arr = new ArrayList<>();
 		grades_arr.add("GetAllGradesForReport_HOD");
@@ -135,6 +172,10 @@ public class ViewReportFrameController implements Initializable{
 		
 	}
 
+	/**
+
+	 Loads all the data into the histogram report.
+	 */
 	private void loadAllDataIntoHistogramReport() {
 		int maxBarValue = 0;
 		int barValue = 0;	//barValue - amount of students in the specified range
@@ -197,7 +238,14 @@ public class ViewReportFrameController implements Initializable{
 		int upperBound =  (int) (maxBarValue * 1.1);
 		yAxis.setUpperBound(upperBound);
 	}
-	
+
+	/**
+
+	 Returns the count of grades within the specified range.
+	 @param min The minimum value of the range.
+	 @param max The maximum value of the range.
+	 @return The count of grades within the range.
+	 */
 	private int getAmountGradesByRange(double min, double max) {
 		int gradeCnt = 0;
 		for(String gradeStr : gradesList) {
@@ -208,7 +256,13 @@ public class ViewReportFrameController implements Initializable{
 		}
 		return gradeCnt;		
 	}
-	
+
+	/**
+
+	 Displays a label for the given data point on the chart.
+
+	 @param data The data point for which to display the label.
+	 */
 	private void displayLabelForData(Data<String, Number> data) {
 	    final Node node = data.getNode();
 	    final Text dataText = new Text(data.getYValue().toString());
@@ -237,7 +291,14 @@ public class ViewReportFrameController implements Initializable{
 	        }
 	    });
 	}
-	
+
+
+	/**
+
+	 Adds data to the chart.
+	 @param range The range value for the data.
+	 @param amount The amount value for the data.
+	 */
 	private void addData(String range, int amount) {
 		final XYChart.Data<String, Number> data = new XYChart.Data<>(range, amount);
 	    data.nodeProperty().addListener(new ChangeListener<Node>() {
@@ -250,7 +311,12 @@ public class ViewReportFrameController implements Initializable{
 	      });
 	    series1.getData().add(data);
 	}
-	
+
+	/**
+
+	 Loads all grades to the chart.
+	 @param grades The list of grades to be loaded.
+	 */
 	public void loadAllGradesToChart(ArrayList<String> grades) {
 		gradesList = grades;
 	}
