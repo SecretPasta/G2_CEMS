@@ -22,7 +22,12 @@ public class MessageHandler_Server {
 	private static HashMap<String, ArrayList<Integer>> undergoingExams = new HashMap<>();
 
 
-
+	/**
+	 * Handles the received message and performs the necessary actions based on the message type.
+	 *
+	 * @param msg the received message object
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	@SuppressWarnings("unchecked")
 	public static void handleMessage(Object msg, ConnectionToClient client) {
 		//System.out.println("Reached the handleMessage Method | Server");
@@ -64,7 +69,12 @@ public class MessageHandler_Server {
 	    }
 	}
 
-
+	/**
+	 * Determines the MessageType based on the type of the received message object.
+	 *
+	 * @param msg the message object
+	 * @return the MessageType
+	 */
 	private static MessageType getMessageType(Object msg) {
 		//System.out.println("Reached the getMessageType Method | Server Handler");
 	    if (msg instanceof String) {
@@ -103,8 +113,13 @@ public class MessageHandler_Server {
 		}
 		return null;
 	}
-	
-	
+
+	/**
+	 * Handles the received string message and performs the necessary actions.
+	 *
+	 * @param message the string message
+	 * @param client the ConnectionToClient representing the client connection
+	 */
     private static void handleStringMessage(String message, ConnectionToClient client) {
 		//System.out.println("Reached the handleStringMessage Method");
         // Handle string messages
@@ -129,8 +144,15 @@ public class MessageHandler_Server {
 			e.printStackTrace();
     	}
     }
-    
-    // must client.sendToClient(obj); after handling the message from the client to get response from the server
+
+	/**
+	 * Handles the received ArrayList and performs the necessary actions based on the message type.
+	 *
+	 * @param arrayList the ArrayList containing the message and its parameters
+	 * @param client the ConnectionToClient representing the client connection
+	 *
+	 * must client.sendToClient(obj); after handling the message from the client to get response from the server
+	 */
     @SuppressWarnings("unchecked")
     private static void handleStringArrayListMessage(ArrayList<?> arrayList, ConnectionToClient client) {
 		//System.out.println("Reached the handleStringArrayListMessage method | Server Handler");
@@ -694,7 +716,13 @@ public class MessageHandler_Server {
 			e.printStackTrace();
             }
         }
-    
+
+	/**
+	 * Handles the received ArrayList of Question objects and performs the necessary actions.
+	 *
+	 * @param questionList the ArrayList of Question objects
+	 * @param client the ConnectionToClient representing the client connection
+	 */
     private static void handleQuestionArrayListMessage(ArrayList<Question> questionList, ConnectionToClient client) {
 		//System.out.println("Reached the handleQuestionArrayListMessage method");
         // Handle ArrayList<Question> messages
@@ -720,7 +748,13 @@ public class MessageHandler_Server {
         }
     	
     }
-    
+
+	/**
+	 * Handles the received ArrayList of QuestionInExam objects and performs the necessary actions.
+	 *
+	 * @param questionInExamList the ArrayList of QuestionInExam objects
+	 * @param client the ConnectionToClient representing the client connection
+	 */
 	private static void handleQuestionInExamArrayListMessage(ArrayList<QuestionInExam> questionInExamList, ConnectionToClient client) {
         // Handle ArrayList<QuestionInExam> messages
 		//System.out.println("Reached the handleQuestionInExamArrayListMessage method");
