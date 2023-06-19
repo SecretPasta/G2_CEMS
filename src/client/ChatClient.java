@@ -129,8 +129,14 @@ public class ChatClient extends AbstractClient
 	}
 	System.exit(0);
   }
-  
-  // another quit function to handle with clients that are not yet connected to the system via login
+
+	/**
+
+	 Quits the client application.
+	 Sends a "ClientQuitting" message to the server to notify that the client is quitting.
+	 Closes the connection to the server and terminates the client.
+	 If the client is not yet connected, it simply terminates the client.
+	 */
   public void quit()
   {
 	if(isConnected()) {
