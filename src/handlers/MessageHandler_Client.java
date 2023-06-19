@@ -212,7 +212,7 @@ public class MessageHandler_Client {
 		                	if(ComputerizedExamController.getExamId().equals(arrayListStr.get(1))) { // if in the specific exam
 		                		ComputerizedExamController.getInstance().submitExam(); // close the exam for the student in the specific exam
 								StudentDashboardFrameController.getInstance()
-										.displayErrorMessage("Your exam has been closed by your lecturer!");
+										.displayErrorMessage("The exam you have started has been closed by your lecturer before the time ended!");
 		                	}
 	                	}catch (NullPointerException e){}
 	                	
