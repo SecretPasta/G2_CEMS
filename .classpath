@@ -6,6 +6,21 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/Omri/Desktop/Information systems Degree/Semster 5/שיטות הנדסיות לפיתוח מערכות תוכנה/תרגולים/Ex-03-Workbench&amp;JDBC/mysql-connector-java-8.0.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ndvp3/OneDrive - ort braude college of engineering/שולחן העבודה/סמסטר 5/jfoenix-9.0.10.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ndvp3/OneDrive - ort braude college of engineering/שולחן העבודה/סמסטר 5/mysql-connector-java-8.0.13.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/ndvp3/OneDrive - ort braude college of engineering/שולחן העבודה/סמסטר 5/mockito-all-2.0.2-beta.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
